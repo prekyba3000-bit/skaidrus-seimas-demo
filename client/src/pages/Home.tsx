@@ -22,6 +22,7 @@ import {
   VotingBreakdownChart, 
   LegislativeActivity 
 } from "@/components/DemoComponents";
+import { DistrictMap } from "@/components/DistrictMap";
 import { mockMp, mockStats, mockVotes } from "@/lib/mock-data";
 
 export default function Home() {
@@ -186,9 +187,10 @@ export default function Home() {
       {/* Main Content */}
       <main className="container py-10">
         <Tabs defaultValue="overview" className="space-y-8" onValueChange={setActiveTab}>
-          <TabsList className="grid w-full max-w-md grid-cols-3 bg-muted/50 p-1">
+          <TabsList className="grid w-full max-w-xl grid-cols-4 bg-muted/50 p-1">
             <TabsTrigger value="overview">Apžvalga</TabsTrigger>
             <TabsTrigger value="votes">Balsavimai</TabsTrigger>
+            <TabsTrigger value="map">Apygarda</TabsTrigger>
             <TabsTrigger value="biography">Biografija</TabsTrigger>
           </TabsList>
 
@@ -254,6 +256,66 @@ export default function Home() {
                 billsProposed={mockStats.billsProposed}
                 billsPassed={mockStats.billsPassed}
               />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="map" className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <DistrictMap 
+                  districtName={mockMp.district} 
+                  districtNumber={mockMp.districtNumber} 
+                />
+              </div>
+              <div className="lg:col-span-1 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Apygardos Informacija</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex justify-between py-2 border-b">
+                      <span className="text-muted-foreground">Rinkėjų skaičius</span>
+                      <span className="font-medium">34,521</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b">
+                      <span className="text-muted-foreground">Apylinkių skaičius</span>
+                      <span className="font-medium">14</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b">
+                      <span className="text-muted-foreground">Aktyvumas (I turas)</span>
+                      <span className="font-medium">58.4%</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span className="text-muted-foreground">Aktyvumas (II turas)</span>
+                      <span className="font-medium">42.1%</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Kontaktinė Informacija</CardTitle>
+                    <CardDescription>Apygardos būstinė</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="h-4 w-4 text-primary mt-0.5" />
+                      <div>
+                        <p className="font-medium">Antakalnio g. 17</p>
+                        <p className="text-muted-foreground">Vilnius, LT-10312</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Phone className="h-4 w-4 text-primary" />
+                      <p>+370 5 234 5678</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-4 w-4 text-primary" />
+                      <p>I-IV 8:00-17:00, V 8:00-15:45</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </TabsContent>
 
