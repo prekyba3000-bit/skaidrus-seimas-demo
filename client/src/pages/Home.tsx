@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { 
   ArrowLeft, 
   Mail, 
@@ -26,6 +27,10 @@ import { DistrictMap } from "@/components/DistrictMap";
 import { mockMp, mockStats, mockVotes } from "@/lib/mock-data";
 
 export default function Home() {
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  let { user, loading, error, isAuthenticated, logout } = useAuth();
+
   const [isFollowing, setIsFollowing] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [isLoading, setIsLoading] = useState(true);
