@@ -39,3 +39,11 @@
 - [ ] Mobile responsiveness testing
 - [ ] End-to-end testing
 - [ ] Create final checkpoint
+
+## Phase 4: Bills Explorer Feature
+- [x] Create Bills List page with filtering and search
+- [x] Implement Bill Detail page with voting records
+- [x] Add AI-generated bill summaries
+- [x] Create voting visualization components
+- [x] Add navigation to Bills Explorer
+- [x] Test all Bills Explorer functionality
