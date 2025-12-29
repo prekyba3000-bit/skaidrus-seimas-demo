@@ -47,3 +47,13 @@
 - [x] Create voting visualization components
 - [x] Add navigation to Bills Explorer
 - [x] Test all Bills Explorer functionality
+
+## Phase 5: MPs Directory Page
+- [x] Create MPs Directory page with grid layout
+- [x] Design MP card component with photo, name, party, stats
+- [x] Implement party filter
+- [x] Implement district filter
+- [x] Add search functionality
+- [x] Add sorting options (name, score, party)
+- [x] Create statistics overview cards
+- [x] Test MPs Directory functionality
