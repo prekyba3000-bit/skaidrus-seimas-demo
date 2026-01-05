@@ -1,0 +1,4306 @@
+[
+  {
+    "mpName": "Alekna Virgilijus",
+    "mpId": "79162",
+    "name": "Vilma MARKŪNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6698",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Alekna Virgilijus",
+    "mpId": "79162",
+    "name": "Raimonda PONELYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6698",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Aleknavičienė Vaida",
+    "mpId": "90939",
+    "name": "Inga BRŪŽIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6570",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Aleknavičienė Vaida",
+    "mpId": "90939",
+    "name": "Remigija KADIKINĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6443",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Aleknavičienė Vaida",
+    "mpId": "90939",
+    "name": "Aistė ŠLIOŽAITĖ-SNARSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6570",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Anušauskas Arvydas",
+    "mpId": "53916",
+    "name": "Audronė BENDOKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6878",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Anušauskas Arvydas",
+    "mpId": "53916",
+    "name": "Audronė KAMINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6878",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Anušauskas Arvydas",
+    "mpId": "53916",
+    "name": "Greta LABENSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6878",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Asadauskaitė-Zadneprovskienė Laura",
+    "mpId": "90925",
+    "name": "Gedeminas ALEKSONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6678",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Asadauskaitė-Zadneprovskienė Laura",
+    "mpId": "90925",
+    "name": "Vilius ALELIŪNAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6678",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Asadauskaitė-Zadneprovskienė Laura",
+    "mpId": "90925",
+    "name": "Renata CECHONIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6678",
+    "email": ""
+  },
+  {
+    "mpName": "Asadauskaitė-Zadneprovskienė Laura",
+    "mpId": "90925",
+    "name": "Povilas SAULEVIČIUS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6678",
+    "email": ""
+  },
+  {
+    "mpName": "Asanavičiūtė-Gružauskienė Dalia",
+    "mpId": "84599",
+    "name": "Elena NARKEVIČIŪTĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6688",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Asanavičiūtė-Gružauskienė Dalia",
+    "mpId": "84599",
+    "name": "Jolita PELECKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6688",
+    "email": ""
+  },
+  {
+    "mpName": "Asanavičiūtė-Gružauskienė Dalia",
+    "mpId": "84599",
+    "name": "Tomas RAULINAVIČIUS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6688",
+    "email": ""
+  },
+  {
+    "mpName": "Asanavičiūtė-Gružauskienė Dalia",
+    "mpId": "84599",
+    "name": "Simona ŠIMANSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6688",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ažubalis Audronius",
+    "mpId": "7208",
+    "name": "Margarita BUTKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6321",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ažubalis Audronius",
+    "mpId": "7208",
+    "name": "Lukas KRIŠČIŪNAS",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6321",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ažubalis Audronius",
+    "mpId": "7208",
+    "name": "Gintarė MINSEVIČIŪTĖ-BALYNIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6321",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ąžuolas Valius",
+    "mpId": "79165",
+    "name": "Eglė MARTYŠIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6695",
+    "email": ""
+  },
+  {
+    "mpName": "Ąžuolas Valius",
+    "mpId": "79165",
+    "name": "Reda ŠIAULIENĖ",
+    "role": "Patarėja",
+    "phone": "0 615 11855",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bagdonas Andrius",
+    "mpId": "84600",
+    "name": "Asta BIELINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6646",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bagdonas Andrius",
+    "mpId": "84600",
+    "name": "Agnė JENČAUSKIENĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6646",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bagdonas Andrius",
+    "mpId": "84600",
+    "name": "Reda KNEIZEVIČIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6646",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bagdonas Andrius",
+    "mpId": "84600",
+    "name": "Gintarė MARTIKONYTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6646",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bagdonas Andrius",
+    "mpId": "84600",
+    "name": "Marcijonas URMONAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6646",
+    "email": ""
+  },
+  {
+    "mpName": "Balčytis Zigmantas",
+    "mpId": "47220",
+    "name": "Vaidutė JAKŠTONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6736",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balčytis Zigmantas",
+    "mpId": "47220",
+    "name": "Vytautas LAMAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6736",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balčytis Zigmantas",
+    "mpId": "47220",
+    "name": "Arūnas PUPŠYS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6736",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balčytis Zigmantas",
+    "mpId": "47220",
+    "name": "Liutauras VIČKAČKA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6736",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balčytytė Giedrė",
+    "mpId": "90940",
+    "name": "Justinas RIZGELIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6713",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balčytytė Giedrė",
+    "mpId": "90940",
+    "name": "Martynas ŠIURKUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6713",
+    "email": ""
+  },
+  {
+    "mpName": "Balčytytė Giedrė",
+    "mpId": "90940",
+    "name": "Juozas VALČIUKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6713",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balsys Linas",
+    "mpId": "73568",
+    "name": "Sonata DIRSYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6550",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Balsys Linas",
+    "mpId": "73568",
+    "name": "Kornelija PETRAVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6550",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Baranovas Ruslanas",
+    "mpId": "84705",
+    "name": "Irena ANIUKŠTIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6015",
+    "email": ""
+  },
+  {
+    "mpName": "Baranovas Ruslanas",
+    "mpId": "84705",
+    "name": "Vytautas BUINAUSKAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6015",
+    "email": ""
+  },
+  {
+    "mpName": "Baranovas Ruslanas",
+    "mpId": "84705",
+    "name": "Martynas MOTUZAS",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6015",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Baranovas Ruslanas",
+    "mpId": "84705",
+    "name": "Augenis VADLUGA",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6015",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Barauskas Tadas",
+    "mpId": "73848",
+    "name": "Dovilė ČERNIAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6728",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Barauskas Tadas",
+    "mpId": "73848",
+    "name": "Nikolajus GUSEVAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6728",
+    "email": ""
+  },
+  {
+    "mpName": "Barauskas Tadas",
+    "mpId": "73848",
+    "name": "Aldona MINKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6728",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Barauskas Tadas",
+    "mpId": "73848",
+    "name": "Raminta ŠIMKUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6728",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Barauskas Tadas",
+    "mpId": "73848",
+    "name": "Kęstutis ZAKŠAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6728",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Baškienė Rima",
+    "mpId": "26656",
+    "name": "Ada GRAKAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6654",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Baškienė Rima",
+    "mpId": "26656",
+    "name": "Gintaras JANČIAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6654",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Baškienė Rima",
+    "mpId": "26656",
+    "name": "Deividas RUMBUTIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6345",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Baškienė Rima",
+    "mpId": "26656",
+    "name": "Mantas VALUKONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6654",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bilius Kęstutis",
+    "mpId": "84854",
+    "name": "Dalė ANDREIKĖNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6626",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bilius Kęstutis",
+    "mpId": "84854",
+    "name": "Lina KRENCEVIČIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6626",
+    "email": ""
+  },
+  {
+    "mpName": "Bilius Kęstutis",
+    "mpId": "84854",
+    "name": "Eugenija NEVERDAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6626",
+    "email": ""
+  },
+  {
+    "mpName": "Bilotaitė Agnė",
+    "mpId": "50482",
+    "name": "Ginta ANDRIJAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6629",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bilotaitė Agnė",
+    "mpId": "50482",
+    "name": "Eglė GRAJAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6629",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Birutis Šarūnas",
+    "mpId": "73569",
+    "name": "Evita Ieva FEDARAVIČIŪTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6607",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Birutis Šarūnas",
+    "mpId": "73569",
+    "name": "Gitana GRIŠKĖNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6607",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Birutis Šarūnas",
+    "mpId": "73569",
+    "name": "Jolanta JAROŠAITĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6607",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bradauskas Dainoras",
+    "mpId": "90941",
+    "name": "Sofija MAŽUTYTĖ-JUŠKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6281",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bradauskas Dainoras",
+    "mpId": "90941",
+    "name": "Svetlana MELEŠKO",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6868",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Braziulienė Ingrida",
+    "mpId": "90942",
+    "name": "Romualdas SAKALAUSKAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6718",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Braziulienė Ingrida",
+    "mpId": "90942",
+    "name": "Simona SAMOŠKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6718",
+    "email": ""
+  },
+  {
+    "mpName": "Braziulienė Ingrida",
+    "mpId": "90942",
+    "name": "Raminta ŠIMKUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6718",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Braziulienė Ingrida",
+    "mpId": "90942",
+    "name": "Džioraldas ŠUKYS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6718",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Bucevičius Saulius",
+    "mpId": "47856",
+    "name": "Kęstutis MAČIULIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6716",
+    "email": ""
+  },
+  {
+    "mpName": "Bucevičius Saulius",
+    "mpId": "47856",
+    "name": "Paulius PERMINAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6716",
+    "email": ""
+  },
+  {
+    "mpName": "Budbergytė Rasa",
+    "mpId": "7363",
+    "name": "Antanas BERTAŠIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6699",
+    "email": ""
+  },
+  {
+    "mpName": "Budbergytė Rasa",
+    "mpId": "7363",
+    "name": "Mantas JONELIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6699",
+    "email": ""
+  },
+  {
+    "mpName": "Budbergytė Rasa",
+    "mpId": "7363",
+    "name": "Žana VAITKUVIENĖ-ZIMINA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6699",
+    "email": ""
+  },
+  {
+    "mpName": "Budbergytė Rasa",
+    "mpId": "7363",
+    "name": "Jūratė ŽULPAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6699",
+    "email": ""
+  },
+  {
+    "mpName": "Busila Andrius",
+    "mpId": "90943",
+    "name": "Ingrida MAZALIAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "0 611 07749",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Busila Andrius",
+    "mpId": "90943",
+    "name": "Mantas NAVARUCKIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6653",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Busila Andrius",
+    "mpId": "90943",
+    "name": "Danutė STANEVIČIENĖ",
+    "role": "Padėjėja",
+    "phone": "0 611 07749",
+    "email": ""
+  },
+  {
+    "mpName": "Butkevičius Algirdas",
+    "mpId": "7194",
+    "name": "Alina BRAZDILIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6920",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Butkevičius Algirdas",
+    "mpId": "7194",
+    "name": "Viktorija DULSKYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6920",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Butkevičius Algirdas",
+    "mpId": "7194",
+    "name": "Mindaugas KANTAUTAS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6920",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Butkevičius Algirdas",
+    "mpId": "7194",
+    "name": "Gustė PUŽAITĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6920",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čaplinskas Saulius",
+    "mpId": "90944",
+    "name": "Gedeminas ALEKSONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6603",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čaplinskas Saulius",
+    "mpId": "90944",
+    "name": "Vidmantas KAIRYS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6603",
+    "email": ""
+  },
+  {
+    "mpName": "Čaplinskas Saulius",
+    "mpId": "90944",
+    "name": "Raminta STAIŠIŪNAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6603",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čaplinskas Saulius",
+    "mpId": "90944",
+    "name": "Džioraldas ŠUKYS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6603",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čaplinskas Saulius",
+    "mpId": "90944",
+    "name": "Natalija ŽUKOVSKAJA ZILBER",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6603",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Laura BALČIŪNAITĖ-TARAŠKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6690",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Gintautas Ginas DABAŠINSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6690",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Anelė DROMANTAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6018",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Gintarė KUDELYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6690",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Raimundas LOPATA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6690",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Andrius PACHAREVAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6365",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Čmilytė-Nielsen Viktorija",
+    "mpId": "71563",
+    "name": "Rūta ŠIMONYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6025",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dargis Petras",
+    "mpId": "90920",
+    "name": "Nemira ALIUKONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6618",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dargis Petras",
+    "mpId": "90920",
+    "name": "Vaida KUUZ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6618",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dargis Petras",
+    "mpId": "90920",
+    "name": "Juozas PETKUS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6618",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Domarkas Tomas",
+    "mpId": "90945",
+    "name": "Vidas KAROLIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6732",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Domarkas Tomas",
+    "mpId": "90945",
+    "name": "Gediminas VASILIAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6732",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Domarkas Tomas",
+    "mpId": "90945",
+    "name": "Edmundas ŽILEVIČIUS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6732",
+    "email": ""
+  },
+  {
+    "mpName": "Domarkas Tomas",
+    "mpId": "90945",
+    "name": "Daiva ŽINĖ-STECENKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6732",
+    "email": ""
+  },
+  {
+    "mpName": "Drukteinis Giedrius",
+    "mpId": "90946",
+    "name": "Viktorija ANCUTAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6334",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Drukteinis Giedrius",
+    "mpId": "90946",
+    "name": "Mantė BIMBIRIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6334",
+    "email": ""
+  },
+  {
+    "mpName": "Drukteinis Giedrius",
+    "mpId": "90946",
+    "name": "Irma ČAPLINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6334",
+    "email": ""
+  },
+  {
+    "mpName": "Drukteinis Giedrius",
+    "mpId": "90946",
+    "name": "Aušra ZONGAILIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6334",
+    "email": ""
+  },
+  {
+    "mpName": "Drukteinis Giedrius",
+    "mpId": "90946",
+    "name": "Natalija ŽUKOVSKAJA ZILBER",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6334",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dudėnas Arūnas",
+    "mpId": "50877",
+    "name": "Juozas JUKNIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6655",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dudėnas Arūnas",
+    "mpId": "50877",
+    "name": "Marijona LUKAŠEVIČIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6655",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dudėnas Arūnas",
+    "mpId": "50877",
+    "name": "Jolanta RIMKEVIČĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6655",
+    "email": ""
+  },
+  {
+    "mpName": "Dudėnas Arūnas",
+    "mpId": "50877",
+    "name": "Toma SONGAILIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6655",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Dudėnas Arūnas",
+    "mpId": "50877",
+    "name": "Danguolė VASILIAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6655",
+    "email": ""
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Irma BAJORŪNĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6696",
+    "email": ""
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Laura ČIŽIŪTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Jovita GREIČIUVIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6696",
+    "email": ""
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Kristina KAZAKAUSKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6696",
+    "email": ""
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Ugnė NORUŠIŪTĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Jaunius SAGATAVIČIUS (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Akvilė ŠIDLAUSKAITĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Urtė VAITKEVIČIŪTĖ-SUBAČIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Zita VALIAUSKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Fiodorovas Viktoras",
+    "mpId": "73571",
+    "name": "Greta ZABORSKYTĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6696",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gailius Vitalijus",
+    "mpId": "73572",
+    "name": "Ona ALEKSIŪNAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6913",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gailius Vitalijus",
+    "mpId": "73572",
+    "name": "Aušrinė GRIGALIŪNAITĖ",
+    "role": "Patarėja",
+    "phone": "0 611 20621 (0 5) 209 6913",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gailius Vitalijus",
+    "mpId": "73572",
+    "name": "Inga KARBAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "0 612 49337 (0 5) 209 6913",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gaižauskas Dainius",
+    "mpId": "79169",
+    "name": "Alma DŽERMEIKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6620",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gaižauskas Dainius",
+    "mpId": "79169",
+    "name": "Erika NAIKELIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6620",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gaižauskas Dainius",
+    "mpId": "79169",
+    "name": "Monika ŠIAUDINYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6773",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gedvilas Aidas",
+    "mpId": "47855",
+    "name": "Aurelija ČIŽAUSKAITĖ-BUTKALIUK",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6617",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gedvilas Aidas",
+    "mpId": "47855",
+    "name": "Marina ISRAJELIAN",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6617",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilas Aidas",
+    "mpId": "47855",
+    "name": "Danguolė MARTINKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6617",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilas Martynas",
+    "mpId": "90947",
+    "name": "Irena LEVICKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6612",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gedvilas Martynas",
+    "mpId": "90947",
+    "name": "Eglė LUKOČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6612",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gedvilas Martynas",
+    "mpId": "90947",
+    "name": "Gintarė VAIVADAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6612",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Agnė ANDREIKĖNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Jūratė GARLIAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Asta KAŠĖTIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Erika KIŽIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Regina LUKOŠEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Gitana MATIEKUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Edgaras MURNIKOVAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6658",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Aušra URBONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": ""
+  },
+  {
+    "mpName": "Gedvilienė Aistė",
+    "mpId": "73917",
+    "name": "Birutė VIJEIKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6658",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gelažnikienė Ilona",
+    "mpId": "90948",
+    "name": "Inga ČIRVINSKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 611 39314",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gelažnikienė Ilona",
+    "mpId": "90948",
+    "name": "Janė GALVOSIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 611 20743",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gelažnikienė Ilona",
+    "mpId": "90948",
+    "name": "Erika JUNEVIČIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 611 20707",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gelažnikienė Ilona",
+    "mpId": "90948",
+    "name": "Stanislava SABALIAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "0 610 14580 (0 5) 209 6634",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gentvilas Eugenijus",
+    "mpId": "146",
+    "name": "Erika SAKALAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6351",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gentvilas Eugenijus",
+    "mpId": "146",
+    "name": "Gintaras VAIČEKAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6311",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gentvilas Simonas",
+    "mpId": "79170",
+    "name": "Agnė PAULAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6660",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Gentvilas Simonas",
+    "mpId": "79170",
+    "name": "Auksė SPUNDZEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6660",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Girskienė Ligita",
+    "mpId": "79353",
+    "name": "Roma GABRIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6610",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Girskienė Ligita",
+    "mpId": "79353",
+    "name": "Gintarė IVONĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6610",
+    "email": ""
+  },
+  {
+    "mpName": "Girskienė Ligita",
+    "mpId": "79353",
+    "name": "Laimutė JUDICKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6610",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Girskienė Ligita",
+    "mpId": "79353",
+    "name": "Vytis TURONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6610",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Griškevičius Domas",
+    "mpId": "84604",
+    "name": "Audronė NEIMANTAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6616",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Griškevičius Domas",
+    "mpId": "84604",
+    "name": "Samanta PETRAVIČIENĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6616",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Griškevičius Domas",
+    "mpId": "84604",
+    "name": "Fausta ROZNYTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6616",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Grubliauskas Vytautas",
+    "mpId": "34428",
+    "name": "Almantas KAREČKA (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6627",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Grubliauskas Vytautas",
+    "mpId": "34428",
+    "name": "Kazys KUNEIKA (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6627",
+    "email": ""
+  },
+  {
+    "mpName": "Grubliauskas Vytautas",
+    "mpId": "34428",
+    "name": "Julija MAŽEIKAITĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6627",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičius Darius",
+    "mpId": "90949",
+    "name": "Ieva ANUŠKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6270",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičius Darius",
+    "mpId": "90949",
+    "name": "Jolanta LAURINAITIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6270",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičius Darius",
+    "mpId": "90949",
+    "name": "Raminta MAJAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6270",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičius Darius",
+    "mpId": "90949",
+    "name": "Dovilė RAMANAUSKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6270",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičius Darius",
+    "mpId": "90949",
+    "name": "Rimantas VALIUKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6270",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičiutė-Miliauskienė Agnė",
+    "mpId": "90950",
+    "name": "Vida BALTOKĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6623",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jakavičiutė-Miliauskienė Agnė",
+    "mpId": "90950",
+    "name": "Aldona KRISIUKĖNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6623",
+    "email": ""
+  },
+  {
+    "mpName": "Jakavičiutė-Miliauskienė Agnė",
+    "mpId": "90950",
+    "name": "Giedrius PRANCKUS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6623",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Ramūnas AUŠROTAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Algimantas BIRBILAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Janina DOVYDAITIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6893",
+    "email": ""
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Audronė JANKUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Janė KEKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Vaidminė MISIULYTĖ-KRASAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Rūta PETKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jankūnas Rimas Jonas",
+    "mpId": "90970",
+    "name": "Vytis TURONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6893",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Janušonienė Roma",
+    "mpId": "90951",
+    "name": "Sigutė JAKUTIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6020",
+    "email": ""
+  },
+  {
+    "mpName": "Janušonienė Roma",
+    "mpId": "90951",
+    "name": "Virginijus KERAS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6020",
+    "email": ""
+  },
+  {
+    "mpName": "Janušonienė Roma",
+    "mpId": "90951",
+    "name": "Danguolė MASIULIENĖ",
+    "role": "Patarėja",
+    "phone": "0 611 20142",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Janušonienė Roma",
+    "mpId": "90951",
+    "name": "Aldona MINKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6020",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Janušonienė Roma",
+    "mpId": "90951",
+    "name": "Liudvika RASLANIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6020",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Janušonienė Roma",
+    "mpId": "90951",
+    "name": "Darius ŠILKUS",
+    "role": "Patarėjas",
+    "phone": "0 655 42324",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jeglinskas Giedrimas",
+    "mpId": "90926",
+    "name": "Karolina BARIŠAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6554",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jeglinskas Giedrimas",
+    "mpId": "90926",
+    "name": "Sigita SKROBLIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6597",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jeglinskas Giedrimas",
+    "mpId": "90926",
+    "name": "Ervinas ŠURKA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6766",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jonauskas Linas",
+    "mpId": "47571",
+    "name": "Remigijus BARANAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6726",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jonauskas Linas",
+    "mpId": "47571",
+    "name": "Sonata DIRSYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6726",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jonauskas Linas",
+    "mpId": "47571",
+    "name": "Aurimas RABAČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6726",
+    "email": ""
+  },
+  {
+    "mpName": "Jonauskas Linas",
+    "mpId": "47571",
+    "name": "Toma SONGAILIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6726",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jucius Vytautas",
+    "mpId": "79343",
+    "name": "Dalė ANDREIKĖNIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6661",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jucius Vytautas",
+    "mpId": "79343",
+    "name": "Eglė PALIONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6661",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jucius Vytautas",
+    "mpId": "79343",
+    "name": "Jurgita REMEIKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6661",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Jucius Vytautas",
+    "mpId": "79343",
+    "name": "Stasys SKALAUSKAS (apygardoje)",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6661",
+    "email": ""
+  },
+  {
+    "mpName": "Juozapaitis Vytautas",
+    "mpId": "73575",
+    "name": "Rolanda GUDYNIENĖ",
+    "role": "Padėjėja",
+    "phone": "0 652 17226",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Juozapaitis Vytautas",
+    "mpId": "73575",
+    "name": "Kęstutis KAMINSKAS",
+    "role": "Patarėjas",
+    "phone": "0 612 52633",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Juozapaitis Vytautas",
+    "mpId": "73575",
+    "name": "Vaida LAZDAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6559",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Juozapaitis Vytautas",
+    "mpId": "73575",
+    "name": "Jurgita NAUJOKAITIENĖ",
+    "role": "Padėjėja",
+    "phone": "0 631 31979",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Juozapaitis Vytautas",
+    "mpId": "73575",
+    "name": "Izabelė PUKĖNAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6559",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Juozapaitis Vytautas",
+    "mpId": "73575",
+    "name": "Mantas VAIČYS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6559",
+    "email": ""
+  },
+  {
+    "mpName": "Juška Ričardas",
+    "mpId": "35799",
+    "name": "Žaneta JANKAUSKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6676",
+    "email": ""
+  },
+  {
+    "mpName": "Juška Ričardas",
+    "mpId": "35799",
+    "name": "Vilma MARKŪNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6676",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Juška Ričardas",
+    "mpId": "35799",
+    "name": "Kazimieras ŠIMKUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6676",
+    "email": ""
+  },
+  {
+    "mpName": "Kairys Simonas",
+    "mpId": "90922",
+    "name": "Rimantas MIKAITIS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "0 611 35920 (0 5) 209 6647",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kairys Simonas",
+    "mpId": "90922",
+    "name": "Dovilė MOTIEJAUSKAITĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "0 623 42256 (0 5) 209 6647",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kairys Simonas",
+    "mpId": "90922",
+    "name": "Sigitas ŠLIAŽAS",
+    "role": "Patarėjas",
+    "phone": "0 611 16340 (0 5) 209 6647",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kasčiūnas Laurynas",
+    "mpId": "64701",
+    "name": "Emilė BALODYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6983",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kasčiūnas Laurynas",
+    "mpId": "64701",
+    "name": "Jolanta BIZAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6983",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kasčiūnas Laurynas",
+    "mpId": "64701",
+    "name": "Simonas KLIMANSKIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6983",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Katelynas Martynas",
+    "mpId": "83412",
+    "name": "Skaistė BESUSPARYTĖ",
+    "role": "Patarėja",
+    "phone": "0 628  48 992",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Katelynas Martynas",
+    "mpId": "83412",
+    "name": "Aušra LEGATIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6621",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kaunas Robertas",
+    "mpId": "90952",
+    "name": "Indrius BOLISAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6604",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kaunas Robertas",
+    "mpId": "90952",
+    "name": "Donatas LATKAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6604",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kaunas Robertas",
+    "mpId": "90952",
+    "name": "Robertas STANIONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6604",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kaunas Robertas",
+    "mpId": "90952",
+    "name": "Mavliuda ŠTRUPKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6604",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kazlavickas Liutauras",
+    "mpId": "54711",
+    "name": "Kristina GOGELIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6622",
+    "email": ""
+  },
+  {
+    "mpName": "Kazlavickas Liutauras",
+    "mpId": "54711",
+    "name": "Juta KAZLAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6622",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kazlavickas Liutauras",
+    "mpId": "54711",
+    "name": "Giedrė RAKAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6622",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kazlavickas Liutauras",
+    "mpId": "54711",
+    "name": "Dalia VYSKUPAITYTĖ-ŠAUČIŪNIENĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6622",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kernagis Vytautas",
+    "mpId": "79176",
+    "name": "Laurynas KUBLICKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6668",
+    "email": ""
+  },
+  {
+    "mpName": "Kernagis Vytautas",
+    "mpId": "79176",
+    "name": "Edmundas NEKRAŠEVIČIUS (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6668",
+    "email": ""
+  },
+  {
+    "mpName": "Kernagis Vytautas",
+    "mpId": "79176",
+    "name": "Julijonas ŠILEIKA",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6668",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kernagis Vytautas",
+    "mpId": "79176",
+    "name": "Birutė VIJEIKIENĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6668",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kirkutis Eimantas",
+    "mpId": "90923",
+    "name": "Vida AČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6638",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kirkutis Eimantas",
+    "mpId": "90923",
+    "name": "Arūnas GUMULIAUSKAS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6638",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kirkutis Eimantas",
+    "mpId": "90923",
+    "name": "Emilija JANKAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 239 6291",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kirkutis Eimantas",
+    "mpId": "90923",
+    "name": "Janė KEKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6638",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kirkutis Eimantas",
+    "mpId": "90923",
+    "name": "Regina KVEDARIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6638",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kižienė Indrė",
+    "mpId": "73694",
+    "name": "Lina BAUBLIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6675",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kižienė Indrė",
+    "mpId": "73694",
+    "name": "Darius KROGERTAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6675",
+    "email": ""
+  },
+  {
+    "mpName": "Kižienė Indrė",
+    "mpId": "73694",
+    "name": "Vykintas LUČIŪNAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6675",
+    "email": ""
+  },
+  {
+    "mpName": "Kižienė Indrė",
+    "mpId": "73694",
+    "name": "Vaidutė SAKOLNIKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6675",
+    "email": ""
+  },
+  {
+    "mpName": "Kižienė Indrė",
+    "mpId": "73694",
+    "name": "Solveiga ULIENĖ-VEIKALIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6675",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kreivys Dainius",
+    "mpId": "24048",
+    "name": "Jolanta BIZAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6605",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kreivys Dainius",
+    "mpId": "24048",
+    "name": "Laurynas KAMINSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6605",
+    "email": ""
+  },
+  {
+    "mpName": "Kreivys Dainius",
+    "mpId": "24048",
+    "name": "Laima SINKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6605",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kukuraitis Linas",
+    "mpId": "84606",
+    "name": "Antanas BAURA (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6663",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kukuraitis Linas",
+    "mpId": "84606",
+    "name": "Juozas BERNATAVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6663",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kukuraitis Linas",
+    "mpId": "84606",
+    "name": "Dalia SAKALAUSKAITĖ-BABRAVIČĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6597",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kukuraitis Linas",
+    "mpId": "84606",
+    "name": "Alytė SKEBERIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6663",
+    "email": ""
+  },
+  {
+    "mpName": "Kuodis Raimondas",
+    "mpId": "16004",
+    "name": "Kristina BUTVILAVIČIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6959",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kuodis Raimondas",
+    "mpId": "16004",
+    "name": "Jonas NOVOGRECKIS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6959",
+    "email": ""
+  },
+  {
+    "mpName": "Kuodis Raimondas",
+    "mpId": "16004",
+    "name": "Ieva SKARELYTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6959",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kuodis Raimondas",
+    "mpId": "16004",
+    "name": "Remigija TAUROKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6959",
+    "email": ""
+  },
+  {
+    "mpName": "Kuzmickienė Paulė",
+    "mpId": "69153",
+    "name": "Agnė ARLIKEVIČIŪTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6640",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kuzmickienė Paulė",
+    "mpId": "69153",
+    "name": "Aurelija AURUŠKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6640",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kuzmickienė Paulė",
+    "mpId": "69153",
+    "name": "Gabrielė GRIAUZDAITĖ-PATUMSIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6640",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Kuzmickienė Paulė",
+    "mpId": "69153",
+    "name": "Laurynas KAMINSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6640",
+    "email": ""
+  },
+  {
+    "mpName": "Kuzmickienė Paulė",
+    "mpId": "69153",
+    "name": "Justyna KOZLOVSKAJA",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6640",
+    "email": ""
+  },
+  {
+    "mpName": "Kuzmickienė Paulė",
+    "mpId": "69153",
+    "name": "Gabrielė ŽAIDYTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6640",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Leiputė Orinta",
+    "mpId": "15266",
+    "name": "Jūratė BARŠAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6352",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Leiputė Orinta",
+    "mpId": "15266",
+    "name": "Karolis KLIMKA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6285",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Leiputė Orinta",
+    "mpId": "15266",
+    "name": "Mindaugas SĖJŪNAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6731",
+    "email": ""
+  },
+  {
+    "mpName": "Lydeka Arminas",
+    "mpId": "47211",
+    "name": "Jolita BAUŠYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6725",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Lydeka Arminas",
+    "mpId": "47211",
+    "name": "Donatas MARKAUSKAS",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6725",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Lingė Mindaugas",
+    "mpId": "84607",
+    "name": "Alida JUCEVIČĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6631",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Lingė Mindaugas",
+    "mpId": "84607",
+    "name": "Jovydas JUOCEVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6631",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Lingė Mindaugas",
+    "mpId": "84607",
+    "name": "Julijonas ŠILEIKA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6631",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Luščikas Saulius",
+    "mpId": "90931",
+    "name": "Inga CEMNOLONSKAITĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6827",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Luščikas Saulius",
+    "mpId": "90931",
+    "name": "Linas GARBENIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6827",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Luščikas Saulius",
+    "mpId": "90931",
+    "name": "Justina ŠEREIVAITĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 611 43799",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Luščikas Saulius",
+    "mpId": "90931",
+    "name": "Zita ŽVIKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 611 48067",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Maldeikis Matas",
+    "mpId": "69276",
+    "name": "Egidijus GIEDRAITIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6606",
+    "email": ""
+  },
+  {
+    "mpName": "Maldeikis Matas",
+    "mpId": "69276",
+    "name": "Rūta MACKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6606",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Maldeikis Matas",
+    "mpId": "69276",
+    "name": "Aistė PIKŠRYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6606",
+    "email": ""
+  },
+  {
+    "mpName": "Martinaitis Tomas",
+    "mpId": "90924",
+    "name": "Deivida GAIŽAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6639",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Martinaitis Tomas",
+    "mpId": "90924",
+    "name": "Remigija KADIKINĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6443",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Martinaitis Tomas",
+    "mpId": "90924",
+    "name": "Brigita NEMČIAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6639",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mažeika Kęstutis",
+    "mpId": "79131",
+    "name": "Karolis BABECKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6691",
+    "email": ""
+  },
+  {
+    "mpName": "Mažeika Kęstutis",
+    "mpId": "79131",
+    "name": "Mindaugas BALNIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6691",
+    "email": ""
+  },
+  {
+    "mpName": "Mažeika Kęstutis",
+    "mpId": "79131",
+    "name": "Rimas MARČIULYNAS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6691",
+    "email": ""
+  },
+  {
+    "mpName": "Mažeika Kęstutis",
+    "mpId": "79131",
+    "name": "Arminas MOCKEVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6691",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mažeika Kęstutis",
+    "mpId": "79131",
+    "name": "Kęstas SPŪDYS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6691",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mažeika Kęstutis",
+    "mpId": "79131",
+    "name": "Laura STRAŽNICKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6691",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Miliūtė Rūta",
+    "mpId": "79132",
+    "name": "Nijolė GRIGONYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6719",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Miliūtė Rūta",
+    "mpId": "79132",
+    "name": "Ramunė MUZIKEVIČIŪTĖ-NARMONTIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6719",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mockus Alvydas",
+    "mpId": "90932",
+    "name": "Vaidotas JASAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6624",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mockus Alvydas",
+    "mpId": "90932",
+    "name": "Vaida RAČKAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6624",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mockus Alvydas",
+    "mpId": "90932",
+    "name": "Gintarė RANCIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6624",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mockus Alvydas",
+    "mpId": "90932",
+    "name": "Jurgita RUDIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6624",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Mockus Alvydas",
+    "mpId": "90932",
+    "name": "Julija SKIOTYTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6624",
+    "email": ""
+  },
+  {
+    "mpName": "Mockus Alvydas",
+    "mpId": "90932",
+    "name": "Mantas VIRBAUSKAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6624",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Morkūnaitė-Mikulėnienė Radvilė",
+    "mpId": "48538",
+    "name": "Romena ČIŪTIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6611",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Morkūnaitė-Mikulėnienė Radvilė",
+    "mpId": "48538",
+    "name": "Ieva DAUSKURTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6273",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Morkūnaitė-Mikulėnienė Radvilė",
+    "mpId": "48538",
+    "name": "Rima NORVILIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6657",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Morkūnaitė-Mikulėnienė Radvilė",
+    "mpId": "48538",
+    "name": "Liuda POCIŪNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6657",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Morkūnaitė-Mikulėnienė Radvilė",
+    "mpId": "48538",
+    "name": "Teodoras Jonas ŽUKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6657",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Motuzas Remigijus",
+    "mpId": "7597",
+    "name": "Daniel BOCEVIČ",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6609",
+    "email": ""
+  },
+  {
+    "mpName": "Motuzas Remigijus",
+    "mpId": "7597",
+    "name": "Tomas BUDRIKIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6609",
+    "email": ""
+  },
+  {
+    "mpName": "Motuzas Remigijus",
+    "mpId": "7597",
+    "name": "Raminta MAJAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6609",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Narkevič Jaroslav",
+    "mpId": "12253",
+    "name": "Pavel ABUCEVIČ",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6710",
+    "email": ""
+  },
+  {
+    "mpName": "Narkevič Jaroslav",
+    "mpId": "12253",
+    "name": "Zofija ABUCEVIČ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6710",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Narkevič Jaroslav",
+    "mpId": "12253",
+    "name": "Edgar ALKOVSKIJ",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6710",
+    "email": ""
+  },
+  {
+    "mpName": "Narkevič Jaroslav",
+    "mpId": "12253",
+    "name": "Kristina DZERŽINSKA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6710",
+    "email": ""
+  },
+  {
+    "mpName": "Narkevič Jaroslav",
+    "mpId": "12253",
+    "name": "Vanda KRAVČIONOK",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6710",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Narkevič Jaroslav",
+    "mpId": "12253",
+    "name": "Slavomir SUBOTOVIČ",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6710",
+    "email": ""
+  },
+  {
+    "mpName": "Nedzinskas Antanas",
+    "mpId": "53911",
+    "name": "Rimantas BARAVYKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6737",
+    "email": ""
+  },
+  {
+    "mpName": "Nedzinskas Antanas",
+    "mpId": "53911",
+    "name": "Auksė PETRUŠKEVIČIŪTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6737",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Nedzinskas Antanas",
+    "mpId": "53911",
+    "name": "Aušra VAITKŪNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6737",
+    "email": ""
+  },
+  {
+    "mpName": "Neimantas Karolis",
+    "mpId": "90933",
+    "name": "Vilija MASKELIENĖ",
+    "role": "Patarėja",
+    "phone": "0 610 25745",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Neimantas Karolis",
+    "mpId": "90933",
+    "name": "Laima VAIČIULIENĖ",
+    "role": "Patarėja",
+    "phone": "0 686 91326 (0 5) 209 6711",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Norkienė Aušrinė",
+    "mpId": "79136",
+    "name": "Vilma AASRUM",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6956",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Norkienė Aušrinė",
+    "mpId": "79136",
+    "name": "Ramūnas AUŠROTAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6956",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Norkienė Aušrinė",
+    "mpId": "79136",
+    "name": "Audronė JANKUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6956",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Norkienė Aušrinė",
+    "mpId": "79136",
+    "name": "Aušra KULIKAUSKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6956",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Olekas Juozas",
+    "mpId": "7193",
+    "name": "Arvydas DOMANSKIS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6005",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Olekas Juozas",
+    "mpId": "7193",
+    "name": "Gintarė KAČINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6440",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Olekas Juozas",
+    "mpId": "7193",
+    "name": "Daiva MIKULSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6256",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Olševski Česlav",
+    "mpId": "79137",
+    "name": "Jelena KOŠEVAJA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6337",
+    "email": ""
+  },
+  {
+    "mpName": "Olševski Česlav",
+    "mpId": "79137",
+    "name": "Vanda KRAVČIONOK (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6337",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Olševski Česlav",
+    "mpId": "79137",
+    "name": "Teresa SOLOVJOVA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6337",
+    "email": ""
+  },
+  {
+    "mpName": "Olševski Česlav",
+    "mpId": "79137",
+    "name": "Slavomir SUBOTOVIČ (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6337",
+    "email": ""
+  },
+  {
+    "mpName": "Olševski Česlav",
+    "mpId": "79137",
+    "name": "Janina TUBELEVIČ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6337",
+    "email": ""
+  },
+  {
+    "mpName": "Paluckas Gintautas",
+    "mpId": "84612",
+    "name": "Vaidas LANKAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6667",
+    "email": ""
+  },
+  {
+    "mpName": "Paluckas Gintautas",
+    "mpId": "84612",
+    "name": "Rima RIMKUTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6667",
+    "email": ""
+  },
+  {
+    "mpName": "Paluckas Gintautas",
+    "mpId": "84612",
+    "name": "Ramunė SAKALAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6667",
+    "email": ""
+  },
+  {
+    "mpName": "Pavilionis Žygimantas",
+    "mpId": "79139",
+    "name": "Laurynas ČIŽAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6733",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Pavilionis Žygimantas",
+    "mpId": "79139",
+    "name": "Gilija ŠNEIDERYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6733",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Petkevičienė Daiva",
+    "mpId": "90934",
+    "name": "Edita KARČIAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6689",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Petkevičienė Daiva",
+    "mpId": "90934",
+    "name": "Rūta ŠOSTAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6689",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Petkevičienė Daiva",
+    "mpId": "90934",
+    "name": "Rolandas VENCKUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6689",
+    "email": ""
+  },
+  {
+    "mpName": "Petrauskaitė Modesta",
+    "mpId": "73642",
+    "name": "Vaiva DIDŽIULYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6673",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Petrauskaitė Modesta",
+    "mpId": "73642",
+    "name": "Silvinija SIMONAITYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6673",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Petrauskaitė Modesta",
+    "mpId": "73642",
+    "name": "Gabrielė ŽIOGELĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6673",
+    "email": ""
+  },
+  {
+    "mpName": "Petrošius Audrius",
+    "mpId": "84614",
+    "name": "Andrius DOBRANSKIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6628",
+    "email": ""
+  },
+  {
+    "mpName": "Petrošius Audrius",
+    "mpId": "84614",
+    "name": "Alvidas ŠIMKUS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6628",
+    "email": ""
+  },
+  {
+    "mpName": "Pocius Arvydas",
+    "mpId": "83614",
+    "name": "Jonas GUDAUSKAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6685",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Pocius Arvydas",
+    "mpId": "83614",
+    "name": "Gytis JANIŠIUS",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "0 620 90336",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Pocius Arvydas",
+    "mpId": "83614",
+    "name": "Leonas STONKUS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6685",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Podolskis Karolis",
+    "mpId": "70414",
+    "name": "Milda RAITELAITIENĖ",
+    "role": "Patarėja",
+    "phone": "0 611 29791 (0 5) 209 6263",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Podolskis Karolis",
+    "mpId": "70414",
+    "name": "Indra ŠČIGLINSKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6705",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Popovienė Raminta",
+    "mpId": "73583",
+    "name": "Gražina ANANIKOVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6679",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Popovienė Raminta",
+    "mpId": "73583",
+    "name": "Jūratė KUZMICKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6679",
+    "email": ""
+  },
+  {
+    "mpName": "Popovienė Raminta",
+    "mpId": "73583",
+    "name": "Kristina MIŠKINIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6679",
+    "email": ""
+  },
+  {
+    "mpName": "Popovienė Raminta",
+    "mpId": "73583",
+    "name": "Skirmantė SUBAČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6679",
+    "email": ""
+  },
+  {
+    "mpName": "Poškus Mantas",
+    "mpId": "77490",
+    "name": "Taidė RAMANAUSKĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "0 611 31389",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Poškus Mantas",
+    "mpId": "77490",
+    "name": "Liveta SNITKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "0 611 31350",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Poškus Mantas",
+    "mpId": "77490",
+    "name": "Gediminas VASILIAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6722",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Poškus Mantas",
+    "mpId": "77490",
+    "name": "Justas ŽMĖJAUSKAS",
+    "role": "Patarėjas",
+    "phone": "0 611 28459 (0 5) 209 6722",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Prajara Tadas",
+    "mpId": "90935",
+    "name": "Martinas EIMUTIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6703",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Prajara Tadas",
+    "mpId": "90935",
+    "name": "Vaidas GUMAUSKAS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6703",
+    "email": ""
+  },
+  {
+    "mpName": "Prajara Tadas",
+    "mpId": "90935",
+    "name": "Lina JONYTYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6703",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Prajara Tadas",
+    "mpId": "90935",
+    "name": "Laura MATUZAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6703",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Prajara Tadas",
+    "mpId": "90935",
+    "name": "Aušra SKAMARAKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "0 686 47448",
+    "email": ""
+  },
+  {
+    "mpName": "Prajara Tadas",
+    "mpId": "90935",
+    "name": "Reimundas TYRAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6703",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Pranckietis Viktoras",
+    "mpId": "79141",
+    "name": "Jūratė TRUNCIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6630",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Pranckietis Viktoras",
+    "mpId": "79141",
+    "name": "Jonas VARKALYS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6630",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Puchovič Robert",
+    "mpId": "90927",
+    "name": "Edita KARČIAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6686",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Puchovič Robert",
+    "mpId": "90927",
+    "name": "Rolandas VENCKUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6686",
+    "email": ""
+  },
+  {
+    "mpName": "Puchovič Robert",
+    "mpId": "90927",
+    "name": "Sandra VITKĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6954",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvila Algimantas",
+    "mpId": "90936",
+    "name": "Ramunė DAŠKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6641",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvila Algimantas",
+    "mpId": "90936",
+    "name": "Jovita MARDOSIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6641",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvila Algimantas",
+    "mpId": "90936",
+    "name": "Rita OŽELĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6641",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvila Algimantas",
+    "mpId": "90936",
+    "name": "Elita PLERPIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6641",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvila Algimantas",
+    "mpId": "90936",
+    "name": "Adomas VAICEKAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6641",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvilavičius Audrius",
+    "mpId": "90937",
+    "name": "Rytis MAROZAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6694",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvilavičius Audrius",
+    "mpId": "90937",
+    "name": "Neringa PAVILONYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6694",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvilavičius Audrius",
+    "mpId": "90937",
+    "name": "Robertas STANIONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6694",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Radvilavičius Audrius",
+    "mpId": "90937",
+    "name": "Mavliuda ŠTRUPKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6694",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rakutis Valdas",
+    "mpId": "84616",
+    "name": "Virginijus BAČIANSKAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6613",
+    "email": ""
+  },
+  {
+    "mpName": "Rakutis Valdas",
+    "mpId": "84616",
+    "name": "Ieva BROGIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6613",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rakutis Valdas",
+    "mpId": "84616",
+    "name": "Vytautas REKLAITIS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6613",
+    "email": ""
+  },
+  {
+    "mpName": "Rakutis Valdas",
+    "mpId": "84616",
+    "name": "Jolanta SKRITULSKAITĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6613",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rakutis Valdas",
+    "mpId": "84616",
+    "name": "Vladas SUNGAILA",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6613",
+    "email": ""
+  },
+  {
+    "mpName": "Rakutis Valdas",
+    "mpId": "84616",
+    "name": "Vidmantas VALIUŠAITIS",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6613",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razma Jurgis",
+    "mpId": "7242",
+    "name": "Rūta PETRAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6602",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razma Jurgis",
+    "mpId": "7242",
+    "name": "Edgaras PILYPAITIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6693",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razma Jurgis",
+    "mpId": "7242",
+    "name": "Dainora VAIČIKAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6693",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razmislevičius Darius",
+    "mpId": "90938",
+    "name": "Jurgita IŠKAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6601",
+    "email": ""
+  },
+  {
+    "mpName": "Razmislevičius Darius",
+    "mpId": "90938",
+    "name": "Gintarė JAKUTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6601",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razmislevičius Darius",
+    "mpId": "90938",
+    "name": "Ginvilė PILĖNAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6601",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razmislevičius Darius",
+    "mpId": "90938",
+    "name": "Birutė PŪTIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6740",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razmislevičius Darius",
+    "mpId": "90938",
+    "name": "Irma RASIKĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6601",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Razmislevičius Darius",
+    "mpId": "90938",
+    "name": "Gabija SPAIČYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6601",
+    "email": ""
+  },
+  {
+    "mpName": "Rojaka Jekaterina",
+    "mpId": "90627",
+    "name": "Ieva JOVAIŠĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6652",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rojaka Jekaterina",
+    "mpId": "90627",
+    "name": "Vytautas LAMAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6652",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rojaka Jekaterina",
+    "mpId": "90627",
+    "name": "Julija NOVIKOVA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6652",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ropė Bronis",
+    "mpId": "23279",
+    "name": "Rūta BIČIUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6615",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ropė Bronis",
+    "mpId": "23279",
+    "name": "Gintautas KINDURYS",
+    "role": "Patarėjas",
+    "phone": "0 668 42147 (0 5) 209 6615",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rudelienė Edita",
+    "mpId": "86469",
+    "name": "Gabija GALBOGYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6637",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Rudelienė Edita",
+    "mpId": "86469",
+    "name": "Diana IKANEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6637",
+    "email": ""
+  },
+  {
+    "mpName": "Rudelienė Edita",
+    "mpId": "86469",
+    "name": "Paulina PAULIUKĖNĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6637",
+    "email": ""
+  },
+  {
+    "mpName": "Rudelienė Edita",
+    "mpId": "86469",
+    "name": "Inesa ŽIDONYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6637",
+    "email": ""
+  },
+  {
+    "mpName": "Ruginienė Inga",
+    "mpId": "90953",
+    "name": "Marija ANGELOSKA",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6707",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ruginienė Inga",
+    "mpId": "90953",
+    "name": "Anastasija BOJOG",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6707",
+    "email": ""
+  },
+  {
+    "mpName": "Ruginienė Inga",
+    "mpId": "90953",
+    "name": "Evelina ŠILINYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6707",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ruginienė Inga",
+    "mpId": "90953",
+    "name": "Jurgis VALIUKEVIČIUS",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6707",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sabatauskas Julius",
+    "mpId": "23521",
+    "name": "Sigita BURBIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6619",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sabatauskas Julius",
+    "mpId": "23521",
+    "name": "Vida GEDMINTAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6697",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sabatauskas Julius",
+    "mpId": "23521",
+    "name": "Rita KARPAVIČIŪTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6586",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sabatauskas Julius",
+    "mpId": "23521",
+    "name": "Irmantas VERENIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6697",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sabutis Eugenijus",
+    "mpId": "84618",
+    "name": "Aušra ANDREJEVA",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6979",
+    "email": ""
+  },
+  {
+    "mpName": "Sabutis Eugenijus",
+    "mpId": "84618",
+    "name": "Audronė BAGDONAVIČIENĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "0 612 20465",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sabutis Eugenijus",
+    "mpId": "84618",
+    "name": "Birutė GAILIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6979",
+    "email": ""
+  },
+  {
+    "mpName": "Sabutis Eugenijus",
+    "mpId": "84618",
+    "name": "Monika TAMINSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6979",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sadauskis Tadas",
+    "mpId": "83286",
+    "name": "Dalia GRAKULSKYTĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6717",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sadauskis Tadas",
+    "mpId": "83286",
+    "name": "Alvydas JANUŠEVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6717",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sadauskis Tadas",
+    "mpId": "83286",
+    "name": "Eglė PALIONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6717",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sadauskis Tadas",
+    "mpId": "83286",
+    "name": "Rima RIMKUTĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6717",
+    "email": ""
+  },
+  {
+    "mpName": "Sadauskis Tadas",
+    "mpId": "83286",
+    "name": "Marius STANEVIČIUS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6717",
+    "email": ""
+  },
+  {
+    "mpName": "Savickas Lukas",
+    "mpId": "84619",
+    "name": "Kotryna BUTKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6651",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Savickas Lukas",
+    "mpId": "84619",
+    "name": "Fausta ROZNYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6651",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Savickas Lukas",
+    "mpId": "84619",
+    "name": "Ervinas ŠURKA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6651",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sejonienė Jurgita",
+    "mpId": "84620",
+    "name": "Aurėja JUTELYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6670",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sejonienė Jurgita",
+    "mpId": "84620",
+    "name": "Violeta MARKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6670",
+    "email": ""
+  },
+  {
+    "mpName": "Sejonienė Jurgita",
+    "mpId": "84620",
+    "name": "Lina ŠLAMIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6670",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sejonienė Jurgita",
+    "mpId": "84620",
+    "name": "Simona VIRBICKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6670",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sinica Vytautas",
+    "mpId": "74854",
+    "name": "Janina GADLIAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6608",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sinica Vytautas",
+    "mpId": "74854",
+    "name": "Simonas KAUNELIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6608",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sinica Vytautas",
+    "mpId": "74854",
+    "name": "Audrius MAKAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6608",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sinkevičius Rimantas",
+    "mpId": "26333",
+    "name": "Aušra ANDREJEVA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6656",
+    "email": ""
+  },
+  {
+    "mpName": "Sinkevičius Rimantas",
+    "mpId": "26333",
+    "name": "Regina SHOAIB",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6656",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sinkevičius Rimantas",
+    "mpId": "26333",
+    "name": "Solveiga ULIENĖ-VEIKALIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6280",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sysas Algirdas",
+    "mpId": "7252",
+    "name": "Angelė ČEPONKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6702",
+    "email": ""
+  },
+  {
+    "mpName": "Sysas Algirdas",
+    "mpId": "7252",
+    "name": "Justina GLIEBUTĖ-GIMŽAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6702",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Sysas Algirdas",
+    "mpId": "7252",
+    "name": "Oleg KORSAK",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6702",
+    "email": ""
+  },
+  {
+    "mpName": "Sysas Algirdas",
+    "mpId": "7252",
+    "name": "Gerardas STONKUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6702",
+    "email": ""
+  },
+  {
+    "mpName": "Sysas Algirdas",
+    "mpId": "7252",
+    "name": "Morta VIDŪNAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6702",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skaistė Gintarė",
+    "mpId": "71923",
+    "name": "Vilija BARTAŠIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6635",
+    "email": ""
+  },
+  {
+    "mpName": "Skaistė Gintarė",
+    "mpId": "71923",
+    "name": "Hermantė BRANDIŠAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6635",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skaistė Gintarė",
+    "mpId": "71923",
+    "name": "Audronė KAMINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6635",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skaistė Gintarė",
+    "mpId": "71923",
+    "name": "Ramūnas KARTENIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6635",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skaistė Gintarė",
+    "mpId": "71923",
+    "name": "Gediminas ŠINKŪNAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6635",
+    "email": ""
+  },
+  {
+    "mpName": "Skaistė Gintarė",
+    "mpId": "71923",
+    "name": "Ugnė ŽAKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6635",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skamarakas Matas",
+    "mpId": "89374",
+    "name": "Deivydas GRABAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6681",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skamarakas Matas",
+    "mpId": "89374",
+    "name": "Diana KAUPAITIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6681",
+    "email": ""
+  },
+  {
+    "mpName": "Skamarakas Matas",
+    "mpId": "89374",
+    "name": "Erika ŠUTJEVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6681",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skamarakas Matas",
+    "mpId": "89374",
+    "name": "Rūta VIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6681",
+    "email": ""
+  },
+  {
+    "mpName": "Skardžius Artūras",
+    "mpId": "47229",
+    "name": "Raimonda ALIJOŠIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6441",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skardžius Artūras",
+    "mpId": "47229",
+    "name": "Kastytis BRAZIULIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6441",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skardžius Artūras",
+    "mpId": "47229",
+    "name": "Simas GRAUŽYS (apygardoje)",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6441",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skardžius Artūras",
+    "mpId": "47229",
+    "name": "Agnė MILKUVIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6441",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skvernelis Saulius",
+    "mpId": "79145",
+    "name": "Inga BARIŠAUSKĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6664",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Skvernelis Saulius",
+    "mpId": "79145",
+    "name": "Monika GIEDRIENĖ",
+    "role": "Patarėja",
+    "phone": "0 612 26154",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Rasa BARKAUSKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6401",
+    "email": ""
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Eva DALINKEVIČIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6401",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Rasa DUOBAITĖ-BUMBULIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6401",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Rimantas KAUŠIKAS",
+    "role": "Patarėjas",
+    "phone": "0 612 01318 (0 5) 209 6401",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Vitalija MILEVIČIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6401",
+    "email": ""
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Danutė PUKĖNIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6401",
+    "email": ""
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Laura RAMANAUSKAITĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6401",
+    "email": ""
+  },
+  {
+    "mpName": "Starkevičius Kazys",
+    "mpId": "47839",
+    "name": "Laurynas ZUBAVIČIUS (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6401",
+    "email": ""
+  },
+  {
+    "mpName": "Šakalienė Dovilė",
+    "mpId": "79150",
+    "name": "Jurgita JARUCKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6632",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šakalienė Dovilė",
+    "mpId": "79150",
+    "name": "Raminta LEONAVIČIŪTĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6632",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šakalienė Dovilė",
+    "mpId": "79150",
+    "name": "Augenis VADLUGA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6632",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šedvydis Laurynas",
+    "mpId": "79225",
+    "name": "Roberta AŽUKAITĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6659",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šedvydis Laurynas",
+    "mpId": "79225",
+    "name": "Povilas JAGELAVIČIUS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6659",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šedvydis Laurynas",
+    "mpId": "79225",
+    "name": "Mavliuda ŠTRUPKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6659",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šedvydis Laurynas",
+    "mpId": "79225",
+    "name": "Rimvydas ŠVEDAS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6659",
+    "email": ""
+  },
+  {
+    "mpName": "Šedvydis Laurynas",
+    "mpId": "79225",
+    "name": "Indrė VILNIŠKYTĖ",
+    "role": "Padėjėja, Patarėja",
+    "phone": "(0 5) 209 6659",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šeršniovas Vitalijus",
+    "mpId": "90913",
+    "name": "Inesa ČEKOLIS-ŠČIOČINA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6684",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šeršniovas Vitalijus",
+    "mpId": "90913",
+    "name": "Rita KVIKLIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6684",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šeršniovas Vitalijus",
+    "mpId": "90913",
+    "name": "Deividas VITKŪNAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6684",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šimonytė Ingrida",
+    "mpId": "56180",
+    "name": "Kamilė GOGELIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6978",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šimonytė Ingrida",
+    "mpId": "56180",
+    "name": "Paulina LEVICKYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6844",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šimonytė Ingrida",
+    "mpId": "56180",
+    "name": "Ieva SKARELYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6978",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Širinskienė Agnė",
+    "mpId": "79153",
+    "name": "Janina BALSIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6683",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Širinskienė Agnė",
+    "mpId": "79153",
+    "name": "Aldona Violeta GRINIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6683",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Širinskienė Agnė",
+    "mpId": "79153",
+    "name": "Deimantė PETRAUSKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6683",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Širinskienė Agnė",
+    "mpId": "79153",
+    "name": "Eglė STONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6683",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukevičienė Jurgita",
+    "mpId": "79122",
+    "name": "Marija ANGELOSKA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6625",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukevičienė Jurgita",
+    "mpId": "79122",
+    "name": "Edita JURČIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6625",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukevičienė Jurgita",
+    "mpId": "79122",
+    "name": "Evelina VIZBARĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6625",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukevičius Šarūnas",
+    "mpId": "90914",
+    "name": "Aldona JAKAVONIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6009",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukevičius Šarūnas",
+    "mpId": "90914",
+    "name": "Tomas JARUSEVIČIUS",
+    "role": "Patarėjas",
+    "phone": "0 654 33383",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukevičius Šarūnas",
+    "mpId": "90914",
+    "name": "Ilona POCIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6649",
+    "email": ""
+  },
+  {
+    "mpName": "Šukys Raimondas",
+    "mpId": "23671",
+    "name": "Janina KUMPIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6687",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukys Raimondas",
+    "mpId": "23671",
+    "name": "Vytautas TARAILĖ",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6687",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukytė-Korsakė Lina",
+    "mpId": "90928",
+    "name": "Arnomedas GALDIKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6671",
+    "email": ""
+  },
+  {
+    "mpName": "Šukytė-Korsakė Lina",
+    "mpId": "90928",
+    "name": "Ina ŠTITILIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6671",
+    "email": ""
+  },
+  {
+    "mpName": "Šukytė-Korsakė Lina",
+    "mpId": "90928",
+    "name": "Ilona VITKĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6671",
+    "email": ""
+  },
+  {
+    "mpName": "Šukytė-Korsakė Lina",
+    "mpId": "90928",
+    "name": "Žydrūnas VITKUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6671",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šukytė-Korsakė Lina",
+    "mpId": "90928",
+    "name": "Aušra ZLATKUVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6671",
+    "email": ""
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Virginija AUKŠTUOLIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6642",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Viačeslav GOTOVSKIJ",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6642",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Sergejus KOTOVAS (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6642",
+    "email": ""
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Vaidas KURGANAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6642",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Nedas LUKOŠEVIČIUS (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6642",
+    "email": ""
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Olga MANC (apygardoje)",
+    "role": "Patarėja",
+    "phone": "0 615 23331",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Šuklin Jevgenij",
+    "mpId": "90915",
+    "name": "Kęstutis STANKEVIČIUS",
+    "role": "Padėjėjas",
+    "phone": "(0 5) 209 6642",
+    "email": ""
+  },
+  {
+    "mpName": "Tamašunienė Rita",
+    "mpId": "73586",
+    "name": "Tadeusz ANDRZEJEWSKI",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6706",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Tamašunienė Rita",
+    "mpId": "73586",
+    "name": "Teresa DEMEŠKO",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6706",
+    "email": ""
+  },
+  {
+    "mpName": "Tamašunienė Rita",
+    "mpId": "73586",
+    "name": "Ivona KLIMAŠEVSKAJA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6706",
+    "email": ""
+  },
+  {
+    "mpName": "Tamašunienė Rita",
+    "mpId": "73586",
+    "name": "Danuta VINCKEVIČ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6777",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Tomilinas Tomas",
+    "mpId": "48049",
+    "name": "Vytautas LAMAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6614",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Tomilinas Tomas",
+    "mpId": "48049",
+    "name": "Regina PATALAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6614",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Tomilinas Tomas",
+    "mpId": "48049",
+    "name": "Fausta ROZNYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6614",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Tomilinas Tomas",
+    "mpId": "48049",
+    "name": "Vadim VILEITA",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6614",
+    "email": ""
+  },
+  {
+    "mpName": "Turauskaitė Violeta",
+    "mpId": "90916",
+    "name": "Daiva BUDRIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6648",
+    "email": ""
+  },
+  {
+    "mpName": "Turauskaitė Violeta",
+    "mpId": "90916",
+    "name": "Jolanta GEDVILAITĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6648",
+    "email": ""
+  },
+  {
+    "mpName": "Turauskaitė Violeta",
+    "mpId": "90916",
+    "name": "Evaldas RUMBUTIS (apygardoje)",
+    "role": "Padėjėjas, Patarėjas",
+    "phone": "(0 5) 209 6648",
+    "email": ""
+  },
+  {
+    "mpName": "Turauskaitė Violeta",
+    "mpId": "90916",
+    "name": "Monika TAMINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6246",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ulbinaitė Daiva",
+    "mpId": "90917",
+    "name": "Indrė MIKELIONYTĖ-PRANCULEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6682",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Ulbinaitė Daiva",
+    "mpId": "90917",
+    "name": "Paulius LABANAUSKAS",
+    "role": "Patarėjas (teisės klausimais)",
+    "phone": "(0 5) 209 6682",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Urmanavičius Linas",
+    "mpId": "90918",
+    "name": "Jurgita KURAUSKIENĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6662",
+    "email": ""
+  },
+  {
+    "mpName": "Urmanavičius Linas",
+    "mpId": "90918",
+    "name": "Diana SINKEVIČIŪTĖ-GRIEŽĖ",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6662",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Urmanavičius Linas",
+    "mpId": "90918",
+    "name": "Rasa SMIRNOVA",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6662",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vaitiekūnienė Lilija",
+    "mpId": "90929",
+    "name": "Audronė GARŠVAITĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "(0 5) 209 6714,(0 5) 209 6721",
+    "email": ""
+  },
+  {
+    "mpName": "Vaitiekūnienė Lilija",
+    "mpId": "90929",
+    "name": "Dovilė MARINSKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 610 21209",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vaitiekūnienė Lilija",
+    "mpId": "90929",
+    "name": "Irena MEŠKAUSKIENĖ (apygardoje)",
+    "role": "Padėjėja",
+    "phone": "0 610 62916",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vaitiekūnienė Lilija",
+    "mpId": "90929",
+    "name": "Liudvika RASLANIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6714,(0 5) 209 6721",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Valinskas Arūnas",
+    "mpId": "81543",
+    "name": "Andrius NAVICKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6916",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Valinskas Arūnas",
+    "mpId": "81543",
+    "name": "Gražina SERMONTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6916",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Valinskas Arūnas",
+    "mpId": "81543",
+    "name": "Kristina ŠLIAŽAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6916",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Valinskas Arūnas",
+    "mpId": "81543",
+    "name": "Mindaugas ŠUNOKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6916",
+    "email": ""
+  },
+  {
+    "mpName": "Varnas Dainius",
+    "mpId": "90919",
+    "name": "Rasa IVANAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6665",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Varnas Dainius",
+    "mpId": "90919",
+    "name": "Ramūnas KAZAKEVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6665",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Varnas Dainius",
+    "mpId": "90919",
+    "name": "Kastytis MASALSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6665",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Varnas Dainius",
+    "mpId": "90919",
+    "name": "Rūta ZABIELIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6665",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėgėlė Ignas",
+    "mpId": "90930",
+    "name": "Evelina DATENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6674",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėgėlė Ignas",
+    "mpId": "90930",
+    "name": "Julija VORONOVAITĖ-MATIJOŠIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6674",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Roberta AŽUKAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Esmeralda KULIEŠYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Mindaugas LASAVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Donatas LATKAUSKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Neringa PAVILONYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Robertas STANIONIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vėsaitė Birutė",
+    "mpId": "23526",
+    "name": "Mavliuda ŠTRUPKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6709",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vilkauskas Kęstutis",
+    "mpId": "22886",
+    "name": "Kristina ČELKĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6335",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vilkauskas Kęstutis",
+    "mpId": "22886",
+    "name": "Elzbieta JUKNEVIČIŪTĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6335",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vilkauskas Kęstutis",
+    "mpId": "22886",
+    "name": "Giedrė ŽUROMSKIENĖ",
+    "role": "Patarėja",
+    "phone": "0 612 20922",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Visockas Paulius",
+    "mpId": "90971",
+    "name": "Rūta KAPOČIŪTĖ-DAUNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6636",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Visockas Paulius",
+    "mpId": "90971",
+    "name": "Monika KIAUŠAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6636",
+    "email": ""
+  },
+  {
+    "mpName": "Visockas Paulius",
+    "mpId": "90971",
+    "name": "Viktoras KRAJINAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6636",
+    "email": ""
+  },
+  {
+    "mpName": "Vyžintas Ramūnas",
+    "mpId": "90921",
+    "name": "Audronė LĖVERIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6650",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Vyžintas Ramūnas",
+    "mpId": "90921",
+    "name": "Žydrūnas MICHNEVIČIUS (apygardoje)",
+    "role": "Padėjėjas",
+    "phone": "0 611 34760",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zailskienė Jūratė",
+    "mpId": "29725",
+    "name": "Dalia BREDELIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6672",
+    "email": ""
+  },
+  {
+    "mpName": "Zailskienė Jūratė",
+    "mpId": "29725",
+    "name": "Paulina KUŠNEROVIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6672",
+    "email": ""
+  },
+  {
+    "mpName": "Zailskienė Jūratė",
+    "mpId": "29725",
+    "name": "Daiva MACIJAUSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6672",
+    "email": ""
+  },
+  {
+    "mpName": "Zailskienė Jūratė",
+    "mpId": "29725",
+    "name": "Vyda MARCEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6672",
+    "email": ""
+  },
+  {
+    "mpName": "Zailskienė Jūratė",
+    "mpId": "29725",
+    "name": "Mindaugas RUKAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6672",
+    "email": ""
+  },
+  {
+    "mpName": "Zailskienė Jūratė",
+    "mpId": "29725",
+    "name": "Silvinija SIMONAITYTĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6672",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zingeris Emanuelis",
+    "mpId": "43",
+    "name": "Auksė DRANSARD",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6644",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zingeris Emanuelis",
+    "mpId": "43",
+    "name": "Lukas GRINIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6644",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zingeris Emanuelis",
+    "mpId": "43",
+    "name": "Ramunė JURKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6644",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zingeris Emanuelis",
+    "mpId": "43",
+    "name": "Simonas KLIMANSKIS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6644",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zingeris Emanuelis",
+    "mpId": "43",
+    "name": "Jovita MORKŪNAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6644",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zuokas Artūras",
+    "mpId": "47857",
+    "name": "Jolanta BUTKEVIČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6680",
+    "email": ""
+  },
+  {
+    "mpName": "Zuokas Artūras",
+    "mpId": "47857",
+    "name": "Birutė RIMŠAITĖ VARNIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6680",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zuokas Artūras",
+    "mpId": "47857",
+    "name": "Rolandas VAIŠKŪNAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6680",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Zuokas Artūras",
+    "mpId": "47857",
+    "name": "Leda ŽILINSKIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6680",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Žebelienė Daiva",
+    "mpId": "70739",
+    "name": "Aurelija JAKŠTAITĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6692",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Žebelienė Daiva",
+    "mpId": "70739",
+    "name": "Edvardas JURJONAS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6692",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Žebelienė Daiva",
+    "mpId": "70739",
+    "name": "Eglė PAULAUSKIENĖ (apygardoje)",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6692",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Žemaitaitis Remigijus",
+    "mpId": "65703",
+    "name": "Ignotas ADOMAVIČIUS",
+    "role": "Patarėjas",
+    "phone": "(0 5) 209 6972",
+    "email": "[email protected]"
+  },
+  {
+    "mpName": "Žemaitaitis Remigijus",
+    "mpId": "65703",
+    "name": "Eglė LUKOČIENĖ",
+    "role": "Patarėja",
+    "phone": "(0 5) 209 6972",
+    "email": "[email protected]"
+  }
+]

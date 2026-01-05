@@ -1,717 +1,1368 @@
--- MP Assistants Data Import
+-- MP Assistants Data Import (Generated from live site on 2026-01-05)
 -- This script matches MP names to IDs and inserts their assistants
+-- Names converted to "FirstName LastName" format to match database
+-- Total MPs: 141
+-- Total Assistants: 538
 
 DO $$
 BEGIN
 
--- Alekna Virgilijus
+-- Agnė Bilotaitė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dalia KUZNECOVIENĖ', 'Patarėja', '(0 5) 239 6616', 'dalia.kuznecoviene@lrs.lt' FROM mps WHERE name = 'Alekna Virgilijus';
+SELECT id, 'Ginta ANDRIJAUSKIENĖ', 'Patarėja', '(0 5) 209 6629', '[email protected]' FROM mps WHERE name = 'Agnė Bilotaitė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6616', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Alekna Virgilijus';
+SELECT id, 'Eglė GRAJAUSKIENĖ', 'Patarėja', '(0 5) 209 6629', '[email protected]' FROM mps WHERE name = 'Agnė Bilotaitė';
 
--- Aleknavičienė Vaida
+-- Agnė Jakavičiutė-Miliauskienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Darius BRAZYS', 'Patarėjas', '(0 5) 239 6656', 'darius.brazys@lrs.lt' FROM mps WHERE name = 'Aleknavičienė Vaida';
+SELECT id, 'Vida BALTOKĖ', 'Patarėja', '(0 5) 209 6623', '[email protected]' FROM mps WHERE name = 'Agnė Jakavičiutė-Miliauskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6656', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Aleknavičienė Vaida';
+SELECT id, 'Aldona KRISIUKĖNIENĖ', 'Patarėja', '(0 5) 209 6623', '' FROM mps WHERE name = 'Agnė Jakavičiutė-Miliauskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6656', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Aleknavičienė Vaida';
+SELECT id, 'Giedrius PRANCKUS (apygardoje)', 'Patarėjas', '(0 5) 209 6623', '[email protected]' FROM mps WHERE name = 'Agnė Jakavičiutė-Miliauskienė';
 
--- Anušauskas Arvydas
+-- Agnė Širinskienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6652', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Anušauskas Arvydas';
+SELECT id, 'Janina BALSIENĖ', 'Patarėja', '(0 5) 209 6683', '[email protected]' FROM mps WHERE name = 'Agnė Širinskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aldona Violeta GRINIENĖ', 'Patarėja', '(0 5) 209 6683', '[email protected]' FROM mps WHERE name = 'Agnė Širinskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Deimantė PETRAUSKAITĖ', 'Patarėja', '(0 5) 209 6683', '[email protected]' FROM mps WHERE name = 'Agnė Širinskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Eglė STONIENĖ', 'Patarėja', '(0 5) 209 6683', '[email protected]' FROM mps WHERE name = 'Agnė Širinskienė';
+
+-- Aidas Gedvilas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aurelija ČIŽAUSKAITĖ-BUTKALIUK', 'Patarėja', '(0 5) 209 6617', '[email protected]' FROM mps WHERE name = 'Aidas Gedvilas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Marina ISRAJELIAN', 'Patarėja', '(0 5) 209 6617', '' FROM mps WHERE name = 'Aidas Gedvilas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Danguolė MARTINKIENĖ', 'Patarėja', '(0 5) 209 6617', '' FROM mps WHERE name = 'Aidas Gedvilas';
+
+-- Aistė Gedvilienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Agnė ANDREIKĖNIENĖ', 'Patarėja', '(0 5) 209 6658', '' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jūratė GARLIAUSKIENĖ', 'Patarėja', '(0 5) 209 6658', '' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Asta KAŠĖTIENĖ', 'Patarėja', '(0 5) 209 6658', '' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 209 6658', '' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Regina LUKOŠEVIČIENĖ', 'Patarėja', '(0 5) 209 6658', '[email protected]' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gitana MATIEKUVIENĖ', 'Patarėja', '(0 5) 209 6658', '[email protected]' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Edgaras MURNIKOVAS', 'Patarėjas', '(0 5) 209 6658', '' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aušra URBONIENĖ', 'Patarėja', '(0 5) 209 6658', '' FROM mps WHERE name = 'Aistė Gedvilienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Birutė VIJEIKIENĖ', 'Patarėja', '(0 5) 209 6658', '[email protected]' FROM mps WHERE name = 'Aistė Gedvilienė';
+
+-- Algimantas Radvila
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ramunė DAŠKEVIČIENĖ', 'Patarėja', '(0 5) 209 6641', '[email protected]' FROM mps WHERE name = 'Algimantas Radvila';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jovita MARDOSIENĖ', 'Patarėja', '(0 5) 209 6641', '[email protected]' FROM mps WHERE name = 'Algimantas Radvila';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rita OŽELĖ', 'Patarėja', '(0 5) 209 6641', '[email protected]' FROM mps WHERE name = 'Algimantas Radvila';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Elita PLERPIENĖ', 'Patarėja', '(0 5) 209 6641', '[email protected]' FROM mps WHERE name = 'Algimantas Radvila';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Adomas VAICEKAUSKAS', 'Patarėjas', '(0 5) 209 6641', '[email protected]' FROM mps WHERE name = 'Algimantas Radvila';
 
--- Asadauskaitė-Zadneprovskienė Laura
+-- Algirdas Butkevičius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Alina BRAZDILIENĖ', 'Patarėja', '(0 5) 209 6920', '[email protected]' FROM mps WHERE name = 'Algirdas Butkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Viktorija DULSKYTĖ', 'Patarėja', '(0 5) 209 6920', '[email protected]' FROM mps WHERE name = 'Algirdas Butkevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gedeminas ALEKSONIS', 'Patarėjas', '(0 5) 239 6625', 'gedeminas.aleksonis@lrs.lt' FROM mps WHERE name = 'Asadauskaitė-Zadneprovskienė Laura';
+SELECT id, 'Mindaugas KANTAUTAS (apygardoje)', 'Patarėjas', '(0 5) 209 6920', '[email protected]' FROM mps WHERE name = 'Algirdas Butkevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6625', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Asadauskaitė-Zadneprovskienė Laura';
+SELECT id, 'Gustė PUŽAITĖ (apygardoje)', 'Patarėja', '(0 5) 209 6920', '[email protected]' FROM mps WHERE name = 'Algirdas Butkevičius';
 
--- Asanavičiūtė-Gružauskienė Dalia
+-- Algirdas Sysas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Giedrė ČEKAVIČIENĖ', 'Patarėja', '(0 5) 239 6699', 'giedre.cekaviciene@lrs.lt' FROM mps WHERE name = 'Asanavičiūtė-Gružauskienė Dalia';
+SELECT id, 'Angelė ČEPONKIENĖ', 'Patarėja', '(0 5) 209 6702', '' FROM mps WHERE name = 'Algirdas Sysas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Aistė ČIURLIONYTĖ', 'Patarėja', '(0 5) 239 6699', 'aiste.ciurlionyte@lrs.lt' FROM mps WHERE name = 'Asanavičiūtė-Gružauskienė Dalia';
+SELECT id, 'Justina GLIEBUTĖ-GIMŽAUSKIENĖ', 'Patarėja', '(0 5) 209 6702', '[email protected]' FROM mps WHERE name = 'Algirdas Sysas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Oleg KORSAK', 'Patarėjas', '(0 5) 209 6702', '' FROM mps WHERE name = 'Algirdas Sysas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gerardas STONKUS', 'Patarėjas', '(0 5) 209 6702', '' FROM mps WHERE name = 'Algirdas Sysas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Morta VIDŪNAITĖ', 'Patarėja', '(0 5) 209 6702', '[email protected]' FROM mps WHERE name = 'Algirdas Sysas';
 
--- Ažubalis Audronius
+-- Alvydas Mockus
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaidotas JASAS', 'Patarėjas', '(0 5) 209 6624', '[email protected]' FROM mps WHERE name = 'Alvydas Mockus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaida RAČKAUSKIENĖ', 'Padėjėja', '(0 5) 209 6624', '[email protected]' FROM mps WHERE name = 'Alvydas Mockus';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Eglė ČIČIŪNAITĖ', 'Patarėja', '(0 5) 239 6628', 'egle.ciciunaite@lrs.lt' FROM mps WHERE name = 'Ažubalis Audronius';
+SELECT id, 'Gintarė RANCIENĖ', 'Padėjėja', '(0 5) 209 6624', '[email protected]' FROM mps WHERE name = 'Alvydas Mockus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jurgita RUDIENĖ', 'Padėjėja', '(0 5) 209 6624', '[email protected]' FROM mps WHERE name = 'Alvydas Mockus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Julija SKIOTYTĖ', 'Padėjėja', '(0 5) 209 6624', '' FROM mps WHERE name = 'Alvydas Mockus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mantas VIRBAUSKAS', 'Padėjėjas', '(0 5) 209 6624', '[email protected]' FROM mps WHERE name = 'Alvydas Mockus';
 
--- Ąžuolas Valius
+-- Andrius Bagdonas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Asta BIELINSKIENĖ', 'Patarėja', '(0 5) 209 6646', '[email protected]' FROM mps WHERE name = 'Andrius Bagdonas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Agnė JENČAUSKIENĖ', 'Padėjėja, Patarėja', '(0 5) 209 6646', '[email protected]' FROM mps WHERE name = 'Andrius Bagdonas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Eglė KANČAUSKIENĖ', 'Patarėja', '(0 5) 239 6615', 'egle.kancauskiene@lrs.lt' FROM mps WHERE name = 'Ąžuolas Valius';
+SELECT id, 'Reda KNEIZEVIČIENĖ', 'Padėjėja', '(0 5) 209 6646', '[email protected]' FROM mps WHERE name = 'Andrius Bagdonas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Reda ŠIAULIENĖ', 'Patarėja', '(0 5) 239 6615', 'reda.siauliene@lrs.lt' FROM mps WHERE name = 'Ąžuolas Valius';
+SELECT id, 'Gintarė MARTIKONYTĖ', 'Padėjėja', '(0 5) 209 6646', '[email protected]' FROM mps WHERE name = 'Andrius Bagdonas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Marcijonas URMONAS', 'Patarėjas', '(0 5) 209 6646', '' FROM mps WHERE name = 'Andrius Bagdonas';
 
--- Bagdonas Andrius
+-- Andrius Busila
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ingrida MAZALIAUSKIENĖ', 'Padėjėja', '0 611 07749', '[email protected]' FROM mps WHERE name = 'Andrius Busila';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6600', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Bagdonas Andrius';
+SELECT id, 'Mantas NAVARUCKIS', 'Patarėjas', '(0 5) 209 6653', '[email protected]' FROM mps WHERE name = 'Andrius Busila';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Danutė STANEVIČIENĖ', 'Padėjėja', '0 611 07749', '' FROM mps WHERE name = 'Andrius Busila';
 
--- Balčytis Zigmantas
+-- Antanas Nedzinskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Vaidutė JAKŠTONIENĖ', 'Patarėja', '(0 5) 209 6736', 'vaidute.jakstoniene@lrs.lt' FROM mps WHERE name = 'Balčytis Zigmantas';
+SELECT id, 'Rimantas BARAVYKAS', 'Patarėjas', '(0 5) 209 6737', '' FROM mps WHERE name = 'Antanas Nedzinskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Vytautas LAMAUSKAS', 'Patarėjas', '(0 5) 209 6736', 'vytautas.lamauskas@lrs.lt' FROM mps WHERE name = 'Balčytis Zigmantas';
+SELECT id, 'Auksė PETRUŠKEVIČIŪTĖ', 'Patarėja', '(0 5) 209 6737', '[email protected]' FROM mps WHERE name = 'Antanas Nedzinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aušra VAITKŪNIENĖ', 'Patarėja', '(0 5) 209 6737', '' FROM mps WHERE name = 'Antanas Nedzinskas';
+
+-- Arminas Lydeka
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Arūnas PUPŠYS', 'Patarėjas', '(0 5) 209 6736', 'arunas.pupsys@lrs.lt' FROM mps WHERE name = 'Balčytis Zigmantas';
+SELECT id, 'Jolita BAUŠYTĖ', 'Patarėja', '(0 5) 209 6725', '[email protected]' FROM mps WHERE name = 'Arminas Lydeka';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Liutauras VIČKAČKA', 'Patarėjas', '(0 5) 209 6736', 'liutauras.vickacka@lrs.lt' FROM mps WHERE name = 'Balčytis Zigmantas';
+SELECT id, 'Donatas MARKAUSKAS', 'Padėjėjas, Patarėjas', '(0 5) 209 6725', '[email protected]' FROM mps WHERE name = 'Arminas Lydeka';
 
--- Balčytytė Giedrė
+-- Artūras Skardžius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6640', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Balčytytė Giedrė';
+SELECT id, 'Raimonda ALIJOŠIENĖ', 'Patarėja', '(0 5) 209 6441', '[email protected]' FROM mps WHERE name = 'Artūras Skardžius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kastytis BRAZIULIS', 'Patarėjas', '(0 5) 209 6441', '[email protected]' FROM mps WHERE name = 'Artūras Skardžius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Simas GRAUŽYS (apygardoje)', 'Patarėjas', '(0 5) 209 6441', '[email protected]' FROM mps WHERE name = 'Artūras Skardžius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Agnė MILKUVIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6441', '[email protected]' FROM mps WHERE name = 'Artūras Skardžius';
 
--- Balsys Linas
+-- Artūras Zuokas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jolanta BUTKEVIČIENĖ', 'Patarėja', '(0 5) 209 6680', '' FROM mps WHERE name = 'Artūras Zuokas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Birutė RIMŠAITĖ VARNIENĖ', 'Patarėja', '(0 5) 209 6680', '[email protected]' FROM mps WHERE name = 'Artūras Zuokas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6668', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Balsys Linas';
+SELECT id, 'Rolandas VAIŠKŪNAS', 'Patarėjas', '(0 5) 209 6680', '[email protected]' FROM mps WHERE name = 'Artūras Zuokas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6668', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Balsys Linas';
+SELECT id, 'Leda ŽILINSKIENĖ', 'Patarėja', '(0 5) 209 6680', '[email protected]' FROM mps WHERE name = 'Artūras Zuokas';
 
--- Baranovas Ruslanas
+-- Arvydas Anušauskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6705', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Baranovas Ruslanas';
+SELECT id, 'Audronė BENDOKIENĖ', 'Patarėja', '(0 5) 209 6878', '[email protected]' FROM mps WHERE name = 'Arvydas Anušauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6705', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Baranovas Ruslanas';
+SELECT id, 'Audronė KAMINSKIENĖ', 'Patarėja', '(0 5) 209 6878', '[email protected]' FROM mps WHERE name = 'Arvydas Anušauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 209 6878', '[email protected]' FROM mps WHERE name = 'Arvydas Anušauskas';
 
--- Barauskas Tadas
+-- Arvydas Pocius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jonas GUDAUSKAS', 'Padėjėjas', '(0 5) 209 6685', '[email protected]' FROM mps WHERE name = 'Arvydas Pocius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6648', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Barauskas Tadas';
+SELECT id, 'Gytis JANIŠIUS', 'Padėjėjas, Patarėjas', '0 620 90336', '[email protected]' FROM mps WHERE name = 'Arvydas Pocius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6648', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Barauskas Tadas';
+SELECT id, 'Leonas STONKUS', 'Padėjėjas', '(0 5) 209 6685', '[email protected]' FROM mps WHERE name = 'Arvydas Pocius';
 
--- Baškienė Rima
+-- Arūnas Dudėnas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Juozas JUKNIUS', 'Patarėjas', '(0 5) 209 6655', '[email protected]' FROM mps WHERE name = 'Arūnas Dudėnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Marijona LUKAŠEVIČIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6655', '[email protected]' FROM mps WHERE name = 'Arūnas Dudėnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jolanta RIMKEVIČĖ (apygardoje)', 'Patarėja', '(0 5) 209 6655', '' FROM mps WHERE name = 'Arūnas Dudėnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6656', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Baškienė Rima';
+SELECT id, 'Toma SONGAILIENĖ', 'Patarėja', '(0 5) 209 6655', '[email protected]' FROM mps WHERE name = 'Arūnas Dudėnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6656', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Baškienė Rima';
+SELECT id, 'Danguolė VASILIAUSKIENĖ', 'Patarėja', '(0 5) 209 6655', '' FROM mps WHERE name = 'Arūnas Dudėnas';
 
--- Bilius Kęstutis
+-- Arūnas Valinskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6654', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Bilius Kęstutis';
+SELECT id, 'Andrius NAVICKAS', 'Patarėjas', '(0 5) 209 6916', '[email protected]' FROM mps WHERE name = 'Arūnas Valinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gražina SERMONTĖ', 'Patarėja', '(0 5) 209 6916', '[email protected]' FROM mps WHERE name = 'Arūnas Valinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kristina ŠLIAŽAITĖ', 'Patarėja', '(0 5) 209 6916', '[email protected]' FROM mps WHERE name = 'Arūnas Valinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mindaugas ŠUNOKAS', 'Patarėjas', '(0 5) 209 6916', '' FROM mps WHERE name = 'Arūnas Valinskas';
 
--- Bilotaitė Agnė
+-- Audrius Petrošius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6682', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Bilotaitė Agnė';
+SELECT id, 'Andrius DOBRANSKIS', 'Patarėjas', '(0 5) 209 6628', '' FROM mps WHERE name = 'Audrius Petrošius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Alvidas ŠIMKUS (apygardoje)', 'Patarėjas', '(0 5) 209 6628', '' FROM mps WHERE name = 'Audrius Petrošius';
 
--- Birutis Šarūnas
+-- Audrius Radvilavičius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rytis MAROZAS', 'Patarėjas', '(0 5) 209 6694', '[email protected]' FROM mps WHERE name = 'Audrius Radvilavičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6669', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Birutis Šarūnas';
+SELECT id, 'Neringa PAVILONYTĖ', 'Patarėja', '(0 5) 209 6694', '[email protected]' FROM mps WHERE name = 'Audrius Radvilavičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6669', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Birutis Šarūnas';
+SELECT id, 'Robertas STANIONIS', 'Patarėjas', '(0 5) 209 6694', '[email protected]' FROM mps WHERE name = 'Audrius Radvilavičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mavliuda ŠTRUPKIENĖ', 'Patarėja', '(0 5) 209 6694', '[email protected]' FROM mps WHERE name = 'Audrius Radvilavičius';
 
--- Bradauskas Dainoras
+-- Audronius Ažubalis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Margarita BUTKIENĖ', 'Padėjėja', '(0 5) 209 6321', '[email protected]' FROM mps WHERE name = 'Audronius Ažubalis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6641', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Bradauskas Dainoras';
+SELECT id, 'Lukas KRIŠČIŪNAS', 'Padėjėjas, Patarėjas', '(0 5) 209 6321', '[email protected]' FROM mps WHERE name = 'Audronius Ažubalis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintarė MINSEVIČIŪTĖ-BALYNIENĖ', 'Padėjėja', '(0 5) 209 6321', '[email protected]' FROM mps WHERE name = 'Audronius Ažubalis';
 
--- Braziulienė Ingrida
+-- Aušrinė Norkienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vilma AASRUM', 'Patarėja', '(0 5) 209 6956', '[email protected]' FROM mps WHERE name = 'Aušrinė Norkienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ramūnas AUŠROTAS', 'Patarėjas', '(0 5) 209 6956', '[email protected]' FROM mps WHERE name = 'Aušrinė Norkienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6642', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Braziulienė Ingrida';
+SELECT id, 'Audronė JANKUVIENĖ', 'Patarėja', '(0 5) 209 6956', '[email protected]' FROM mps WHERE name = 'Aušrinė Norkienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aušra KULIKAUSKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6956', '[email protected]' FROM mps WHERE name = 'Aušrinė Norkienė';
 
--- Bucevičius Saulius
+-- Birutė Vėsaitė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Roberta AŽUKAITĖ', 'Patarėja', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Esmeralda KULIEŠYTĖ', 'Patarėja', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mindaugas LASAVIČIUS', 'Patarėjas', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Donatas LATKAUSKAS', 'Patarėjas', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6656', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Bucevičius Saulius';
+SELECT id, 'Neringa PAVILONYTĖ', 'Patarėja', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Robertas STANIONIS', 'Patarėjas', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mavliuda ŠTRUPKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6709', '[email protected]' FROM mps WHERE name = 'Birutė Vėsaitė';
 
--- Budbergytė Rasa
+-- Bronis Ropė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6663', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Budbergytė Rasa';
+SELECT id, 'Rūta BIČIUVIENĖ', 'Patarėja', '(0 5) 209 6615', '[email protected]' FROM mps WHERE name = 'Bronis Ropė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6663', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Budbergytė Rasa';
+SELECT id, 'Gintautas KINDURYS', 'Patarėjas', '0 668 42147 (0 5) 209 6615', '[email protected]' FROM mps WHERE name = 'Bronis Ropė';
 
--- Busila Andrius
+-- Dainius Gaižauskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6645', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Busila Andrius';
+SELECT id, 'Alma DŽERMEIKIENĖ', 'Padėjėja', '(0 5) 209 6620', '[email protected]' FROM mps WHERE name = 'Dainius Gaižauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6645', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Busila Andrius';
+SELECT id, 'Erika NAIKELIENĖ', 'Patarėja', '(0 5) 209 6620', '[email protected]' FROM mps WHERE name = 'Dainius Gaižauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Monika ŠIAUDINYTĖ', 'Patarėja', '(0 5) 209 6773', '[email protected]' FROM mps WHERE name = 'Dainius Gaižauskas';
 
--- Butkevičius Algirdas
+-- Dainius Kreivys
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6683', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Butkevičius Algirdas';
+SELECT id, 'Jolanta BIZAITĖ', 'Patarėja', '(0 5) 209 6605', '[email protected]' FROM mps WHERE name = 'Dainius Kreivys';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6683', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Butkevičius Algirdas';
+SELECT id, 'Laurynas KAMINSKAS', 'Patarėjas', '(0 5) 209 6605', '' FROM mps WHERE name = 'Dainius Kreivys';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laima SINKEVIČIENĖ', 'Patarėja', '(0 5) 209 6605', '[email protected]' FROM mps WHERE name = 'Dainius Kreivys';
 
--- Čaplinskas Saulius
+-- Dainius Varnas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rasa IVANAUSKIENĖ', 'Patarėja', '(0 5) 209 6665', '[email protected]' FROM mps WHERE name = 'Dainius Varnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6686', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Čaplinskas Saulius';
+SELECT id, 'Ramūnas KAZAKEVIČIUS', 'Patarėjas', '(0 5) 209 6665', '[email protected]' FROM mps WHERE name = 'Dainius Varnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6686', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Čaplinskas Saulius';
+SELECT id, 'Kastytis MASALSKAS', 'Patarėjas', '(0 5) 209 6665', '[email protected]' FROM mps WHERE name = 'Dainius Varnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rūta ZABIELIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6665', '[email protected]' FROM mps WHERE name = 'Dainius Varnas';
 
--- Čmilytė-Nielsen Viktorija
+-- Dainoras Bradauskas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Sofija MAŽUTYTĖ-JUŠKIENĖ', 'Patarėja', '(0 5) 209 6281', '[email protected]' FROM mps WHERE name = 'Dainoras Bradauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6601', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Čmilytė-Nielsen Viktorija';
+SELECT id, 'Svetlana MELEŠKO', 'Patarėja', '(0 5) 209 6868', '[email protected]' FROM mps WHERE name = 'Dainoras Bradauskas';
 
--- Dargis Petras
+-- Daiva Petkevičienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6651', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Dargis Petras';
+SELECT id, 'Edita KARČIAUSKIENĖ', 'Patarėja', '(0 5) 209 6689', '[email protected]' FROM mps WHERE name = 'Daiva Petkevičienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rūta ŠOSTAUSKIENĖ', 'Patarėja', '(0 5) 209 6689', '[email protected]' FROM mps WHERE name = 'Daiva Petkevičienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rolandas VENCKUS', 'Patarėjas', '(0 5) 209 6689', '' FROM mps WHERE name = 'Daiva Petkevičienė';
 
--- Domarkas Tomas
+-- Daiva Ulbinaitė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Indrė MIKELIONYTĖ-PRANCULEVIČIENĖ', 'Patarėja', '(0 5) 209 6682', '[email protected]' FROM mps WHERE name = 'Daiva Ulbinaitė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6656', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Domarkas Tomas';
+SELECT id, 'Paulius LABANAUSKAS', 'Patarėjas (teisės klausimais)', '(0 5) 209 6682', '[email protected]' FROM mps WHERE name = 'Daiva Ulbinaitė';
 
--- Drukteinis Giedrius
+-- Daiva Žebelienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6706', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Drukteinis Giedrius';
+SELECT id, 'Aurelija JAKŠTAITĖ', 'Patarėja', '(0 5) 209 6692', '[email protected]' FROM mps WHERE name = 'Daiva Žebelienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6706', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Drukteinis Giedrius';
+SELECT id, 'Edvardas JURJONAS', 'Patarėjas', '(0 5) 209 6692', '[email protected]' FROM mps WHERE name = 'Daiva Žebelienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Eglė PAULAUSKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6692', '[email protected]' FROM mps WHERE name = 'Daiva Žebelienė';
 
--- Dudėnas Arūnas
+-- Dalia Asanavičiūtė-Gružauskienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Elena NARKEVIČIŪTĖ', 'Padėjėja, Patarėja', '(0 5) 209 6688', '[email protected]' FROM mps WHERE name = 'Dalia Asanavičiūtė-Gružauskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jolita PELECKIENĖ', 'Padėjėja', '(0 5) 209 6688', '' FROM mps WHERE name = 'Dalia Asanavičiūtė-Gružauskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6673', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Dudėnas Arūnas';
+SELECT id, 'Tomas RAULINAVIČIUS', 'Padėjėjas', '(0 5) 209 6688', '' FROM mps WHERE name = 'Dalia Asanavičiūtė-Gružauskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6673', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Dudėnas Arūnas';
+SELECT id, 'Simona ŠIMANSKIENĖ', 'Patarėja', '(0 5) 209 6688', '[email protected]' FROM mps WHERE name = 'Dalia Asanavičiūtė-Gružauskienė';
 
--- Fiodorovas Viktoras
+-- Darius Jakavičius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ieva ANUŠKEVIČIENĖ', 'Patarėja', '(0 5) 209 6270', '[email protected]' FROM mps WHERE name = 'Darius Jakavičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jolanta LAURINAITIENĖ', 'Patarėja', '(0 5) 209 6270', '[email protected]' FROM mps WHERE name = 'Darius Jakavičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Raminta MAJAUSKAITĖ', 'Patarėja', '(0 5) 209 6270', '[email protected]' FROM mps WHERE name = 'Darius Jakavičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6674', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Fiodorovas Viktoras';
+SELECT id, 'Dovilė RAMANAUSKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6270', '[email protected]' FROM mps WHERE name = 'Darius Jakavičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6674', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Fiodorovas Viktoras';
+SELECT id, 'Rimantas VALIUKAS', 'Patarėjas', '(0 5) 209 6270', '[email protected]' FROM mps WHERE name = 'Darius Jakavičius';
 
--- Gailius Vitalijus
+-- Darius Razmislevičius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6607', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Gailius Vitalijus';
+SELECT id, 'Jurgita IŠKAUSKIENĖ', 'Patarėja', '(0 5) 209 6601', '' FROM mps WHERE name = 'Darius Razmislevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintarė JAKUTĖ', 'Patarėja', '(0 5) 209 6601', '[email protected]' FROM mps WHERE name = 'Darius Razmislevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ginvilė PILĖNAITĖ', 'Patarėja', '(0 5) 209 6601', '[email protected]' FROM mps WHERE name = 'Darius Razmislevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Birutė PŪTIENĖ', 'Patarėja', '(0 5) 209 6740', '[email protected]' FROM mps WHERE name = 'Darius Razmislevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Irma RASIKĖ', 'Patarėja', '(0 5) 209 6601', '[email protected]' FROM mps WHERE name = 'Darius Razmislevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gabija SPAIČYTĖ', 'Patarėja', '(0 5) 209 6601', '' FROM mps WHERE name = 'Darius Razmislevičius';
 
--- Gaižauskas Dainius
+-- Domas Griškevičius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Eglė KANČAUSKIENĖ', 'Patarėja', '(0 5) 239 6615', 'egle.kancauskiene@lrs.lt' FROM mps WHERE name = 'Gaižauskas Dainius';
+SELECT id, 'Audronė NEIMANTAITĖ', 'Patarėja', '(0 5) 209 6616', '[email protected]' FROM mps WHERE name = 'Domas Griškevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Reda ŠIAULIENĖ', 'Patarėja', '(0 5) 239 6615', 'reda.siauliene@lrs.lt' FROM mps WHERE name = 'Gaižauskas Dainius';
+SELECT id, 'Samanta PETRAVIČIENĖ', 'Padėjėja, Patarėja', '(0 5) 209 6616', '[email protected]' FROM mps WHERE name = 'Domas Griškevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Fausta ROZNYTĖ', 'Padėjėja', '(0 5) 209 6616', '[email protected]' FROM mps WHERE name = 'Domas Griškevičius';
 
--- Gedvilas Aidas
+-- Dovilė Šakalienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jurgita JARUCKIENĖ', 'Padėjėja', '(0 5) 209 6632', '[email protected]' FROM mps WHERE name = 'Dovilė Šakalienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6653', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Gedvilas Aidas';
+SELECT id, 'Raminta LEONAVIČIŪTĖ', 'Padėjėja', '(0 5) 209 6632', '[email protected]' FROM mps WHERE name = 'Dovilė Šakalienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Augenis VADLUGA', 'Patarėjas', '(0 5) 209 6632', '[email protected]' FROM mps WHERE name = 'Dovilė Šakalienė';
 
--- Gedvilas Martynas
+-- Edita Rudelienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gabija GALBOGYTĖ', 'Patarėja', '(0 5) 209 6637', '[email protected]' FROM mps WHERE name = 'Edita Rudelienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Diana IKANEVIČIENĖ', 'Patarėja', '(0 5) 209 6637', '' FROM mps WHERE name = 'Edita Rudelienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6650', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Gedvilas Martynas';
+SELECT id, 'Paulina PAULIUKĖNĖ', 'Patarėja', '(0 5) 209 6637', '' FROM mps WHERE name = 'Edita Rudelienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Inesa ŽIDONYTĖ', 'Patarėja', '(0 5) 209 6637', '' FROM mps WHERE name = 'Edita Rudelienė';
 
--- Gedvilienė Aistė
+-- Eimantas Kirkutis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vida AČIENĖ', 'Patarėja', '(0 5) 209 6638', '[email protected]' FROM mps WHERE name = 'Eimantas Kirkutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Arūnas GUMULIAUSKAS (apygardoje)', 'Patarėjas', '(0 5) 209 6638', '[email protected]' FROM mps WHERE name = 'Eimantas Kirkutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Emilija JANKAUSKAITĖ', 'Patarėja', '(0 5) 239 6291', '[email protected]' FROM mps WHERE name = 'Eimantas Kirkutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Janė KEKIENĖ', 'Patarėja', '(0 5) 209 6638', '[email protected]' FROM mps WHERE name = 'Eimantas Kirkutis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6687', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Gedvilienė Aistė';
+SELECT id, 'Regina KVEDARIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6638', '[email protected]' FROM mps WHERE name = 'Eimantas Kirkutis';
 
--- Gentvilas Eugenijus
+-- Emanuelis Zingeris
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6603', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Gentvilas Eugenijus';
+SELECT id, 'Auksė DRANSARD', 'Patarėja', '(0 5) 209 6644', '[email protected]' FROM mps WHERE name = 'Emanuelis Zingeris';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Lukas GRINIUS', 'Patarėjas', '(0 5) 209 6644', '[email protected]' FROM mps WHERE name = 'Emanuelis Zingeris';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ramunė JURKEVIČIENĖ', 'Patarėja', '(0 5) 209 6644', '[email protected]' FROM mps WHERE name = 'Emanuelis Zingeris';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Simonas KLIMANSKIS', 'Patarėjas', '(0 5) 209 6644', '[email protected]' FROM mps WHERE name = 'Emanuelis Zingeris';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jovita MORKŪNAITĖ', 'Patarėja', '(0 5) 209 6644', '[email protected]' FROM mps WHERE name = 'Emanuelis Zingeris';
 
--- Gentvilas Simonas
+-- Eugenijus Gentvilas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Erika SAKALAUSKAITĖ', 'Patarėja', '(0 5) 209 6351', '[email protected]' FROM mps WHERE name = 'Eugenijus Gentvilas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6603', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Gentvilas Simonas';
+SELECT id, 'Gintaras VAIČEKAUSKAS', 'Patarėjas', '(0 5) 209 6311', '[email protected]' FROM mps WHERE name = 'Eugenijus Gentvilas';
 
--- Grubliauskas Vytautas
+-- Eugenijus Sabutis
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6671', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Grubliauskas Vytautas';
+SELECT id, 'Aušra ANDREJEVA', 'Padėjėja', '(0 5) 209 6979', '' FROM mps WHERE name = 'Eugenijus Sabutis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6671', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Grubliauskas Vytautas';
+SELECT id, 'Audronė BAGDONAVIČIENĖ', 'Padėjėja, Patarėja', '0 612 20465', '[email protected]' FROM mps WHERE name = 'Eugenijus Sabutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Birutė GAILIENĖ', 'Padėjėja', '(0 5) 209 6979', '' FROM mps WHERE name = 'Eugenijus Sabutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Monika TAMINSKIENĖ', 'Padėjėja', '(0 5) 209 6979', '[email protected]' FROM mps WHERE name = 'Eugenijus Sabutis';
 
--- Jakavičiūtė-Miliauskienė Agnė
+-- Giedrimas Jeglinskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6613', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Jakavičiūtė-Miliauskienė Agnė';
+SELECT id, 'Karolina BARIŠAUSKIENĖ', 'Patarėja', '(0 5) 209 6554', '[email protected]' FROM mps WHERE name = 'Giedrimas Jeglinskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6613', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Jakavičiūtė-Miliauskienė Agnė';
+SELECT id, 'Sigita SKROBLIENĖ', 'Patarėja', '(0 5) 209 6597', '[email protected]' FROM mps WHERE name = 'Giedrimas Jeglinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ervinas ŠURKA', 'Patarėjas', '(0 5) 209 6766', '[email protected]' FROM mps WHERE name = 'Giedrimas Jeglinskas';
 
--- Jakavičius Darius
+-- Giedrius Drukteinis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Viktorija ANCUTAITĖ', 'Patarėja', '(0 5) 209 6334', '[email protected]' FROM mps WHERE name = 'Giedrius Drukteinis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mantė BIMBIRIENĖ', 'Patarėja', '(0 5) 209 6334', '' FROM mps WHERE name = 'Giedrius Drukteinis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6649', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Jakavičius Darius';
+SELECT id, 'Irma ČAPLINSKIENĖ', 'Patarėja', '(0 5) 209 6334', '' FROM mps WHERE name = 'Giedrius Drukteinis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6649', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Jakavičius Darius';
+SELECT id, 'Aušra ZONGAILIENĖ', 'Patarėja', '(0 5) 209 6334', '' FROM mps WHERE name = 'Giedrius Drukteinis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Natalija ŽUKOVSKAJA ZILBER', 'Patarėja', '(0 5) 209 6334', '[email protected]' FROM mps WHERE name = 'Giedrius Drukteinis';
 
--- Janušonienė Roma
+-- Giedrė Balčytytė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Justinas RIZGELIS', 'Patarėjas', '(0 5) 209 6713', '[email protected]' FROM mps WHERE name = 'Giedrė Balčytytė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6655', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Janušonienė Roma';
+SELECT id, 'Martynas ŠIURKUS', 'Patarėjas', '(0 5) 209 6713', '' FROM mps WHERE name = 'Giedrė Balčytytė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6655', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Janušonienė Roma';
+SELECT id, 'Juozas VALČIUKAS', 'Patarėjas', '(0 5) 209 6713', '[email protected]' FROM mps WHERE name = 'Giedrė Balčytytė';
 
--- Jeglinskas Giedrimas
+-- Gintarė Skaistė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vilija BARTAŠIENĖ', 'Patarėja', '(0 5) 209 6635', '' FROM mps WHERE name = 'Gintarė Skaistė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Hermantė BRANDIŠAUSKAITĖ', 'Patarėja', '(0 5) 209 6635', '[email protected]' FROM mps WHERE name = 'Gintarė Skaistė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Audronė KAMINSKIENĖ', 'Patarėja', '(0 5) 209 6635', '[email protected]' FROM mps WHERE name = 'Gintarė Skaistė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6684', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Jeglinskas Giedrimas';
+SELECT id, 'Ramūnas KARTENIS', 'Patarėjas', '(0 5) 209 6635', '[email protected]' FROM mps WHERE name = 'Gintarė Skaistė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6684', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Jeglinskas Giedrimas';
+SELECT id, 'Gediminas ŠINKŪNAS', 'Patarėjas', '(0 5) 209 6635', '' FROM mps WHERE name = 'Gintarė Skaistė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ugnė ŽAKEVIČIENĖ', 'Patarėja', '(0 5) 209 6635', '[email protected]' FROM mps WHERE name = 'Gintarė Skaistė';
 
--- Jonauskas Linas
+-- Gintautas Paluckas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaidas LANKAUSKAS', 'Patarėjas', '(0 5) 209 6667', '' FROM mps WHERE name = 'Gintautas Paluckas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6672', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Jonauskas Linas';
+SELECT id, 'Rima RIMKUTĖ', 'Patarėja', '(0 5) 209 6667', '' FROM mps WHERE name = 'Gintautas Paluckas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6672', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Jonauskas Linas';
+SELECT id, 'Ramunė SAKALAUSKAITĖ', 'Patarėja', '(0 5) 209 6667', '' FROM mps WHERE name = 'Gintautas Paluckas';
 
--- Jucius Vytautas
+-- Ignas Vėgėlė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6648', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Jucius Vytautas';
+SELECT id, 'Evelina DATENĖ', 'Patarėja', '(0 5) 209 6674', '[email protected]' FROM mps WHERE name = 'Ignas Vėgėlė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Julija VORONOVAITĖ-MATIJOŠIENĖ', 'Patarėja', '(0 5) 209 6674', '[email protected]' FROM mps WHERE name = 'Ignas Vėgėlė';
 
--- Juozapaitis Vytautas
+-- Ilona Gelažnikienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Inga ČIRVINSKIENĖ (apygardoje)', 'Padėjėja', '0 611 39314', '[email protected]' FROM mps WHERE name = 'Ilona Gelažnikienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Janė GALVOSIENĖ (apygardoje)', 'Padėjėja', '0 611 20743', '[email protected]' FROM mps WHERE name = 'Ilona Gelažnikienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6670', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Juozapaitis Vytautas';
+SELECT id, 'Erika JUNEVIČIENĖ (apygardoje)', 'Padėjėja', '0 611 20707', '[email protected]' FROM mps WHERE name = 'Ilona Gelažnikienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Stanislava SABALIAUSKIENĖ', 'Patarėja', '0 610 14580 (0 5) 209 6634', '[email protected]' FROM mps WHERE name = 'Ilona Gelažnikienė';
 
--- Juška Ričardas
+-- Indrė Kižienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Lina BAUBLIENĖ', 'Patarėja', '(0 5) 209 6675', '[email protected]' FROM mps WHERE name = 'Indrė Kižienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Darius KROGERTAS', 'Patarėjas', '(0 5) 209 6675', '' FROM mps WHERE name = 'Indrė Kižienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vykintas LUČIŪNAS', 'Patarėjas', '(0 5) 209 6675', '' FROM mps WHERE name = 'Indrė Kižienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaidutė SAKOLNIKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6675', '' FROM mps WHERE name = 'Indrė Kižienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6685', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Juška Ričardas';
+SELECT id, 'Solveiga ULIENĖ-VEIKALIENĖ', 'Patarėja', '(0 5) 209 6675', '[email protected]' FROM mps WHERE name = 'Indrė Kižienė';
 
--- Kairys Simonas
+-- Inga Ruginienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6604', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Kairys Simonas';
+SELECT id, 'Marija ANGELOSKA', 'Padėjėja', '(0 5) 209 6707', '[email protected]' FROM mps WHERE name = 'Inga Ruginienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Anastasija BOJOG', 'Padėjėja', '(0 5) 209 6707', '' FROM mps WHERE name = 'Inga Ruginienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Evelina ŠILINYTĖ', 'Patarėja', '(0 5) 209 6707', '[email protected]' FROM mps WHERE name = 'Inga Ruginienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jurgis VALIUKEVIČIUS', 'Padėjėjas, Patarėjas', '(0 5) 209 6707', '[email protected]' FROM mps WHERE name = 'Inga Ruginienė';
 
--- Kasčiūnas Laurynas
+-- Ingrida Braziulienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Romualdas SAKALAUSKAS', 'Padėjėjas', '(0 5) 209 6718', '[email protected]' FROM mps WHERE name = 'Ingrida Braziulienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Simona SAMOŠKIENĖ', 'Patarėja', '(0 5) 209 6718', '' FROM mps WHERE name = 'Ingrida Braziulienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6681', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Kasčiūnas Laurynas';
+SELECT id, 'Raminta ŠIMKUVIENĖ', 'Patarėja', '(0 5) 209 6718', '[email protected]' FROM mps WHERE name = 'Ingrida Braziulienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Džioraldas ŠUKYS', 'Patarėjas', '(0 5) 209 6718', '[email protected]' FROM mps WHERE name = 'Ingrida Braziulienė';
 
--- Katelynas Martynas
+-- Ingrida Šimonytė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kamilė GOGELIENĖ', 'Patarėja', '(0 5) 209 6978', '[email protected]' FROM mps WHERE name = 'Ingrida Šimonytė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6658', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Katelynas Martynas';
+SELECT id, 'Paulina LEVICKYTĖ', 'Patarėja', '(0 5) 209 6844', '[email protected]' FROM mps WHERE name = 'Ingrida Šimonytė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6658', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Katelynas Martynas';
+SELECT id, 'Ieva SKARELYTĖ', 'Patarėja', '(0 5) 209 6978', '[email protected]' FROM mps WHERE name = 'Ingrida Šimonytė';
 
--- Kaunas Robertas
+-- Jaroslav Narkevič
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Pavel ABUCEVIČ', 'Patarėjas', '(0 5) 209 6710', '' FROM mps WHERE name = 'Jaroslav Narkevič';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Zofija ABUCEVIČ', 'Patarėja', '(0 5) 209 6710', '[email protected]' FROM mps WHERE name = 'Jaroslav Narkevič';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Edgar ALKOVSKIJ', 'Patarėjas', '(0 5) 209 6710', '' FROM mps WHERE name = 'Jaroslav Narkevič';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6659', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Kaunas Robertas';
+SELECT id, 'Kristina DZERŽINSKA', 'Patarėja', '(0 5) 209 6710', '' FROM mps WHERE name = 'Jaroslav Narkevič';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6659', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Kaunas Robertas';
+SELECT id, 'Vanda KRAVČIONOK', 'Patarėja', '(0 5) 209 6710', '[email protected]' FROM mps WHERE name = 'Jaroslav Narkevič';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Slavomir SUBOTOVIČ', 'Patarėjas', '(0 5) 209 6710', '' FROM mps WHERE name = 'Jaroslav Narkevič';
 
--- Kazlavickas Liutauras
+-- Jekaterina Rojaka
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ieva JOVAIŠĖ', 'Patarėja', '(0 5) 209 6652', '[email protected]' FROM mps WHERE name = 'Jekaterina Rojaka';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6644', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Kazlavickas Liutauras';
+SELECT id, 'Vytautas LAMAUSKAS', 'Patarėjas', '(0 5) 209 6652', '[email protected]' FROM mps WHERE name = 'Jekaterina Rojaka';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Julija NOVIKOVA', 'Patarėja', '(0 5) 209 6652', '[email protected]' FROM mps WHERE name = 'Jekaterina Rojaka';
 
--- Kernagis Vytautas
+-- Jevgenij Šuklin
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Virginija AUKŠTUOLIENĖ', 'Patarėja', '(0 5) 209 6642', '[email protected]' FROM mps WHERE name = 'Jevgenij Šuklin';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Viačeslav GOTOVSKIJ', 'Padėjėjas', '(0 5) 209 6642', '[email protected]' FROM mps WHERE name = 'Jevgenij Šuklin';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6634', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Kernagis Vytautas';
+SELECT id, 'Sergejus KOTOVAS (apygardoje)', 'Padėjėjas', '(0 5) 209 6642', '' FROM mps WHERE name = 'Jevgenij Šuklin';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaidas KURGANAS', 'Patarėjas', '(0 5) 209 6642', '[email protected]' FROM mps WHERE name = 'Jevgenij Šuklin';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Nedas LUKOŠEVIČIUS (apygardoje)', 'Padėjėjas', '(0 5) 209 6642', '' FROM mps WHERE name = 'Jevgenij Šuklin';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Olga MANC (apygardoje)', 'Patarėja', '0 615 23331', '[email protected]' FROM mps WHERE name = 'Jevgenij Šuklin';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kęstutis STANKEVIČIUS', 'Padėjėjas', '(0 5) 209 6642', '' FROM mps WHERE name = 'Jevgenij Šuklin';
 
--- Kirkutis Eimantas
+-- Julius Sabatauskas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Sigita BURBIENĖ', 'Patarėja', '(0 5) 209 6619', '[email protected]' FROM mps WHERE name = 'Julius Sabatauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6650', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Kirkutis Eimantas';
+SELECT id, 'Vida GEDMINTAITĖ', 'Patarėja', '(0 5) 209 6697', '[email protected]' FROM mps WHERE name = 'Julius Sabatauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6650', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Kirkutis Eimantas';
+SELECT id, 'Rita KARPAVIČIŪTĖ', 'Patarėja', '(0 5) 209 6586', '[email protected]' FROM mps WHERE name = 'Julius Sabatauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Irmantas VERENIUS', 'Patarėjas', '(0 5) 209 6697', '[email protected]' FROM mps WHERE name = 'Julius Sabatauskas';
 
--- Kižienė Indrė
+-- Juozas Olekas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Arvydas DOMANSKIS', 'Padėjėjas', '(0 5) 209 6005', '[email protected]' FROM mps WHERE name = 'Juozas Olekas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6651', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Kižienė Indrė';
+SELECT id, 'Gintarė KAČINSKIENĖ', 'Patarėja', '(0 5) 209 6440', '[email protected]' FROM mps WHERE name = 'Juozas Olekas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6651', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Kižienė Indrė';
+SELECT id, 'Daiva MIKULSKIENĖ', 'Padėjėja', '(0 5) 209 6256', '[email protected]' FROM mps WHERE name = 'Juozas Olekas';
 
--- Kreivys Dainius
+-- Jurgis Razma
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6637', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Kreivys Dainius';
+SELECT id, 'Rūta PETRAUSKIENĖ', 'Patarėja', '(0 5) 209 6602', '[email protected]' FROM mps WHERE name = 'Jurgis Razma';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Edgaras PILYPAITIS', 'Patarėjas', '(0 5) 209 6693', '[email protected]' FROM mps WHERE name = 'Jurgis Razma';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Dainora VAIČIKAUSKIENĖ', 'Padėjėja', '(0 5) 209 6693', '[email protected]' FROM mps WHERE name = 'Jurgis Razma';
 
--- Kukuraitis Linas
+-- Jurgita Sejonienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aurėja JUTELYTĖ', 'Patarėja', '(0 5) 209 6670', '[email protected]' FROM mps WHERE name = 'Jurgita Sejonienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6679', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Kukuraitis Linas';
+SELECT id, 'Violeta MARKEVIČIENĖ', 'Patarėja', '(0 5) 209 6670', '' FROM mps WHERE name = 'Jurgita Sejonienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6679', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Kukuraitis Linas';
+SELECT id, 'Lina ŠLAMIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6670', '[email protected]' FROM mps WHERE name = 'Jurgita Sejonienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Simona VIRBICKIENĖ', 'Patarėja', '(0 5) 209 6670', '[email protected]' FROM mps WHERE name = 'Jurgita Sejonienė';
 
--- Kuodis Raimondas
+-- Jurgita Šukevičienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Marija ANGELOSKA', 'Patarėja', '(0 5) 209 6625', '[email protected]' FROM mps WHERE name = 'Jurgita Šukevičienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6675', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Kuodis Raimondas';
+SELECT id, 'Edita JURČIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6625', '[email protected]' FROM mps WHERE name = 'Jurgita Šukevičienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Evelina VIZBARĖ', 'Patarėja', '(0 5) 209 6625', '[email protected]' FROM mps WHERE name = 'Jurgita Šukevičienė';
 
--- Kuzmickienė Paulė
+-- Jūratė Zailskienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Dalia BREDELIENĖ', 'Patarėja', '(0 5) 209 6672', '' FROM mps WHERE name = 'Jūratė Zailskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Paulina KUŠNEROVIENĖ', 'Patarėja', '(0 5) 209 6672', '' FROM mps WHERE name = 'Jūratė Zailskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6632', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Kuzmickienė Paulė';
+SELECT id, 'Daiva MACIJAUSKIENĖ', 'Patarėja', '(0 5) 209 6672', '' FROM mps WHERE name = 'Jūratė Zailskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vyda MARCEVIČIENĖ', 'Patarėja', '(0 5) 209 6672', '' FROM mps WHERE name = 'Jūratė Zailskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mindaugas RUKAS', 'Patarėjas', '(0 5) 209 6672', '' FROM mps WHERE name = 'Jūratė Zailskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Silvinija SIMONAITYTĖ', 'Patarėja', '(0 5) 209 6672', '[email protected]' FROM mps WHERE name = 'Jūratė Zailskienė';
 
--- Leiputė Orinta
+-- Karolis Neimantas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6677', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Leiputė Orinta';
+SELECT id, 'Vilija MASKELIENĖ', 'Patarėja', '0 610 25745', '[email protected]' FROM mps WHERE name = 'Karolis Neimantas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6677', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Leiputė Orinta';
+SELECT id, 'Laima VAIČIULIENĖ', 'Patarėja', '0 686 91326 (0 5) 209 6711', '[email protected]' FROM mps WHERE name = 'Karolis Neimantas';
 
--- Lydeka Arminas
+-- Karolis Podolskis
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6690', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Lydeka Arminas';
+SELECT id, 'Milda RAITELAITIENĖ', 'Patarėja', '0 611 29791 (0 5) 209 6263', '[email protected]' FROM mps WHERE name = 'Karolis Podolskis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Indra ŠČIGLINSKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6705', '[email protected]' FROM mps WHERE name = 'Karolis Podolskis';
 
--- Lingė Mindaugas
+-- Kazys Starkevičius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rasa BARKAUSKIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6401', '' FROM mps WHERE name = 'Kazys Starkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Eva DALINKEVIČIENĖ', 'Padėjėja', '(0 5) 209 6401', '[email protected]' FROM mps WHERE name = 'Kazys Starkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rasa DUOBAITĖ-BUMBULIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6401', '[email protected]' FROM mps WHERE name = 'Kazys Starkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rimantas KAUŠIKAS', 'Patarėjas', '0 612 01318 (0 5) 209 6401', '[email protected]' FROM mps WHERE name = 'Kazys Starkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vitalija MILEVIČIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6401', '' FROM mps WHERE name = 'Kazys Starkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Danutė PUKĖNIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6401', '' FROM mps WHERE name = 'Kazys Starkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laura RAMANAUSKAITĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6401', '' FROM mps WHERE name = 'Kazys Starkevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6631', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Lingė Mindaugas';
+SELECT id, 'Laurynas ZUBAVIČIUS (apygardoje)', 'Padėjėjas', '(0 5) 209 6401', '' FROM mps WHERE name = 'Kazys Starkevičius';
 
--- Luščikas Saulius
+-- Kęstutis Bilius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6656', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Luščikas Saulius';
+SELECT id, 'Dalė ANDREIKĖNIENĖ', 'Patarėja', '(0 5) 209 6626', '[email protected]' FROM mps WHERE name = 'Kęstutis Bilius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6656', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Luščikas Saulius';
+SELECT id, 'Lina KRENCEVIČIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6626', '' FROM mps WHERE name = 'Kęstutis Bilius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Eugenija NEVERDAUSKIENĖ', 'Patarėja', '(0 5) 209 6626', '' FROM mps WHERE name = 'Kęstutis Bilius';
 
--- Maldeikis Matas
+-- Kęstutis Mažeika
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Karolis BABECKAS', 'Patarėjas', '(0 5) 209 6691', '' FROM mps WHERE name = 'Kęstutis Mažeika';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mindaugas BALNIUS', 'Patarėjas', '(0 5) 209 6691', '' FROM mps WHERE name = 'Kęstutis Mažeika';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rimas MARČIULYNAS (apygardoje)', 'Patarėjas', '(0 5) 209 6691', '' FROM mps WHERE name = 'Kęstutis Mažeika';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Arminas MOCKEVIČIUS', 'Patarėjas', '(0 5) 209 6691', '[email protected]' FROM mps WHERE name = 'Kęstutis Mažeika';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6633', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Maldeikis Matas';
+SELECT id, 'Kęstas SPŪDYS', 'Patarėjas', '(0 5) 209 6691', '[email protected]' FROM mps WHERE name = 'Kęstutis Mažeika';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laura STRAŽNICKIENĖ', 'Patarėja', '(0 5) 209 6691', '[email protected]' FROM mps WHERE name = 'Kęstutis Mažeika';
 
--- Martinaitis Tomas
+-- Kęstutis Vilkauskas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kristina ČELKĖ', 'Patarėja', '(0 5) 209 6335', '[email protected]' FROM mps WHERE name = 'Kęstutis Vilkauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6658', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Martinaitis Tomas';
+SELECT id, 'Elzbieta JUKNEVIČIŪTĖ (apygardoje)', 'Patarėja', '(0 5) 209 6335', '[email protected]' FROM mps WHERE name = 'Kęstutis Vilkauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6658', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Martinaitis Tomas';
+SELECT id, 'Giedrė ŽUROMSKIENĖ', 'Patarėja', '0 612 20922', '[email protected]' FROM mps WHERE name = 'Kęstutis Vilkauskas';
 
--- Mažeika Kęstutis
+-- Laura Asadauskaitė-Zadneprovskienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6680', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Mažeika Kęstutis';
+SELECT id, 'Gedeminas ALEKSONIS', 'Patarėjas', '(0 5) 209 6678', '[email protected]' FROM mps WHERE name = 'Laura Asadauskaitė-Zadneprovskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6680', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Mažeika Kęstutis';
+SELECT id, 'Vilius ALELIŪNAS', 'Padėjėjas', '(0 5) 209 6678', '[email protected]' FROM mps WHERE name = 'Laura Asadauskaitė-Zadneprovskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Renata CECHONIENĖ', 'Padėjėja', '(0 5) 209 6678', '' FROM mps WHERE name = 'Laura Asadauskaitė-Zadneprovskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Povilas SAULEVIČIUS', 'Padėjėjas', '(0 5) 209 6678', '' FROM mps WHERE name = 'Laura Asadauskaitė-Zadneprovskienė';
 
--- Miliūtė Rūta
+-- Laurynas Kasčiūnas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Emilė BALODYTĖ', 'Patarėja', '(0 5) 209 6983', '[email protected]' FROM mps WHERE name = 'Laurynas Kasčiūnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6660', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Miliūtė Rūta';
+SELECT id, 'Jolanta BIZAITĖ', 'Patarėja', '(0 5) 209 6983', '[email protected]' FROM mps WHERE name = 'Laurynas Kasčiūnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6660', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Miliūtė Rūta';
+SELECT id, 'Simonas KLIMANSKIS', 'Patarėjas', '(0 5) 209 6983', '[email protected]' FROM mps WHERE name = 'Laurynas Kasčiūnas';
 
--- Mockus Alvydas
+-- Laurynas Šedvydis
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6646', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Mockus Alvydas';
+SELECT id, 'Roberta AŽUKAITĖ', 'Padėjėja', '(0 5) 209 6659', '[email protected]' FROM mps WHERE name = 'Laurynas Šedvydis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6646', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Mockus Alvydas';
+SELECT id, 'Povilas JAGELAVIČIUS', 'Padėjėjas', '(0 5) 209 6659', '[email protected]' FROM mps WHERE name = 'Laurynas Šedvydis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mavliuda ŠTRUPKIENĖ', 'Padėjėja', '(0 5) 209 6659', '[email protected]' FROM mps WHERE name = 'Laurynas Šedvydis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rimvydas ŠVEDAS', 'Padėjėjas', '(0 5) 209 6659', '' FROM mps WHERE name = 'Laurynas Šedvydis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Indrė VILNIŠKYTĖ', 'Padėjėja, Patarėja', '(0 5) 209 6659', '[email protected]' FROM mps WHERE name = 'Laurynas Šedvydis';
 
--- Morkūnaitė-Mikulėnienė Radvilė
+-- Ligita Girskienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Roma GABRIENĖ', 'Patarėja', '(0 5) 209 6610', '[email protected]' FROM mps WHERE name = 'Ligita Girskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintarė IVONĖ', 'Patarėja', '(0 5) 209 6610', '' FROM mps WHERE name = 'Ligita Girskienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6678', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Morkūnaitė-Mikulėnienė Radvilė';
+SELECT id, 'Laimutė JUDICKIENĖ', 'Patarėja', '(0 5) 209 6610', '[email protected]' FROM mps WHERE name = 'Ligita Girskienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vytis TURONIS', 'Patarėjas', '(0 5) 209 6610', '[email protected]' FROM mps WHERE name = 'Ligita Girskienė';
 
--- Motuzas Remigijus
+-- Lilija Vaitiekūnienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Audronė GARŠVAITĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6714,(0 5) 209 6721', '' FROM mps WHERE name = 'Lilija Vaitiekūnienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6644', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Motuzas Remigijus';
+SELECT id, 'Dovilė MARINSKIENĖ (apygardoje)', 'Padėjėja', '0 610 21209', '[email protected]' FROM mps WHERE name = 'Lilija Vaitiekūnienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6644', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Motuzas Remigijus';
+SELECT id, 'Irena MEŠKAUSKIENĖ (apygardoje)', 'Padėjėja', '0 610 62916', '[email protected]' FROM mps WHERE name = 'Lilija Vaitiekūnienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Liudvika RASLANIENĖ', 'Patarėja', '(0 5) 209 6714,(0 5) 209 6721', '[email protected]' FROM mps WHERE name = 'Lilija Vaitiekūnienė';
 
--- Narkevič Jaroslav
+-- Lina Šukytė-Korsakė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Arnomedas GALDIKAS', 'Patarėjas', '(0 5) 209 6671', '' FROM mps WHERE name = 'Lina Šukytė-Korsakė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ina ŠTITILIENĖ', 'Patarėja', '(0 5) 209 6671', '' FROM mps WHERE name = 'Lina Šukytė-Korsakė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6652', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Narkevič Jaroslav';
+SELECT id, 'Ilona VITKĖ', 'Patarėja', '(0 5) 209 6671', '' FROM mps WHERE name = 'Lina Šukytė-Korsakė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6652', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Narkevič Jaroslav';
+SELECT id, 'Žydrūnas VITKUS', 'Patarėjas', '(0 5) 209 6671', '[email protected]' FROM mps WHERE name = 'Lina Šukytė-Korsakė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aušra ZLATKUVIENĖ', 'Patarėja', '(0 5) 209 6671', '' FROM mps WHERE name = 'Lina Šukytė-Korsakė';
 
--- Nedzinskas Antanas
+-- Linas Balsys
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6676', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Nedzinskas Antanas';
+SELECT id, 'Sonata DIRSYTĖ', 'Patarėja', '(0 5) 209 6550', '[email protected]' FROM mps WHERE name = 'Linas Balsys';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6676', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Nedzinskas Antanas';
+SELECT id, 'Kornelija PETRAVIČIENĖ', 'Patarėja', '(0 5) 209 6550', '[email protected]' FROM mps WHERE name = 'Linas Balsys';
 
--- Neimantas Karolis
+-- Linas Jonauskas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Remigijus BARANAUSKAS', 'Patarėjas', '(0 5) 209 6726', '[email protected]' FROM mps WHERE name = 'Linas Jonauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6652', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Neimantas Karolis';
+SELECT id, 'Sonata DIRSYTĖ', 'Patarėja', '(0 5) 209 6726', '[email protected]' FROM mps WHERE name = 'Linas Jonauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aurimas RABAČIUS', 'Patarėjas', '(0 5) 209 6726', '' FROM mps WHERE name = 'Linas Jonauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Toma SONGAILIENĖ', 'Patarėja', '(0 5) 209 6726', '[email protected]' FROM mps WHERE name = 'Linas Jonauskas';
 
--- Norkienė Aušrinė
+-- Linas Kukuraitis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Antanas BAURA (apygardoje)', 'Patarėjas', '(0 5) 209 6663', '[email protected]' FROM mps WHERE name = 'Linas Kukuraitis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Eglė KANČAUSKIENĖ', 'Patarėja', '(0 5) 239 6681', 'egle.kancauskiene@lrs.lt' FROM mps WHERE name = 'Norkienė Aušrinė';
+SELECT id, 'Juozas BERNATAVIČIUS', 'Patarėjas', '(0 5) 209 6663', '[email protected]' FROM mps WHERE name = 'Linas Kukuraitis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Reda ŠIAULIENĖ', 'Patarėja', '(0 5) 239 6681', 'reda.siauliene@lrs.lt' FROM mps WHERE name = 'Norkienė Aušrinė';
+SELECT id, 'Dalia SAKALAUSKAITĖ-BABRAVIČĖ', 'Patarėja', '(0 5) 209 6597', '[email protected]' FROM mps WHERE name = 'Linas Kukuraitis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Alytė SKEBERIENĖ', 'Patarėja', '(0 5) 209 6663', '' FROM mps WHERE name = 'Linas Kukuraitis';
 
--- Olekas Juozas
+-- Linas Urmanavičius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jurgita KURAUSKIENĖ', 'Padėjėja', '(0 5) 209 6662', '' FROM mps WHERE name = 'Linas Urmanavičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6671', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Olekas Juozas';
+SELECT id, 'Diana SINKEVIČIŪTĖ-GRIEŽĖ', 'Padėjėja', '(0 5) 209 6662', '[email protected]' FROM mps WHERE name = 'Linas Urmanavičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6671', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Olekas Juozas';
+SELECT id, 'Rasa SMIRNOVA', 'Patarėja', '(0 5) 209 6662', '[email protected]' FROM mps WHERE name = 'Linas Urmanavičius';
 
--- Olševski Česlav
+-- Liutauras Kazlavickas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6678', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Olševski Česlav';
+SELECT id, 'Kristina GOGELIENĖ', 'Padėjėja', '(0 5) 209 6622', '' FROM mps WHERE name = 'Liutauras Kazlavickas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6678', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Olševski Česlav';
+SELECT id, 'Juta KAZLAUSKIENĖ', 'Padėjėja', '(0 5) 209 6622', '[email protected]' FROM mps WHERE name = 'Liutauras Kazlavickas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Giedrė RAKAUSKIENĖ', 'Padėjėja', '(0 5) 209 6622', '[email protected]' FROM mps WHERE name = 'Liutauras Kazlavickas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Dalia VYSKUPAITYTĖ-ŠAUČIŪNIENĖ', 'Padėjėja, Patarėja', '(0 5) 209 6622', '[email protected]' FROM mps WHERE name = 'Liutauras Kazlavickas';
 
--- Paluckas Gintautas
+-- Lukas Savickas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kotryna BUTKIENĖ', 'Patarėja', '(0 5) 209 6651', '[email protected]' FROM mps WHERE name = 'Lukas Savickas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6679', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Paluckas Gintautas';
+SELECT id, 'Fausta ROZNYTĖ', 'Patarėja', '(0 5) 209 6651', '[email protected]' FROM mps WHERE name = 'Lukas Savickas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6679', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Paluckas Gintautas';
+SELECT id, 'Ervinas ŠURKA', 'Patarėjas', '(0 5) 209 6651', '[email protected]' FROM mps WHERE name = 'Lukas Savickas';
 
--- Pavilionis Žygimantas
+-- Mantas Poškus
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6636', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Pavilionis Žygimantas';
+SELECT id, 'Taidė RAMANAUSKĖ (apygardoje)', 'Patarėja', '0 611 31389', '[email protected]' FROM mps WHERE name = 'Mantas Poškus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Liveta SNITKIENĖ (apygardoje)', 'Patarėja', '0 611 31350', '[email protected]' FROM mps WHERE name = 'Mantas Poškus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gediminas VASILIAUSKAS', 'Patarėjas', '(0 5) 209 6722', '[email protected]' FROM mps WHERE name = 'Mantas Poškus';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Justas ŽMĖJAUSKAS', 'Patarėjas', '0 611 28459 (0 5) 209 6722', '[email protected]' FROM mps WHERE name = 'Mantas Poškus';
 
--- Petkevičienė Daiva
+-- Martynas Gedvilas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6647', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Petkevičienė Daiva';
+SELECT id, 'Irena LEVICKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6612', '[email protected]' FROM mps WHERE name = 'Martynas Gedvilas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6647', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Petkevičienė Daiva';
+SELECT id, 'Eglė LUKOČIENĖ', 'Patarėja', '(0 5) 209 6612', '[email protected]' FROM mps WHERE name = 'Martynas Gedvilas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintarė VAIVADAITĖ', 'Patarėja', '(0 5) 209 6612', '' FROM mps WHERE name = 'Martynas Gedvilas';
 
--- Petrauskaitė Modesta
+-- Martynas Katelynas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6660', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Petrauskaitė Modesta';
+SELECT id, 'Skaistė BESUSPARYTĖ', 'Patarėja', '0 628  48 992', '[email protected]' FROM mps WHERE name = 'Martynas Katelynas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6660', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Petrauskaitė Modesta';
+SELECT id, 'Aušra LEGATIENĖ', 'Patarėja', '(0 5) 209 6621', '[email protected]' FROM mps WHERE name = 'Martynas Katelynas';
 
--- Petrošius Audrius
+-- Matas Maldeikis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Egidijus GIEDRAITIS', 'Patarėjas', '(0 5) 209 6606', '' FROM mps WHERE name = 'Matas Maldeikis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6638', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Petrošius Audrius';
+SELECT id, 'Rūta MACKEVIČIENĖ', 'Patarėja', '(0 5) 209 6606', '[email protected]' FROM mps WHERE name = 'Matas Maldeikis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aistė PIKŠRYTĖ', 'Patarėja', '(0 5) 209 6606', '' FROM mps WHERE name = 'Matas Maldeikis';
 
--- Pocius Arvydas
+-- Matas Skamarakas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Deivydas GRABAUSKAS', 'Patarėjas', '(0 5) 209 6681', '[email protected]' FROM mps WHERE name = 'Matas Skamarakas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6677', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Pocius Arvydas';
+SELECT id, 'Diana KAUPAITIENĖ', 'Patarėja', '(0 5) 209 6681', '' FROM mps WHERE name = 'Matas Skamarakas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Erika ŠUTJEVIENĖ', 'Patarėja', '(0 5) 209 6681', '[email protected]' FROM mps WHERE name = 'Matas Skamarakas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rūta VIČIENĖ', 'Patarėja', '(0 5) 209 6681', '' FROM mps WHERE name = 'Matas Skamarakas';
 
--- Podolskis Karolis
+-- Mindaugas Lingė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Alida JUCEVIČĖ', 'Patarėja', '(0 5) 209 6631', '[email protected]' FROM mps WHERE name = 'Mindaugas Lingė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6707', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Podolskis Karolis';
+SELECT id, 'Jovydas JUOCEVIČIUS', 'Patarėjas', '(0 5) 209 6631', '[email protected]' FROM mps WHERE name = 'Mindaugas Lingė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6707', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Podolskis Karolis';
+SELECT id, 'Julijonas ŠILEIKA', 'Patarėjas', '(0 5) 209 6631', '[email protected]' FROM mps WHERE name = 'Mindaugas Lingė';
 
--- Popovienė Raminta
+-- Modesta Petrauskaitė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6662', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Popovienė Raminta';
+SELECT id, 'Vaiva DIDŽIULYTĖ', 'Patarėja', '(0 5) 209 6673', '[email protected]' FROM mps WHERE name = 'Modesta Petrauskaitė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6662', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Popovienė Raminta';
+SELECT id, 'Silvinija SIMONAITYTĖ', 'Patarėja', '(0 5) 209 6673', '[email protected]' FROM mps WHERE name = 'Modesta Petrauskaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gabrielė ŽIOGELĖ', 'Patarėja', '(0 5) 209 6673', '' FROM mps WHERE name = 'Modesta Petrauskaitė';
 
--- Poškus Mantas
+-- Orinta Leiputė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jūratė BARŠAUSKAITĖ', 'Patarėja', '(0 5) 209 6352', '[email protected]' FROM mps WHERE name = 'Orinta Leiputė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6653', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Poškus Mantas';
+SELECT id, 'Karolis KLIMKA', 'Patarėjas', '(0 5) 209 6285', '[email protected]' FROM mps WHERE name = 'Orinta Leiputė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6653', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Poškus Mantas';
+SELECT id, 'Mindaugas SĖJŪNAS', 'Patarėjas', '(0 5) 209 6731', '' FROM mps WHERE name = 'Orinta Leiputė';
 
--- Prajara Tadas
+-- Paulius Visockas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6657', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Prajara Tadas';
+SELECT id, 'Rūta KAPOČIŪTĖ-DAUNIENĖ', 'Patarėja', '(0 5) 209 6636', '[email protected]' FROM mps WHERE name = 'Paulius Visockas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6657', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Prajara Tadas';
+SELECT id, 'Monika KIAUŠAITĖ', 'Patarėja', '(0 5) 209 6636', '' FROM mps WHERE name = 'Paulius Visockas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Viktoras KRAJINAS', 'Patarėjas', '(0 5) 209 6636', '' FROM mps WHERE name = 'Paulius Visockas';
 
--- Pranckietis Viktoras
+-- Paulė Kuzmickienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Agnė ARLIKEVIČIŪTĖ', 'Padėjėja', '(0 5) 209 6640', '[email protected]' FROM mps WHERE name = 'Paulė Kuzmickienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aurelija AURUŠKEVIČIENĖ', 'Patarėja', '(0 5) 209 6640', '[email protected]' FROM mps WHERE name = 'Paulė Kuzmickienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6602', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Pranckietis Viktoras';
+SELECT id, 'Gabrielė GRIAUZDAITĖ-PATUMSIENĖ', 'Padėjėja', '(0 5) 209 6640', '[email protected]' FROM mps WHERE name = 'Paulė Kuzmickienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laurynas KAMINSKAS', 'Patarėjas', '(0 5) 209 6640', '' FROM mps WHERE name = 'Paulė Kuzmickienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Justyna KOZLOVSKAJA', 'Padėjėja', '(0 5) 209 6640', '' FROM mps WHERE name = 'Paulė Kuzmickienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gabrielė ŽAIDYTĖ', 'Padėjėja', '(0 5) 209 6640', '[email protected]' FROM mps WHERE name = 'Paulė Kuzmickienė';
 
--- Puchovič Robert
+-- Petras Dargis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Nemira ALIUKONIENĖ', 'Patarėja', '(0 5) 209 6618', '[email protected]' FROM mps WHERE name = 'Petras Dargis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaida KUUZ (apygardoje)', 'Patarėja', '(0 5) 209 6618', '[email protected]' FROM mps WHERE name = 'Petras Dargis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6649', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Puchovič Robert';
+SELECT id, 'Juozas PETKUS (apygardoje)', 'Patarėjas', '(0 5) 209 6618', '[email protected]' FROM mps WHERE name = 'Petras Dargis';
 
--- Radvila Algimantas
+-- Radvilė Morkūnaitė-Mikulėnienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6645', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Radvila Algimantas';
+SELECT id, 'Romena ČIŪTIENĖ', 'Patarėja', '(0 5) 209 6611', '[email protected]' FROM mps WHERE name = 'Radvilė Morkūnaitė-Mikulėnienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6645', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Radvila Algimantas';
+SELECT id, 'Ieva DAUSKURTĖ', 'Patarėja', '(0 5) 209 6273', '[email protected]' FROM mps WHERE name = 'Radvilė Morkūnaitė-Mikulėnienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rima NORVILIENĖ', 'Patarėja', '(0 5) 209 6657', '[email protected]' FROM mps WHERE name = 'Radvilė Morkūnaitė-Mikulėnienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Liuda POCIŪNIENĖ', 'Patarėja', '(0 5) 209 6657', '[email protected]' FROM mps WHERE name = 'Radvilė Morkūnaitė-Mikulėnienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Teodoras Jonas ŽUKAS', 'Patarėjas', '(0 5) 209 6657', '[email protected]' FROM mps WHERE name = 'Radvilė Morkūnaitė-Mikulėnienė';
 
--- Radvilavičius Audrius
+-- Raimondas Kuodis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kristina BUTVILAVIČIENĖ', 'Padėjėja', '(0 5) 209 6959', '[email protected]' FROM mps WHERE name = 'Raimondas Kuodis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jonas NOVOGRECKIS', 'Padėjėjas', '(0 5) 209 6959', '' FROM mps WHERE name = 'Raimondas Kuodis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6646', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Radvilavičius Audrius';
+SELECT id, 'Ieva SKARELYTĖ', 'Padėjėja', '(0 5) 209 6959', '[email protected]' FROM mps WHERE name = 'Raimondas Kuodis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6646', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Radvilavičius Audrius';
+SELECT id, 'Remigija TAUROKIENĖ', 'Padėjėja', '(0 5) 209 6959', '' FROM mps WHERE name = 'Raimondas Kuodis';
 
--- Rakutis Valdas
+-- Raimondas Šukys
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6635', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Rakutis Valdas';
+SELECT id, 'Janina KUMPIENĖ', 'Patarėja', '(0 5) 209 6687', '[email protected]' FROM mps WHERE name = 'Raimondas Šukys';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vytautas TARAILĖ', 'Patarėjas', '(0 5) 209 6687', '[email protected]' FROM mps WHERE name = 'Raimondas Šukys';
 
--- Razma Jurgis
+-- Raminta Popovienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gražina ANANIKOVIENĖ', 'Patarėja', '(0 5) 209 6679', '[email protected]' FROM mps WHERE name = 'Raminta Popovienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6676', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Razma Jurgis';
+SELECT id, 'Jūratė KUZMICKAITĖ', 'Patarėja', '(0 5) 209 6679', '' FROM mps WHERE name = 'Raminta Popovienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kristina MIŠKINIENĖ', 'Patarėja', '(0 5) 209 6679', '' FROM mps WHERE name = 'Raminta Popovienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Skirmantė SUBAČIENĖ', 'Patarėja', '(0 5) 209 6679', '' FROM mps WHERE name = 'Raminta Popovienė';
 
--- Razmislevičius Darius
+-- Ramūnas Vyžintas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6708', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Razmislevičius Darius';
+SELECT id, 'Audronė LĖVERIENĖ', 'Patarėja', '(0 5) 209 6650', '[email protected]' FROM mps WHERE name = 'Ramūnas Vyžintas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6708', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Razmislevičius Darius';
+SELECT id, 'Žydrūnas MICHNEVIČIUS (apygardoje)', 'Padėjėjas', '0 611 34760', '[email protected]' FROM mps WHERE name = 'Ramūnas Vyžintas';
 
--- Rojaka Jekaterina
+-- Rasa Budbergytė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Antanas BERTAŠIUS', 'Patarėjas', '(0 5) 209 6699', '' FROM mps WHERE name = 'Rasa Budbergytė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6684', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Rojaka Jekaterina';
+SELECT id, 'Mantas JONELIS', 'Patarėjas', '(0 5) 209 6699', '' FROM mps WHERE name = 'Rasa Budbergytė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6684', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Rojaka Jekaterina';
+SELECT id, 'Žana VAITKUVIENĖ-ZIMINA', 'Patarėja', '(0 5) 209 6699', '' FROM mps WHERE name = 'Rasa Budbergytė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jūratė ŽULPAITĖ', 'Patarėja', '(0 5) 209 6699', '' FROM mps WHERE name = 'Rasa Budbergytė';
 
--- Ropė Bronis
+-- Remigijus Motuzas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Daniel BOCEVIČ', 'Patarėjas', '(0 5) 209 6609', '' FROM mps WHERE name = 'Remigijus Motuzas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Eglė KANČAUSKIENĖ', 'Patarėja', '(0 5) 239 6678', 'egle.kancauskiene@lrs.lt' FROM mps WHERE name = 'Ropė Bronis';
+SELECT id, 'Tomas BUDRIKIS', 'Patarėjas', '(0 5) 209 6609', '' FROM mps WHERE name = 'Remigijus Motuzas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Reda ŠIAULIENĖ', 'Patarėja', '(0 5) 239 6678', 'reda.siauliene@lrs.lt' FROM mps WHERE name = 'Ropė Bronis';
+SELECT id, 'Raminta MAJAUSKAITĖ', 'Patarėja', '(0 5) 209 6609', '[email protected]' FROM mps WHERE name = 'Remigijus Motuzas';
 
--- Rudelienė Edita
+-- Remigijus Žemaitaitis
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Gintarė ŽEMAITYTĖ', 'Patarėja', '(0 5) 239 6606', 'gintare.zemaityte@lrs.lt' FROM mps WHERE name = 'Rudelienė Edita';
+SELECT id, 'Ignotas ADOMAVIČIUS', 'Patarėjas', '(0 5) 209 6972', '[email protected]' FROM mps WHERE name = 'Remigijus Žemaitaitis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Eglė LUKOČIENĖ', 'Patarėja', '(0 5) 209 6972', '[email protected]' FROM mps WHERE name = 'Remigijus Žemaitaitis';
 
--- Ruginienė Inga
+-- Rima Baškienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 209 6654', '[email protected]' FROM mps WHERE name = 'Rima Baškienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintaras JANČIAUSKAS', 'Patarėjas', '(0 5) 209 6654', '[email protected]' FROM mps WHERE name = 'Rima Baškienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6661', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Ruginienė Inga';
+SELECT id, 'Deividas RUMBUTIS', 'Patarėjas', '(0 5) 209 6345', '[email protected]' FROM mps WHERE name = 'Rima Baškienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6661', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Ruginienė Inga';
+SELECT id, 'Mantas VALUKONIS', 'Patarėjas', '(0 5) 209 6654', '[email protected]' FROM mps WHERE name = 'Rima Baškienė';
 
--- Sabatauskas Julius
+-- Rimantas Sinkevičius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6678', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Sabatauskas Julius';
+SELECT id, 'Aušra ANDREJEVA', 'Patarėja', '(0 5) 209 6656', '' FROM mps WHERE name = 'Rimantas Sinkevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6678', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Sabatauskas Julius';
+SELECT id, 'Regina SHOAIB', 'Patarėja', '(0 5) 209 6656', '[email protected]' FROM mps WHERE name = 'Rimantas Sinkevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Solveiga ULIENĖ-VEIKALIENĖ', 'Patarėja', '(0 5) 209 6280', '[email protected]' FROM mps WHERE name = 'Rimantas Sinkevičius';
 
--- Sabutis Eugenijus
+-- Rimas Jonas Jankūnas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ramūnas AUŠROTAS', 'Patarėjas', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Algimantas BIRBILAS', 'Patarėjas', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Janina DOVYDAITIENĖ', 'Patarėja', '(0 5) 209 6893', '' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Audronė JANKUVIENĖ', 'Patarėja', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6682', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Sabutis Eugenijus';
+SELECT id, 'Janė KEKIENĖ', 'Patarėja', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6682', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Sabutis Eugenijus';
+SELECT id, 'Vaidminė MISIULYTĖ-KRASAUSKIENĖ', 'Patarėja', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rūta PETKIENĖ', 'Patarėja', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vytis TURONIS', 'Patarėjas', '(0 5) 209 6893', '[email protected]' FROM mps WHERE name = 'Rimas Jonas Jankūnas';
 
--- Sadauskis Tadas
+-- Rita Tamašunienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Tadeusz ANDRZEJEWSKI', 'Patarėjas', '(0 5) 209 6706', '[email protected]' FROM mps WHERE name = 'Rita Tamašunienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Teresa DEMEŠKO', 'Patarėja', '(0 5) 209 6706', '' FROM mps WHERE name = 'Rita Tamašunienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ivona KLIMAŠEVSKAJA', 'Patarėja', '(0 5) 209 6706', '' FROM mps WHERE name = 'Rita Tamašunienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6653', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Sadauskis Tadas';
+SELECT id, 'Danuta VINCKEVIČ', 'Patarėja', '(0 5) 209 6777', '[email protected]' FROM mps WHERE name = 'Rita Tamašunienė';
 
--- Savickas Lukas
+-- Ričardas Juška
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6680', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Savickas Lukas';
+SELECT id, 'Žaneta JANKAUSKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6676', '' FROM mps WHERE name = 'Ričardas Juška';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6680', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Savickas Lukas';
+SELECT id, 'Vilma MARKŪNIENĖ', 'Patarėja', '(0 5) 209 6676', '[email protected]' FROM mps WHERE name = 'Ričardas Juška';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kazimieras ŠIMKUS', 'Patarėjas', '(0 5) 209 6676', '' FROM mps WHERE name = 'Ričardas Juška';
 
--- Sejonienė Jurgita
+-- Robert Puchovič
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Edita KARČIAUSKIENĖ', 'Patarėja', '(0 5) 209 6686', '[email protected]' FROM mps WHERE name = 'Robert Puchovič';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rolandas VENCKUS', 'Patarėjas', '(0 5) 209 6686', '' FROM mps WHERE name = 'Robert Puchovič';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6639', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Sejonienė Jurgita';
+SELECT id, 'Sandra VITKĖ', 'Patarėja', '(0 5) 209 6954', '[email protected]' FROM mps WHERE name = 'Robert Puchovič';
 
--- Sinica Vytautas
+-- Robertas Kaunas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Indrius BOLISAS', 'Patarėjas', '(0 5) 209 6604', '[email protected]' FROM mps WHERE name = 'Robertas Kaunas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Donatas LATKAUSKAS', 'Patarėjas', '(0 5) 209 6604', '[email protected]' FROM mps WHERE name = 'Robertas Kaunas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Robertas STANIONIS', 'Patarėjas', '(0 5) 209 6604', '[email protected]' FROM mps WHERE name = 'Robertas Kaunas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6706', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Sinica Vytautas';
+SELECT id, 'Mavliuda ŠTRUPKIENĖ', 'Patarėja', '(0 5) 209 6604', '[email protected]' FROM mps WHERE name = 'Robertas Kaunas';
 
--- Sinkevičius Rimantas
+-- Roma Janušonienė
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6683', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Sinkevičius Rimantas';
+SELECT id, 'Sigutė JAKUTIENĖ', 'Patarėja', '(0 5) 209 6020', '' FROM mps WHERE name = 'Roma Janušonienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6683', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Sinkevičius Rimantas';
+SELECT id, 'Virginijus KERAS (apygardoje)', 'Patarėjas', '(0 5) 209 6020', '' FROM mps WHERE name = 'Roma Janušonienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Danguolė MASIULIENĖ', 'Patarėja', '0 611 20142', '[email protected]' FROM mps WHERE name = 'Roma Janušonienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aldona MINKEVIČIENĖ', 'Patarėja', '(0 5) 209 6020', '[email protected]' FROM mps WHERE name = 'Roma Janušonienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Liudvika RASLANIENĖ', 'Patarėja', '(0 5) 209 6020', '[email protected]' FROM mps WHERE name = 'Roma Janušonienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Darius ŠILKUS', 'Patarėjas', '0 655 42324', '[email protected]' FROM mps WHERE name = 'Roma Janušonienė';
 
--- Sysas Algirdas
+-- Ruslanas Baranovas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Irena ANIUKŠTIENĖ', 'Padėjėja', '(0 5) 209 6015', '' FROM mps WHERE name = 'Ruslanas Baranovas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6674', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Sysas Algirdas';
+SELECT id, 'Vytautas BUINAUSKAS', 'Padėjėjas', '(0 5) 209 6015', '' FROM mps WHERE name = 'Ruslanas Baranovas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6674', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Sysas Algirdas';
+SELECT id, 'Martynas MOTUZAS', 'Padėjėjas, Patarėjas', '(0 5) 209 6015', '[email protected]' FROM mps WHERE name = 'Ruslanas Baranovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Augenis VADLUGA', 'Padėjėjas', '(0 5) 209 6015', '[email protected]' FROM mps WHERE name = 'Ruslanas Baranovas';
 
--- Skaistė Gintarė
+-- Rūta Miliūtė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Nijolė GRIGONYTĖ', 'Patarėja', '(0 5) 209 6719', '[email protected]' FROM mps WHERE name = 'Rūta Miliūtė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6635', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Skaistė Gintarė';
+SELECT id, 'Ramunė MUZIKEVIČIŪTĖ-NARMONTIENĖ', 'Patarėja', '(0 5) 209 6719', '[email protected]' FROM mps WHERE name = 'Rūta Miliūtė';
 
--- Skamarakas Matas
+-- Saulius Bucevičius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6663', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Skamarakas Matas';
+SELECT id, 'Kęstutis MAČIULIS', 'Patarėjas', '(0 5) 209 6716', '' FROM mps WHERE name = 'Saulius Bucevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6663', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Skamarakas Matas';
+SELECT id, 'Paulius PERMINAS', 'Patarėjas', '(0 5) 209 6716', '' FROM mps WHERE name = 'Saulius Bucevičius';
 
--- Skardžius Artūras
+-- Saulius Luščikas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Inga CEMNOLONSKAITĖ', 'Padėjėja, Patarėja', '(0 5) 209 6827', '[email protected]' FROM mps WHERE name = 'Saulius Luščikas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Linas GARBENIS', 'Patarėjas', '(0 5) 209 6827', '[email protected]' FROM mps WHERE name = 'Saulius Luščikas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Justina ŠEREIVAITĖ (apygardoje)', 'Padėjėja', '0 611 43799', '[email protected]' FROM mps WHERE name = 'Saulius Luščikas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6686', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Skardžius Artūras';
+SELECT id, 'Zita ŽVIKIENĖ (apygardoje)', 'Padėjėja', '0 611 48067', '[email protected]' FROM mps WHERE name = 'Saulius Luščikas';
 
--- Skvernelis Saulius
+-- Saulius Skvernelis
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6677', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Skvernelis Saulius';
+SELECT id, 'Inga BARIŠAUSKĖ', 'Patarėja', '(0 5) 209 6664', '[email protected]' FROM mps WHERE name = 'Saulius Skvernelis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6677', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Skvernelis Saulius';
+SELECT id, 'Monika GIEDRIENĖ', 'Patarėja', '0 612 26154', '[email protected]' FROM mps WHERE name = 'Saulius Skvernelis';
 
--- Starkevičius Kazys
+-- Saulius Čaplinskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6691', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Starkevičius Kazys';
+SELECT id, 'Gedeminas ALEKSONIS', 'Patarėjas', '(0 5) 209 6603', '[email protected]' FROM mps WHERE name = 'Saulius Čaplinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vidmantas KAIRYS', 'Patarėjas', '(0 5) 209 6603', '' FROM mps WHERE name = 'Saulius Čaplinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Raminta STAIŠIŪNAITĖ', 'Patarėja', '(0 5) 209 6603', '[email protected]' FROM mps WHERE name = 'Saulius Čaplinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Džioraldas ŠUKYS', 'Patarėjas', '(0 5) 209 6603', '[email protected]' FROM mps WHERE name = 'Saulius Čaplinskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Natalija ŽUKOVSKAJA ZILBER', 'Patarėja', '(0 5) 209 6603', '[email protected]' FROM mps WHERE name = 'Saulius Čaplinskas';
 
--- Šakalienė Dovilė
+-- Simonas Gentvilas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6634', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Šakalienė Dovilė';
+SELECT id, 'Agnė PAULAUSKIENĖ', 'Patarėja', '(0 5) 209 6660', '[email protected]' FROM mps WHERE name = 'Simonas Gentvilas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6634', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Šakalienė Dovilė';
+SELECT id, 'Auksė SPUNDZEVIČIENĖ', 'Patarėja', '(0 5) 209 6660', '[email protected]' FROM mps WHERE name = 'Simonas Gentvilas';
 
--- Šedvydis Laurynas
+-- Simonas Kairys
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rimantas MIKAITIS (apygardoje)', 'Patarėjas', '0 611 35920 (0 5) 209 6647', '[email protected]' FROM mps WHERE name = 'Simonas Kairys';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6614', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Šedvydis Laurynas';
+SELECT id, 'Dovilė MOTIEJAUSKAITĖ (apygardoje)', 'Patarėja', '0 623 42256 (0 5) 209 6647', '[email protected]' FROM mps WHERE name = 'Simonas Kairys';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6614', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Šedvydis Laurynas';
+SELECT id, 'Sigitas ŠLIAŽAS', 'Patarėjas', '0 611 16340 (0 5) 209 6647', '[email protected]' FROM mps WHERE name = 'Simonas Kairys';
 
--- Šeršniovas Vitalijus
+-- Tadas Barauskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6660', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Šeršniovas Vitalijus';
+SELECT id, 'Dovilė ČERNIAUSKAITĖ', 'Patarėja', '(0 5) 209 6728', '[email protected]' FROM mps WHERE name = 'Tadas Barauskas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6660', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Šeršniovas Vitalijus';
+SELECT id, 'Nikolajus GUSEVAS', 'Patarėjas', '(0 5) 209 6728', '' FROM mps WHERE name = 'Tadas Barauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aldona MINKEVIČIENĖ', 'Patarėja', '(0 5) 209 6728', '[email protected]' FROM mps WHERE name = 'Tadas Barauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Raminta ŠIMKUVIENĖ', 'Patarėja', '(0 5) 209 6728', '[email protected]' FROM mps WHERE name = 'Tadas Barauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kęstutis ZAKŠAUSKAS', 'Patarėjas', '(0 5) 209 6728', '[email protected]' FROM mps WHERE name = 'Tadas Barauskas';
 
--- Šimonytė Ingrida
+-- Tadas Prajara
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Martinas EIMUTIS', 'Patarėjas', '(0 5) 209 6703', '[email protected]' FROM mps WHERE name = 'Tadas Prajara';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaidas GUMAUSKAS (apygardoje)', 'Patarėjas', '(0 5) 209 6703', '' FROM mps WHERE name = 'Tadas Prajara';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6676', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Šimonytė Ingrida';
+SELECT id, 'Lina JONYTYTĖ', 'Patarėja', '(0 5) 209 6703', '[email protected]' FROM mps WHERE name = 'Tadas Prajara';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laura MATUZAITĖ', 'Patarėja', '(0 5) 209 6703', '[email protected]' FROM mps WHERE name = 'Tadas Prajara';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Aušra SKAMARAKIENĖ (apygardoje)', 'Patarėja', '0 686 47448', '' FROM mps WHERE name = 'Tadas Prajara';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Reimundas TYRAS', 'Patarėjas', '(0 5) 209 6703', '[email protected]' FROM mps WHERE name = 'Tadas Prajara';
 
--- Širinskienė Agnė
+-- Tadas Sadauskis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Dalia GRAKULSKYTĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6717', '[email protected]' FROM mps WHERE name = 'Tadas Sadauskis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Alvydas JANUŠEVIČIUS', 'Patarėjas', '(0 5) 209 6717', '[email protected]' FROM mps WHERE name = 'Tadas Sadauskis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6681', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Širinskienė Agnė';
+SELECT id, 'Eglė PALIONIENĖ', 'Patarėja', '(0 5) 209 6717', '[email protected]' FROM mps WHERE name = 'Tadas Sadauskis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rima RIMKUTĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6717', '' FROM mps WHERE name = 'Tadas Sadauskis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Marius STANEVIČIUS', 'Padėjėjas', '(0 5) 209 6717', '' FROM mps WHERE name = 'Tadas Sadauskis';
 
--- Šukevičienė Jurgita
+-- Tomas Domarkas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6659', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Šukevičienė Jurgita';
+SELECT id, 'Vidas KAROLIS', 'Patarėjas', '(0 5) 209 6732', '[email protected]' FROM mps WHERE name = 'Tomas Domarkas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6659', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Šukevičienė Jurgita';
+SELECT id, 'Gediminas VASILIAUSKAS', 'Patarėjas', '(0 5) 209 6732', '[email protected]' FROM mps WHERE name = 'Tomas Domarkas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Edmundas ŽILEVIČIUS (apygardoje)', 'Patarėjas', '(0 5) 209 6732', '' FROM mps WHERE name = 'Tomas Domarkas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Daiva ŽINĖ-STECENKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6732', '' FROM mps WHERE name = 'Tomas Domarkas';
 
--- Šukevičius Šarūnas
+-- Tomas Martinaitis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Deivida GAIŽAUSKAITĖ', 'Patarėja', '(0 5) 209 6639', '[email protected]' FROM mps WHERE name = 'Tomas Martinaitis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6660', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Šukevičius Šarūnas';
+SELECT id, 'Remigija KADIKINĖ', 'Patarėja', '(0 5) 209 6443', '[email protected]' FROM mps WHERE name = 'Tomas Martinaitis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6660', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Šukevičius Šarūnas';
+SELECT id, 'Brigita NEMČIAUSKAITĖ', 'Patarėja', '(0 5) 209 6639', '[email protected]' FROM mps WHERE name = 'Tomas Martinaitis';
 
--- Šukys Raimondas
+-- Tomas Tomilinas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6681', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Šukys Raimondas';
+SELECT id, 'Vytautas LAMAUSKAS', 'Patarėjas', '(0 5) 209 6614', '[email protected]' FROM mps WHERE name = 'Tomas Tomilinas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Regina PATALAUSKIENĖ', 'Patarėja', '(0 5) 209 6614', '[email protected]' FROM mps WHERE name = 'Tomas Tomilinas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Fausta ROZNYTĖ', 'Patarėja', '(0 5) 209 6614', '[email protected]' FROM mps WHERE name = 'Tomas Tomilinas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vadim VILEITA', 'Patarėjas', '(0 5) 209 6614', '' FROM mps WHERE name = 'Tomas Tomilinas';
 
--- Šukytė-Korsakė Lina
+-- Vaida Aleknavičienė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Inga BRŪŽIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6570', '[email protected]' FROM mps WHERE name = 'Vaida Aleknavičienė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Remigija KADIKINĖ', 'Patarėja', '(0 5) 209 6443', '[email protected]' FROM mps WHERE name = 'Vaida Aleknavičienė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6682', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Šukytė-Korsakė Lina';
+SELECT id, 'Aistė ŠLIOŽAITĖ-SNARSKIENĖ', 'Patarėja', '(0 5) 209 6570', '[email protected]' FROM mps WHERE name = 'Vaida Aleknavičienė';
 
--- Šuklin Jevgenij
+-- Valdas Rakutis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Virginijus BAČIANSKAS', 'Padėjėjas', '(0 5) 209 6613', '' FROM mps WHERE name = 'Valdas Rakutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ieva BROGIENĖ', 'Padėjėja', '(0 5) 209 6613', '[email protected]' FROM mps WHERE name = 'Valdas Rakutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vytautas REKLAITIS', 'Padėjėjas', '(0 5) 209 6613', '' FROM mps WHERE name = 'Valdas Rakutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jolanta SKRITULSKAITĖ', 'Padėjėja', '(0 5) 209 6613', '[email protected]' FROM mps WHERE name = 'Valdas Rakutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vladas SUNGAILA', 'Padėjėjas', '(0 5) 209 6613', '' FROM mps WHERE name = 'Valdas Rakutis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6683', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Šuklin Jevgenij';
+SELECT id, 'Vidmantas VALIUŠAITIS', 'Padėjėjas, Patarėjas', '(0 5) 209 6613', '[email protected]' FROM mps WHERE name = 'Valdas Rakutis';
 
--- Tamašunienė Rita
+-- Valius Ąžuolas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6691', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Tamašunienė Rita';
+SELECT id, 'Eglė MARTYŠIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6695', '' FROM mps WHERE name = 'Valius Ąžuolas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6691', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Tamašunienė Rita';
+SELECT id, 'Reda ŠIAULIENĖ', 'Patarėja', '0 615 11855', '[email protected]' FROM mps WHERE name = 'Valius Ąžuolas';
 
--- Tomilinas Tomas
+-- Viktoras Fiodorovas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Ada GRAKAUSKIENĖ', 'Patarėja', '(0 5) 239 6681', 'ada.grakauskiene@lrs.lt' FROM mps WHERE name = 'Tomilinas Tomas';
+SELECT id, 'Irma BAJORŪNĖ (apygardoje)', 'Patarėja', '(0 5) 209 6696', '' FROM mps WHERE name = 'Viktoras Fiodorovas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Judita ŠAKOČIUVIENĖ', 'Patarėja', '(0 5) 239 6681', 'judita.sakociuviene@lrs.lt' FROM mps WHERE name = 'Tomilinas Tomas';
+SELECT id, 'Laura ČIŽIŪTĖ', 'Patarėja', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jovita GREIČIUVIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6696', '' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kristina KAZAKAUSKIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6696', '' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ugnė NORUŠIŪTĖ (apygardoje)', 'Patarėja', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jaunius SAGATAVIČIUS (apygardoje)', 'Padėjėjas', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Akvilė ŠIDLAUSKAITĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Urtė VAITKEVIČIŪTĖ-SUBAČIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Zita VALIAUSKIENĖ (apygardoje)', 'Patarėja', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Greta ZABORSKYTĖ (apygardoje)', 'Patarėja', '(0 5) 209 6696', '[email protected]' FROM mps WHERE name = 'Viktoras Fiodorovas';
 
--- Turauskaitė Violeta
+-- Viktoras Pranckietis
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6659', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Turauskaitė Violeta';
+SELECT id, 'Jūratė TRUNCIENĖ', 'Padėjėja', '(0 5) 209 6630', '[email protected]' FROM mps WHERE name = 'Viktoras Pranckietis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6659', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Turauskaitė Violeta';
+SELECT id, 'Jonas VARKALYS', 'Padėjėjas', '(0 5) 209 6630', '[email protected]' FROM mps WHERE name = 'Viktoras Pranckietis';
 
--- Ulbinaitė Daiva
+-- Viktorija Čmilytė-Nielsen
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laura BALČIŪNAITĖ-TARAŠKIENĖ', 'Patarėja', '(0 5) 209 6690', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintautas Ginas DABAŠINSKAS', 'Patarėjas', '(0 5) 209 6690', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6660', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Ulbinaitė Daiva';
+SELECT id, 'Anelė DROMANTAITĖ', 'Patarėja', '(0 5) 209 6018', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Gintarė KUDELYTĖ', 'Patarėja', '(0 5) 209 6690', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Raimundas LOPATA', 'Patarėjas', '(0 5) 209 6690', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Andrius PACHAREVAS', 'Patarėjas', '(0 5) 209 6365', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rūta ŠIMONYTĖ', 'Patarėja', '(0 5) 209 6025', '[email protected]' FROM mps WHERE name = 'Viktorija Čmilytė-Nielsen';
 
--- Urmanavičius Linas
+-- Violeta Turauskaitė
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Daiva BUDRIENĖ', 'Padėjėja', '(0 5) 209 6648', '' FROM mps WHERE name = 'Violeta Turauskaitė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6661', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Urmanavičius Linas';
+SELECT id, 'Jolanta GEDVILAITĖ (apygardoje)', 'Patarėja', '(0 5) 209 6648', '' FROM mps WHERE name = 'Violeta Turauskaitė';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6661', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Urmanavičius Linas';
+SELECT id, 'Evaldas RUMBUTIS (apygardoje)', 'Padėjėjas, Patarėjas', '(0 5) 209 6648', '' FROM mps WHERE name = 'Violeta Turauskaitė';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Monika TAMINSKIENĖ', 'Patarėja', '(0 5) 209 6246', '[email protected]' FROM mps WHERE name = 'Violeta Turauskaitė';
 
--- Vaitiekūnienė Lilija
+-- Virgilijus Alekna
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6662', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Vaitiekūnienė Lilija';
+SELECT id, 'Vilma MARKŪNIENĖ', 'Patarėja', '(0 5) 209 6698', '[email protected]' FROM mps WHERE name = 'Virgilijus Alekna';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6662', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Vaitiekūnienė Lilija';
+SELECT id, 'Raimonda PONELYTĖ', 'Patarėja', '(0 5) 209 6698', '[email protected]' FROM mps WHERE name = 'Virgilijus Alekna';
 
--- Valinskas Arūnas
+-- Vitalijus Gailius
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ona ALEKSIŪNAITĖ', 'Patarėja', '(0 5) 209 6913', '[email protected]' FROM mps WHERE name = 'Vitalijus Gailius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6663', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Valinskas Arūnas';
+SELECT id, 'Aušrinė GRIGALIŪNAITĖ', 'Patarėja', '0 611 20621 (0 5) 209 6913', '[email protected]' FROM mps WHERE name = 'Vitalijus Gailius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Inga KARBAUSKIENĖ', 'Patarėja', '0 612 49337 (0 5) 209 6913', '[email protected]' FROM mps WHERE name = 'Vitalijus Gailius';
 
--- Varnas Dainius
+-- Vitalijus Šeršniovas
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Inesa ČEKOLIS-ŠČIOČINA', 'Patarėja', '(0 5) 209 6684', '[email protected]' FROM mps WHERE name = 'Vitalijus Šeršniovas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rita KVIKLIENĖ', 'Padėjėja', '(0 5) 209 6684', '[email protected]' FROM mps WHERE name = 'Vitalijus Šeršniovas';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6651', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Varnas Dainius';
+SELECT id, 'Deividas VITKŪNAS', 'Patarėjas', '(0 5) 209 6684', '[email protected]' FROM mps WHERE name = 'Vitalijus Šeršniovas';
 
--- Vėgėlė Ignas
+-- Vytautas Grubliauskas
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6682', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Vėgėlė Ignas';
+SELECT id, 'Almantas KAREČKA (apygardoje)', 'Padėjėjas', '(0 5) 209 6627', '[email protected]' FROM mps WHERE name = 'Vytautas Grubliauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Kazys KUNEIKA (apygardoje)', 'Padėjėjas', '(0 5) 209 6627', '' FROM mps WHERE name = 'Vytautas Grubliauskas';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Julija MAŽEIKAITĖ (apygardoje)', 'Patarėja', '(0 5) 209 6627', '[email protected]' FROM mps WHERE name = 'Vytautas Grubliauskas';
 
--- Vėsaitė Birutė
+-- Vytautas Jucius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Eglė KANČAUSKIENĖ', 'Patarėja', '(0 5) 239 6679', 'egle.kancauskiene@lrs.lt' FROM mps WHERE name = 'Vėsaitė Birutė';
+SELECT id, 'Dalė ANDREIKĖNIENĖ', 'Padėjėja', '(0 5) 209 6661', '[email protected]' FROM mps WHERE name = 'Vytautas Jucius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Reda ŠIAULIENĖ', 'Patarėja', '(0 5) 239 6679', 'reda.siauliene@lrs.lt' FROM mps WHERE name = 'Vėsaitė Birutė';
+SELECT id, 'Eglė PALIONIENĖ', 'Patarėja', '(0 5) 209 6661', '[email protected]' FROM mps WHERE name = 'Vytautas Jucius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jurgita REMEIKIENĖ (apygardoje)', 'Padėjėja', '(0 5) 209 6661', '[email protected]' FROM mps WHERE name = 'Vytautas Jucius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Stasys SKALAUSKAS (apygardoje)', 'Padėjėjas, Patarėjas', '(0 5) 209 6661', '' FROM mps WHERE name = 'Vytautas Jucius';
 
--- Vilkauskas Kęstutis
+-- Vytautas Juozapaitis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Rolanda GUDYNIENĖ', 'Padėjėja', '0 652 17226', '[email protected]' FROM mps WHERE name = 'Vytautas Juozapaitis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6680', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Vilkauskas Kęstutis';
+SELECT id, 'Kęstutis KAMINSKAS', 'Patarėjas', '0 612 52633', '[email protected]' FROM mps WHERE name = 'Vytautas Juozapaitis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6680', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Vilkauskas Kęstutis';
+SELECT id, 'Vaida LAZDAUSKIENĖ', 'Padėjėja', '(0 5) 209 6559', '[email protected]' FROM mps WHERE name = 'Vytautas Juozapaitis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jurgita NAUJOKAITIENĖ', 'Padėjėja', '0 631 31979', '[email protected]' FROM mps WHERE name = 'Vytautas Juozapaitis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Izabelė PUKĖNAITĖ', 'Patarėja', '(0 5) 209 6559', '[email protected]' FROM mps WHERE name = 'Vytautas Juozapaitis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Mantas VAIČYS', 'Padėjėjas', '(0 5) 209 6559', '' FROM mps WHERE name = 'Vytautas Juozapaitis';
 
--- Visockas Paulius
+-- Vytautas Kernagis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laurynas KUBLICKAS', 'Patarėjas', '(0 5) 209 6668', '' FROM mps WHERE name = 'Vytautas Kernagis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Edmundas NEKRAŠEVIČIUS (apygardoje)', 'Padėjėjas', '(0 5) 209 6668', '' FROM mps WHERE name = 'Vytautas Kernagis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6681', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Visockas Paulius';
+SELECT id, 'Julijonas ŠILEIKA', 'Padėjėjas', '(0 5) 209 6668', '[email protected]' FROM mps WHERE name = 'Vytautas Kernagis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6681', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Visockas Paulius';
+SELECT id, 'Birutė VIJEIKIENĖ', 'Padėjėja, Patarėja', '(0 5) 209 6668', '[email protected]' FROM mps WHERE name = 'Vytautas Kernagis';
 
--- Vyžintas Ramūnas
+-- Vytautas Sinica
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6682', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Vyžintas Ramūnas';
+SELECT id, 'Janina GADLIAUSKIENĖ', 'Patarėja', '(0 5) 209 6608', '[email protected]' FROM mps WHERE name = 'Vytautas Sinica';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6682', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Vyžintas Ramūnas';
+SELECT id, 'Simonas KAUNELIS', 'Patarėjas', '(0 5) 209 6608', '[email protected]' FROM mps WHERE name = 'Vytautas Sinica';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Audrius MAKAUSKAS', 'Patarėjas', '(0 5) 209 6608', '[email protected]' FROM mps WHERE name = 'Vytautas Sinica';
 
--- Zailskienė Jūratė
+-- Zigmantas Balčytis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vaidutė JAKŠTONIENĖ', 'Patarėja', '(0 5) 209 6736', '[email protected]' FROM mps WHERE name = 'Zigmantas Balčytis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6683', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Zailskienė Jūratė';
+SELECT id, 'Vytautas LAMAUSKAS', 'Patarėjas', '(0 5) 209 6736', '[email protected]' FROM mps WHERE name = 'Zigmantas Balčytis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6683', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Zailskienė Jūratė';
+SELECT id, 'Arūnas PUPŠYS', 'Patarėjas', '(0 5) 209 6736', '[email protected]' FROM mps WHERE name = 'Zigmantas Balčytis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Liutauras VIČKAČKA', 'Patarėjas', '(0 5) 209 6736', '[email protected]' FROM mps WHERE name = 'Zigmantas Balčytis';
 
--- Zingeris Emanuelis
+-- Česlav Olševski
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jelena KOŠEVAJA', 'Patarėja', '(0 5) 209 6337', '' FROM mps WHERE name = 'Česlav Olševski';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Vanda KRAVČIONOK (apygardoje)', 'Patarėja', '(0 5) 209 6337', '[email protected]' FROM mps WHERE name = 'Česlav Olševski';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Greta LABENSKAITĖ', 'Patarėja', '(0 5) 239 6684', 'greta.labenskaite@lrs.lt' FROM mps WHERE name = 'Zingeris Emanuelis';
+SELECT id, 'Teresa SOLOVJOVA', 'Patarėja', '(0 5) 209 6337', '' FROM mps WHERE name = 'Česlav Olševski';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Slavomir SUBOTOVIČ (apygardoje)', 'Patarėjas', '(0 5) 209 6337', '' FROM mps WHERE name = 'Česlav Olševski';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Janina TUBELEVIČ (apygardoje)', 'Patarėja', '(0 5) 209 6337', '' FROM mps WHERE name = 'Česlav Olševski';
 
--- Zuokas Artūras
+-- Šarūnas Birutis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Evita Ieva FEDARAVIČIŪTĖ', 'Patarėja', '(0 5) 209 6607', '[email protected]' FROM mps WHERE name = 'Šarūnas Birutis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6685', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Zuokas Artūras';
+SELECT id, 'Gitana GRIŠKĖNIENĖ', 'Patarėja', '(0 5) 209 6607', '[email protected]' FROM mps WHERE name = 'Šarūnas Birutis';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Jolanta JAROŠAITĖ (apygardoje)', 'Patarėja', '(0 5) 209 6607', '[email protected]' FROM mps WHERE name = 'Šarūnas Birutis';
 
--- Žebelienė Daiva
+-- Šarūnas Šukevičius
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Erika KIŽIENĖ', 'Patarėja', '(0 5) 239 6686', 'erika.kiziene@lrs.lt' FROM mps WHERE name = 'Žebelienė Daiva';
+SELECT id, 'Aldona JAKAVONIENĖ', 'Patarėja', '(0 5) 209 6009', '[email protected]' FROM mps WHERE name = 'Šarūnas Šukevičius';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Linas ŠALNA', 'Patarėjas', '(0 5) 239 6686', 'linas.salna@lrs.lt' FROM mps WHERE name = 'Žebelienė Daiva';
+SELECT id, 'Tomas JARUSEVIČIUS', 'Patarėjas', '0 654 33383', '[email protected]' FROM mps WHERE name = 'Šarūnas Šukevičius';
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Ilona POCIENĖ', 'Patarėja', '(0 5) 209 6649', '' FROM mps WHERE name = 'Šarūnas Šukevičius';
 
--- Žemaitaitis Remigijus
+-- Žygimantas Pavilionis
+INSERT INTO mp_assistants (mp_id, name, role, phone, email)
+SELECT id, 'Laurynas ČIŽAS', 'Patarėjas', '(0 5) 209 6733', '[email protected]' FROM mps WHERE name = 'Žygimantas Pavilionis';
 INSERT INTO mp_assistants (mp_id, name, role, phone, email)
-SELECT id, 'Dovilė ŠALAVĖJIENĖ', 'Patarėja', '(0 5) 239 6687', 'dovile.salavejiene@lrs.lt' FROM mps WHERE name = 'Žemaitaitis Remigijus';
+SELECT id, 'Gilija ŠNEIDERYTĖ', 'Patarėja', '(0 5) 209 6733', '[email protected]' FROM mps WHERE name = 'Žygimantas Pavilionis';
 
 END $$;
