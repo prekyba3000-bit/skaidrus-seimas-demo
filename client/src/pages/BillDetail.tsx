@@ -384,6 +384,7 @@ export default function BillDetail() {
                         <select
                           value={selectedParty}
                           onChange={e => setSelectedParty(e.target.value)}
+                          aria-label="Filtruoti pagal frakciją"
                           className="text-xs font-bold uppercase border-b border-[var(--amber-start)] bg-transparent py-1 cursor-pointer outline-none focus:border-[var(--amber-end)] hover:text-[var(--amber-end)] transition-colors"
                         >
                           <option value="all">Visos frakcijos</option>
