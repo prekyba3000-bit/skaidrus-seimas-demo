@@ -31,7 +31,7 @@ export const appRouter = router({
           .optional()
       )
       .query(async ({ input }) => {
-        return await db.getAllMps(input);
+        return await db.getAllMpsWithAssistants(input);
       }),
 
     byId: publicProcedure
