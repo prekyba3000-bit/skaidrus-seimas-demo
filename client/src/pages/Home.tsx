@@ -33,11 +33,21 @@ export default function Home() {
     { enabled: !!selectedMpId }
   );
 
+  // Fetch all MP stats
+  const statsQueries = trpc.useQueries(t =>
+    (mps || []).map(mp => t.mps.stats({ mpId: mp.id }))
+  );
+
   const filteredMps = useMemo(() => {
     if (!mps) return [];
-    let filtered = mps.map(mp => ({
+    
+    // Combine MPs with their stats
+    let filtered = mps.map((mp, index) => ({
       ...mp,
-      score: 75 + Math.floor(Math.random() * 20),
+      stats: statsQueries[index]?.data,
+      score: statsQueries[index]?.data?.accountabilityScore 
+        ? parseFloat(statsQueries[index]?.data.accountabilityScore) 
+        : 0
     }));
 
     if (searchTerm) {
@@ -53,7 +63,7 @@ export default function Home() {
     }
 
     return filtered;
-  }, [mps, searchTerm, selectedParty]);
+  }, [mps, searchTerm, selectedParty, statsQueries]);
 
   const parties = useMemo(() => {
     const uniqueParties = new Set(mps?.map(mp => mp.party) || []);
