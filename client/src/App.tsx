@@ -10,25 +10,24 @@ import BillDetail from "./pages/BillDetail";
 import MPProfile from "./pages/MPProfile";
 import MPs from "./pages/MPs";
 import Dashboard from "./pages/Dashboard";
-import { Navigation } from "./components/Navigation";
+
+
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
-    <>
-      <Navigation />
-      <Switch>
-        <Route path={"/"} component={Home} />
-        <Route path={"/dashboard"} component={Dashboard} />
-        <Route path={"/bills"} component={Bills} />
-        <Route path={"/bills/:id"} component={BillDetail} />
-        <Route path={"/mps"} component={MPs} />
-        <Route path={"/mp/:id"} component={MPProfile} />
-        <Route path={"/404"} component={NotFound} />
-        {/* Final fallback route */}
-        <Route component={NotFound} />
-      </Switch>
-    </>
+    <Switch>
+      <Route path={"/"} component={Home} />
+      <Route path={"/dashboard"} component={Dashboard} />
+      <Route path={"/bills"} component={Bills} />
+      <Route path={"/bills/:id"} component={BillDetail} />
+      <Route path={"/mps"} component={MPs} />
+      <Route path={"/mp/:id"} component={MPProfile} />
+      <Route path={"/404"} component={NotFound} />
+      {/* Final fallback route */}
+      <Route component={NotFound} />
+    </Switch>
+
   );
 }
 
