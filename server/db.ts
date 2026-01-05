@@ -117,7 +117,22 @@ export async function getAllMps(filters?: {
   const db = await getDb();
   if (!db) return [];
 
-  let query = db.select().from(mps);
+  const assistantCount = db
+    .select({
+      mpId: mpAssistants.mpId,
+      count: sql<number>`count(*)`.as("count"),
+    })
+    .from(mpAssistants)
+    .groupBy(mpAssistants.mpId)
+    .as("assistant_count");
+
+  let query = db
+    .select({
+      mp: mps,
+      assistantCount: sql<number>`COALESCE(${assistantCount.count}, 0)`,
+    })
+    .from(mps)
+    .leftJoin(assistantCount, eq(mps.id, assistantCount.mpId));
 
   const conditions = [];
   if (filters?.party) {
@@ -131,7 +146,11 @@ export async function getAllMps(filters?: {
     query = query.where(and(...conditions)) as any;
   }
 
-  return await query;
+  const result = await query;
+  return result.map(r => ({
+    ...r.mp,
+    assistantCount: Number(r.assistantCount),
+  }));
 }
 
 export async function getMpById(id: number) {

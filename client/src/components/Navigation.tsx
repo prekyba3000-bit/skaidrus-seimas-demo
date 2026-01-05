@@ -1,18 +1,15 @@
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/_core/hooks/useAuth";
 import {
   Home,
   FileText,
   Users,
-  Map,
   HelpCircle,
-  LogIn,
   LogOut,
-  User,
   Search,
+  Activity,
 } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -24,10 +21,10 @@ export function Navigation() {
   };
 
   const navItems = [
-    { href: "/", label: "Srautas", icon: Home },
-    { href: "/bills", label: "Protokolai", icon: FileText },
-    { href: "/mps", label: "Subjektai", icon: Users },
-    { href: "/quiz", label: "Sutapimas", icon: HelpCircle },
+    { href: "/", label: "STREAM", icon: Activity },
+    { href: "/bills", label: "LOGS", icon: FileText },
+    { href: "/mps", label: "NODES", icon: Users },
+    { href: "/quiz", label: "SYNC", icon: HelpCircle },
   ];
 
   return (
@@ -35,16 +32,16 @@ export function Navigation() {
       <motion.div
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="flex items-center gap-2 px-3 py-2 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl"
+        className="flex items-center gap-2 px-3 py-2 bg-black/60 backdrop-blur-3xl border border-[#00ffff]/20 rounded-full shadow-[0_0_30px_rgba(0,255,255,0.1)]"
       >
-        {/* Radical Logo */}
+        {/* Cyber Logo */}
         <Link href="/">
-          <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center cursor-pointer hover:rotate-12 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]">
-            <span className="text-black font-black text-xs">SS</span>
+          <div className="w-10 h-10 bg-[#ff00ff] rounded-full flex items-center justify-center cursor-pointer hover:rotate-180 transition-transform duration-700 shadow-[0_0_20px_rgba(255,0,255,0.4)]">
+            <span className="text-black font-black text-xs">A4</span>
           </div>
         </Link>
 
-        {/* Dynamic Nav Items */}
+        {/* Cyber Nav Items */}
         <div className="flex items-center gap-1 mx-4">
           {navItems.map(item => {
             const Icon = item.icon;
@@ -55,10 +52,10 @@ export function Navigation() {
             return (
               <Link key={item.href} href={item.href}>
                 <button
-                  className={`relative px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+                  className={`relative px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
                     isActive
-                      ? "text-emerald-400"
-                      : "text-slate-400 hover:text-white"
+                      ? "text-[#00ffff]"
+                      : "text-slate-500 hover:text-white"
                   }`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -67,8 +64,8 @@ export function Navigation() {
                   </span>
                   {isActive && (
                     <motion.div
-                      layoutId="nav-pill"
-                      className="absolute inset-0 bg-white/5 border border-white/10 rounded-full"
+                      layoutId="cyber-nav-pill"
+                      className="absolute inset-0 bg-[#00ffff]/10 border border-[#00ffff]/30 rounded-full"
                     />
                   )}
                 </button>
@@ -77,18 +74,29 @@ export function Navigation() {
           })}
         </div>
 
-        {/* Global Action */}
-        <div className="h-6 w-px bg-white/10 mx-2" />
+        {/* Status indicator */}
+        <div className="flex items-center gap-3 px-4 border-l border-white/10 ml-2">
+          <div className="flex flex-col items-end">
+            <span className="text-[7px] text-slate-600 font-black uppercase tracking-widest">
+              System_Status
+            </span>
+            <span className="text-[8px] text-[#ccff00] font-black uppercase tracking-tighter">
+              Operational
+            </span>
+          </div>
+          <div className="w-2 h-2 rounded-full bg-[#ccff00] animate-pulse" />
+        </div>
 
-        <div className="flex items-center gap-2 pl-2">
+        {/* Auth Module */}
+        <div className="flex items-center gap-2 ml-4">
           {isAuthenticated && user ? (
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[10px] font-black text-emerald-500">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#ff00ff]/10 border border-[#ff00ff]/30 flex items-center justify-center text-[10px] font-black text-[#ff00ff]">
                 {user.name?.[0] || "U"}
               </div>
               <button
                 onClick={() => logout()}
-                className="text-slate-500 hover:text-red-500 transition-colors"
+                className="text-slate-600 hover:text-[#ff00ff] transition-colors"
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -96,15 +104,11 @@ export function Navigation() {
           ) : (
             <button
               onClick={() => (window.location.href = getLoginUrl())}
-              className="px-6 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-emerald-500 transition-colors"
+              className="px-6 py-2 bg-[#00ffff] text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-white transition-colors"
             >
-              Identikuotis
+              UP_LINK
             </button>
           )}
-
-          <button className="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-slate-400 transition-colors">
-            <Search className="h-4 w-4" />
-          </button>
         </div>
       </motion.div>
     </nav>
