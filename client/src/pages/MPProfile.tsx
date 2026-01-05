@@ -1,31 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useRoute, useLocation } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   Mail,
   Phone,
   MapPin,
-  Share2,
-  Heart,
   ExternalLink,
   Users,
-  Compass,
-  FileText,
   Activity,
-  Award,
+  FileText,
   Globe,
   TrendingUp,
   Target,
+  Shield,
   Zap,
-  Leaf
+  ChevronRight,
+  Info
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { trpc } from "@/lib/trpc";
-import { BalticPatternBorder } from "@/components/BalticPatternBorder";
+import DashboardLayout from "@/components/DashboardLayout";
 
 export default function MPProfile() {
   const [, params] = useRoute("/mp/:id");
@@ -50,14 +47,11 @@ export default function MPProfile() {
 
   if (mpLoading || !mpData) {
     return (
-      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center font-serif">
-        <div className="text-center group">
-          <div className="w-16 h-16 rounded-full border-4 border-[var(--amber-start)] border-t-transparent animate-spin mb-6 mx-auto" />
-          <p className="text-[var(--amber-end)] tracking-widest uppercase animate-pulse">
-            Pasiekiama informacija...
-          </p>
+      <DashboardLayout title="Seimo Nario Profilis">
+        <div className="h-[400px] flex items-center justify-center">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent animate-spin rounded-full" />
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
@@ -65,389 +59,302 @@ export default function MPProfile() {
 
   const tabs = [
     { id: "overview", label: "Apžvalga", icon: Activity },
-    { id: "assistants", label: "Komanda", icon: Users }, // Assistants tab
+    { id: "assistants", label: "Komanda", icon: Users },
     { id: "votes", label: "Balsavimai", icon: FileText },
     { id: "trips", label: "Komandiruotės", icon: Globe },
-    { id: "biography", label: "Biografija", icon: Compass },
   ];
 
-  // Tree of Life Animation Variants
-  const treeContainer = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const treeBranch = {
-    hidden: { opacity: 0, x: -20, scaleY: 0 },
-    show: { opacity: 1, x: 0, scaleY: 1 }
-  };
-
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] pb-32">
-      {/* Background Ambience */}
-      <div className="grain-overlay" />
-      <div className="fixed inset-0 baltic-pattern-bg pointer-events-none" />
+    <DashboardLayout title={`Profilis: ${mp.name}`}>
+      {/* Top Banner / Back Action */}
+      <div className="flex justify-between items-center mb-6">
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate("/")}
+          className="text-[#92adc9] hover:text-white flex items-center gap-2 p-0 h-auto"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm font-bold uppercase tracking-wider">Atgal į sąrašą</span>
+        </Button>
+        <div className="bg-[#233648] border border-surface-border rounded-lg px-3 py-1.5 flex items-center gap-2">
+          <Info className="w-4 h-4 text-primary" />
+          <span className="text-[#92adc9] text-xs font-medium uppercase tracking-widest">ID: {mp.seimasId}</span>
+        </div>
+      </div>
 
-      {/* Header */}
-      <header className="border-b border-[var(--amber-end)]/20 bg-[var(--background)]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container px-6 h-20 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            className="text-[var(--muted-foreground)] hover:text-[var(--amber-start)] gap-2 transition-all group"
-            onClick={() => navigate("/")}
-          >
-            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            <span className="text-xs uppercase tracking-widest font-serif">
-              Grįžti į sąrašą
-            </span>
-          </Button>
-
-          <div className="flex items-center gap-4">
-            {/* ID Badge resembling an artifact label */}
-            <div className="border border-[var(--amber-start)]/30 px-3 py-1 bg-[var(--amber-start)]/5">
-              <span className="text-[var(--amber-end)] text-[10px] tracking-widest uppercase font-serif">
-                Kortelė: #{mp.seimasId}
-              </span>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left: Profile Card */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-surface-dark border border-surface-border rounded-xl overflow-hidden shadow-lg">
+            <div className="relative h-32 bg-gradient-to-br from-primary to-blue-700">
+              <div className="absolute top-4 right-4 group">
+                <Button size="icon" variant="ghost" className="bg-white/10 hover:bg-white/20 text-white border-none rounded-full">
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
+            
+            <div className="px-6 pb-8 relative">
+              <Avatar className="h-32 w-32 border-8 border-surface-dark rounded-xl absolute -top-16 shadow-2xl">
+                <AvatarImage src={mp.photoUrl || ""} className="object-cover" />
+                <AvatarFallback>{mp.name[0]}</AvatarFallback>
+              </Avatar>
+
+              <div className="pt-20">
+                <h1 className="text-3xl font-black text-white leading-tight">{mp.name}</h1>
+                <p className="text-primary font-bold uppercase tracking-[0.1em] text-xs mt-1">{mp.party}</p>
+                
+                <div className="mt-8 space-y-4">
+                  <div className="flex items-center gap-4 text-sm group">
+                    <div className="w-9 h-9 rounded-lg bg-[#233648] flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-white">
+                      <MapPin className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Apygarda</span>
+                      <span className="text-white font-medium">{mp.district || "Daugiamandatė"}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-sm group">
+                    <div className="w-9 h-9 rounded-lg bg-[#233648] flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-white">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">El. Paštas</span>
+                      <span className="text-white font-medium truncate max-w-[200px]">{mp.email}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-sm group">
+                    <div className="w-9 h-9 rounded-lg bg-[#233648] flex items-center justify-center text-primary shrink-0 transition-colors group-hover:bg-primary group-hover:text-white">
+                      <Shield className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Mandatas</span>
+                      <span className="text-accent-green font-bold">AKTYVUS</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-surface-border">
+                  <p className="text-[#92adc9] text-sm leading-relaxed italic line-clamp-4">
+                    {mp.biography || "Biografija šiuo metu nepasiekiama."}
+                  </p>
+                  <Button variant="link" className="text-primary p-0 h-auto mt-2 text-xs font-bold uppercase tracking-wider" onClick={() => setActiveTab("biography")}>
+                    Skaityti daugiau
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-[#18232e] border border-surface-border rounded-xl p-6 flex items-center justify-between group cursor-pointer hover:border-primary/50 transition-all">
+             <div className="flex flex-col gap-1">
+               <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Atskaitomybė</span>
+               <span className="text-white text-2xl font-black">{stats?.accountabilityScore ? parseFloat(stats.accountabilityScore).toFixed(0) : 0}%</span>
+             </div>
+             <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent rotate-45 flex items-center justify-center text-primary">
+                <Target className="w-5 h-5 -rotate-45" />
+             </div>
           </div>
         </div>
-      </header>
 
-      <main className="container px-6 pt-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          {/* Left: Identity Column */}
-          <div className="lg:col-span-4 lg:sticky lg:top-36 space-y-8">
-            <BalticPatternBorder variant="sun">
-              <div className="relative group overflow-hidden bg-[var(--card)]/90">
-                {/* Amber Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-br from-[var(--amber-start)]/30 to-transparent blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-1000" />
+        {/* Right: Detailed Analysis */}
+        <div className="lg:col-span-8 flex flex-col gap-8">
+          {/* Custom Navigation */}
+          <nav className="flex items-center gap-2 border-b border-surface-border overflow-x-auto no-scrollbar pb-1">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-6 py-4 text-xs font-bold uppercase tracking-widest transition-all relative whitespace-nowrap ${
+                  activeTab === tab.id ? "text-primary" : "text-[#92adc9] hover:text-white"
+                }`}
+              >
+                <tab.icon className="w-4 h-4" />
+                {tab.label}
+                {activeTab === tab.id && (
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-t-full shadow-[0_-4px_10px_rgba(19,127,236,0.3)]" />
+                )}
+              </button>
+            ))}
+          </nav>
 
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  <Avatar className="w-full h-full rounded-none">
-                    <AvatarImage
-                      src={mp.photoUrl || undefined}
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <AvatarFallback className="bg-[var(--muted)] text-6xl font-serif text-[var(--muted-foreground)]">
-                      {mp.name[0]}
-                    </AvatarFallback>
-                  </Avatar>
-
-                  {/* Name Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--peat-oak)] via-[var(--peat-oak)]/80 to-transparent p-8">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Target className="h-3 w-3 text-[var(--amber-start)]" />
-                      <p className="text-[var(--amber-start)] text-[10px] tracking-[0.2em] uppercase font-bold">
-                        {mp.party}
-                      </p>
+          <div className="flex-1">
+            {activeTab === "overview" && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-surface-dark border border-surface-border p-6 rounded-xl flex flex-col gap-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-white text-sm font-bold uppercase tracking-widest">Teisėkūra</h3>
+                      <FileText className="w-4 h-4 text-primary" />
                     </div>
-                    <h1 className="text-3xl font-serif font-bold uppercase tracking-tight leading-none text-[var(--linen-white)]">
-                      {mp.name}
-                    </h1>
+                    <div className="flex items-end justify-between">
+                       <div className="flex flex-col">
+                         <span className="text-4xl font-black text-white">{stats?.billsProposed || 0}</span>
+                         <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Pateikta projektų</span>
+                       </div>
+                       <div className="text-right">
+                         <span className="text-accent-green text-sm font-bold flex items-center justify-end">
+                            <Plus className="w-4 h-4" /> {stats?.billsPassed || 0}
+                         </span>
+                         <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Priimta</span>
+                       </div>
+                    </div>
+                    <Progress value={((stats?.billsPassed || 0) / (stats?.billsProposed || 1)) * 100} className="h-1.5 bg-[#233648]" indicatorClassName="bg-accent-green" />
+                  </div>
+
+                  <div className="bg-surface-dark border border-surface-border p-6 rounded-xl flex flex-col gap-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-white text-sm font-bold uppercase tracking-widest">Lankomumas</h3>
+                      <Activity className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex items-end justify-between">
+                       <div className="flex flex-col">
+                         <span className="text-4xl font-black text-white">{stats?.votingAttendance ? parseFloat(stats.votingAttendance).toFixed(1) : 0}%</span>
+                         <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Balsavimo aktyvumas</span>
+                       </div>
+                       <div className="text-right">
+                         <TrendingUp className="w-5 h-5 text-accent-green ml-auto" />
+                         <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Stabili tendencija</span>
+                       </div>
+                    </div>
+                    <Progress value={stats?.votingAttendance ? parseFloat(stats.votingAttendance) : 0} className="h-1.5 bg-[#233648]" indicatorClassName="bg-primary" />
+                  </div>
+                </div>
+
+                <div className="bg-surface-dark border border-surface-border rounded-xl p-8 flex items-center gap-8">
+                  <div className="relative w-32 h-32 shrink-0">
+                    <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                      <path className="text-[#233648]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3" />
+                      <path className="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeDasharray={`${stats?.partyLoyalty ? parseFloat(stats.partyLoyalty) : 0}, 100`} strokeLinecap="round" strokeWidth="3" />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-white text-xl font-black">{stats?.partyLoyalty ? parseFloat(stats.partyLoyalty).toFixed(0) : 0}%</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h4 className="text-white text-lg font-bold">Frakcijos Lojalumas</h4>
+                    <p className="text-[#92adc9] text-sm leading-relaxed">
+                      Lojalumo balas skaičiuojamas pagal tai, kaip narys balsuoja lyginant su frakcijos dauguma. 
+                      Šiuo metu {mp.name} balsavimai sutampa su partijos linija <span className="text-white font-bold">{stats?.partyLoyalty ? parseFloat(stats.partyLoyalty).toFixed(1) : 0}%</span> atvejų.
+                    </p>
                   </div>
                 </div>
               </div>
-            </BalticPatternBorder>
+            )}
 
-            <div className="space-y-4 font-serif">
-              <div className="flex items-center gap-4 p-4 border-b border-[var(--amber-start)]/10">
-                <div className="w-10 h-10 rounded-full bg-[var(--amber-start)]/10 flex items-center justify-center text-[var(--amber-end)]">
-                  <MapPin className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="text-[10px] uppercase font-bold text-[var(--muted-foreground)] tracking-widest">
-                    Apygarda
-                  </p>
-                  <p className="font-medium text-sm">
-                    {mp.district || "—"}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 border-b border-[var(--amber-start)]/10">
-                <div className="w-10 h-10 rounded-full bg-[var(--amber-start)]/10 flex items-center justify-center text-[var(--amber-end)]">
-                  <Mail className="h-4 w-4" />
-                </div>
-                <div className="flex-1 overflow-hidden">
-                  <p className="text-[10px] uppercase font-bold text-[var(--muted-foreground)] tracking-widest">
-                    El. Paštas
-                  </p>
-                  <p className="font-medium text-sm truncate">{mp.email}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 border-b border-[var(--amber-start)]/10">
-                <div className="w-10 h-10 rounded-full bg-[var(--amber-start)]/10 flex items-center justify-center text-[var(--amber-end)]">
-                  <Zap className="h-4 w-4" />
-                </div>
-                <div>
-                  <p className="text-[10px] uppercase font-bold text-[var(--muted-foreground)] tracking-widest">
-                    Statusas
-                  </p>
-                  <p className="font-medium text-sm text-[var(--copper-moss)]">
-                    Aktyvus Mandatas
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <Button className="w-full h-14 bg-[var(--amber-end)] hover:bg-[var(--amber-start)] text-white font-serif uppercase tracking-widest transition-all shadow-lg hover:shadow-[var(--amber-start)]/50">
-              Oficialus Puslapis <ExternalLink className="h-4 w-4 ml-2" />
-            </Button>
-          </div>
-
-          {/* Right: Content Area */}
-          <div className="lg:col-span-8">
-            {/* Custom Tab Navigation */}
-            <div className="flex items-center gap-2 mb-12 overflow-x-auto no-scrollbar pb-4 border-b border-[var(--amber-start)]/20">
-              {tabs.map(tab => {
-                const Icon = tab.icon;
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-3 px-6 py-3 transition-all whitespace-nowrap relative group ${isActive
-                        ? "text-[var(--amber-end)] bg-[var(--amber-start)]/5"
-                        : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-                      }`}
-                  >
-                    <Icon
-                      className={`h-4 w-4 transition-transform ${isActive ? "scale-110" : "group-hover:scale-110"}`}
-                    />
-                    <span className="font-bold uppercase tracking-wider text-xs font-serif">
-                      {tab.label}
-                    </span>
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeTabProfile"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--amber-end)]"
-                      />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="min-h-[500px] relative">
-              <AnimatePresence mode="wait">
-                {/* OVERVIEW TAB */}
-                {activeTab === "overview" && (
-                  <motion.div
-                    key="overview"
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                  >
-
-                    {/* Accountability Card */}
-                    <BalticPatternBorder className="col-span-1">
-                      <div className="p-8 bg-[var(--card)]/60 relative overflow-hidden h-full">
-                        <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--amber-start)]/10 rounded-full blur-2xl" />
-                        <p className="text-[var(--muted-foreground)] font-serif italic mb-4">Atskaitomybės reitingas</p>
-                        <div className="flex items-baseline gap-4 mb-6">
-                          <span className="text-6xl font-bold text-[var(--amber-end)] font-serif">
-                            {stats ? parseFloat(stats.accountabilityScore) : 84}%
-                          </span>
-                          <TrendingUp className="h-6 w-6 text-[var(--copper-moss)]" />
-                        </div>
-                        <Progress value={stats ? parseFloat(stats.accountabilityScore) : 84} className="h-2 bg-[var(--muted)]" indicatorClassName="bg-[var(--amber-end)]" />
+            {activeTab === "assistants" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in duration-500">
+                {assistants && assistants.length > 0 ? (
+                  assistants.map((assistant: any) => (
+                    <div key={assistant.id} className="bg-surface-dark border border-surface-border p-5 rounded-xl flex items-center gap-4 hover:border-primary/50 transition-all group">
+                      <div className="w-12 h-12 rounded-full bg-[#233648] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <Users className="w-5 h-5" />
                       </div>
-                    </BalticPatternBorder>
-
-                    {/* Loyalty Card */}
-                    <BalticPatternBorder className="col-span-1">
-                      <div className="p-8 bg-[var(--card)]/60 relative overflow-hidden h-full">
-                        <div className="absolute -top-12 -right-12 w-32 h-32 bg-[var(--copper-moss)]/10 rounded-full blur-2xl" />
-                        <p className="text-[var(--muted-foreground)] font-serif italic mb-4">Frakcijos lojalumas</p>
-                        <div className="flex items-baseline gap-4 mb-6">
-                          <span className="text-6xl font-bold text-[var(--copper-moss)] font-serif">
-                            {stats ? parseFloat(stats.partyLoyalty) : 92}%
-                          </span>
-                        </div>
-                        <div className="text-xs text-[var(--muted-foreground)] mt-2">Balsavimų sutapimas su frakcija</div>
+                      <div className="flex flex-col">
+                        <span className="text-white font-bold group-hover:text-primary transition-colors">{assistant.name}</span>
+                        <span className="text-[#92adc9] text-[10px] uppercase font-black tracking-widest mt-0.5">{assistant.role || "Padėjėjas-Sekretorius"}</span>
                       </div>
-                    </BalticPatternBorder>
-
-                    {/* Stats Grid */}
-                    <div className="md:col-span-2">
-                      <BalticPatternBorder>
-                        <div className="p-8 bg-[var(--card)]/60">
-                          <h3 className="text-xl font-serif font-bold mb-8 text-[var(--foreground)]">Teisėkūra</h3>
-                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                            <div className="text-center">
-                              <p className="text-3xl font-bold text-[var(--amber-end)] mb-1">{stats?.billsProposed || 0}</p>
-                              <p className="text-xs uppercase tracking-widest text-[var(--muted-foreground)]">Pateikta</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="text-3xl font-bold text-[var(--copper-moss)] mb-1">{stats?.billsPassed || 0}</p>
-                              <p className="text-xs uppercase tracking-widest text-[var(--muted-foreground)]">Priimta</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="text-3xl font-bold text-[var(--foreground)] mb-1">{(stats?.billsProposed || 0) * 2}</p>
-                              <p className="text-xs uppercase tracking-widest text-[var(--muted-foreground)]">Pasiūlymai</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="text-3xl font-bold text-[var(--foreground)] mb-1">{Math.floor((stats?.votingAttendance ? parseFloat(stats.votingAttendance) : 0) / 10)}</p>
-                              <p className="text-xs uppercase tracking-widest text-[var(--muted-foreground)]">Kalbos</p>
-                            </div>
-                          </div>
-                        </div>
-                      </BalticPatternBorder>
+                      <Button variant="ghost" size="icon" className="ml-auto text-[#92adc9] hover:text-white">
+                        <Mail className="w-4 h-4" />
+                      </Button>
                     </div>
-                  </motion.div>
-                )}
-
-                {/* ASSISTANTS TAB - TREE OF LIFE */}
-                {activeTab === "assistants" && (
-                  <div className="relative pl-8 border-l-2 border-[var(--amber-start)]/20 ml-4 py-4">
-                    {/* The Main Trunk is the border-left above */}
-                    <motion.div
-                      variants={treeContainer}
-                      initial="hidden"
-                      animate="show"
-                      exit="hidden"
-                      className="space-y-8"
-                    >
-                      {assistants && assistants.length > 0 ? (
-                        assistants.map((assistant: any, idx) => (
-                          <motion.div
-                            key={assistant.id}
-                            variants={treeBranch}
-                            className="relative"
-                          >
-                            {/* Branch Connector */}
-                            <div className="absolute -left-10 top-1/2 w-8 h-px bg-[var(--amber-start)]/30" />
-                            <div className="absolute -left-[34px] top-1/2 w-2 h-2 rounded-full bg-[var(--amber-start)] -translate-y-[50%]" />
-
-                            <BalticPatternBorder variant="simple">
-                              <div className="p-6 bg-[var(--card)]/80 flex items-center justify-between group hover:bg-[var(--background)] transition-colors">
-                                <div className="flex items-center gap-4">
-                                  <div className="w-12 h-12 rounded-full bg-[var(--amber-start)]/10 flex items-center justify-center text-[var(--amber-end)]">
-                                    <Leaf className="h-5 w-5" />
-                                  </div>
-                                  <div>
-                                    <p className="text-lg font-bold font-serif text-[var(--foreground)] group-hover:text-[var(--amber-end)] transition-colors">
-                                      {assistant.name}
-                                    </p>
-                                    <span className="text-xs font-bold uppercase tracking-widest text-[var(--copper-moss)]">
-                                      {assistant.role || "Padėjėjas-Sekretorius"}
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <div className="flex gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                                  <Button size="sm" variant="ghost" className="hover:text-[var(--amber-end)]" aria-label={`Rašyti el. laišką ${assistant.name}`}>
-                                    <Mail className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </div>
-                            </BalticPatternBorder>
-                          </motion.div>
-                        ))
-                      ) : (
-                        <div className="py-20 text-center text-[var(--muted-foreground)] italic font-serif">
-                          <p>Nėra registruotų padėjėjų.</p>
-                        </div>
-                      )}
-                    </motion.div>
+                  ))
+                ) : (
+                  <div className="col-span-full py-20 text-center text-[#92adc9] font-medium border-2 border-dashed border-surface-border rounded-xl">
+                    Padėjėjų duomenų nerasta.
                   </div>
                 )}
+              </div>
+            )}
 
-                {/* VOTES TAB */}
-                {activeTab === "votes" && (
-                  <motion.div
-                    key="votes"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="space-y-4"
-                  >
-                    {votesData && votesData.map((item, index) => {
+            {activeTab === "votes" && (
+              <div className="bg-surface-dark border border-surface-border rounded-xl overflow-hidden animate-in fade-in duration-500">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="border-b border-surface-border">
+                      <th className="py-4 px-6 text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Data</th>
+                      <th className="py-4 px-6 text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Pavadinimas</th>
+                      <th className="py-4 px-6 text-[#92adc9] text-[10px] uppercase font-bold tracking-widest text-right">Sprendimas</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-surface-border">
+                    {votesData?.map((item, idx) => {
                       const isFor = item.vote.voteValue === "for";
                       return (
-                        <BalticPatternBorder key={index} variant="simple">
-                          <div className="p-4 bg-[var(--card)]/50 flex items-center gap-4">
-                            <div className={`w-1 h-12 ${isFor ? 'bg-[var(--copper-moss)]' : 'bg-[var(--destructive)]'}`} />
-                            <div className="flex-1">
-                              <div className="flex justify-between items-center mb-1">
-                                <span className="text-[10px] uppercase font-bold text-[var(--muted-foreground)]">{item.vote.votedAt ? new Date(item.vote.votedAt).toLocaleDateString() : '—'}</span>
-                                <span className={`text-xs font-bold uppercase ${isFor ? 'text-[var(--copper-moss)]' : 'text-[var(--destructive)]'}`}>
-                                  {isFor ? 'UŽ' : 'PRIEŠ / SUSILAIKĖ'}
-                                </span>
-                              </div>
-                              <p className="font-serif leading-tight text-sm text-[var(--foreground)]">
-                                {item.bill?.title || "Balsavimas dėl teisės akto"}
-                              </p>
-                            </div>
-                          </div>
-                        </BalticPatternBorder>
+                        <tr key={idx} className="group hover:bg-[#18232e] transition-colors">
+                          <td className="py-4 px-6 text-white text-xs font-mono">
+                            {item.vote.votedAt ? new Date(item.vote.votedAt).toLocaleDateString() : '—'}
+                          </td>
+                          <td className="py-4 px-6">
+                            <span className="text-white text-sm font-bold group-hover:text-primary transition-colors leading-tight block">
+                              {item.bill?.title || "Balsavimas dėl teisės akto"}
+                            </span>
+                          </td>
+                          <td className="py-4 px-6 text-right">
+                             <Badge className={`font-black text-[9px] uppercase tracking-widest ${
+                               isFor ? "bg-accent-green/10 text-accent-green border-accent-green/20" : "bg-red-500/10 text-red-500 border-red-500/20"
+                             }`}>
+                                {isFor ? "UŽ" : "PRIEŠ / SUSILAIKĖ"}
+                             </Badge>
+                          </td>
+                        </tr>
                       );
                     })}
-                    {(!votesData || votesData.length === 0) && (
-                      <div className="py-20 text-center text-[var(--muted-foreground)]">Duomenų nėra.</div>
-                    )}
-                  </motion.div>
-                )}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
-                {/* BIO TAB */}
-                {activeTab === "biography" && (
-                  <motion.div
-                    key="bio"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="p-8 bg-[var(--card)]/50 border border-[var(--amber-start)]/10 font-serif leading-loose text-lg text-[var(--foreground)]"
-                  >
-                    {mp.biography || "Biografija nepateikta."}
-                  </motion.div>
+            {activeTab === "trips" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-500">
+                {trips && trips.map((trip: any, idx) => (
+                  <div key={idx} className="bg-surface-dark border border-surface-border p-6 rounded-xl relative group overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-primary/10 transition-colors" />
+                    <div className="flex justify-between items-start relative z-10">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Tikslas</span>
+                        <h4 className="text-white text-xl font-black">{trip.destination}</h4>
+                      </div>
+                      <Globe className="w-6 h-6 text-primary" />
+                    </div>
+                    <div className="mt-8 flex justify-between items-end relative z-10">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Paskirtis</span>
+                        <span className="text-white text-sm font-medium">{trip.purpose}</span>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className="text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">Kaina</span>
+                        <span className="text-white font-mono font-black">€{trip.cost}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {(!trips || trips.length === 0) && (
+                  <div className="col-span-full py-20 text-center text-[#92adc9] font-medium border-2 border-dashed border-surface-border rounded-xl">
+                    Komandiruočių duomenų nerasta.
+                  </div>
                 )}
+              </div>
+            )}
 
-                {/* TRIPS TAB */}
-                {activeTab === "trips" && (
-                  <motion.div
-                    key="trips"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="grid gap-6"
-                  >
-                    {trips && trips.map((trip: any, idx) => (
-                      <BalticPatternBorder key={idx}>
-                        <div className="p-6 bg-[var(--card)]/60 relative">
-                          <div className="absolute top-4 right-4 text-[var(--amber-start)]/20">
-                            <Globe className="w-12 h-12" />
-                          </div>
-                          <h4 className="text-xl font-bold font-serif mb-2 text-[var(--foreground)]">{trip.destination}</h4>
-                          <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-                            <div>
-                              <span className="text-[10px] uppercase text-[var(--muted-foreground)] block">Tipas</span>
-                              <span className="font-medium">{trip.purpose}</span>
-                            </div>
-                            <div>
-                              <span className="text-[10px] uppercase text-[var(--muted-foreground)] block">Kaina</span>
-                              <span className="font-medium font-mono">€{trip.cost}</span>
-                            </div>
-                          </div>
-                        </div>
-                      </BalticPatternBorder>
-                    ))}
-                    {(!trips || trips.length === 0) && (
-                      <div className="py-20 text-center text-[var(--muted-foreground)]">Komandiruotės nerastos.</div>
-                    )}
-                  </motion.div>
-                )}
-
-              </AnimatePresence>
-            </div>
+            {activeTab === "biography" && (
+              <div className="bg-surface-dark border border-surface-border p-8 rounded-xl animate-in fade-in duration-500">
+                <h3 className="text-white text-lg font-black mb-6 flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-primary" />
+                  Profesinė Biografija
+                </h3>
+                <div className="prose prose-invert max-w-none">
+                   <p className="text-[#92adc9] leading-loose text-base whitespace-pre-wrap">
+                     {mp.biography || "Biografija šiuo metu nepasiekiama. Duomenys sinchronizuojami iš Seimo API."}
+                   </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }
