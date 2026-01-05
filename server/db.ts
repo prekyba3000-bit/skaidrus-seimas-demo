@@ -2,14 +2,17 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from "./_core/env";
+import * as schema from "../drizzle/schema";
+import * as relations from "../drizzle/relations";
 
-let _db: ReturnType<typeof drizzle> | null = null;
+let _db: ReturnType<typeof drizzle<typeof schema>> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      // @ts-ignore
+      _db = drizzle(process.env.DATABASE_URL, { schema: { ...schema, ...relations }, mode: 'default' });
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -130,6 +133,32 @@ export async function getAllMps(filters?: {
   if (conditions.length > 0) {
     query = query.where(and(...conditions)) as any;
   }
+
+  return await query;
+}
+
+export async function getAllMpsWithAssistants(filters?: {
+  party?: string;
+  isActive?: boolean;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const query = db.query.mps.findMany({
+    with: {
+      assistants: true,
+    },
+    where: (mps, { and, eq }) => {
+      const conditions = [];
+      if (filters?.party) {
+        conditions.push(eq(mps.party, filters.party));
+      }
+      if (filters?.isActive !== undefined) {
+        conditions.push(eq(mps.isActive, filters.isActive));
+      }
+      return and(...conditions);
+    },
+  });
 
   return await query;
 }
