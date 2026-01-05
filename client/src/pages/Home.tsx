@@ -221,7 +221,7 @@ export default function Home() {
 
                   {/* Left: Visuals */}
                   <div className="lg:w-1/3 relative bg-[var(--peat-oak)] p-8 flex flex-col items-center justify-center text-center">
-                    <div className="absolute inset-0 bg-[url('/amber-texture.png')] opacity-20 mix-blend-overlay" />
+                    <div className="absolute inset-0 Grain-overlay opacity-20 mix-blend-overlay" />
                     <div className="absolute inset-0 bg-gradient-to-b from-[var(--amber-start)]/10 to-[var(--peat-oak)]" />
 
                     <div className="relative z-10">
