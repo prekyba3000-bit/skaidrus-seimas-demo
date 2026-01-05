@@ -1,19 +1,58 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { Search, Filter, Calendar, FileText, TrendingUp, CheckCircle2, XCircle, Clock, AlertCircle } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Calendar,
+  FileText,
+  TrendingUp,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  AlertCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
 
 const statusConfig = {
-  proposed: { label: "Pateiktas", icon: Clock, color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" },
-  voted: { label: "Balsuota", icon: AlertCircle, color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200" },
-  passed: { label: "Priimtas", icon: CheckCircle2, color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" },
-  rejected: { label: "Atmestas", icon: XCircle, color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" },
+  proposed: {
+    label: "Pateiktas",
+    icon: Clock,
+    color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
+  },
+  voted: {
+    label: "Balsuota",
+    icon: AlertCircle,
+    color:
+      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+  },
+  passed: {
+    label: "Priimtas",
+    icon: CheckCircle2,
+    color: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+  },
+  rejected: {
+    label: "Atmestas",
+    icon: XCircle,
+    color: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
+  },
 };
 
 const categories = [
@@ -38,10 +77,12 @@ export default function Bills() {
   });
 
   // Filter bills by search term
-  const filteredBills = bills?.filter(bill =>
-    bill.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    bill.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  const filteredBills =
+    bills?.filter(
+      bill =>
+        bill.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        bill.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
 
   // Group bills by status
   const billsByStatus = {
@@ -68,7 +109,9 @@ export default function Bills() {
         <div className="container py-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight mb-2">Įstatymų Projektai</h1>
+              <h1 className="text-4xl font-bold tracking-tight mb-2">
+                Įstatymų Projektai
+              </h1>
               <p className="text-muted-foreground">
                 Naršykite ir sekite Seimo svarstomą įstatymų leidybą
               </p>
@@ -88,17 +131,20 @@ export default function Bills() {
               <Input
                 placeholder="Ieškoti įstatymų projektų..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
                 className="pl-10"
               />
             </div>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
               <SelectTrigger className="w-full md:w-[200px]">
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {categories.map((cat) => (
+                {categories.map(cat => (
                   <SelectItem key={cat} value={cat}>
                     {cat}
                   </SelectItem>
@@ -111,7 +157,11 @@ export default function Bills() {
 
       {/* Content */}
       <div className="container py-8">
-        <Tabs value={selectedStatus} onValueChange={setSelectedStatus} className="space-y-6">
+        <Tabs
+          value={selectedStatus}
+          onValueChange={setSelectedStatus}
+          className="space-y-6"
+        >
           <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
             <TabsTrigger value="all">
               Visi ({billsByStatus.all.length})
@@ -150,7 +200,9 @@ export default function Bills() {
                 <Card>
                   <CardContent className="flex flex-col items-center justify-center py-12">
                     <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-                    <p className="text-lg font-medium mb-2">Įstatymų projektų nerasta</p>
+                    <p className="text-lg font-medium mb-2">
+                      Įstatymų projektų nerasta
+                    </p>
                     <p className="text-sm text-muted-foreground">
                       Pabandykite pakeisti filtrus arba paieškos kriterijus
                     </p>
@@ -158,10 +210,16 @@ export default function Bills() {
                 </Card>
               ) : (
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredBills.map((bill) => {
-                    const StatusIcon = statusConfig[bill.status as keyof typeof statusConfig]?.icon || FileText;
-                    const statusStyle = statusConfig[bill.status as keyof typeof statusConfig]?.color || "";
-                    const statusLabel = statusConfig[bill.status as keyof typeof statusConfig]?.label || bill.status;
+                  {filteredBills.map(bill => {
+                    const StatusIcon =
+                      statusConfig[bill.status as keyof typeof statusConfig]
+                        ?.icon || FileText;
+                    const statusStyle =
+                      statusConfig[bill.status as keyof typeof statusConfig]
+                        ?.color || "";
+                    const statusLabel =
+                      statusConfig[bill.status as keyof typeof statusConfig]
+                        ?.label || bill.status;
 
                     return (
                       <Link key={bill.id} href={`/bills/${bill.id}`}>

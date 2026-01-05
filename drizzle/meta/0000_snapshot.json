@@ -72,12 +72,8 @@
           "name": "accountability_flags_mp_id_mps_id_fk",
           "tableFrom": "accountability_flags",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -85,9 +81,7 @@
       "compositePrimaryKeys": {
         "accountability_flags_id": {
           "name": "accountability_flags_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -132,12 +126,8 @@
           "name": "bill_sponsors_bill_id_bills_id_fk",
           "tableFrom": "bill_sponsors",
           "tableTo": "bills",
-          "columnsFrom": [
-            "bill_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["bill_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -145,12 +135,8 @@
           "name": "bill_sponsors_mp_id_mps_id_fk",
           "tableFrom": "bill_sponsors",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -158,9 +144,7 @@
       "compositePrimaryKeys": {
         "bill_sponsors_id": {
           "name": "bill_sponsors_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -212,12 +196,8 @@
           "name": "bill_summaries_bill_id_bills_id_fk",
           "tableFrom": "bill_summaries",
           "tableTo": "bills",
-          "columnsFrom": [
-            "bill_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["bill_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -225,9 +205,7 @@
       "compositePrimaryKeys": {
         "bill_summaries_id": {
           "name": "bill_summaries_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -321,17 +299,13 @@
       "compositePrimaryKeys": {
         "bills_id": {
           "name": "bills_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "bills_seimas_id_unique": {
           "name": "bills_seimas_id_unique",
-          "columns": [
-            "seimas_id"
-          ]
+          "columns": ["seimas_id"]
         }
       },
       "checkConstraint": {}
@@ -382,12 +356,8 @@
           "name": "committee_members_committee_id_committees_id_fk",
           "tableFrom": "committee_members",
           "tableTo": "committees",
-          "columnsFrom": [
-            "committee_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["committee_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -395,12 +365,8 @@
           "name": "committee_members_mp_id_mps_id_fk",
           "tableFrom": "committee_members",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -408,9 +374,7 @@
       "compositePrimaryKeys": {
         "committee_members_id": {
           "name": "committee_members_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -454,9 +418,7 @@
       "compositePrimaryKeys": {
         "committees_id": {
           "name": "committees_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -531,12 +493,8 @@
           "name": "mp_stats_mp_id_mps_id_fk",
           "tableFrom": "mp_stats",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -544,9 +502,7 @@
       "compositePrimaryKeys": {
         "mp_stats_id": {
           "name": "mp_stats_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -662,17 +618,13 @@
       "compositePrimaryKeys": {
         "mps_id": {
           "name": "mps_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "mps_seimas_id_unique": {
           "name": "mps_seimas_id_unique",
-          "columns": [
-            "seimas_id"
-          ]
+          "columns": ["seimas_id"]
         }
       },
       "checkConstraint": {}
@@ -715,12 +667,8 @@
           "name": "quiz_answers_question_id_quiz_questions_id_fk",
           "tableFrom": "quiz_answers",
           "tableTo": "quiz_questions",
-          "columnsFrom": [
-            "question_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["question_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -728,12 +676,8 @@
           "name": "quiz_answers_mp_id_mps_id_fk",
           "tableFrom": "quiz_answers",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -741,9 +685,7 @@
       "compositePrimaryKeys": {
         "quiz_answers_id": {
           "name": "quiz_answers_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -795,12 +737,8 @@
           "name": "quiz_questions_bill_id_bills_id_fk",
           "tableFrom": "quiz_questions",
           "tableTo": "bills",
-          "columnsFrom": [
-            "bill_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["bill_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -808,9 +746,7 @@
       "compositePrimaryKeys": {
         "quiz_questions_id": {
           "name": "quiz_questions_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -869,12 +805,8 @@
           "name": "user_follows_mp_id_mps_id_fk",
           "tableFrom": "user_follows",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -882,12 +814,8 @@
           "name": "user_follows_bill_id_bills_id_fk",
           "tableFrom": "user_follows",
           "tableTo": "bills",
-          "columnsFrom": [
-            "bill_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["bill_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -895,9 +823,7 @@
       "compositePrimaryKeys": {
         "user_follows_id": {
           "name": "user_follows_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -949,12 +875,8 @@
           "name": "user_quiz_results_question_id_quiz_questions_id_fk",
           "tableFrom": "user_quiz_results",
           "tableTo": "quiz_questions",
-          "columnsFrom": [
-            "question_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["question_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -962,9 +884,7 @@
       "compositePrimaryKeys": {
         "user_quiz_results_id": {
           "name": "user_quiz_results_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1047,17 +967,13 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "users_openId_unique": {
           "name": "users_openId_unique",
-          "columns": [
-            "openId"
-          ]
+          "columns": ["openId"]
         }
       },
       "checkConstraint": {}
@@ -1108,12 +1024,8 @@
           "name": "votes_bill_id_bills_id_fk",
           "tableFrom": "votes",
           "tableTo": "bills",
-          "columnsFrom": [
-            "bill_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["bill_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1121,12 +1033,8 @@
           "name": "votes_mp_id_mps_id_fk",
           "tableFrom": "votes",
           "tableTo": "mps",
-          "columnsFrom": [
-            "mp_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["mp_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1134,9 +1042,7 @@
       "compositePrimaryKeys": {
         "votes_id": {
           "name": "votes_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},

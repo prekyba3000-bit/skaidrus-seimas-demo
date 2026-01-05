@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Bills from "./pages/Bills";
 import BillDetail from "./pages/BillDetail";
+import MPProfile from "./pages/MPProfile";
 import MPs from "./pages/MPs";
 import { Navigation } from "./components/Navigation";
 
@@ -16,14 +17,14 @@ function Router() {
     <>
       <Navigation />
       <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/bills"} component={Bills} />
-      <Route path={"/bills/:id"} component={BillDetail} />
-      <Route path={"/mps"} component={MPs} />
-      <Route path={"/mp/:id"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
+        <Route path={"/"} component={Home} />
+        <Route path={"/bills"} component={Bills} />
+        <Route path={"/bills/:id"} component={BillDetail} />
+        <Route path={"/mps"} component={MPs} />
+        <Route path={"/mp/:id"} component={MPProfile} />
+        <Route path={"/404"} component={NotFound} />
+        {/* Final fallback route */}
+        <Route component={NotFound} />
       </Switch>
     </>
   );

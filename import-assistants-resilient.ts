@@ -1,13 +1,13 @@
-import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { mps, mpAssistants } from '../drizzle/schema';
-import { sql } from 'drizzle-orm';
-import fs from 'fs';
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { mps, mpAssistants } from "../drizzle/schema";
+import { sql } from "drizzle-orm";
+import fs from "fs";
 
 async function importAssistants() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error('DATABASE_URL environment variable is required');
+    throw new Error("DATABASE_URL environment variable is required");
   }
 
   // Use a more robust connection configuration
@@ -18,10 +18,14 @@ async function importAssistants() {
   });
   const db = drizzle(client);
 
-  console.log('Reading scraped assistants data...');
-  const assistantsData = JSON.parse(fs.readFileSync('mp_assistants.json', 'utf8'));
+  console.log("Reading scraped assistants data...");
+  const assistantsData = JSON.parse(
+    fs.readFileSync("mp_assistants.json", "utf8")
+  );
 
-  console.log(`Found ${assistantsData.length} assistants. Fetching MP mapping...`);
+  console.log(
+    `Found ${assistantsData.length} assistants. Fetching MP mapping...`
+  );
 
   // Pre-fetch all MPs to avoid repeated queries over the tunnel
   const allMps = await db.select().from(mps);
@@ -55,7 +59,9 @@ async function importAssistants() {
       try {
         await db.insert(mpAssistants).values(valuesToInsert);
         count += valuesToInsert.length;
-        console.log(`Imported batch ${Math.floor(i / batchSize) + 1} (${count}/${assistantsData.length})`);
+        console.log(
+          `Imported batch ${Math.floor(i / batchSize) + 1} (${count}/${assistantsData.length})`
+        );
       } catch (error) {
         console.error(`Error importing batch starting at ${i}:`, error);
         // Try individual inserts for this batch if batch fails
@@ -64,7 +70,10 @@ async function importAssistants() {
             await db.insert(mpAssistants).values(val);
             count++;
           } catch (innerError) {
-            console.error(`Failed individual insert for ${val.name}:`, innerError);
+            console.error(
+              `Failed individual insert for ${val.name}:`,
+              innerError
+            );
           }
         }
       }
@@ -77,6 +86,6 @@ async function importAssistants() {
 }
 
 importAssistants().catch(err => {
-  console.error('Import failed:', err);
+  console.error("Import failed:", err);
   process.exit(1);
 });

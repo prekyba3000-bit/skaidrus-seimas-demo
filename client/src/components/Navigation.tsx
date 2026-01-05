@@ -1,121 +1,112 @@
 import { Link, useLocation } from "wouter";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { 
-  Home, 
-  FileText, 
-  Users, 
-  Map, 
+import {
+  Home,
+  FileText,
+  Users,
+  Map,
   HelpCircle,
   LogIn,
   LogOut,
-  User
+  User,
+  Search,
 } from "lucide-react";
 
 export function Navigation() {
   const [location] = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
-  
+
   const getLoginUrl = () => {
     const redirectUrl = encodeURIComponent(window.location.href);
     return `/api/auth/login?redirect=${redirectUrl}`;
   };
 
   const navItems = [
-    { href: "/", label: "Pradžia", icon: Home },
-    { href: "/bills", label: "Įstatymai", icon: FileText },
-    { href: "/mps", label: "Seimo Nariai", icon: Users },
-    { href: "/map", label: "Žemėlapis", icon: Map },
-    { href: "/quiz", label: "Politinis Tinderis", icon: HelpCircle },
+    { href: "/", label: "Srautas", icon: Home },
+    { href: "/bills", label: "Protokolai", icon: FileText },
+    { href: "/mps", label: "Subjektai", icon: Users },
+    { href: "/quiz", label: "Sutapimas", icon: HelpCircle },
   ];
 
   return (
-    <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/">
-            <div className="flex items-center gap-2 cursor-pointer group">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-lg group-hover:scale-105 transition-transform">
-                SS
-              </div>
-              <span className="font-bold text-xl hidden sm:inline">Skaidrus Seimas</span>
-            </div>
-          </Link>
-
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location === item.href || 
-                (item.href !== "/" && location.startsWith(item.href));
-              
-              return (
-                <Link key={item.href} href={item.href}>
-                  <Button
-                    variant={isActive ? "default" : "ghost"}
-                    size="sm"
-                    className="gap-2"
-                  >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
-                  </Button>
-                </Link>
-              );
-            })}
+    <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-[100] w-fit">
+      <motion.div
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="flex items-center gap-2 px-3 py-2 bg-black/40 backdrop-blur-2xl border border-white/10 rounded-full shadow-2xl"
+      >
+        {/* Radical Logo */}
+        <Link href="/">
+          <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center cursor-pointer hover:rotate-12 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+            <span className="text-black font-black text-xs">SS</span>
           </div>
+        </Link>
 
-          {/* Auth Actions */}
-          <div className="flex items-center gap-2">
-            {isAuthenticated && user ? (
-              <>
-                <div className="hidden sm:flex items-center gap-2 text-sm">
-                  <User className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">{user.name || user.email}</span>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => logout()}
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Atsijungti
-                </Button>
-              </>
-            ) : (
-              <Button
-                size="sm"
-                onClick={() => window.location.href = getLoginUrl()}
-              >
-                <LogIn className="h-4 w-4 mr-2" />
-                Prisijungti
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex overflow-x-auto pb-2 gap-1 scrollbar-hide">
-          {navItems.map((item) => {
+        {/* Dynamic Nav Items */}
+        <div className="flex items-center gap-1 mx-4">
+          {navItems.map(item => {
             const Icon = item.icon;
-            const isActive = location === item.href || 
+            const isActive =
+              location === item.href ||
               (item.href !== "/" && location.startsWith(item.href));
-            
+
             return (
               <Link key={item.href} href={item.href}>
-                <Button
-                  variant={isActive ? "default" : "ghost"}
-                  size="sm"
-                  className="gap-2 whitespace-nowrap"
+                <button
+                  className={`relative px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
+                    isActive
+                      ? "text-emerald-400"
+                      : "text-slate-400 hover:text-white"
+                  }`}
                 >
-                  <Icon className="h-4 w-4" />
-                  {item.label}
-                </Button>
+                  <span className="relative z-10 flex items-center gap-2">
+                    <Icon className="h-3 w-3" />
+                    <span className="hidden sm:inline">{item.label}</span>
+                  </span>
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-white/5 border border-white/10 rounded-full"
+                    />
+                  )}
+                </button>
               </Link>
             );
           })}
         </div>
-      </div>
+
+        {/* Global Action */}
+        <div className="h-6 w-px bg-white/10 mx-2" />
+
+        <div className="flex items-center gap-2 pl-2">
+          {isAuthenticated && user ? (
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[10px] font-black text-emerald-500">
+                {user.name?.[0] || "U"}
+              </div>
+              <button
+                onClick={() => logout()}
+                className="text-slate-500 hover:text-red-500 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => (window.location.href = getLoginUrl())}
+              className="px-6 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-emerald-500 transition-colors"
+            >
+              Identikuotis
+            </button>
+          )}
+
+          <button className="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-slate-400 transition-colors">
+            <Search className="h-4 w-4" />
+          </button>
+        </div>
+      </motion.div>
     </nav>
   );
 }

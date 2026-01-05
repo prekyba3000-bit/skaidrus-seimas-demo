@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users } from "../drizzle/schema";
-import { ENV } from './_core/env';
+import { ENV } from "./_core/env";
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -56,8 +56,8 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       values.role = user.role;
       updateSet.role = user.role;
     } else if (user.openId === ENV.ownerOpenId) {
-      values.role = 'admin';
-      updateSet.role = 'admin';
+      values.role = "admin";
+      updateSet.role = "admin";
     }
 
     if (!values.lastSignedIn) {
@@ -84,24 +84,41 @@ export async function getUserByOpenId(openId: string) {
     return undefined;
   }
 
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+  const result = await db
+    .select()
+    .from(users)
+    .where(eq(users.openId, openId))
+    .limit(1);
 
   return result.length > 0 ? result[0] : undefined;
 }
 
 // TODO: add feature queries here as your schema grows.
 
-import { mps, bills, votes, mpStats, quizQuestions, quizAnswers, userQuizResults } from "../drizzle/schema";
+import {
+  mps,
+  bills,
+  votes,
+  mpStats,
+  quizQuestions,
+  quizAnswers,
+  userQuizResults,
+  mpAssistants,
+  mpTrips,
+} from "../drizzle/schema";
 import { desc, and, sql } from "drizzle-orm";
 
 // ==================== MP Queries ====================
 
-export async function getAllMps(filters?: { party?: string; isActive?: boolean }) {
+export async function getAllMps(filters?: {
+  party?: string;
+  isActive?: boolean;
+}) {
   const db = await getDb();
   if (!db) return [];
 
   let query = db.select().from(mps);
-  
+
   const conditions = [];
   if (filters?.party) {
     conditions.push(eq(mps.party, filters.party));
@@ -125,11 +142,32 @@ export async function getMpById(id: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getAssistantsByMpId(mpId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db
+    .select()
+    .from(mpAssistants)
+    .where(eq(mpAssistants.mpId, mpId));
+}
+
+export async function getTripsByMpId(mpId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(mpTrips).where(eq(mpTrips.mpId, mpId));
+}
+
 export async function getMpBySeimasId(seimasId: string) {
   const db = await getDb();
   if (!db) return undefined;
 
-  const result = await db.select().from(mps).where(eq(mps.seimasId, seimasId)).limit(1);
+  const result = await db
+    .select()
+    .from(mps)
+    .where(eq(mps.seimasId, seimasId))
+    .limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
 
@@ -137,9 +175,12 @@ export async function searchMps(searchTerm: string) {
   const db = await getDb();
   if (!db) return [];
 
-  return await db.select().from(mps).where(
-    sql`${mps.name} LIKE ${`%${searchTerm}%`} OR ${mps.party} LIKE ${`%${searchTerm}%`}`
-  );
+  return await db
+    .select()
+    .from(mps)
+    .where(
+      sql`${mps.name} LIKE ${`%${searchTerm}%`} OR ${mps.party} LIKE ${`%${searchTerm}%`}`
+    );
 }
 
 // ==================== MP Statistics Queries ====================
@@ -148,7 +189,11 @@ export async function getMpStats(mpId: number) {
   const db = await getDb();
   if (!db) return undefined;
 
-  const result = await db.select().from(mpStats).where(eq(mpStats.mpId, mpId)).limit(1);
+  const result = await db
+    .select()
+    .from(mpStats)
+    .where(eq(mpStats.mpId, mpId))
+    .limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
 
@@ -156,26 +201,32 @@ export async function upsertMpStats(stats: typeof mpStats.$inferInsert) {
   const db = await getDb();
   if (!db) return;
 
-  await db.insert(mpStats).values(stats).onDuplicateKeyUpdate({
-    set: {
-      votingAttendance: stats.votingAttendance,
-      partyLoyalty: stats.partyLoyalty,
-      billsProposed: stats.billsProposed,
-      billsPassed: stats.billsPassed,
-      accountabilityScore: stats.accountabilityScore,
-      lastCalculated: new Date(),
-    },
-  });
+  await db
+    .insert(mpStats)
+    .values(stats)
+    .onDuplicateKeyUpdate({
+      set: {
+        votingAttendance: stats.votingAttendance,
+        partyLoyalty: stats.partyLoyalty,
+        billsProposed: stats.billsProposed,
+        billsPassed: stats.billsPassed,
+        accountabilityScore: stats.accountabilityScore,
+        lastCalculated: new Date(),
+      },
+    });
 }
 
 // ==================== Bill Queries ====================
 
-export async function getAllBills(filters?: { status?: string; category?: string }) {
+export async function getAllBills(filters?: {
+  status?: string;
+  category?: string;
+}) {
   const db = await getDb();
   if (!db) return [];
 
   let query = db.select().from(bills).orderBy(desc(bills.createdAt));
-  
+
   const conditions = [];
   if (filters?.status) {
     conditions.push(eq(bills.status, filters.status));
@@ -254,7 +305,9 @@ export async function getQuizAnswersByMpId(mpId: number) {
     .where(eq(quizAnswers.mpId, mpId));
 }
 
-export async function saveUserQuizResult(result: typeof userQuizResults.$inferInsert) {
+export async function saveUserQuizResult(
+  result: typeof userQuizResults.$inferInsert
+) {
   const db = await getDb();
   if (!db) return;
 

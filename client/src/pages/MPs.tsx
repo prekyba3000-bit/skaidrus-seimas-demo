@@ -1,22 +1,34 @@
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
-import { 
-  Search, 
-  Filter, 
-  Users, 
-  TrendingUp, 
+import {
+  Search,
+  Filter,
+  Users,
+  TrendingUp,
   MapPin,
   Award,
   ChevronDown,
   Grid3x3,
-  List
+  List,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { trpc } from "@/lib/trpc";
 
@@ -36,8 +48,8 @@ export default function MPs() {
   });
 
   // Fetch all MP stats
-  const statsQueries = trpc.useQueries((t) =>
-    (mps || []).map((mp) => t.mps.stats({ mpId: mp.id }))
+  const statsQueries = trpc.useQueries(t =>
+    (mps || []).map(mp => t.mps.stats({ mpId: mp.id }))
   );
 
   // Combine MPs with their stats
@@ -56,7 +68,9 @@ export default function MPs() {
   }, [mps]);
 
   const districts = useMemo(() => {
-    const uniqueDistricts = new Set(mps?.map(mp => mp.district).filter(Boolean) || []);
+    const uniqueDistricts = new Set(
+      mps?.map(mp => mp.district).filter(Boolean) || []
+    );
     return ["all", ...Array.from(uniqueDistricts).sort()];
   }, [mps]);
 
@@ -66,9 +80,10 @@ export default function MPs() {
 
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(mp =>
-        mp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        mp.party.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        mp =>
+          mp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          mp.party.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -107,9 +122,11 @@ export default function MPs() {
   const stats = useMemo(() => {
     const totalMps = mps?.length || 0;
     const partiesCount = new Set(mps?.map(mp => mp.party)).size;
-    const avgScore = mpsWithStats.reduce((sum, mp) => 
-      sum + parseFloat(mp.stats?.accountabilityScore || "0"), 0
-    ) / (mpsWithStats.length || 1);
+    const avgScore =
+      mpsWithStats.reduce(
+        (sum, mp) => sum + parseFloat(mp.stats?.accountabilityScore || "0"),
+        0
+      ) / (mpsWithStats.length || 1);
 
     return {
       totalMps,
@@ -142,7 +159,9 @@ export default function MPs() {
         <div className="container py-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight mb-2">Seimo Nariai</h1>
+              <h1 className="text-4xl font-bold tracking-tight mb-2">
+                Seimo Nariai
+              </h1>
               <p className="text-muted-foreground">
                 Susipažinkite su Lietuvos Respublikos Seimo nariais
               </p>
@@ -171,7 +190,9 @@ export default function MPs() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-muted-foreground">Viso Seimo narių</p>
+                    <p className="text-sm text-muted-foreground">
+                      Viso Seimo narių
+                    </p>
                     <p className="text-3xl font-bold">{stats.totalMps}</p>
                   </div>
                   <Users className="h-10 w-10 text-primary opacity-20" />
@@ -193,7 +214,9 @@ export default function MPs() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-muted-foreground">Vidutinis įvertinimas</p>
+                    <p className="text-sm text-muted-foreground">
+                      Vidutinis įvertinimas
+                    </p>
                     <p className="text-3xl font-bold">{stats.avgScore}</p>
                   </div>
                   <Award className="h-10 w-10 text-primary opacity-20" />
@@ -210,7 +233,7 @@ export default function MPs() {
                 <Input
                   placeholder="Ieškoti pagal vardą ar partiją..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
               </div>
@@ -221,28 +244,34 @@ export default function MPs() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Visos partijos</SelectItem>
-                  {parties.slice(1).map((party) => (
+                  {parties.slice(1).map(party => (
                     <SelectItem key={party} value={party}>
                       {party}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <Select value={selectedDistrict} onValueChange={setSelectedDistrict}>
+              <Select
+                value={selectedDistrict}
+                onValueChange={setSelectedDistrict}
+              >
                 <SelectTrigger className="w-full md:w-[200px]">
                   <MapPin className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="Apygarda" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Visos apygardos</SelectItem>
-                  {districts.slice(1).map((district) => (
+                  {districts.slice(1).map(district => (
                     <SelectItem key={district} value={district || ""}>
                       {district}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortOption)}>
+              <Select
+                value={sortBy}
+                onValueChange={v => setSortBy(v as SortOption)}
+              >
                 <SelectTrigger className="w-full md:w-[180px]">
                   <TrendingUp className="h-4 w-4 mr-2" />
                   <SelectValue />
@@ -257,7 +286,9 @@ export default function MPs() {
             </div>
 
             <div className="flex items-center justify-between text-sm text-muted-foreground">
-              <span>Rodoma: {filteredMps.length} iš {stats.totalMps}</span>
+              <span>
+                Rodoma: {filteredMps.length} iš {stats.totalMps}
+              </span>
             </div>
           </div>
         </div>
@@ -266,7 +297,9 @@ export default function MPs() {
       {/* Content */}
       <div className="container py-8">
         {mpsLoading ? (
-          <div className={`grid gap-6 ${viewMode === "grid" ? "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}>
+          <div
+            className={`grid gap-6 ${viewMode === "grid" ? "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
+          >
             {[...Array(12)].map((_, i) => (
               <Card key={i} className="animate-pulse">
                 <CardHeader>
@@ -292,8 +325,10 @@ export default function MPs() {
             </CardContent>
           </Card>
         ) : (
-          <div className={`grid gap-6 ${viewMode === "grid" ? "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}>
-            {filteredMps.map((mp) => {
+          <div
+            className={`grid gap-6 ${viewMode === "grid" ? "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
+          >
+            {filteredMps.map(mp => {
               const score = mp.stats?.accountabilityScore;
               const scoreColor = getScoreColor(score);
               const scoreLabel = getScoreLabel(score);
@@ -302,11 +337,20 @@ export default function MPs() {
                 <Link key={mp.id} href={`/mp/${mp.id}`}>
                   <Card className="h-full hover:shadow-lg transition-all duration-200 hover:-translate-y-1 cursor-pointer group">
                     <CardHeader>
-                      <div className={`flex ${viewMode === "grid" ? "flex-col items-center text-center" : "flex-row items-start"} gap-4`}>
-                        <Avatar className={viewMode === "grid" ? "w-20 h-20" : "w-16 h-16"}>
+                      <div
+                        className={`flex ${viewMode === "grid" ? "flex-col items-center text-center" : "flex-row items-start"} gap-4`}
+                      >
+                        <Avatar
+                          className={
+                            viewMode === "grid" ? "w-20 h-20" : "w-16 h-16"
+                          }
+                        >
                           <AvatarImage src={mp.photoUrl ?? undefined} />
                           <AvatarFallback className="text-lg">
-                            {mp.name.split(' ').map(n => n[0]).join('')}
+                            {mp.name
+                              .split(" ")
+                              .map(n => n[0])
+                              .join("")}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
@@ -330,21 +374,29 @@ export default function MPs() {
                         {/* Accountability Score */}
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm text-muted-foreground">Atskaitomybė</span>
+                            <span className="text-sm text-muted-foreground">
+                              Atskaitomybė
+                            </span>
                             <span className={`text-sm font-bold ${scoreColor}`}>
-                              {score ? `${parseFloat(score).toFixed(0)}%` : "N/A"}
+                              {score
+                                ? `${parseFloat(score).toFixed(0)}%`
+                                : "N/A"}
                             </span>
                           </div>
-                          <Progress 
-                            value={score ? parseFloat(score) : 0} 
+                          <Progress
+                            value={score ? parseFloat(score) : 0}
                             className="h-2"
                             indicatorClassName={
-                              score && parseFloat(score) >= 85 ? "bg-green-600" :
-                              score && parseFloat(score) >= 70 ? "bg-yellow-600" :
-                              "bg-red-600"
+                              score && parseFloat(score) >= 85
+                                ? "bg-green-600"
+                                : score && parseFloat(score) >= 70
+                                  ? "bg-yellow-600"
+                                  : "bg-red-600"
                             }
                           />
-                          <p className="text-xs text-muted-foreground mt-1">{scoreLabel}</p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {scoreLabel}
+                          </p>
                         </div>
 
                         {/* Quick Stats */}
@@ -352,7 +404,9 @@ export default function MPs() {
                           <div className="bg-muted/50 rounded p-2">
                             <p className="text-muted-foreground">Dalyvavimas</p>
                             <p className="font-semibold">
-                              {mp.stats?.votingAttendance ? `${parseFloat(mp.stats.votingAttendance).toFixed(0)}%` : "—"}
+                              {mp.stats?.votingAttendance
+                                ? `${parseFloat(mp.stats.votingAttendance).toFixed(0)}%`
+                                : "—"}
                             </p>
                           </div>
                           <div className="bg-muted/50 rounded p-2">

@@ -1,10 +1,10 @@
-import { drizzle } from 'drizzle-orm/mysql2';
-import { mps, mpStats } from '../drizzle/schema';
-import dotenv from 'dotenv';
-import fs from 'fs';
-import readline from 'readline';
-import mysql from 'mysql2/promise';
-import { sql } from 'drizzle-orm';
+import { drizzle } from "drizzle-orm/mysql2";
+import { mps, mpStats } from "../drizzle/schema";
+import dotenv from "dotenv";
+import fs from "fs";
+import readline from "readline";
+import mysql from "mysql2/promise";
+import { sql } from "drizzle-orm";
 
 dotenv.config();
 
@@ -12,50 +12,59 @@ async function importData() {
   const connection = await mysql.createConnection(process.env.DATABASE_URL!);
   const db = drizzle(connection);
 
-  console.log('Reading OpenSanctions MP data...');
-  const fileStream = fs.createReadStream('seimas_mps_opensanctions.json');
+  console.log("Reading OpenSanctions MP data...");
+  const fileStream = fs.createReadStream("seimas_mps_opensanctions.json");
   const rl = readline.createInterface({
     input: fileStream,
-    crlfDelay: Infinity
+    crlfDelay: Infinity,
   });
 
   let count = 0;
   for await (const line of rl) {
     if (!line.trim()) continue;
     const mpData = JSON.parse(line);
-    
+
     const name = mpData.caption;
     const props = mpData.properties;
-    const sourceUrl = props.sourceUrl ? props.sourceUrl[0] : '';
+    const sourceUrl = props.sourceUrl ? props.sourceUrl[0] : "";
     const idMatch = sourceUrl.match(/p_asm_id=(\d+)/);
     const seimasId = idMatch ? idMatch[1] : mpData.id;
-    
+
     const birthDate = props.birthDate ? props.birthDate[0] : null;
     const birthPlace = props.birthPlace ? props.birthPlace[0] : null;
 
     console.log(`Importing ${name}...`);
-    
+
     // Upsert MP
-    await db.insert(mps).values({
-      seimasId: seimasId,
-      name: name,
-      party: 'Nenurodyta', // OpenSanctions doesn't always have party in a simple field
-      faction: 'Nenurodyta',
-      photoUrl: `https://www.lrs.lt/SIPIS/sn_foto/2024/${name.toLowerCase().replace(/ /g, '_')}.jpg`, // Heuristic
-      isActive: true,
-      biography: `Lietuvos Respublikos Seimo narys. Gimimo data: ${birthDate || 'nežinoma'}. Gimimo vieta: ${birthPlace || 'nežinoma'}.`,
-    }).onDuplicateKeyUpdate({
-      set: {
+    await db
+      .insert(mps)
+      .values({
+        seimasId: seimasId,
         name: name,
-        updatedAt: new Date(),
-      }
-    });
+        party: "Nenurodyta", // OpenSanctions doesn't always have party in a simple field
+        faction: "Nenurodyta",
+        photoUrl: `https://www.lrs.lt/SIPIS/sn_foto/2024/${name.toLowerCase().replace(/ /g, "_")}.jpg`, // Heuristic
+        isActive: true,
+        biography: `Lietuvos Respublikos Seimo narys. Gimimo data: ${birthDate || "nežinoma"}. Gimimo vieta: ${birthPlace || "nežinoma"}.`,
+      })
+      .onDuplicateKeyUpdate({
+        set: {
+          name: name,
+          updatedAt: new Date(),
+        },
+      });
 
     // Get the internal ID
-    const [dbMp] = await db.select().from(mps).where(sql`seimas_id = ${seimasId}`);
-    
+    const [dbMp] = await db
+      .select()
+      .from(mps)
+      .where(sql`seimas_id = ${seimasId}`);
+
     // Initialize stats if they don't exist
-    const [existingStats] = await db.select().from(mpStats).where(sql`mp_id = ${dbMp.id}`);
+    const [existingStats] = await db
+      .select()
+      .from(mpStats)
+      .where(sql`mp_id = ${dbMp.id}`);
     if (!existingStats) {
       await db.insert(mpStats).values({
         mpId: dbMp.id,
@@ -75,6 +84,6 @@ async function importData() {
 }
 
 importData().catch(err => {
-  console.error('Import failed:', err);
+  console.error("Import failed:", err);
   process.exit(1);
 });
