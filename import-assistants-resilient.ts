@@ -1,8 +1,11 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { mps, mpAssistants } from "../drizzle/schema";
+import { mps, mpAssistants } from "./drizzle/schema";
 import { sql } from "drizzle-orm";
 import fs from "fs";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function importAssistants() {
   const connectionString = process.env.DATABASE_URL;
@@ -19,9 +22,17 @@ async function importAssistants() {
   const db = drizzle(client);
 
   console.log("Reading scraped assistants data...");
+  interface AssistantSourceData {
+    mpName: string;
+    name: string;
+    role: string;
+    phone: string;
+    email: string;
+  }
+
   const assistantsData = JSON.parse(
-    fs.readFileSync("mp_assistants.json", "utf8")
-  );
+    fs.readFileSync("assistants_2026.json", "utf8")
+  ) as AssistantSourceData[];
 
   console.log(
     `Found ${assistantsData.length} assistants. Fetching MP mapping...`
@@ -29,7 +40,21 @@ async function importAssistants() {
 
   // Pre-fetch all MPs to avoid repeated queries over the tunnel
   const allMps = await db.select().from(mps);
-  const mpMap = new Map(allMps.map(m => [m.name, m.id]));
+  
+  // Create a helper to normalize names for matching
+  const normalizeName = (name: string) => {
+    return name.toLowerCase()
+      .replace(/\s+/g, ' ')
+      .split(' ')
+      .sort()
+      .join(' ')
+      .trim();
+  };
+
+  const mpMap = new Map<string, number>();
+  allMps.forEach(m => {
+    mpMap.set(normalizeName(m.name), m.id);
+  });
 
   console.log(`Mapped ${mpMap.size} MPs. Starting batch import...`);
 
@@ -39,10 +64,11 @@ async function importAssistants() {
   for (let i = 0; i < assistantsData.length; i += batchSize) {
     const batch = assistantsData.slice(i, i + batchSize);
     const valuesToInsert = batch
-      .map(a => {
-        const mpId = mpMap.get(a.mpName);
+      .map((a: AssistantSourceData) => {
+        const normalizedInputName = normalizeName(a.mpName);
+        const mpId = mpMap.get(normalizedInputName);
         if (!mpId) {
-          console.warn(`MP not found: ${a.mpName}`);
+          console.warn(`MP not found for assistant ${a.name}: ${a.mpName} (normalized: ${normalizedInputName})`);
           return null;
         }
         return {
@@ -53,7 +79,7 @@ async function importAssistants() {
           email: a.email,
         };
       })
-      .filter(v => v !== null);
+      .filter((v): v is { mpId: number; name: string; role: string; phone: string; email: string; } => v !== null);
 
     if (valuesToInsert.length > 0) {
       try {

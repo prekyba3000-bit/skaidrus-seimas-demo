@@ -1,15 +1,19 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import { mps, mpStats } from "../drizzle/schema";
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { mps, mpStats } from "./drizzle/schema";
+import * as schema from "./drizzle/schema";
 import dotenv from "dotenv";
 import fs from "fs";
-import mysql from "mysql2/promise";
 import { sql } from "drizzle-orm";
 
 dotenv.config();
 
 async function importData() {
-  const connection = await mysql.createConnection(process.env.DATABASE_URL!);
-  const db = drizzle(connection);
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is required");
+  }
+  const client = postgres(process.env.DATABASE_URL);
+  const db = drizzle(client, { schema });
 
   console.log("Reading extracted MP data...");
   const rawData = fs.readFileSync("extracted_mps.json", "utf8");
@@ -32,7 +36,8 @@ async function importData() {
         isActive: true,
         biography: `Lietuvos Respublikos Seimo narys (2024-2028 kadencija).`,
       })
-      .onDuplicateKeyUpdate({
+      .onConflictDoUpdate({
+        target: mps.seimasId,
         set: {
           name: mp.name,
           faction: mp.faction,
@@ -65,7 +70,7 @@ async function importData() {
   }
 
   console.log("✓ Data import completed successfully.");
-  await connection.end();
+  await client.end();
   process.exit(0);
 }
 

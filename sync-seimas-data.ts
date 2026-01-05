@@ -1,14 +1,20 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import { mps, mpStats } from "../drizzle/schema";
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { mps, mpStats } from "./drizzle/schema";
+import * as schema from "./drizzle/schema";
 import dotenv from "dotenv";
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
+import { sql } from "drizzle-orm";
 
 dotenv.config();
 
-import mysql from "mysql2/promise";
-const connection = await mysql.createConnection(process.env.DATABASE_URL!);
-const db = drizzle(connection);
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is required");
+}
+
+const client = postgres(process.env.DATABASE_URL);
+const db = drizzle(client, { schema });
 const parser = new XMLParser({
   ignoreAttributes: false,
   attributeNamePrefix: "@_",
@@ -24,28 +30,38 @@ async function syncMps() {
     );
     const result = parser.parse(response.data);
 
-    // The structure usually looks like: SeimoNariai -> SeimoNarys
-    const seimoNariai = result.SeimoNariai?.SeimoNarys;
+    // The structure usually looks like SeimoInformacija -> SeimoKadencija -> SeimoNarys
+    let seimoNariai = result.SeimoInformacija?.SeimoKadencija?.SeimoNarys || 
+                      result.SeimoNariai?.SeimoNarys;
 
-    if (!seimoNariai || !Array.isArray(seimoNariai)) {
-      console.error("Unexpected API response structure:", result);
+    if (!seimoNariai) {
+      console.error("Unexpected API response structure:", JSON.stringify(result).substring(0, 500));
       return;
     }
 
-    console.log(`Found ${seimoNariai.length} MPs. Syncing to database...`);
+    const mpsList = Array.isArray(seimoNariai) ? seimoNariai : [seimoNariai];
 
-    for (const sn of seimoNariai) {
-      const seimasId = sn["@_asmens_id"] || sn.asmens_id;
-      const name = `${sn.vardas} ${sn.pavarde}`;
-      const party = sn.iskeltas_partijos || "Išsikėlęs pats";
+    console.log(`Found ${mpsList.length} MPs. Syncing to database...`);
+
+    if (mpsList.length > 0) {
+      console.log("First MP sample data:", JSON.stringify(mpsList[0], null, 2));
+    }
+
+    for (const sn of mpsList) {
+      const seimasId = sn["@_asmens_id"];
+      const vardas = sn["@_vardas"] || "";
+      const pavarde = sn["@_pavardė"] || sn["@_pavarde"] || "";
+      const name = `${vardas} ${pavarde}`.trim();
+      const party = sn["@_iškėlusi_partija"] || sn.iskeltas_partijos || "Išsikėlęs pats";
       const faction = sn.frakcija || "Be frakcijos";
-      const district = sn.apygarda || "Daugiamandatė";
+      const district = sn.apygarda || sn["@_išrinkimo_būdas"] || "Daugiamandatė";
       const districtNumber = sn.apygardos_nr ? parseInt(sn.apygardos_nr) : null;
 
-      // Construct photo URL - Seimas usually has a pattern for this
-      // Pattern: https://www.lrs.lt/sip/portal.show?p_r=35299&p_k=1&p_a=seimo_narys&p_asm_id=[ID]
-      // But for direct image, it's often different. We'll use a placeholder or try to find the real one.
-      const photoUrl = `https://www.lrs.lt/sip/portal.show?p_r=35299&p_k=1&p_a=seimo_narys&p_asm_id=${seimasId}`;
+      const photoUrl = `https://www.lrs.lt/sip/portal.show?p_r=35299&p_k=1&p_a=498&p_asm_id=${seimasId}&p_img=1`;
+      const termsCount = sn["@_kadencijų_skaičius"] || "1";
+      const biography = sn["@_biografijos_nuoroda"] 
+        ? `Lietuvos Respublikos Seimo narys. Kadencijų skaičius: ${termsCount}. Biografija: ${sn["@_biografijos_nuoroda"]}`
+        : `Lietuvos Respublikos Seimo narys. Kadencijų skaičius: ${termsCount}.`;
 
       await db
         .insert(mps)
@@ -58,19 +74,22 @@ async function syncMps() {
           districtNumber,
           email:
             sn.el_pastas ||
-            `${sn.vardas.toLowerCase()}.${sn.pavarde.toLowerCase()}@lrs.lt`,
+            `${vardas.toLowerCase()}.${pavarde.toLowerCase()}@lrs.lt`,
           phone: sn.telefonas || "",
           photoUrl,
-          biography: `Lietuvos Respublikos Seimo narys.`,
+          biography,
           isActive: true,
         })
-        .onDuplicateKeyUpdate({
+        .onConflictDoUpdate({
+          target: mps.seimasId,
           set: {
             name,
             party,
             faction,
             district,
             districtNumber,
+            biography,
+            photoUrl,
             updatedAt: new Date(),
           },
         });
@@ -101,12 +120,11 @@ async function syncMps() {
   }
 }
 
-// Helper for SQL queries in drizzle
-import { sql } from "drizzle-orm";
-
+// Main execution function
 async function main() {
   await syncMps();
   console.log("Data synchronization finished.");
+  await client.end();
   process.exit(0);
 }
 

@@ -219,6 +219,30 @@ export async function getMpStats(mpId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getGlobalStats() {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const [totalMps] = await db.select({ count: sql<number>`count(*)` }).from(mps);
+  const [totalBills] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(bills);
+  const [avgAttendance] = await db
+    .select({ avg: sql<string>`avg(voting_attendance)` })
+    .from(mpStats);
+  const [billsPassed] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(bills)
+    .where(eq(bills.status, "passed"));
+
+  return {
+    totalMps: Number(totalMps.count),
+    totalBills: Number(totalBills.count),
+    avgAttendance: parseFloat(avgAttendance.avg || "0").toFixed(1),
+    billsPassed: Number(billsPassed.count),
+  };
+}
+
 export async function upsertMpStats(stats: typeof mpStats.$inferInsert) {
   const db = await getDb();
   if (!db) return;

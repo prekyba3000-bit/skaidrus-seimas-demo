@@ -55,6 +55,10 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getMpStats(input.mpId);
       }),
+
+    globalStats: publicProcedure.query(async () => {
+      return await db.getGlobalStats();
+    }),
   }),
 
   // Bills router

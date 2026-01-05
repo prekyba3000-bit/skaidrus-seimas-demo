@@ -1,4 +1,5 @@
-import { drizzle } from "drizzle-orm/mysql2";
+import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
 import {
   mps,
   bills,
@@ -6,12 +7,20 @@ import {
   mpStats,
   quizQuestions,
   quizAnswers,
-} from "../drizzle/schema";
+  mpAssistants,
+  mpTrips,
+} from "./drizzle/schema";
+import * as schema from "./drizzle/schema";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const db = drizzle(process.env.DATABASE_URL!);
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is not set");
+}
+
+const client = postgres(process.env.DATABASE_URL);
+const db = drizzle(client, { schema });
 
 // Sample Lithuanian parties
 const parties = [
@@ -80,6 +89,8 @@ async function seedData() {
     await db.delete(quizAnswers);
     await db.delete(quizQuestions);
     await db.delete(mpStats);
+    await db.delete(mpAssistants);
+    await db.delete(mpTrips);
     await db.delete(bills);
     await db.delete(mps);
 
