@@ -263,6 +263,51 @@ export async function upsertMpStats(stats: typeof mpStats.$inferInsert) {
     });
 }
 
+// ==================== Activity Pulse Query ====================
+
+export async function getActivityPulse() {
+  const db = await getDb();
+  if (!db) return [];
+
+  // Generate a sequence of the last 30 days
+  // Left join with aggregated daily counts from bills and votes
+  const result = await db.execute(sql`
+    WITH dates AS (
+        SELECT generate_series(
+            current_date - interval '30 days',
+            current_date,
+            '1 day'::interval
+        )::date AS day
+    ),
+    daily_activity AS (
+        SELECT 
+            created_at::date as day,
+            count(*) as count
+        FROM bills
+        WHERE created_at > current_date - interval '30 days'
+        GROUP BY 1
+        
+        UNION ALL
+        
+        SELECT 
+            voted_at::date as day,
+            count(*) as count
+        FROM votes
+        WHERE voted_at > current_date - interval '30 days'
+        GROUP BY 1
+    )
+    SELECT 
+        to_char(dates.day, 'YYYY-MM-DD') as date,
+        COALESCE(SUM(daily_activity.count), 0)::int as count
+    FROM dates
+    LEFT JOIN daily_activity ON dates.day = daily_activity.day
+    GROUP BY dates.day
+    ORDER BY dates.day ASC
+  `);
+
+  return result;
+}
+
 // ==================== Bill Queries ====================
 
 export async function getAllBills(filters?: {

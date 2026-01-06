@@ -22,7 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
-import { BalticPatternBorder } from "@/components/BalticPatternBorder";
+
 
 const statusConfig = {
   proposed: {
@@ -93,7 +93,7 @@ export default function BillDetail() {
   if (!bill) {
     return (
       <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
-        <BalticPatternBorder>
+        <div className="border border-muted rounded-lg p-4">
           <div className="p-8 text-center bg-[var(--card)]/90 max-w-md">
             <FileText className="h-12 w-12 text-[var(--muted-foreground)] mx-auto mb-4" />
             <h2 className="text-xl font-bold font-serif mb-2">
@@ -109,7 +109,7 @@ export default function BillDetail() {
               </Button>
             </Link>
           </div>
-        </BalticPatternBorder>
+        </div>
       </div>
     );
   }
@@ -225,7 +225,7 @@ export default function BillDetail() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* AI Summary */}
-            <BalticPatternBorder>
+            <div className="border border-muted rounded-lg p-4">
               <div className="amber-glass p-6 rounded-lg relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Sparkles className="w-24 h-24 text-[var(--amber-start)]" />
@@ -262,7 +262,7 @@ export default function BillDetail() {
                   </li>
                 </ul>
               </div>
-            </BalticPatternBorder>
+            </div>
 
             {/* Description */}
             <div className="p-8 bg-[var(--card)]/50 border border-[var(--amber-start)]/20 rounded-lg">
@@ -288,7 +288,7 @@ export default function BillDetail() {
             </div>
 
             {/* Voting Records */}
-            <BalticPatternBorder variant="simple">
+            <div className="border border-muted rounded-lg p-4">
               <div className="p-8 bg-[var(--card)]/80">
                 <div className="flex items-center justify-between mb-8">
                   <div>
@@ -447,13 +447,13 @@ export default function BillDetail() {
                   </div>
                 )}
               </div>
-            </BalticPatternBorder>
+            </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick Stats */}
-            <BalticPatternBorder variant="simple">
+            <div className="border border-muted rounded-lg p-4">
               <div className="p-6 bg-[var(--card)]/80">
                 <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-[var(--amber-start)]/20 pb-2">
                   Statistika
@@ -493,10 +493,10 @@ export default function BillDetail() {
                   </div>
                 </div>
               </div>
-            </BalticPatternBorder>
+            </div>
 
             {/* Related Bills */}
-            <BalticPatternBorder variant="simple">
+            <div className="border border-muted rounded-lg p-4">
               <div className="p-6 bg-[var(--card)]/80 min-h-[200px] flex flex-col justify-center text-center">
                 <h3 className="text-lg font-bold uppercase tracking-widest mb-2">
                   Susiję projektai
@@ -511,7 +511,7 @@ export default function BillDetail() {
                   </p>
                 </div>
               </div>
-            </BalticPatternBorder>
+            </div>
           </div>
         </div>
       </div>

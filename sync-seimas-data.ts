@@ -57,7 +57,22 @@ async function syncMps() {
       const district = sn.apygarda || sn["@_išrinkimo_būdas"] || "Daugiamandatė";
       const districtNumber = sn.apygardos_nr ? parseInt(sn.apygardos_nr) : null;
 
-      const photoUrl = `https://www.lrs.lt/sip/portal.show?p_r=35299&p_k=1&p_a=498&p_asm_id=${seimasId}&p_img=1`;
+
+      const normalizeName = (str: string) => {
+        return str
+          .toLowerCase()
+          .replace(/[ą]/g, "a")
+          .replace(/[č]/g, "c")
+          .replace(/[ęė]/g, "e")
+          .replace(/[į]/g, "i")
+          .replace(/[š]/g, "s")
+          .replace(/[ųū]/g, "u")
+          .replace(/[ž]/g, "z")
+          .replace(/[^a-z0-9]/g, "_")
+          .replace(/_+/g, "_");
+      };
+
+      const photoUrl = `https://www.lrs.lt/SIPIS/sn_foto/2024/${normalizeName(name)}.jpg`;
       const termsCount = sn["@_kadencijų_skaičius"] || "1";
       const biography = sn["@_biografijos_nuoroda"] 
         ? `Lietuvos Respublikos Seimo narys. Kadencijų skaičius: ${termsCount}. Biografija: ${sn["@_biografijos_nuoroda"]}`

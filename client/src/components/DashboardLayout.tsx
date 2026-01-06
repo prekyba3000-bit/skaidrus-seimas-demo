@@ -8,7 +8,7 @@ import {
   Settings, 
   Menu, 
   Search, 
-  Notifications, 
+  Bell, 
   MessageSquare,
   Building2
 } from "lucide-react";
@@ -78,9 +78,10 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
       <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         <header className="flex items-center justify-between border-b border-surface-border bg-surface-dark px-6 py-3 flex-shrink-0 z-10">
           <div className="flex items-center gap-8 w-full max-w-2xl">
-            <button className="md:hidden text-white">
+            <button className="md:hidden text-white" aria-label="Atidaryti meniu" title="Meniu">
               <Menu className="w-6 h-6" />
             </button>
+
             <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">{title}</h2>
             <div className="flex flex-col flex-1 max-w-[400px]">
               <div className="flex w-full items-stretch rounded-lg h-10 bg-[#233648] overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 transition-all">
@@ -96,12 +97,14 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
           </div>
           <div className="flex items-center gap-4">
             <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white">
-                <Notifications className="w-5 h-5" />
+              <Button variant="ghost" size="icon" className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white" aria-label="Pranešimai" title="Pranešimai">
+                <Bell className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white">
+
+              <Button variant="ghost" size="icon" className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white" aria-label="Žinutės" title="Žinutės">
                 <MessageSquare className="w-5 h-5" />
               </Button>
+
             </div>
             <Avatar className="h-10 w-10 border-2 border-[#233648] cursor-pointer">
               <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=politician" />

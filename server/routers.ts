@@ -59,6 +59,10 @@ export const appRouter = router({
     globalStats: publicProcedure.query(async () => {
       return await db.getGlobalStats();
     }),
+
+    activityPulse: publicProcedure.query(async () => {
+      return await db.getActivityPulse();
+    }),
   }),
 
   // Bills router

@@ -14,10 +14,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Link } from "wouter";
+import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function Dashboard() {
   const { data: globalStats } = trpc.mps.globalStats.useQuery();
   const { data: bills } = trpc.bills.list.useQuery();
+  const { data: pulseData } = trpc.mps.activityPulse.useQuery();
 
   const stats = [
     { name: "Viso Seimo narių", value: globalStats?.totalMps || 0, icon: Users, trend: "Nėra pokyčio", progress: null },
@@ -32,7 +34,7 @@ export default function Dashboard() {
       <div className="flex justify-end">
         <div className="flex items-center gap-2 bg-surface-dark border border-surface-border rounded-lg px-3 py-1.5 cursor-pointer hover:bg-[#233648] transition-colors">
           <span className="text-[#92adc9] text-xs font-medium">Laikotarpis:</span>
-          <span className="text-white text-sm font-medium">Paskutinės 24h</span>
+          <span className="text-white text-sm font-medium">Paskutinės 30d.</span>
           <ChevronRight className="w-4 h-4 text-[#92adc9] rotate-90" />
         </div>
       </div>
@@ -52,7 +54,8 @@ export default function Dashboard() {
             </div>
             {stat.progress ? (
               <div className="w-full bg-[#233648] h-1.5 rounded-full mt-3 overflow-hidden">
-                <div className="bg-primary h-full transition-all" style={{ width: `${stat.progress}%` }}></div>
+                {/* eslint-disable-next-line react/forbid-dom-props */}
+                <div className="progressBar" style={{ "--progress": `${stat.progress}%` } as React.CSSProperties}></div>
               </div>
             ) : (
               <div className="flex items-center gap-1 mt-2">
@@ -71,39 +74,47 @@ export default function Dashboard() {
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-white text-lg font-bold">Aktivumo Pulsas</h3>
-              <p className="text-[#92adc9] text-sm">Politinis aktyvumas per parą</p>
+              <p className="text-[#92adc9] text-sm">Politinis aktyvumas per 30 dienų</p>
             </div>
             <Badge className="bg-[#233648] text-primary hover:bg-[#233648] border-none px-3 py-1 font-bold text-[10px] tracking-wider">
-              AUKŠTAS AKTYVUMAS
+              {pulseData && pulseData.length > 0 ? " duomenys atnaujinti" : "NĖRA DUOMENŲ"}
             </Badge>
           </div>
           <div className="flex-1 min-h-[250px] relative w-full px-2">
-            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 400 150">
-              <defs>
-                <linearGradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stopColor="#137fec" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#137fec" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path 
-                d="M0,120 Q50,40 100,80 T200,60 T300,100 T400,70 L400,150 L0,150 Z" 
-                fill="url(#chartGradient)" 
-              />
-              <path 
-                d="M0,120 Q50,40 100,80 T200,60 T300,100 T400,70" 
-                fill="none" 
-                stroke="#137fec" 
-                strokeWidth="3" 
-                strokeLinecap="round" 
-              />
-            </svg>
-            <div className="flex justify-between mt-4 border-t border-[#233648] pt-3 text-[#92adc9] text-[10px] uppercase font-bold tracking-widest">
-              <span>00:00</span>
-              <span>06:00</span>
-              <span>12:00</span>
-              <span>18:00</span>
-              <span>24:00</span>
-            </div>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={pulseData || []}>
+                <defs>
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#137fec" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#137fec" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis 
+                  dataKey="date" 
+                  hide={false}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#92adc9', fontSize: 10 }}
+                  tickFormatter={(value) => value.slice(5)}
+                  interval="preserveStartEnd"
+                  minTickGap={30}
+                />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: '#111a22', borderColor: '#233648', color: '#fff', borderRadius: '8px' }}
+                  itemStyle={{ color: '#137fec' }}
+                  labelStyle={{ color: '#92adc9', marginBottom: '0.25rem' }}
+                  formatter={(value) => [value, "Veiksmai"]}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="count" 
+                  stroke="#137fec" 
+                  strokeWidth={3}
+                  fillOpacity={1} 
+                  fill="url(#chartGradient)" 
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
@@ -116,7 +127,8 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-6 custom-scrollbar">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="flex gap-3 items-start">
-                <div className="w-10 h-10 rounded-full bg-cover bg-center shrink-0 border border-surface-border" style={{ backgroundImage: `url(https://api.dicebear.com/7.x/avataaars/svg?seed=mp${i})` }} />
+                {/* eslint-disable-next-line react/forbid-dom-props */}
+                <div className="feedAvatar" style={{ "--bgImg": `url(https://api.dicebear.com/7.x/avataaars/svg?seed=mp${i})` } as React.CSSProperties} />
                 <div className="flex flex-col gap-1">
                   <p className="text-white text-sm leading-snug">
                     <span className="font-extrabold">Seimo narys {i}</span> pateikė <span className="text-primary font-bold">įstatymo projektą Nr. {100-i}</span> dėl energetikos efektyvumo.
@@ -185,7 +197,8 @@ export default function Dashboard() {
                         <span>Už {bill.status === 'passed' ? 70 : 45}%</span>
                       </div>
                       <div className="h-1.5 w-full bg-[#233648] rounded-full overflow-hidden flex">
-                        <div className={`h-full ${bill.status === 'passed' ? 'bg-accent-green' : 'bg-primary'}`} style={{ width: bill.status === 'passed' ? '70%' : '45%' }}></div>
+                        {/* eslint-disable-next-line react/forbid-dom-props */}
+                        <div className={`voteBar ${bill.status === 'passed' ? 'bg-accent-green' : 'bg-primary'}`} style={{ "--voteWidth": bill.status === 'passed' ? '70%' : '45%' } as React.CSSProperties}></div>
                       </div>
                     </div>
                   </td>
