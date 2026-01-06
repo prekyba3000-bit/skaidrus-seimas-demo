@@ -115,6 +115,7 @@ import {
   userFollows,
   billSponsors,
   billSummaries,
+  sessionMpVotes,
 } from "../drizzle/schema";
 
 // ==================== MP Queries ====================
@@ -229,7 +230,10 @@ export async function getGlobalStats() {
   const db = await getDb();
   if (!db) return undefined;
 
-  const [totalMps] = await db.select({ count: sql<number>`count(*)` }).from(mps).where(eq(mps.isActive, true));
+  const [totalMps] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(mps)
+    .where(eq(mps.isActive, true));
   const [totalBills] = await db
     .select({ count: sql<number>`count(*)` })
     .from(bills);
@@ -592,4 +596,99 @@ export async function getAllTrips() {
     .leftJoin(mps, eq(mpTrips.mpId, mps.id))
     .orderBy(desc(mpTrips.startDate))
     .limit(100);
+}
+
+export async function getDataFreshness() {
+  const db = await getDb();
+  if (!db) return null;
+
+  const [mpsData] = await db
+    .select({ lastUpdated: sql<Date>`max(${schema.mps.updatedAt})` })
+    .from(schema.mps);
+
+  const [billsData] = await db
+    .select({ lastUpdated: sql<Date>`max(${schema.bills.updatedAt})` })
+    .from(schema.bills);
+
+  const [votesData] = await db
+    .select({ lastVoteDate: sql<Date>`max(${schema.sessionVotes.voteDate})` })
+    .from(schema.sessionVotes);
+
+  const [statsData] = await db
+    .select({
+      lastCalculated: sql<Date>`max(${schema.mpStats.lastCalculated})`,
+    })
+    .from(schema.mpStats);
+
+  const [committeesData] = await db
+    .select({
+      lastUpdated: sql<Date>`max(${schema.committeeMembers.joinedAt})`,
+    })
+    .from(schema.committeeMembers);
+
+  return {
+    mps: mpsData?.lastUpdated || null,
+    bills: billsData?.lastUpdated || null,
+    votes: votesData?.lastVoteDate || null,
+    stats: statsData?.lastCalculated || null,
+    committees: committeesData?.lastUpdated || null,
+  };
+}
+
+export async function getMpComparison(mpId1: number, mpId2: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const [mp1, mp2] = await Promise.all([getMpById(mpId1), getMpById(mpId2)]);
+
+  if (!mp1 || !mp2) return null;
+
+  const [stats1, stats2] = await Promise.all([
+    getMpStats(mpId1),
+    getMpStats(mpId2),
+  ]);
+
+  // Calculate Voting Agreement
+  const votes1 = await db
+    .select({
+      sessionVoteId: sessionMpVotes.sessionVoteId,
+      voteValue: sessionMpVotes.voteValue,
+    })
+    .from(sessionMpVotes)
+    .where(eq(sessionMpVotes.mpId, mpId1));
+
+  const votes2 = await db
+    .select({
+      sessionVoteId: sessionMpVotes.sessionVoteId,
+      voteValue: sessionMpVotes.voteValue,
+    })
+    .from(sessionMpVotes)
+    .where(eq(sessionMpVotes.mpId, mpId2));
+
+  // Map mp1 votes
+  const map1 = new Map<number, string>();
+  for (const v of votes1) {
+    if (v.sessionVoteId !== null) map1.set(v.sessionVoteId, v.voteValue);
+  }
+
+  let common = 0;
+  let same = 0;
+
+  for (const v of votes2) {
+    if (v.sessionVoteId !== null && map1.has(v.sessionVoteId)) {
+      common++;
+      if (map1.get(v.sessionVoteId) === v.voteValue) {
+        same++;
+      }
+    }
+  }
+
+  const agreementScore = common > 0 ? (same / common) * 100 : 0;
+
+  return {
+    mp1: { ...mp1, stats: stats1 },
+    mp2: { ...mp2, stats: stats2 },
+    agreementScore,
+    commonVotes: common,
+  };
 }

@@ -47,11 +47,17 @@ export const mpStats = pgTable("mp_stats", {
     .notNull()
     .references(() => mps.id)
     .unique(),
-  votingAttendance: decimal("voting_attendance", { precision: 5, scale: 2 }).notNull(),
+  votingAttendance: decimal("voting_attendance", {
+    precision: 5,
+    scale: 2,
+  }).notNull(),
   partyLoyalty: decimal("party_loyalty", { precision: 5, scale: 2 }).notNull(),
   billsProposed: integer("bills_proposed").default(0),
   billsPassed: integer("bills_passed").default(0),
-  accountabilityScore: decimal("accountability_score", { precision: 5, scale: 2 }).notNull(),
+  accountabilityScore: decimal("accountability_score", {
+    precision: 5,
+    scale: 2,
+  }).notNull(),
   lastCalculated: timestamp("last_calculated").defaultNow(),
 });
 
@@ -141,7 +147,7 @@ export const userQuizResults = pgTable("user_quiz_results", {
 // Committees
 export const committees = pgTable("committees", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  name: varchar("name", { length: 255 }).notNull(),
+  name: varchar("name", { length: 255 }).notNull().unique(),
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow(),
 });

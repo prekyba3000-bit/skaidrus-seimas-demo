@@ -2,6 +2,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "./db";
 
@@ -17,6 +18,11 @@ export const appRouter = router({
         success: true,
       } as const;
     }),
+  }),
+
+  // Data Status
+  dataStatus: publicProcedure.query(async () => {
+    return await db.getDataFreshness();
   }),
 
   // MPs router
@@ -38,7 +44,12 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => {
         const mp = await db.getMpById(input.id);
-        if (!mp) return null;
+        if (!mp) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: `MP with ID ${input.id} not found`,
+          });
+        }
         const assistants = await db.getAssistantsByMpId(input.id);
         const trips = await db.getTripsByMpId(input.id);
         return { ...mp, assistants, trips };
@@ -53,7 +64,10 @@ export const appRouter = router({
     stats: publicProcedure
       .input(z.object({ mpId: z.number() }))
       .query(async ({ input }) => {
-        return await db.getMpStats(input.mpId);
+        const stats = await db.getMpStats(input.mpId);
+        // It's okay if stats don't exist yet, return null or default?
+        // Current frontend handles null, so we pass it through.
+        return stats;
       }),
 
     globalStats: publicProcedure.query(async () => {
@@ -71,6 +85,12 @@ export const appRouter = router({
       )
       .query(async () => {
         return await db.getActivityPulse();
+      }),
+
+    compare: publicProcedure
+      .input(z.object({ mpId1: z.number(), mpId2: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getMpComparison(input.mpId1, input.mpId2);
       }),
 
     trips: publicProcedure.query(async () => {
@@ -96,7 +116,14 @@ export const appRouter = router({
     byId: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => {
-        return await db.getBillById(input.id);
+        const bill = await db.getBillById(input.id);
+        if (!bill) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: `Bill with ID ${input.id} not found`,
+          });
+        }
+        return bill;
       }),
 
     sponsors: publicProcedure
@@ -172,7 +199,14 @@ export const appRouter = router({
     byId: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => {
-        return await db.getCommitteeById(input.id);
+        const committee = await db.getCommitteeById(input.id);
+        if (!committee) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: `Committee with ID ${input.id} not found`,
+          });
+        }
+        return committee;
       }),
     members: publicProcedure
       .input(z.object({ committeeId: z.number() }))

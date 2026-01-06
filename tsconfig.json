@@ -1,10 +1,18 @@
 {
-  "include": ["shared/**/*", "server/**/*", "drizzle/**/*", "scripts/**/*", "*.ts"],
+  "include": [
+    "shared/**/*",
+    "server/**/*",
+    "drizzle/**/*",
+    "scripts/**/*",
+    "*.ts"
+  ],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
     "noEmit": true,
+    "target": "ES2020",
+    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "strict": true,
     "lib": ["esnext", "dom"],
@@ -15,6 +23,7 @@
     "baseUrl": ".",
     "types": ["node"],
     "paths": {
+      "@/*": ["./*"],
       "@shared/*": ["./shared/*"],
       "@server/*": ["./server/*"]
     }

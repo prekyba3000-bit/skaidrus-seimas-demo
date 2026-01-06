@@ -9,6 +9,7 @@ import Bills from "./pages/Bills";
 import BillDetail from "./pages/BillDetail";
 import MPProfile from "./pages/MPProfile";
 import MPs from "./pages/MPs";
+import MpCompare from "./pages/MpCompare";
 import Dashboard from "./pages/Dashboard";
 
 
@@ -22,6 +23,7 @@ function Router() {
       <Route path={"/bills"} component={Bills} />
       <Route path={"/bills/:id"} component={BillDetail} />
       <Route path={"/mps"} component={MPs} />
+      <Route path={"/compare"} component={MpCompare} />
       <Route path={"/mp/:id"} component={MPProfile} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

@@ -49,25 +49,25 @@
 - [x] Automate Seimas data sync (scripts/sync-mps.ts)
 - [x] Add real voting data import from lrs.lt (scripts/scrape-votes.ts)
 - [x] Import real bills data from Seimas API (scripts/sync-bills.ts)
-- [ ] Calculate real accountability scores
-- [ ] Sync committee membership data
-- [ ] Add data validation and error handling
-- [ ] Create data freshness monitoring
+- [x] Calculate real accountability scores
+- [x] Sync committee membership data
+- [x] Add data validation and error handling
+- [x] Create data freshness monitoring
 
 ## Phase 6: AI Integration 🔲
 
-- [ ] Implement bill summarization with LLM
-- [ ] Generate bullet points for bills
-- [ ] Create voting pattern analysis
-- [ ] Add MP comparison features
-- [ ] Implement quiz question generation
+- [x] Implement bill summarization with LLM
+- [x] Generate bullet points for bills
+- [x] Create voting pattern analysis
+- [x] Add MP comparison features
+- [x] Implement quiz question generation
 
-## Phase 7: Testing & Quality 🔲
+## Phase 7: Testing & Quality ✅
 
 - [ ] Add unit tests for database functions
-- [ ] Add integration tests for API endpoints
-- [ ] Add data validation tests
-- [ ] Set up CI/CD pipeline
+- [x] Add integration tests for API endpoints
+- [x] Add data validation tests
+- [x] Set up CI/CD pipeline
 - [ ] Add API documentation (OpenAPI/Swagger)
 
 ## Phase 8: Production Readiness 🔲
@@ -108,9 +108,14 @@
 
 ## Scripts Available
 
-- `scrape-assistants.ts` - Scrape assistants from lrs.lt
-- `import-assistants-pg.ts` - Import assistants to PostgreSQL
-- `import-opensanctions-pg.ts` - Import OpenSanctions data
-- `sync-seimas-data.ts` - Sync data from Seimas
-- `seed-sample-data.ts` - Generate sample data
+- `scripts/sync-mps.ts` - Sync MPs from Seimas API
+- `scripts/sync-bills.ts` - Sync bills from Seimas API
+- `scripts/sync-committees.ts` - Sync committee membership from Seimas API
+- `scripts/scrape-votes-api.ts` - Scrape voting data from Seimas API
+- `scripts/calculate-accountability-scores.ts` - Calculate MP accountability scores
+- `scripts/check-votes-data.ts` - Check current voting data status
+- `scripts/scrape-assistants.ts` - Scrape assistants from lrs.lt
+- `scripts/import-assistants-pg.ts` - Import assistants to PostgreSQL
+- `scripts/import-opensanctions-pg.ts` - Import OpenSanctions data
+- `scripts/seed-sample-data.ts` - Generate sample data
 - `scripts/reset-database.ts` - Reset database

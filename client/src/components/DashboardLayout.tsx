@@ -10,7 +10,8 @@ import {
   Search, 
   Bell, 
   MessageSquare,
-  Building2
+  Building2,
+  ArrowLeftRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +30,7 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
     { name: "Apžvalga", href: "/dashboard", icon: LayoutDashboard },
     { name: "Pulsas", href: "/pulse", icon: Activity },
     { name: "Seimo nariai", href: "/", icon: Users },
+    { name: "Palyginimas", href: "/compare", icon: ArrowLeftRight },
     { name: "Žemėlapis", href: "/map", icon: MapIcon },
   ];
 
