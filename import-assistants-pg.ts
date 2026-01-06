@@ -1,6 +1,6 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { mps, mpAssistants } from "../drizzle/schema";
+import { mps, mpAssistants } from "./drizzle/schema";
 import { sql } from "drizzle-orm";
 import fs from "fs";
 

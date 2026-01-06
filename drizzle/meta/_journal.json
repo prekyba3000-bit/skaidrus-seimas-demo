@@ -8,6 +8,13 @@
       "when": 1767600315188,
       "tag": "0000_ancient_firebird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1767711369273,
+      "tag": "0001_tranquil_lenny_balinger",
+      "breakpoints": true
     }
   ]
 }

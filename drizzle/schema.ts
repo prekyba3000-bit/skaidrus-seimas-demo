@@ -210,5 +210,37 @@ export const mpTrips = pgTable("mp_trips", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Session Votes (for parliamentary sitting votes)
+export const sessionVotes = pgTable("session_votes", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  seimasVoteId: varchar("seimas_vote_id", { length: 50 }).notNull().unique(),
+  sittingId: varchar("sitting_id", { length: 50 }).notNull(),
+  sessionId: varchar("session_id", { length: 50 }).notNull(),
+  question: text("question").notNull(),
+  voteDate: timestamp("vote_date").notNull(),
+  voteTime: varchar("vote_time", { length: 20 }),
+  votedFor: integer("voted_for").default(0),
+  votedAgainst: integer("voted_against").default(0),
+  abstained: integer("abstained").default(0),
+  totalVoted: integer("total_voted").default(0),
+  comment: text("comment"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Individual MP votes for session votes
+export const sessionMpVotes = pgTable("session_mp_votes", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  sessionVoteId: integer("session_vote_id")
+    .notNull()
+    .references(() => sessionVotes.id),
+  mpId: integer("mp_id")
+    .notNull()
+    .references(() => mps.id),
+  seimasMpId: varchar("seimas_mp_id", { length: 50 }).notNull(),
+  voteValue: varchar("vote_value", { length: 20 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;

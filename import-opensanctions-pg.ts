@@ -1,6 +1,6 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { mps, mpStats } from "../drizzle/schema";
+import { mps, mpStats } from "./drizzle/schema";
 import dotenv from "dotenv";
 import fs from "fs";
 import readline from "readline";

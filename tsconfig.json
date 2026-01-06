@@ -1,5 +1,5 @@
 {
-  "include": ["shared/**/*", "server/**/*", "drizzle/**/*", "*.ts"],
+  "include": ["shared/**/*", "server/**/*", "drizzle/**/*", "scripts/**/*", "*.ts"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "incremental": true,
@@ -7,7 +7,7 @@
     "noEmit": true,
     "module": "ESNext",
     "strict": true,
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,

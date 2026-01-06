@@ -109,6 +109,12 @@ import {
   userQuizResults,
   mpAssistants,
   mpTrips,
+  committees,
+  committeeMembers,
+  accountabilityFlags,
+  userFollows,
+  billSponsors,
+  billSummaries,
 } from "../drizzle/schema";
 
 // ==================== MP Queries ====================
@@ -223,7 +229,7 @@ export async function getGlobalStats() {
   const db = await getDb();
   if (!db) return undefined;
 
-  const [totalMps] = await db.select({ count: sql<number>`count(*)` }).from(mps);
+  const [totalMps] = await db.select({ count: sql<number>`count(*)` }).from(mps).where(eq(mps.isActive, true));
   const [totalBills] = await db
     .select({ count: sql<number>`count(*)` })
     .from(bills);
@@ -305,7 +311,7 @@ export async function getActivityPulse() {
     ORDER BY dates.day ASC
   `);
 
-  return result;
+  return result as unknown as { date: string; count: number }[];
 }
 
 // ==================== Bill Queries ====================
@@ -414,4 +420,176 @@ export async function getUserQuizResults(sessionId: string) {
     .select()
     .from(userQuizResults)
     .where(eq(userQuizResults.sessionId, sessionId));
+}
+
+// ==================== Committee Queries ====================
+
+export async function getAllCommittees() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(committees);
+}
+
+export async function getCommitteeById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db
+    .select()
+    .from(committees)
+    .where(eq(committees.id, id))
+    .limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getCommitteeMembers(committeeId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      member: committeeMembers,
+      mp: mps,
+    })
+    .from(committeeMembers)
+    .leftJoin(mps, eq(committeeMembers.mpId, mps.id))
+    .where(eq(committeeMembers.committeeId, committeeId));
+}
+
+// ==================== Accountability Queries ====================
+
+export async function getFlagsByMpId(mpId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select()
+    .from(accountabilityFlags)
+    .where(eq(accountabilityFlags.mpId, mpId));
+}
+
+export async function createAccountabilityFlag(
+  flag: typeof accountabilityFlags.$inferInsert
+) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.insert(accountabilityFlags).values(flag).returning();
+  return result[0];
+}
+
+export async function resolveAccountabilityFlag(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db
+    .update(accountabilityFlags)
+    .set({ resolved: true })
+    .where(eq(accountabilityFlags.id, id))
+    .returning();
+  return result[0];
+}
+
+// ==================== User Follows Queries ====================
+
+export async function getUserFollows(userId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      follow: userFollows,
+      mp: mps,
+      bill: bills,
+    })
+    .from(userFollows)
+    .leftJoin(mps, eq(userFollows.mpId, mps.id))
+    .leftJoin(bills, eq(userFollows.billId, bills.id))
+    .where(eq(userFollows.userId, userId));
+}
+
+export async function followEntity(follow: typeof userFollows.$inferInsert) {
+  const db = await getDb();
+  if (!db) return undefined;
+  // Check if already follows
+  const existing = await db
+    .select()
+    .from(userFollows)
+    .where(
+      and(
+        eq(userFollows.userId, follow.userId),
+        follow.mpId ? eq(userFollows.mpId, follow.mpId) : sql`1=1`,
+        follow.billId ? eq(userFollows.billId, follow.billId) : sql`1=1`,
+        follow.topic ? eq(userFollows.topic, follow.topic) : sql`1=1`
+      )
+    )
+    .limit(1);
+
+  if (existing.length > 0) return existing[0];
+
+  const result = await db.insert(userFollows).values(follow).returning();
+  return result[0];
+}
+
+export async function unfollowEntity(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  return await db.delete(userFollows).where(eq(userFollows.id, id)).returning();
+}
+
+// ==================== Bill Sponsors/Summaries Queries ====================
+
+export async function getBillSponsors(billId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      sponsor: billSponsors,
+      mp: mps,
+    })
+    .from(billSponsors)
+    .leftJoin(mps, eq(billSponsors.mpId, mps.id))
+    .where(eq(billSponsors.billId, billId));
+}
+
+export async function getBillSummary(billId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db
+    .select()
+    .from(billSummaries)
+    .where(eq(billSummaries.billId, billId))
+    .limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createBillSummary(
+  summary: typeof billSummaries.$inferInsert
+) {
+  const db = await getDb();
+  if (!db) return undefined;
+  // Upsert
+  const result = await db
+    .insert(billSummaries)
+    .values(summary)
+    .onConflictDoUpdate({
+      target: billSummaries.billId,
+      set: {
+        summary: summary.summary,
+        bulletPoints: summary.bulletPoints,
+        generatedAt: new Date(),
+      },
+    })
+    .returning();
+  return result[0];
+}
+
+// ==================== Extra MP Queries ====================
+
+export async function getAllTrips() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db
+    .select({
+      trip: mpTrips,
+      mp: mps,
+    })
+    .from(mpTrips)
+    .leftJoin(mps, eq(mpTrips.mpId, mps.id))
+    .orderBy(desc(mpTrips.startDate))
+    .limit(100);
 }

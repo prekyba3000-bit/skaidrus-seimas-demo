@@ -60,8 +60,21 @@ export const appRouter = router({
       return await db.getGlobalStats();
     }),
 
-    activityPulse: publicProcedure.query(async () => {
-      return await db.getActivityPulse();
+    activityPulse: publicProcedure
+      .output(
+        z.array(
+          z.object({
+            date: z.string(),
+            count: z.number(),
+          })
+        )
+      )
+      .query(async () => {
+        return await db.getActivityPulse();
+      }),
+
+    trips: publicProcedure.query(async () => {
+      return await db.getAllTrips();
     }),
   }),
 
@@ -84,6 +97,18 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => {
         return await db.getBillById(input.id);
+      }),
+
+    sponsors: publicProcedure
+      .input(z.object({ billId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getBillSponsors(input.billId);
+      }),
+
+    summary: publicProcedure
+      .input(z.object({ billId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getBillSummary(input.billId);
       }),
   }),
 
@@ -136,6 +161,76 @@ export const appRouter = router({
       .input(z.object({ sessionId: z.string() }))
       .query(async ({ input }) => {
         return await db.getUserQuizResults(input.sessionId);
+      }),
+  }),
+
+  // Committees router
+  committees: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllCommittees();
+    }),
+    byId: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getCommitteeById(input.id);
+      }),
+    members: publicProcedure
+      .input(z.object({ committeeId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getCommitteeMembers(input.committeeId);
+      }),
+  }),
+
+  // Accountability Flags router
+  flags: router({
+    byMp: publicProcedure
+      .input(z.object({ mpId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getFlagsByMpId(input.mpId);
+      }),
+    create: publicProcedure
+      .input(
+        z.object({
+          mpId: z.number(),
+          flagType: z.string(),
+          severity: z.string(),
+          title: z.string(),
+          description: z.string(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await db.createAccountabilityFlag({ ...input, resolved: false });
+      }),
+    resolve: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.resolveAccountabilityFlag(input.id);
+      }),
+  }),
+
+  // User Follows router
+  follows: router({
+    list: publicProcedure
+      .input(z.object({ userId: z.string() }))
+      .query(async ({ input }) => {
+        return await db.getUserFollows(input.userId);
+      }),
+    follow: publicProcedure
+      .input(
+        z.object({
+          userId: z.string(),
+          mpId: z.number().optional(),
+          billId: z.number().optional(),
+          topic: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await db.followEntity(input);
+      }),
+    unfollow: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await db.unfollowEntity(input.id);
       }),
   }),
 });
