@@ -21,13 +21,13 @@ export default function Home() {
   const { data: mps, isLoading } = trpc.mps.list.useQuery({ isActive: true });
 
   const parties = useMemo(() => {
-    if (!mps) return ["Visi"];
+    if (!mps || !Array.isArray(mps)) return ["Visi"];
     const uniqueParties = new Set(mps.map(mp => mp.party));
     return ["Visi", ...Array.from(uniqueParties).sort()];
   }, [mps]);
 
   const filteredMps = useMemo(() => {
-    if (!mps) return [];
+    if (!mps || !Array.isArray(mps)) return [];
     return mps.filter(mp => {
       const matchesSearch = mp.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                            mp.party.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skaidrus Seimas API Documentation</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css"
+    />
+    <style>
+      :root {
+        --primary-color: #0ea5e9;
+        --background-color: #0f172a;
+        --text-color: #e2e8f0;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+      }
+
+      .swagger-ui {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Dark theme overrides */
+      .swagger-ui .topbar {
+        display: none;
+      }
+
+      .swagger-ui .info {
+        margin: 30px 0;
+      }
+
+      .swagger-ui .info .title {
+        color: var(--primary-color);
+        font-size: 2.5rem;
+      }
+
+      .swagger-ui .info .description {
+        color: var(--text-color);
+      }
+
+      .swagger-ui .opblock-tag {
+        color: var(--text-color);
+        border-color: #334155;
+      }
+
+      .swagger-ui .opblock {
+        background: #1e293b;
+        border-color: #334155;
+      }
+
+      .swagger-ui .opblock .opblock-summary {
+        border-color: #334155;
+      }
+
+      .swagger-ui .opblock .opblock-summary-method {
+        font-weight: bold;
+      }
+
+      .swagger-ui .opblock.opblock-get .opblock-summary-method {
+        background: #22c55e;
+      }
+
+      .swagger-ui .opblock.opblock-post .opblock-summary-method {
+        background: #3b82f6;
+      }
+
+      .swagger-ui .opblock.opblock-delete .opblock-summary-method {
+        background: #ef4444;
+      }
+
+      .swagger-ui .opblock .opblock-summary-path {
+        color: var(--text-color);
+      }
+
+      .swagger-ui .opblock .opblock-summary-description {
+        color: #94a3b8;
+      }
+
+      .swagger-ui .btn {
+        border-radius: 6px;
+      }
+
+      .swagger-ui .btn.execute {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+
+      .swagger-ui .model-box {
+        background: #1e293b;
+      }
+
+      .swagger-ui .model {
+        color: var(--text-color);
+      }
+
+      .swagger-ui table tbody tr td {
+        color: var(--text-color);
+        border-color: #334155;
+      }
+
+      .swagger-ui .response-col_status {
+        color: var(--text-color);
+      }
+
+      .swagger-ui .markdown p,
+      .swagger-ui .markdown li {
+        color: var(--text-color);
+      }
+
+      .swagger-ui .markdown code {
+        background: #334155;
+        color: #f472b6;
+      }
+
+      .swagger-ui .scheme-container {
+        background: #1e293b;
+      }
+
+      .swagger-ui select {
+        background: #334155;
+        color: var(--text-color);
+      }
+
+      /* Header */
+      .custom-header {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        padding: 40px 20px;
+        text-align: center;
+        border-bottom: 1px solid #334155;
+      }
+
+      .custom-header h1 {
+        color: var(--primary-color);
+        margin: 0 0 10px 0;
+        font-size: 2.5rem;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      .custom-header p {
+        color: #94a3b8;
+        margin: 0;
+        font-size: 1.1rem;
+      }
+
+      .custom-header .badges {
+        margin-top: 20px;
+      }
+
+      .custom-header .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        margin: 0 5px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        background: #334155;
+        color: var(--text-color);
+      }
+
+      .custom-header .badge.version {
+        background: var(--primary-color);
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="custom-header">
+      <h1>🏛️ Skaidrus Seimas API</h1>
+      <p>Transparent Lithuanian Parliament Monitoring Platform</p>
+      <div class="badges">
+        <span class="badge version">v1.0.0</span>
+        <span class="badge">tRPC</span>
+        <span class="badge">TypeScript</span>
+        <span class="badge">PostgreSQL</span>
+      </div>
+    </div>
+
+    <div id="swagger-ui"></div>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
+    <script>
+      window.onload = function () {
+        SwaggerUIBundle({
+          url: "/docs/openapi.yaml",
+          dom_id: "#swagger-ui",
+          deepLinking: true,
+          presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIBundle.SwaggerUIStandalonePreset,
+          ],
+          layout: "BaseLayout",
+          defaultModelsExpandDepth: 1,
+          defaultModelExpandDepth: 1,
+          docExpansion: "list",
+          filter: true,
+          showExtensions: true,
+          showCommonExtensions: true,
+          tryItOutEnabled: true,
+        });
+      };
+    </script>
+  </body>
+</html>

@@ -51,16 +51,22 @@ async function startServer() {
     })
   );
 
+  // Serve API documentation
+  app.use("/docs", express.static("docs"));
+
   // API info endpoint
   app.get("/", (_req, res) => {
     res.json({
       name: "Skaidrus Seimas API",
       version: "1.0.0",
+      documentation: "/docs/swagger-ui.html",
+      openapi: "/docs/openapi.yaml",
       endpoints: {
         trpc: "/api/trpc",
         health: "/health",
-        oauth: "/api/oauth/*"
-      }
+        oauth: "/api/oauth/*",
+        docs: "/docs",
+      },
     });
   });
 

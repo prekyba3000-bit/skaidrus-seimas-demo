@@ -1,0 +1,710 @@
+openapi: 3.1.0
+info:
+  title: Skaidrus Seimas API
+  description: |
+    **Transparent Lithuanian Parliament Monitoring Platform**
+    
+    This API provides access to Lithuanian Parliament (Seimas) data including:
+    - Members of Parliament (MPs) with statistics and voting records
+    - Legislative bills with AI-generated summaries
+    - Voting patterns and accountability metrics
+    - Committee membership and activities
+    
+    ## Authentication
+    Most endpoints are public. User-specific endpoints require authentication via session cookies.
+    
+    ## Rate Limiting
+    | Endpoint Type | Limit | Window |
+    |---------------|-------|--------|
+    | Read (MPs, Bills) | 100 req | 60 sec |
+    | Search | 30 req | 60 sec |
+    | Auth | 5 req | 60 sec |
+    
+    ## Data Sources
+    - [Seimas Open Data API](https://www.lrs.lt/sip/portal.show?p_r=35391)
+    - [OpenSanctions](https://www.opensanctions.org/)
+  version: 1.0.0
+  contact:
+    name: Skaidrus Seimas Team
+    url: https://github.com/your-org/skaidrus-seimas-demo
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Development server
+  - url: https://api.seimas.example.com
+    description: Production server
+
+tags:
+  - name: MPs
+    description: Members of Parliament
+  - name: Bills
+    description: Legislative bills and laws
+  - name: Votes
+    description: Voting records
+  - name: Committees
+    description: Parliamentary committees
+  - name: Quiz
+    description: Educational quiz system
+  - name: Dashboard
+    description: Analytics and statistics
+  - name: Health
+    description: System health checks
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      description: Returns the health status of the API and its dependencies
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: Service is unhealthy
+
+  /api/trpc/mps.list:
+    get:
+      tags: [MPs]
+      summary: List all MPs
+      description: Returns a list of all Members of Parliament with optional filtering
+      operationId: mpsList
+      parameters:
+        - name: input
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            JSON-encoded filter object:
+            ```json
+            {"party": "Tėvynės sąjunga", "isActive": true}
+            ```
+      responses:
+        '200':
+          description: List of MPs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/MP'
+
+  /api/trpc/mps.byId:
+    get:
+      tags: [MPs]
+      summary: Get MP by ID
+      description: Returns detailed information about a specific MP including stats
+      operationId: mpsById
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'JSON-encoded MP ID: `{"id": 1}`'
+      responses:
+        '200':
+          description: MP details with statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/MPWithStats'
+        '404':
+          description: MP not found
+
+  /api/trpc/mps.compare:
+    get:
+      tags: [MPs]
+      summary: Compare two MPs
+      description: |
+        Compares voting patterns between two MPs and calculates their agreement score.
+        Returns detailed statistics and common vote analysis.
+      operationId: mpsCompare
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'JSON-encoded MP IDs: `{"mpId1": 1, "mpId2": 2}`'
+      responses:
+        '200':
+          description: Comparison results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/MPComparison'
+
+  /api/trpc/mps.search:
+    get:
+      tags: [MPs]
+      summary: Search MPs
+      description: Search for MPs by name (case-insensitive, partial match)
+      operationId: mpsSearch
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'JSON-encoded search term: `{"searchTerm": "Jonas"}`'
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/MP'
+
+  /api/trpc/bills.list:
+    get:
+      tags: [Bills]
+      summary: List all bills
+      description: Returns a paginated list of legislative bills with optional filtering
+      operationId: billsList
+      parameters:
+        - name: input
+          in: query
+          required: false
+          schema:
+            type: string
+          description: |
+            JSON-encoded filter object:
+            ```json
+            {"status": "Svarstymas", "category": "Ekonomika"}
+            ```
+      responses:
+        '200':
+          description: List of bills
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bill'
+
+  /api/trpc/bills.byId:
+    get:
+      tags: [Bills]
+      summary: Get bill by ID
+      description: Returns detailed information about a specific bill including AI summary
+      operationId: billsById
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'JSON-encoded bill ID: `{"id": 1}`'
+      responses:
+        '200':
+          description: Bill details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/BillWithSummary'
+
+  /api/trpc/votes.byMp:
+    get:
+      tags: [Votes]
+      summary: Get votes by MP
+      description: Returns voting history for a specific MP
+      operationId: votesByMp
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'JSON-encoded: `{"mpId": 1, "limit": 50}`'
+      responses:
+        '200':
+          description: Voting records
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Vote'
+
+  /api/trpc/committees.list:
+    get:
+      tags: [Committees]
+      summary: List all committees
+      description: Returns all parliamentary committees
+      operationId: committeesList
+      responses:
+        '200':
+          description: List of committees
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Committee'
+
+  /api/trpc/dashboard.pulse:
+    get:
+      tags: [Dashboard]
+      summary: Get activity pulse
+      description: Returns real-time activity statistics for the dashboard
+      operationId: dashboardPulse
+      responses:
+        '200':
+          description: Activity pulse data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/ActivityPulse'
+
+  /api/trpc/dashboard.globalStats:
+    get:
+      tags: [Dashboard]
+      summary: Get global statistics
+      description: Returns aggregated statistics across all MPs
+      operationId: dashboardGlobalStats
+      responses:
+        '200':
+          description: Global statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/GlobalStats'
+
+  /api/trpc/quiz.questions:
+    get:
+      tags: [Quiz]
+      summary: Get quiz questions
+      description: Returns quiz questions for a specific bill
+      operationId: quizQuestions
+      parameters:
+        - name: input
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 'JSON-encoded: `{"billId": 1}`'
+      responses:
+        '200':
+          description: Quiz questions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/QuizQuestion'
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, unhealthy]
+        database:
+          type: string
+          enum: [connected, disconnected]
+        cache:
+          type: string
+          enum: [connected, disconnected]
+        uptime:
+          type: number
+          description: Server uptime in seconds
+
+    MP:
+      type: object
+      required: [id, seimasId, name, party]
+      properties:
+        id:
+          type: integer
+          example: 1
+        seimasId:
+          type: string
+          example: "12345"
+        name:
+          type: string
+          example: "Jonas Jonaitis"
+        party:
+          type: string
+          example: "Tėvynės sąjunga - Lietuvos krikščionys demokratai"
+        faction:
+          type: string
+          nullable: true
+          example: "TS-LKD"
+        district:
+          type: string
+          nullable: true
+          example: "Vilnius"
+        districtNumber:
+          type: integer
+          nullable: true
+          example: 1
+        email:
+          type: string
+          format: email
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        photoUrl:
+          type: string
+          format: uri
+          nullable: true
+        biography:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+          default: true
+
+    MPStats:
+      type: object
+      properties:
+        id:
+          type: integer
+        mpId:
+          type: integer
+        votingAttendance:
+          type: string
+          description: Percentage as decimal string
+          example: "85.50"
+        partyLoyalty:
+          type: string
+          description: Percentage as decimal string
+          example: "92.30"
+        billsProposed:
+          type: integer
+          example: 15
+        billsPassed:
+          type: integer
+          example: 8
+        accountabilityScore:
+          type: string
+          description: Composite score (0-100)
+          example: "78.20"
+        lastCalculated:
+          type: string
+          format: date-time
+
+    MPWithStats:
+      allOf:
+        - $ref: '#/components/schemas/MP'
+        - type: object
+          properties:
+            stats:
+              $ref: '#/components/schemas/MPStats'
+            assistants:
+              type: array
+              items:
+                $ref: '#/components/schemas/Assistant'
+            trips:
+              type: array
+              items:
+                $ref: '#/components/schemas/Trip'
+
+    MPComparison:
+      type: object
+      properties:
+        mp1:
+          $ref: '#/components/schemas/MPWithStats'
+        mp2:
+          $ref: '#/components/schemas/MPWithStats'
+        agreementScore:
+          type: number
+          description: Percentage of identical votes (0-100)
+          example: 67.5
+        commonVotes:
+          type: integer
+          description: Number of votes both MPs participated in
+          example: 234
+
+    Assistant:
+      type: object
+      properties:
+        id:
+          type: integer
+        mpId:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          format: email
+          nullable: true
+
+    Trip:
+      type: object
+      properties:
+        id:
+          type: integer
+        mpId:
+          type: integer
+        destination:
+          type: string
+        purpose:
+          type: string
+          nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+        endDate:
+          type: string
+          format: date-time
+          nullable: true
+        cost:
+          type: string
+          description: Cost as decimal string
+          nullable: true
+
+    Bill:
+      type: object
+      required: [id, seimasId, title, status]
+      properties:
+        id:
+          type: integer
+        seimasId:
+          type: string
+          example: "XIIIP-1234"
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        explanatoryNotes:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [Pateiktas, Svarstymas, Priimtas, Atmestas, Grąžintas]
+        category:
+          type: string
+          nullable: true
+        submittedAt:
+          type: string
+          format: date-time
+          nullable: true
+        votedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    BillSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        billId:
+          type: integer
+        summary:
+          type: string
+          description: AI-generated summary
+        bulletPoints:
+          type: array
+          items:
+            type: string
+          description: Key points as bullet list
+        generatedAt:
+          type: string
+          format: date-time
+
+    BillWithSummary:
+      allOf:
+        - $ref: '#/components/schemas/Bill'
+        - type: object
+          properties:
+            summary:
+              $ref: '#/components/schemas/BillSummary'
+            sponsors:
+              type: array
+              items:
+                $ref: '#/components/schemas/MP'
+
+    Vote:
+      type: object
+      properties:
+        id:
+          type: integer
+        sessionVoteId:
+          type: integer
+        mpId:
+          type: integer
+        seimasMpId:
+          type: string
+        voteValue:
+          type: string
+          enum: [už, prieš, susilaikė, nebalsavo, nedalyvavo]
+          description: |
+            - už: For
+            - prieš: Against
+            - susilaikė: Abstained
+            - nebalsavo: Did not vote
+            - nedalyvavo: Did not participate
+
+    Committee:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+
+    ActivityPulse:
+      type: object
+      properties:
+        recentVotes:
+          type: integer
+          description: Number of votes in last 30 days
+        activeMPs:
+          type: integer
+          description: Number of MPs who voted recently
+        pendingBills:
+          type: integer
+          description: Bills currently under consideration
+        dailyActivity:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              votes:
+                type: integer
+
+    GlobalStats:
+      type: object
+      properties:
+        totalMPs:
+          type: integer
+          example: 141
+        averageAttendance:
+          type: string
+          example: "82.5"
+        averageLoyalty:
+          type: string
+          example: "88.2"
+        totalBills:
+          type: integer
+        billsPassedThisYear:
+          type: integer
+
+    QuizQuestion:
+      type: object
+      properties:
+        id:
+          type: integer
+        billId:
+          type: integer
+          nullable: true
+        questionText:
+          type: string
+        category:
+          type: string
+          nullable: true
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            code:
+              type: string
+            data:
+              type: object
+
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie for authenticated users

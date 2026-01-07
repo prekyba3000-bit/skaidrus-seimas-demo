@@ -1,0 +1,159 @@
+# ============================================
+# Skaidrus Seimas - Production Docker Compose
+# ============================================
+# Usage:
+#   docker-compose -f docker-compose.prod.yml up -d
+#   docker-compose -f docker-compose.prod.yml logs -f app
+#   docker-compose -f docker-compose.prod.yml down
+# ============================================
+
+services:
+  # ===================
+  # Application Server
+  # ===================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skaidrus-app
+    restart: always
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgres://${POSTGRES_USER:-seimas}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-seimas}
+      - REDIS_URL=redis://redis:6379
+      - SENTRY_DSN=${SENTRY_DSN}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - seimas-network
+    labels:
+      - "com.docker.compose.project=skaidrus-seimas"
+      - "traefik.enable=true"
+      - "traefik.http.routers.seimas.rule=Host(`seimas.example.com`)"
+      - "traefik.http.routers.seimas.tls=true"
+
+  # ===================
+  # PostgreSQL Database
+  # ===================
+  postgres:
+    image: postgres:16-alpine
+    container_name: skaidrus-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-seimas}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-seimas}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      # Persistent data storage
+      - postgres_data:/var/lib/postgresql/data
+      # Custom PostgreSQL configuration
+      - ./config/postgres.conf:/etc/postgresql/postgresql.conf:ro
+      # Initialization scripts
+      - ./scripts/init-db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-seimas} -d ${POSTGRES_DB:-seimas}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - seimas-network
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ===================
+  # Redis Cache
+  # ===================
+  redis:
+    image: redis:7-alpine
+    container_name: skaidrus-redis
+    restart: always
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save 60 1000
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - seimas-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+  # ===================
+  # Database Backup Service
+  # ===================
+  backup:
+    image: postgres:16-alpine
+    container_name: skaidrus-backup
+    restart: "no"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-seimas}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB:-seimas}
+      - POSTGRES_HOST=postgres
+      - BACKUP_RETENTION_DAYS=7
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup_db.sh:/backup.sh:ro
+    entrypoint: ["/bin/sh", "-c", "chmod +x /backup.sh && /backup.sh"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - seimas-network
+    profiles:
+      - backup
+
+# ===================
+# Volumes
+# ===================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+# ===================
+# Networks
+# ===================
+networks:
+  seimas-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16

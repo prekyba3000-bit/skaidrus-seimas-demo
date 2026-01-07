@@ -105,3 +105,7 @@ temp/
 *.db
 *.sqlite
 *.sqlite3
+
+# Orphan/abandoned project directories (not part of skaidrus-seimas-demo)
+/Seimas.v3/
+/lrs_sync/
