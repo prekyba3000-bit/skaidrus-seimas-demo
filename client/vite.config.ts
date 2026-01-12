@@ -15,6 +15,7 @@ import tailwindcss from "@tailwindcss/vite";
  */
 
 export default defineConfig({
+  root: path.resolve(__dirname), // Set root to client directory where index.html is located
   plugins: [react(), tailwindcss()],
 
   resolve: {
@@ -58,17 +59,17 @@ export default defineConfig({
 
           // Feature chunks - change together
           "feature-dashboard": [
-            "./src/pages/Dashboard.tsx",
-            "./src/pages/Home.tsx",
+            path.resolve(__dirname, "./src/pages/Dashboard.tsx"),
+            path.resolve(__dirname, "./src/pages/Home.tsx"),
           ],
           "feature-mps": [
-            "./src/pages/MPs.tsx",
-            "./src/pages/MPProfile.tsx",
-            "./src/pages/MpCompare.tsx",
+            path.resolve(__dirname, "./src/pages/MPs.tsx"),
+            path.resolve(__dirname, "./src/pages/MPProfile.tsx"),
+            path.resolve(__dirname, "./src/pages/MpCompare.tsx"),
           ],
           "feature-bills": [
-            "./src/pages/Bills.tsx",
-            "./src/pages/BillDetail.tsx",
+            path.resolve(__dirname, "./src/pages/Bills.tsx"),
+            path.resolve(__dirname, "./src/pages/BillDetail.tsx"),
           ],
         },
 
@@ -98,11 +99,11 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       "/api": {
-        target: "http://localhost:3001",
+        target: "http://localhost:3002",
         changeOrigin: true,
       },
       "/trpc": {
-        target: "http://localhost:3001",
+        target: "http://localhost:3002",
         changeOrigin: true,
       },
     },

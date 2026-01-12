@@ -34,7 +34,7 @@ export function initializeSentry(): void {
     integrations: [
       // HTTP request tracking
       Sentry.httpIntegration(),
-      // Express middleware integration
+      // Express middleware integration (handles request/response tracing)
       Sentry.expressIntegration(),
       // Postgres query tracking
       Sentry.postgresIntegration(),
@@ -144,6 +144,7 @@ export function clearUser(): void {
 
 /**
  * Express error handler middleware
+ * Must be added AFTER all routes
  */
 export function sentryErrorHandler() {
   return Sentry.expressErrorHandler();
@@ -151,9 +152,21 @@ export function sentryErrorHandler() {
 
 /**
  * Express request handler middleware
+ * Must be added BEFORE all routes
+ * Note: expressIntegration() is already configured in Sentry.init()
+ * This is just a placeholder for consistency - the integration handles it automatically
  */
 export function sentryRequestHandler() {
-  return Sentry.expressErrorHandler();
+  // The expressIntegration() in Sentry.init() automatically handles request tracing
+  // We don't need to return middleware here, but we keep the function for API consistency
+  return (req: any, res: any, next: any) => {
+    // Set request ID in Sentry scope if available
+    const requestId = req.headers["x-request-id"] || (req as any).requestId;
+    if (requestId) {
+      Sentry.setTag("request_id", requestId);
+    }
+    next();
+  };
 }
 
 /**

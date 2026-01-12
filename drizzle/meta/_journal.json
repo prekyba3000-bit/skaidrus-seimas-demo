@@ -15,6 +15,13 @@
       "when": 1767711369273,
       "tag": "0001_tranquil_lenny_balinger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767939472335,
+      "tag": "0002_free_chronomancer",
+      "breakpoints": true
     }
   ]
 }

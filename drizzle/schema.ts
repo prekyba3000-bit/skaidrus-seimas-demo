@@ -7,7 +7,10 @@ import {
   timestamp,
   json,
   decimal,
+  index,
+  jsonb,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 // Users
 export const users = pgTable("users", {
@@ -17,6 +20,11 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: varchar("role", { length: 20 }).default("user").notNull(),
+  settings: jsonb("settings").$type<{
+    emailNotifications?: boolean;
+    betaFeatures?: boolean;
+    compactMode?: boolean;
+  }>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
@@ -38,7 +46,14 @@ export const mps = pgTable("mps", {
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-});
+}, (table) => ({
+  // Composite index for common filter: isActive + party
+  isActivePartyIdx: index("mps_is_active_party_idx").on(table.isActive, table.party),
+  // Index for party filtering
+  partyIdx: index("mps_party_idx").on(table.party),
+  // Index for name (for text search - GIN index will be added via SQL migration)
+  nameIdx: index("mps_name_idx").on(table.name),
+}));
 
 // MP Stats
 export const mpStats = pgTable("mp_stats", {
@@ -74,7 +89,18 @@ export const bills = pgTable("bills", {
   votedAt: timestamp("voted_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-});
+}, (table) => ({
+  // Composite index for common filter: status + createdAt (for pagination)
+  statusCreatedAtIdx: index("bills_status_created_at_idx").on(table.status, table.createdAt),
+  // Index for status filtering
+  statusIdx: index("bills_status_idx").on(table.status),
+  // Index for category filtering
+  categoryIdx: index("bills_category_idx").on(table.category),
+  // Index for createdAt (used in pagination and ordering)
+  createdAtIdx: index("bills_created_at_idx").on(table.createdAt),
+  // Index for title (for text search - GIN index will be added via SQL migration)
+  titleIdx: index("bills_title_idx").on(table.title),
+}));
 
 // Bill Summaries
 export const billSummaries = pgTable("bill_summaries", {
@@ -86,6 +112,20 @@ export const billSummaries = pgTable("bill_summaries", {
   bulletPoints: json("bullet_points").notNull(),
   generatedAt: timestamp("generated_at").defaultNow(),
 });
+
+// System Status table (tracks last sync times)
+export const systemStatus = pgTable("system_status", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  jobName: varchar("job_name", { length: 100 }).notNull().unique(),
+  lastSuccessfulRun: timestamp("last_successful_run"),
+  lastRunStatus: varchar("last_run_status", { length: 20 }), // 'success', 'failed', 'partial'
+  lastRunError: text("last_run_error"),
+  recordsProcessed: integer("records_processed").default(0),
+  recordsFailed: integer("records_failed").default(0),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  jobNameIdx: index("system_status_job_name_idx").on(table.jobName),
+}));
 
 // Bill Sponsors
 export const billSponsors = pgTable("bill_sponsors", {
@@ -110,7 +150,18 @@ export const votes = pgTable("votes", {
     .references(() => mps.id),
   voteValue: varchar("vote_value", { length: 20 }).notNull(),
   votedAt: timestamp("voted_at").defaultNow(),
-});
+}, (table) => ({
+  // Composite index for common query: mpId + votedAt (for MP voting history with pagination)
+  mpIdVotedAtIdx: index("votes_mp_id_voted_at_idx").on(table.mpId, table.votedAt),
+  // Composite index for common query: billId + votedAt
+  billIdVotedAtIdx: index("votes_bill_id_voted_at_idx").on(table.billId, table.votedAt),
+  // Index for mpId filtering
+  mpIdIdx: index("votes_mp_id_idx").on(table.mpId),
+  // Index for billId filtering
+  billIdIdx: index("votes_bill_id_idx").on(table.billId),
+  // Index for votedAt (used in Parliament Pulse date filtering)
+  votedAtIdx: index("votes_voted_at_idx").on(table.votedAt),
+}));
 
 // Quiz Questions
 export const quizQuestions = pgTable("quiz_questions", {
@@ -245,6 +296,22 @@ export const sessionMpVotes = pgTable("session_mp_votes", {
     .references(() => mps.id),
   seimasMpId: varchar("seimas_mp_id", { length: 50 }).notNull(),
   voteValue: varchar("vote_value", { length: 20 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Activities (for Activity Feed)
+export const activities = pgTable("activities", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  type: varchar("type", { length: 50 }).notNull(), // 'vote', 'comment', 'document', 'session', 'achievement'
+  mpId: integer("mp_id")
+    .notNull()
+    .references(() => mps.id),
+  billId: integer("bill_id").references(() => bills.id),
+  sessionVoteId: integer("session_vote_id").references(() => sessionVotes.id),
+  metadata: json("metadata").notNull(), // Type-specific data
+  isHighlighted: boolean("is_highlighted").default(false),
+  isNew: boolean("is_new").default(true),
+  category: varchar("category", { length: 100 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

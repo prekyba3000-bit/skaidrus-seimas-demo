@@ -1,11 +1,20 @@
 import "dotenv/config";
 import express from "express";
-import { createServer } from "http";
+import { createServer, Server } from "http";
 import net from "net";
+import { randomUUID } from "crypto";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
 import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
+import { requestLogger, logger } from "../utils/logger";
+import { initializeSentry, sentryRequestHandler, sentryErrorHandler } from "../services/sentry";
+import { closeDatabase } from "../services/database";
+import { cache } from "../services/cache";
+import { closeRedisConnection } from "../lib/redis";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -26,30 +35,302 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
+// Global variables for graceful shutdown
+let httpServer: Server | null = null;
+let isShuttingDown = false;
+
+/**
+ * Graceful shutdown handler
+ */
+async function gracefulShutdown(signal: string) {
+  if (isShuttingDown) {
+    logger.warn("Shutdown already in progress");
+    return;
+  }
+
+  isShuttingDown = true;
+  logger.info({ signal }, "Received shutdown signal, starting graceful shutdown");
+
+  // 1. Stop accepting new connections
+  if (httpServer) {
+    httpServer.close(() => {
+      logger.info("HTTP server closed");
+    });
+
+    // Force close after 10 seconds
+    setTimeout(() => {
+      logger.error("Forced shutdown after timeout");
+      process.exit(1);
+    }, 10000);
+  }
+
+  // 2. Close database connection pool
+  try {
+    await closeDatabase();
+    logger.info("Database connection pool closed");
+  } catch (err) {
+    logger.error({ err }, "Error closing database connection");
+  }
+
+  // 3. Disconnect Redis (cache service)
+  try {
+    await cache.disconnect();
+    logger.info("Redis cache disconnected");
+  } catch (err) {
+    logger.error({ err }, "Error disconnecting Redis cache");
+  }
+
+  // 4. Disconnect Redis (BullMQ)
+  try {
+    await closeRedisConnection();
+    logger.info("Redis BullMQ connection closed");
+  } catch (err) {
+    logger.error({ err }, "Error closing Redis BullMQ connection");
+  }
+
+  logger.info("Graceful shutdown complete");
+  process.exit(0);
+}
+
 async function startServer() {
+  // Initialize Sentry before anything else
+  initializeSentry();
+
   const app = express();
   const server = createServer(app);
+
+  // Trust proxy (for rate limiting behind reverse proxy)
+  app.set("trust proxy", 1);
+
+  // Security Headers: Helmet
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Tailwind
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", "data:", "https:"], // Allow images from any HTTPS source
+          connectSrc: ["'self'"],
+          fontSrc: ["'self'", "data:"],
+        },
+      },
+      hsts: {
+        maxAge: 31536000, // 1 year
+        includeSubDomains: true,
+        preload: true,
+      },
+      hidePoweredBy: true,
+      xssFilter: true,
+      noSniff: true,
+      frameguard: { action: "deny" },
+    })
+  );
+
+  // CORS Configuration
+  const allowedOrigins = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL.split(",").map((url) => url.trim())
+    : process.env.NODE_ENV === "production"
+    ? []
+    : ["http://localhost:5173", "http://localhost:3000"]; // Dev fallback
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, Postman, etc.)
+        if (!origin) {
+          return callback(null, true);
+        }
+
+        if (allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          logger.warn({ origin, allowedOrigins }, "CORS blocked request");
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "x-request-id"],
+      exposedHeaders: ["x-request-id"],
+    })
+  );
+
+  // Global Rate Limiting (applied to all routes except health checks)
+  const globalRateLimiter = rateLimit({
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || "60000"), // 1 minute
+    max: parseInt(process.env.RATE_LIMIT_MAX || "100"), // 100 requests per window
+    message: {
+      error: "Too Many Requests",
+      message: "Rate limit exceeded. Please try again later.",
+    },
+    standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
+    legacyHeaders: false, // Disable `X-RateLimit-*` headers
+    skip: (req) => {
+      // Skip rate limiting for health checks
+      return req.path === "/health" || req.path === "/health/ready";
+    },
+  });
+
+  app.use(globalRateLimiter);
+
+  // Strict Rate Limiting for sensitive endpoints
+  const strictRateLimiter = rateLimit({
+    windowMs: parseInt(process.env.STRICT_RATE_LIMIT_WINDOW_MS || "60000"), // 1 minute
+    max: parseInt(process.env.STRICT_RATE_LIMIT_MAX || "5"), // 5 requests per window
+    message: {
+      error: "Too Many Requests",
+      message: "Rate limit exceeded for this endpoint. Please try again later.",
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  // Apply strict rate limiting to sensitive tRPC endpoints
+  // tRPC routes are accessed via query params, so we need to check the path and query
+  app.use("/api/trpc", (req, res, next) => {
+    // Check if this is a sensitive endpoint
+    const url = req.url || "";
+    const isSensitiveEndpoint = 
+      url.includes("auth.login") || 
+      url.includes("user.updateSettings");
+    
+    if (isSensitiveEndpoint) {
+      return strictRateLimiter(req, res, next);
+    }
+    next();
+  });
+
+  // Sentry request handler must be first (for tracing and request ID tagging)
+  app.use(sentryRequestHandler());
+
+  // Request ID middleware - must be early in the chain
+  app.use((req, res, next) => {
+    // Generate or use existing request ID from header
+    const requestId = req.headers["x-request-id"] as string || randomUUID();
+    
+    // Attach to request for use in context
+    (req as any).requestId = requestId;
+    
+    // Set response header so frontend can correlate errors
+    res.setHeader("x-request-id", requestId);
+    
+    next();
+  });
+
+  // Structured request logging middleware
+  app.use(requestLogger());
 
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-  // Health check endpoint
+  // Health check endpoints (excluded from rate limiting via skip function)
   app.get("/health", (_req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
+  // Deep health check (readiness probe)
+  app.get("/health/ready", async (_req, res) => {
+    const checks: Record<string, { status: string; latencyMs?: number; error?: string }> = {};
+
+    // Check database
+    try {
+      const { healthCheck } = await import("../services/database");
+      const dbHealth = await healthCheck();
+      checks.database = {
+        status: dbHealth.status,
+        latencyMs: dbHealth.latencyMs,
+      };
+    } catch (err: any) {
+      checks.database = {
+        status: "unhealthy",
+        error: err.message,
+      };
+    }
+
+    // Check Redis
+    try {
+      const start = performance.now();
+      const redisHealthy = await cache.ping();
+      const latencyMs = Math.round(performance.now() - start);
+      checks.redis = {
+        status: redisHealthy ? "healthy" : "unhealthy",
+        latencyMs,
+      };
+    } catch (err: any) {
+      checks.redis = {
+        status: "unhealthy",
+        error: err.message,
+      };
+    }
+
+    // Determine overall status
+    const allHealthy = Object.values(checks).every(
+      (check) => check.status === "healthy"
+    );
+
+    const statusCode = allHealthy ? 200 : 503;
+    res.status(statusCode).json({
+      status: allHealthy ? "ready" : "not ready",
+      checks,
+      timestamp: new Date().toISOString(),
+    });
   });
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
 
-  // tRPC API
+  // tRPC API with error handling
   app.use(
     "/api/trpc",
     createExpressMiddleware({
       router: appRouter,
       createContext,
+      onError: ({ path, error, type, ctx, input }) => {
+        // Use context logger if available, otherwise create one
+        const log = ctx?.log || require("../utils/logger").logger;
+        const requestId = ctx?.requestId || (ctx?.req as any)?.requestId || "unknown";
+        const userId = ctx?.user?.openId || "anonymous";
+
+        // Log error with full context using structured logger
+        log.error(
+          {
+            err: error,
+            path,
+            type,
+            requestId,
+            userId,
+            input: input ? JSON.stringify(input) : undefined,
+            code: error.code,
+            message: error.message,
+            stack: error.stack,
+          },
+          `tRPC error: ${error.message}`
+        );
+
+        // Send to Sentry if configured
+        if (process.env.SENTRY_DSN) {
+          const { captureException, setUser } = require("../services/sentry");
+          if (ctx?.user) {
+            setUser({ id: ctx.user.openId, role: ctx.user.role || undefined });
+          }
+          // Set request ID as tag for correlation
+          require("@sentry/node").setTag("request_id", requestId);
+          captureException(error, {
+            requestId,
+            path,
+            type,
+            userId,
+            input: input ? JSON.stringify(input) : undefined,
+          });
+        }
+      },
     })
   );
+
+  // Sentry error handler must be after all routes
+  app.use(sentryErrorHandler());
 
   // Serve API documentation
   app.use("/docs", express.static("docs"));
@@ -74,12 +355,38 @@ async function startServer() {
   const port = await findAvailablePort(preferredPort);
 
   if (port !== preferredPort) {
-    console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
+    logger.warn({ preferredPort, actualPort: port }, "Port busy, using alternative");
   }
 
-  server.listen(port, () => {
-    console.log(`Skaidrus Seimas API running on http://localhost:${port}/`);
+  // Initialize Redis cache connection
+  try {
+    await cache.connect();
+  } catch (err) {
+    logger.warn({ err }, "Redis cache initialization failed - continuing without cache");
+  }
+
+  httpServer = server.listen(port, () => {
+    logger.info({ port }, "Skaidrus Seimas API server started");
+    logger.info({ health: "/health", ready: "/health/ready" }, "Health check endpoints available");
+  });
+
+  // Graceful shutdown handlers
+  process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+  process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+
+  // Handle uncaught errors
+  process.on("uncaughtException", (err) => {
+    logger.error({ err }, "Uncaught exception");
+    gracefulShutdown("uncaughtException");
+  });
+
+  process.on("unhandledRejection", (reason, promise) => {
+    logger.error({ reason, promise }, "Unhandled rejection");
+    // Don't shutdown on unhandled rejection, just log it
   });
 }
 
-startServer().catch(console.error);
+startServer().catch((err) => {
+  logger.error({ err }, "Fatal error starting server");
+  process.exit(1);
+});

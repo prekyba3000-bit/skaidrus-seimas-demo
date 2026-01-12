@@ -69,7 +69,7 @@ export default function BillDetail() {
   const [selectedParty, setSelectedParty] = useState<string>("all");
 
   // Fetch bill details
-  const { data: bill, isLoading: billLoading } = trpc.bills.byId.useQuery({
+  const { data: bill, isLoading: billLoading, isError } = trpc.bills.byId.useQuery({
     id: billId,
   });
 
@@ -90,7 +90,7 @@ export default function BillDetail() {
     );
   }
 
-  if (!bill) {
+  if (!bill || isError) {
     return (
       <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
         <div className="border border-muted rounded-lg p-4">

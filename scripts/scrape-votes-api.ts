@@ -1,7 +1,7 @@
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
-import { getDb } from "../server/db";
-import { sessionVotes, sessionMpVotes, mps } from "../drizzle/schema";
+import { getDb } from "../server/services/database";
+import { sessionVotes, sessionMpVotes, mps, systemStatus } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import dotenv from "dotenv";
 import {
@@ -11,6 +11,7 @@ import {
   sessionMpVoteSchema,
 } from "../server/schemas/session-votes.schema";
 import { ZodError } from "zod";
+import { logger } from "../server/utils/logger";
 
 dotenv.config();
 
@@ -19,14 +20,52 @@ dotenv.config();
  * Documentation: https://www.lrs.lt/sip/portal.show?p_r=35391&p_k=1
  */
 
+/**
+ * Update system status for a sync job
+ */
+async function updateSystemStatus(
+  db: any,
+  jobName: string,
+  status: "success" | "failed" | "partial",
+  recordsProcessed: number = 0,
+  recordsFailed: number = 0,
+  error?: string
+) {
+  try {
+    await db
+      .insert(systemStatus)
+      .values({
+        jobName,
+        lastSuccessfulRun: status === "success" ? new Date() : undefined,
+        lastRunStatus: status,
+        lastRunError: error || null,
+        recordsProcessed,
+        recordsFailed,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: systemStatus.jobName,
+        set: {
+          lastSuccessfulRun: status === "success" ? new Date() : undefined,
+          lastRunStatus: status,
+          lastRunError: error || null,
+          recordsProcessed,
+          recordsFailed,
+          updatedAt: new Date(),
+        },
+      });
+  } catch (err: any) {
+    logger.error({ err, jobName }, "Failed to update system status");
+  }
+}
+
 async function scrapeVotesFromAPI() {
-  console.log(
-    "[API] Starting vote scrape using official LRS Open Data APIs..."
-  );
+  logger.info("Starting vote scrape using official LRS Open Data APIs");
 
   const db = await getDb();
   if (!db) {
-    console.error("[API] Database connection failed!");
+    logger.error("Database connection failed!");
+    await updateSystemStatus(db, "votes_sync", "failed", 0, 0, "Database connection failed");
     return;
   }
 
@@ -99,6 +138,7 @@ async function scrapeVotesFromAPI() {
 
   let totalVotes = 0;
   let totalInserted = 0;
+  let totalFailed = 0;
 
   // Process latest 10 sittings (newest first)
   for (const sitting of sittings.slice(0, 10)) {
@@ -185,7 +225,7 @@ async function scrapeVotesFromAPI() {
               `    Results: For: ${votedFor}, Against: ${votedAgainst}, Abstained: ${abstained}`
             );
 
-            // Insert into database using upsert (skip if tables don't exist yet)
+            // Insert into database using transaction for data consistency
             try {
               // CRITICAL: Validate data structure before DB insertion
               // This prevents corrupting the database if Seimas API changes format
@@ -209,104 +249,91 @@ async function scrapeVotesFromAPI() {
                 validatedVote = validateSessionVote(votePayload);
               } catch (validationError) {
                 if (validationError instanceof ZodError) {
-                  console.error(`    ❌ VALIDATION FAILED for vote ${voteId}:`);
-                  console.error(`    Seimas API data format may have changed!`);
-                  console.error(
-                    `    Details: ${validationError.issues.map((e: any) => `${e.path.join(".")}: ${e.message}`).join(", ")}`
+                  logger.warn(
+                    { voteId, errors: validationError.issues },
+                    "Validation failed for vote - skipping"
                   );
-                  console.error(
-                    `    Raw data:`,
-                    JSON.stringify(votePayload, null, 2)
-                  );
-                  // Skip this vote but continue processing others
+                  totalFailed++;
                   continue;
                 }
                 throw validationError; // Re-throw non-Zod errors
               }
 
-              const inserted = await db
-                .insert(sessionVotes)
-                .values(validatedVote)
-                .onConflictDoUpdate({
-                  target: sessionVotes.seimasVoteId,
-                  set: {
-                    votedFor: votedFor,
-                    votedAgainst: votedAgainst,
-                    abstained: abstained,
-                    totalVoted: totalVoted,
-                    comment: comment || null,
-                    updatedAt: new Date(),
-                  },
-                })
-                .returning({ id: sessionVotes.id });
+              // Use transaction to ensure data consistency
+              await db.transaction(async (tx) => {
+                const inserted = await tx
+                  .insert(sessionVotes)
+                  .values(validatedVote)
+                  .onConflictDoUpdate({
+                    target: sessionVotes.seimasVoteId,
+                    set: {
+                      votedFor: votedFor,
+                      votedAgainst: votedAgainst,
+                      abstained: abstained,
+                      totalVoted: totalVoted,
+                      comment: comment || null,
+                      updatedAt: new Date(),
+                    },
+                  })
+                  .returning({ id: sessionVotes.id });
 
-              if (inserted && inserted[0]) {
-                totalInserted++;
-                const sessionVoteId = inserted[0].id;
-                console.log(`    ✅ Saved to database (ID: ${sessionVoteId})`);
+                if (inserted && inserted[0]) {
+                  totalInserted++;
+                  const sessionVoteId = inserted[0].id;
+                  logger.debug({ voteId, sessionVoteId }, "Saved vote to database");
 
-                // Process Individual Votes
-                let individualVotes =
-                  balsavimas.IndividualusBalsavimoRezultatas;
-                if (individualVotes) {
-                  if (!Array.isArray(individualVotes))
-                    individualVotes = [individualVotes];
+                  // Process Individual Votes
+                  let individualVotes =
+                    balsavimas.IndividualusBalsavimoRezultatas;
+                  if (individualVotes) {
+                    if (!Array.isArray(individualVotes))
+                      individualVotes = [individualVotes];
 
-                  // Delete existing (clean slate for this vote)
-                  await db
-                    .delete(sessionMpVotes)
-                    .where(eq(sessionMpVotes.sessionVoteId, sessionVoteId));
+                    // Delete existing (clean slate for this vote)
+                    await tx
+                      .delete(sessionMpVotes)
+                      .where(eq(sessionMpVotes.sessionVoteId, sessionVoteId));
 
-                  const mpVotesToInsert = [];
-                  for (const v of individualVotes) {
-                    const seimasMpId = v["@_asmens_id"];
-                    const voteVal = v["@_kaip_balsavo"];
-                    const mpId = mpMap.get(seimasMpId);
+                    const mpVotesToInsert = [];
+                    for (const v of individualVotes) {
+                      const seimasMpId = v["@_asmens_id"];
+                      const voteVal = v["@_kaip_balsavo"];
+                      const mpId = mpMap.get(seimasMpId);
 
-                    if (mpId && voteVal) {
-                      mpVotesToInsert.push({
-                        sessionVoteId,
-                        mpId,
-                        seimasMpId,
-                        voteValue: voteVal,
-                      });
+                      if (mpId && voteVal) {
+                        mpVotesToInsert.push({
+                          sessionVoteId,
+                          mpId,
+                          seimasMpId,
+                          voteValue: voteVal,
+                        });
+                      }
                     }
-                  }
-                  if (mpVotesToInsert.length > 0) {
-                    try {
-                      await db.insert(sessionMpVotes).values(mpVotesToInsert);
-                      console.log(
-                        `      - Saved ${mpVotesToInsert.length} MP votes`
-                      );
-                    } catch (err: any) {
-                      console.error(
-                        `      ❌ Error saving MP votes: ${err.message}`
+                    if (mpVotesToInsert.length > 0) {
+                      await tx.insert(sessionMpVotes).values(mpVotesToInsert);
+                      logger.debug(
+                        { count: mpVotesToInsert.length },
+                        "Saved MP votes"
                       );
                     }
                   }
                 }
-              }
+              });
             } catch (dbErr: any) {
               // Table might not exist yet - that's OK for now
               if (
                 dbErr.message.includes("relation") ||
                 dbErr.message.includes("does not exist")
               ) {
-                console.log(
-                  `    ⚠️  Table not created yet - skipping database save`
-                );
+                logger.warn("Table not created yet - skipping database save");
               } else {
-                console.error(
-                  `    ❌ Database error for vote ${voteId}:`,
-                  dbErr.message
-                );
+                logger.error({ err: dbErr, voteId }, "Database error for vote");
+                totalFailed++;
               }
             }
           } catch (voteErr: any) {
-            console.error(
-              `    Error fetching vote ${voteId}:`,
-              voteErr.message
-            );
+            logger.error({ err: voteErr, voteId }, "Error fetching vote");
+            totalFailed++;
           }
 
           // Rate limiting
@@ -314,16 +341,21 @@ async function scrapeVotesFromAPI() {
         }
       }
     } catch (err: any) {
-      console.error(
-        `[API] Error processing sitting ${sittingNum}:`,
-        err.message
-      );
+      logger.error({ err, sittingNum }, "Error processing sitting");
+      totalFailed++;
     }
   }
 
-  console.log(
-    `\n[API] ✅ Complete! Processed ${totalVotes} votes, inserted/updated ${totalInserted} in database.`
+  const status = totalFailed > 0 && totalInserted > 0 ? "partial" : totalInserted > 0 ? "success" : "failed";
+  await updateSystemStatus(db, "votes_sync", status, totalInserted, totalFailed);
+
+  logger.info(
+    { totalVotes, totalInserted, totalFailed },
+    "Vote scrape complete"
   );
 }
 
-scrapeVotesFromAPI().catch(console.error);
+scrapeVotesFromAPI().catch((err) => {
+  logger.error({ err }, "Fatal error in vote scrape");
+  process.exit(1);
+});

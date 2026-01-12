@@ -82,19 +82,28 @@ export const logger = pino({
 /**
  * Create a child logger with request context
  */
-export function createRequestLogger(requestId: string) {
-  return logger.child({ requestId });
+export function createRequestLogger(requestId: string, userId?: string) {
+  const context: Record<string, string> = { requestId };
+  if (userId) {
+    context.userId = userId;
+  }
+  return logger.child(context);
 }
 
 /**
  * Express middleware for request logging
+ * Note: requestId should already be set by the request ID middleware
  */
 export function requestLogger() {
   return (req: any, res: any, next: any) => {
-    const requestId = req.headers["x-request-id"] || crypto.randomUUID();
+    // Use requestId from middleware (set in index.ts) or generate one
+    const requestId = (req as any).requestId || req.headers["x-request-id"] || crypto.randomUUID();
     const startTime = Date.now();
 
-    // Attach logger to request
+    // Ensure requestId is set on request object
+    (req as any).requestId = requestId;
+
+    // Attach logger to request (userId will be added in context if authenticated)
     req.log = logger.child({ requestId });
 
     // Log request start

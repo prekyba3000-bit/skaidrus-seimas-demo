@@ -1,21 +1,29 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
-import { 
-  LayoutDashboard, 
-  Activity, 
-  Users, 
-  Map as MapIcon, 
-  Settings, 
-  Menu, 
-  Search, 
-  Bell, 
+import {
+  LayoutDashboard,
+  Activity,
+  Users,
+  Map as MapIcon,
+  Settings,
+  Menu,
+  Search,
+  Bell,
   MessageSquare,
   Building2,
-  ArrowLeftRight
+  ArrowLeftRight,
+  X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useUIStore } from "@/store/ui";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useRecentSearches } from "@/hooks/useRecentSearches";
+import { SearchDropdown } from "@/components/SearchDropdown";
+import { trpc } from "@/lib/trpc";
+import { useState, useRef, useEffect } from "react";
+import { Sidebar } from "./Sidebar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -23,8 +31,110 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children, title }: DashboardLayoutProps) {
-  const [location] = useLocation();
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [location, navigate] = useLocation();
+  const { isSidebarOpen, toggleSidebar, searchQuery, setSearchQuery } = useUIStore();
+
+  // Search state
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const { recentSearches, addSearch, clearSearches } = useRecentSearches();
+
+  // Debounce search query
+  const debouncedSearch = useDebounce(searchQuery, 300);
+
+  // Global search query
+  const { data: searchResults, isLoading } = trpc.search.global.useQuery(
+    { query: debouncedSearch, limit: 5 },
+    {
+      enabled: debouncedSearch.length >= 2,
+      onSuccess: () => {
+        setIsDropdownOpen(debouncedSearch.length >= 2);
+      },
+    }
+  );
+
+  // Calculate total results for keyboard navigation
+  const totalResults = searchResults
+    ? searchResults.mps.length + searchResults.bills.length + searchResults.committees.length
+    : 0;
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isDropdownOpen) return;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setSelectedIndex((prev) => Math.min(prev + 1, totalResults - 1));
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setSelectedIndex((prev) => Math.max(prev - 1, -1));
+        break;
+      case "Enter":
+        e.preventDefault();
+        if (selectedIndex >= 0 && searchResults) {
+          navigateToResult(selectedIndex);
+        }
+        break;
+      case "Escape":
+        setIsDropdownOpen(false);
+        searchInputRef.current?.blur();
+        break;
+    }
+  };
+
+  // Navigate to selected result
+  const navigateToResult = (index: number) => {
+    if (!searchResults) return;
+
+    let currentIndex = 0;
+
+    // Check MPs
+    if (index < searchResults.mps.length) {
+      const mp = searchResults.mps[index];
+      navigate(`/mp/${mp.id}`);
+      addSearch(searchQuery);
+      setIsDropdownOpen(false);
+      setSearchQuery("");
+      return;
+    }
+    currentIndex += searchResults.mps.length;
+
+    // Check Bills
+    if (index < currentIndex + searchResults.bills.length) {
+      const bill = searchResults.bills[index - currentIndex];
+      navigate(`/bills/${bill.id}`);
+      addSearch(searchQuery);
+      setIsDropdownOpen(false);
+      setSearchQuery("");
+      return;
+    }
+    currentIndex += searchResults.bills.length;
+
+    // Check Committees
+    if (index < currentIndex + searchResults.committees.length) {
+      const committee = searchResults.committees[index - currentIndex];
+      navigate(`/committees/${committee.id}`);
+      addSearch(searchQuery);
+      setIsDropdownOpen(false);
+      setSearchQuery("");
+      return;
+    }
+  };
+
+  // Handle dropdown close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchInputRef.current && !searchInputRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const navigation = [
     { name: "Apžvalga", href: "/dashboard", icon: LayoutDashboard },
@@ -36,65 +146,73 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
 
   return (
     <div className="flex h-screen bg-background text-foreground font-sans overflow-hidden">
-      {/* Sidebar */}
-      <aside className={`w-64 bg-surface-dark border-r border-surface-border flex-shrink-0 flex-col justify-between h-full hidden md:flex transition-all duration-300`}>
-        <div className="flex flex-col p-4 gap-6">
-          <div className="flex items-center gap-3 px-2">
-            <div className="bg-primary/20 flex items-center justify-center aspect-square rounded-lg size-10 text-primary">
-              <Building2 className="w-6 h-6" />
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-white text-base font-bold leading-normal">MP Tracker</h1>
-              <p className="text-[#92adc9] text-xs font-normal leading-normal">Seimo Stebėsenai</p>
-            </div>
-          </div>
-          <nav className="flex flex-col gap-2">
-            {navigation.map((item) => {
-              const isActive = location === item.href;
-              return (
-                <Link key={item.name} href={item.href}>
-                  <a className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                    isActive 
-                      ? "bg-[#233648] text-white" 
-                      : "text-[#92adc9] hover:text-white hover:bg-[#233648]"
-                  }`}>
-                    <item.icon className="w-5 h-5" />
-                    <p className="text-sm font-medium leading-normal">{item.name}</p>
-                  </a>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-        <div className="p-4">
-          <Link href="/settings">
-            <a className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[#92adc9] hover:text-white hover:bg-[#233648] transition-colors ${location === '/settings' ? "bg-[#233648] text-white" : ""}`}>
-              <Settings className="w-5 h-5" />
-              <p className="text-sm font-medium leading-normal">Nustatymai</p>
-            </a>
-          </Link>
-        </div>
-      </aside>
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
+
+      <Sidebar />
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+      <main className="flex-1 flex flex-col min-h-screen overflow-hidden relative lg:ml-72 bg-noble-gradient">
         <header className="flex items-center justify-between border-b border-surface-border bg-surface-dark px-6 py-3 flex-shrink-0 z-10">
           <div className="flex items-center gap-8 w-full max-w-2xl">
-            <button className="md:hidden text-white" aria-label="Atidaryti meniu" title="Meniu">
-              <Menu className="w-6 h-6" />
+            <button
+              className="md:hidden text-white"
+              aria-label="Atidaryti meniu"
+              title="Meniu"
+              onClick={toggleSidebar}
+            >
+              {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
 
             <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">{title}</h2>
-            <div className="flex flex-col flex-1 max-w-[400px]">
+            <div className="flex flex-col flex-1 max-w-[400px] relative">
               <div className="flex w-full items-stretch rounded-lg h-10 bg-[#233648] overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 transition-all">
                 <div className="text-[#92adc9] flex items-center justify-center pl-3">
                   <Search className="w-4 h-4" />
                 </div>
-                <Input 
-                  className="bg-transparent border-none text-white placeholder:text-[#92adc9] px-3 py-2 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm h-full w-full" 
-                  placeholder="Ieškoti Seimo nario, įstatymo..." 
+                <Input
+                  ref={searchInputRef}
+                  className="bg-transparent border-none text-white placeholder:text-[#92adc9] px-3 py-2 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm h-full w-full"
+                  placeholder="Ieškoti Seimo nario, įstatymo..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setSelectedIndex(-1);
+                  }}
+                  onKeyDown={handleKeyDown}
+                  onFocus={() => {
+                    if (debouncedSearch.length >= 2) {
+                      setIsDropdownOpen(true);
+                    }
+                  }}
                 />
               </div>
+
+              {/* Search Dropdown */}
+              <SearchDropdown
+                results={searchResults}
+                isLoading={isLoading}
+                isOpen={isDropdownOpen}
+                selectedIndex={selectedIndex}
+                recentSearches={recentSearches}
+                onSelect={(href) => {
+                  navigate(href);
+                  addSearch(searchQuery);
+                  setIsDropdownOpen(false);
+                  setSearchQuery("");
+                }}
+                onSelectRecent={(query) => {
+                  setSearchQuery(query);
+                  searchInputRef.current?.focus();
+                }}
+                onClearRecent={clearSearches}
+                onClose={() => setIsDropdownOpen(false)}
+              />
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -116,8 +234,8 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
         </header>
 
         {/* Dynamic Content */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-8 bg-background custom-scrollbar">
-          <div className="mx-auto max-w-[1200px] flex flex-col gap-6">
+        <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-background custom-scrollbar">
+          <div className="mx-auto max-w-[1200px] w-full flex flex-col gap-4 md:gap-6">
             {children}
           </div>
         </div>

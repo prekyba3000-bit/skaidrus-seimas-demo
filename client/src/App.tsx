@@ -15,6 +15,8 @@ import MPProfile from "./pages/MPProfile";
 import MPs from "./pages/MPs";
 import MpCompare from "./pages/MpCompare";
 import Dashboard from "./pages/Dashboard";
+import Pulsas from "./pages/Pulsas";
+import Settings from "./pages/Settings";
 
 
 
@@ -29,6 +31,9 @@ function Router() {
       <Route path={"/mps"} component={MPs} />
       <Route path={"/compare"} component={MpCompare} />
       <Route path={"/mp/:id"} component={MPProfile} />
+      <Route path={"/pulse"} component={Pulsas} />
+      <Route path={"/nustatymai"} component={Settings} />
+      <Route path={"/settings"} component={Settings} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

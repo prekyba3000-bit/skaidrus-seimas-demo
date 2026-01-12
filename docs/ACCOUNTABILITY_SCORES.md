@@ -190,5 +190,5 @@ Scores are automatically fetched and displayed in:
 
 - Database Schema: `/drizzle/schema.ts`
 - Calculation Logic: `/scripts/calculate-accountability-scores.ts`
-- API Integration: `/server/db.ts` (getMpStats function)
+- API Integration: `/server/services/database.ts` (getMpStats function)
 - Frontend Display: `/client/src/pages/MPs.tsx`, `/client/src/pages/MPProfile.tsx`

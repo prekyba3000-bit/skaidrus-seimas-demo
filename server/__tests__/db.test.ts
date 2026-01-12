@@ -1,24 +1,19 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
-import { getMpById, getMpStats, getMpComparison } from "../db";
+import { describe, it, expect, vi } from "vitest";
+import { getMpById, getMpStats, getMpComparison } from "../services/database";
 
-// Use pg-mem for zero-cost in-memory Postgres testing
-// This avoids hitting the live database and runs in ~10ms per test
-vi.mock("../db", async () => {
-  const actual = await vi.importActual("../db");
+// Mock the database service
+vi.mock("../services/database", async () => {
+  const actual = await vi.importActual("../services/database");
   return {
     ...actual,
-    // Mock database connection for unit tests
-    db: {
+    getDb: vi.fn().mockResolvedValue({
       select: vi.fn().mockReturnValue({
         from: vi.fn().mockReturnValue({
-          where: vi
-            .fn()
-            .mockResolvedValue([
-              { id: 1, name: "Test MP", party: "Test Party", seimasId: "123" },
-            ]),
+          where: vi.fn().mockResolvedValue([]),
+          limit: vi.fn().mockResolvedValue([]),
         }),
       }),
-    },
+    }),
   };
 });
 

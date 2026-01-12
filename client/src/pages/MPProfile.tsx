@@ -16,7 +16,8 @@ import {
   Zap,
   ChevronRight,
   Info,
-  Plus
+  Plus,
+  ArrowLeftRight
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
+import { getPartyColors } from "@/lib/constants";
+import { FollowButton } from "@/components/FollowButton";
+import { Skeleton, SkeletonHeader, SkeletonAvatar, SkeletonText, SkeletonCard } from "@/components/ui/skeleton";
 
 export default function MPProfile() {
   const [, params] = useRoute("/mp/:id");
@@ -47,17 +51,59 @@ export default function MPProfile() {
     { enabled: !!mpId }
   );
 
-  if (mpLoading || !mpData) {
+  if (mpLoading) {
+    return (
+      <DashboardLayout title="Seimo Nario Profilis">
+        <div className="space-y-6 px-4 md:px-0">
+          {/* Header Skeleton */}
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
+            <Skeleton className="h-10 w-32" />
+          </div>
+
+          {/* Hero Section Skeleton */}
+          <div className="bg-surface-dark border-surface-border rounded-lg p-6">
+            <div className="flex flex-col md:flex-row gap-6">
+              <SkeletonAvatar size={120} />
+              <div className="flex-1 space-y-4">
+                <SkeletonHeader />
+                <SkeletonText lines={3} />
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs Skeleton */}
+          <div className="space-y-4">
+            <div className="flex gap-2 border-b border-surface-border">
+              {[1, 2, 3, 4].map((i) => (
+                <Skeleton key={i} className="h-10 w-24" />
+              ))}
+            </div>
+            <SkeletonCard className="h-64" />
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (!mpData) {
     return (
       <DashboardLayout title="Seimo Nario Profilis">
         <div className="h-[400px] flex items-center justify-center">
-          <div className="w-10 h-10 border-4 border-primary border-t-transparent animate-spin rounded-full" />
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-white mb-4">Narys nerastas</h2>
+            <p className="text-[#92adc9] mb-6">Nurodytas Seimo narys neegzistuoja arba buvo pašalintas</p>
+            <Button onClick={() => navigate("/")} variant="default">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Grįžti į sąrašą
+            </Button>
+          </div>
         </div>
       </DashboardLayout>
     );
   }
 
   const { assistants, trips, ...mp } = mpData;
+  const partyColors = getPartyColors(mp.party);
 
   const tabs = [
     { id: "overview", label: "Apžvalga", icon: Activity },
@@ -78,9 +124,19 @@ export default function MPProfile() {
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm font-bold uppercase tracking-wider">Atgal į sąrašą</span>
         </Button>
-        <div className="bg-[#233648] border border-surface-border rounded-lg px-3 py-1.5 flex items-center gap-2">
-          <Info className="w-4 h-4 text-primary" />
-          <span className="text-[#92adc9] text-xs font-medium uppercase tracking-widest">ID: {mp.seimasId}</span>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            onClick={() => navigate(`/compare?ids=${mp.id}`)}
+            className="text-[#92adc9] hover:text-white border-surface-border hover:border-primary"
+          >
+            <ArrowLeftRight className="w-4 h-4 mr-2" />
+            <span className="text-sm font-bold uppercase tracking-wider">Palyginti</span>
+          </Button>
+          <div className="bg-[#233648] border border-surface-border rounded-lg px-3 py-1.5 flex items-center gap-2">
+            <Info className="w-4 h-4 text-primary" />
+            <span className="text-[#92adc9] text-xs font-medium uppercase tracking-widest">ID: {mp.seimasId}</span>
+          </div>
         </div>
       </div>
 
@@ -102,9 +158,20 @@ export default function MPProfile() {
                 <AvatarFallback>{mp.name[0]}</AvatarFallback>
               </Avatar>
 
+              {/* Follow Button - positioned near avatar */}
+              <div className="absolute top-4 right-6">
+                <FollowButton mpId={mp.id} />
+              </div>
+
               <div className="pt-20">
                 <h1 className="text-3xl font-black text-white leading-tight">{mp.name}</h1>
-                <p className="text-primary font-bold uppercase tracking-[0.1em] text-xs mt-1">{mp.party}</p>
+                {mp.party && (
+                  <Badge 
+                    className={`${partyColors.bg} ${partyColors.text} ${partyColors.border} border mt-2 px-3 py-1 font-bold uppercase tracking-[0.1em] text-xs`}
+                  >
+                    {mp.party}
+                  </Badge>
+                )}
                 
                 <div className="mt-8 space-y-4">
                   <div className="flex items-center gap-4 text-sm group">

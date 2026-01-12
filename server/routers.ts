@@ -1,16 +1,23 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
+import {
+  publicProcedure,
+  router,
+  protectedProcedure,
+  adminProcedure,
+} from "./_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import * as db from "./db";
+import * as db from "./services/database";
 import { dashboardRouter } from "./routers/dashboard";
+import { schedulerRouter } from "./routers/scheduler";
 
 export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   dashboard: dashboardRouter,
+  scheduler: schedulerRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -42,18 +49,31 @@ export const appRouter = router({
         return await db.getAllMps(input);
       }),
 
+    topDelegates: publicProcedure
+      .input(
+        z.object({ limit: z.number().min(1).max(10).default(3) }).optional()
+      )
+      .query(async ({ input }) => {
+        return await db.getTopDelegates(input?.limit);
+      }),
+
     byId: publicProcedure
       .input(z.object({ id: z.number() }))
       .query(async ({ input }) => {
-        const mp = await db.getMpById(input.id);
+        // OPTIMIZED: Fetch MP, assistants, and trips in parallel to eliminate sequential queries
+        const [mp, assistants, trips] = await Promise.all([
+          db.getMpById(input.id),
+          db.getAssistantsByMpId(input.id),
+          db.getTripsByMpId(input.id),
+        ]);
+
         if (!mp) {
           throw new TRPCError({
             code: "NOT_FOUND",
             message: `MP with ID ${input.id} not found`,
           });
         }
-        const assistants = await db.getAssistantsByMpId(input.id);
-        const trips = await db.getTripsByMpId(input.id);
+
         return { ...mp, assistants, trips };
       }),
 
@@ -91,6 +111,24 @@ export const appRouter = router({
 
     compare: publicProcedure
       .input(z.object({ mpId1: z.number(), mpId2: z.number() }))
+      .output(
+        z.object({
+          mp1: z.any(), // MP object with stats
+          mp2: z.any(),
+          agreementScore: z.number().nullable(),
+          commonVotes: z.number(),
+          disagreements: z.array(
+            z.object({
+              billId: z.number(),
+              billTitle: z.string(),
+              mp1Vote: z.string(),
+              mp2Vote: z.string(),
+              votedAt: z.date().nullable(),
+            })
+          ),
+          hasOverlap: z.boolean(),
+        })
+      )
       .query(async ({ input }) => {
         return await db.getMpComparison(input.mpId1, input.mpId2);
       }),
@@ -108,11 +146,23 @@ export const appRouter = router({
           .object({
             status: z.string().optional(),
             category: z.string().optional(),
+            limit: z.number().min(1).max(100).optional(),
+            cursor: z.number().optional(),
           })
           .optional()
       )
       .query(async ({ input }) => {
-        return await db.getAllBills(input);
+        const result = await db.getAllBills(
+          input
+            ? { status: input.status, category: input.category }
+            : undefined,
+          input ? { limit: input.limit, cursor: input.cursor } : undefined
+        );
+        // Backward compatibility: if no cursor/limit provided, return items array directly
+        if (!input?.cursor && !input?.limit) {
+          return result.items;
+        }
+        return result;
       }),
 
     byId: publicProcedure
@@ -147,11 +197,20 @@ export const appRouter = router({
       .input(
         z.object({
           mpId: z.number(),
-          limit: z.number().optional(),
+          limit: z.number().min(1).max(100).optional(),
+          cursor: z.number().optional(),
         })
       )
       .query(async ({ input }) => {
-        return await db.getVotesByMpId(input.mpId, input.limit);
+        const result = await db.getVotesByMpId(input.mpId, {
+          limit: input.limit,
+          cursor: input.cursor,
+        });
+        // Backward compatibility: if no cursor/limit provided, return items array directly
+        if (!input?.cursor && !input?.limit) {
+          return result.items;
+        }
+        return result;
       }),
 
     byBill: publicProcedure
@@ -173,7 +232,7 @@ export const appRouter = router({
         return await db.getQuizAnswersByMpId(input.mpId);
       }),
 
-    saveResult: publicProcedure
+    saveResult: protectedProcedure
       .input(
         z.object({
           sessionId: z.string(),
@@ -181,7 +240,14 @@ export const appRouter = router({
           userAnswer: z.string(),
         })
       )
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
+        // Only authenticated users can save quiz results
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
         await db.saveUserQuizResult(input);
         return { success: true };
       }),
@@ -224,7 +290,7 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getFlagsByMpId(input.mpId);
       }),
-    create: publicProcedure
+    create: protectedProcedure
       .input(
         z.object({
           mpId: z.number(),
@@ -234,39 +300,251 @@ export const appRouter = router({
           description: z.string(),
         })
       )
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
+        // Only authenticated users can create flags
         return await db.createAccountabilityFlag({ ...input, resolved: false });
       }),
-    resolve: publicProcedure
+    resolve: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
+        // Only admins can resolve flags
         return await db.resolveAccountabilityFlag(input.id);
       }),
   }),
 
   // User Follows router
   follows: router({
-    list: publicProcedure
-      .input(z.object({ userId: z.string() }))
-      .query(async ({ input }) => {
-        return await db.getUserFollows(input.userId);
-      }),
-    follow: publicProcedure
+    list: protectedProcedure.query(async ({ ctx }) => {
+      // Users can only see their own follows
+      if (!ctx.user) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Authentication required",
+        });
+      }
+      return await db.getUserFollows(ctx.user.openId);
+    }),
+    follow: protectedProcedure
       .input(
         z.object({
-          userId: z.string(),
           mpId: z.number().optional(),
           billId: z.number().optional(),
           topic: z.string().optional(),
         })
       )
-      .mutation(async ({ input }) => {
-        return await db.followEntity(input);
+      .mutation(async ({ input, ctx }) => {
+        // Users can only follow entities for themselves
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
+        return await db.followEntity({ ...input, userId: ctx.user.openId });
       }),
-    unfollow: publicProcedure
+    unfollow: protectedProcedure
       .input(z.object({ id: z.number() }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
+        // Users can only unfollow their own follows
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
+        // Verify ownership before unfollowing
+        const userFollows = await db.getUserFollows(ctx.user.openId);
+        const userFollow = userFollows.find(f => f.follow.id === input.id);
+        if (!userFollow) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "You can only unfollow your own follows",
+          });
+        }
         return await db.unfollowEntity(input.id);
+      }),
+  }),
+
+  // Activities router (Activity Feed)
+  activities: router({
+    list: publicProcedure
+      .input(
+        z
+          .object({
+            limit: z.number().default(20),
+            offset: z.number().default(0),
+            type: z
+              .enum(["vote", "comment", "document", "session", "achievement"])
+              .optional(),
+          })
+          .optional()
+      )
+      .query(async ({ input }) => {
+        const { limit = 20, offset = 0, type } = input || {};
+        return await db.getRecentActivities(limit, offset, type);
+      }),
+
+    getFeed: publicProcedure
+      .input(
+        z
+          .object({
+            limit: z.number().min(1).max(50).default(20),
+            cursor: z.number().optional(),
+          })
+          .optional()
+      )
+      .query(async ({ input }) => {
+        return await db.getActivityFeed(input);
+      }),
+
+    markAsRead: protectedProcedure.mutation(async ({ ctx }) => {
+      // Only authenticated users can mark activities as read
+      if (!ctx.user) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Authentication required",
+        });
+      }
+      // TODO: Update markActivitiesAsRead to accept userId for user-specific read tracking
+      return await db.markActivitiesAsRead();
+    }),
+  }),
+
+  // Global Search router
+  search: router({
+    global: publicProcedure
+      .input(
+        z.object({
+          query: z.string().min(1),
+          limit: z.number().default(5),
+        })
+      )
+      .query(async ({ input }) => {
+        return await db.globalSearch(input.query, input.limit);
+      }),
+
+    getSuggestions: publicProcedure
+      .input(
+        z.object({
+          query: z.string().min(1),
+        })
+      )
+      .query(async ({ input }) => {
+        return await db.getSearchSuggestions(input.query);
+      }),
+  }),
+
+  // Pulse Analytics router
+  pulse: router({
+    getParliamentPulse: publicProcedure
+      .output(
+        z.object({
+          monthlyVotes: z.array(
+            z.object({
+              name: z.string(),
+              for: z.number(),
+              against: z.number(),
+              abstain: z.number(),
+              absent: z.number(),
+            })
+          ),
+          sessionStats: z.array(
+            z.object({
+              date: z.string(),
+              sessionCount: z.number(),
+              attendanceRate: z.number(),
+            })
+          ),
+          summary: z.object({
+            totalVotes: z.number(),
+            avgAttendance: z.number(),
+          }),
+        })
+      )
+      .query(async () => {
+        return await db.getParliamentPulse();
+      }),
+  }),
+
+  // Stats router
+  stats: router({
+    getLastUpdated: publicProcedure.query(async () => {
+      return await db.getLastUpdated();
+    }),
+  }),
+
+  // User router
+  user: router({
+    getWatchlist: protectedProcedure.query(async ({ ctx }) => {
+      // Users can only access their own watchlist
+      if (!ctx.user) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Authentication required",
+        });
+      }
+      return await db.getWatchlist(ctx.user.openId);
+    }),
+
+    isFollowingMp: protectedProcedure
+      .input(z.object({ mpId: z.number() }))
+      .query(async ({ input, ctx }) => {
+        // Users can only check their own follow status
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
+        return await db.isFollowingMp(ctx.user.openId, input.mpId);
+      }),
+
+    toggleFollowMp: protectedProcedure
+      .input(z.object({ mpId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        // Users can only toggle their own follows
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
+        return await db.toggleFollowMp(ctx.user.openId, input.mpId);
+      }),
+
+    getSettings: protectedProcedure.query(async ({ ctx }) => {
+      if (!ctx.user) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Authentication required",
+        });
+      }
+      const user = await db.getUserByOpenId(ctx.user.openId);
+      return (
+        user?.settings || {
+          emailNotifications: false,
+          betaFeatures: false,
+          compactMode: false,
+        }
+      );
+    }),
+
+    updateSettings: protectedProcedure
+      .input(
+        z.object({
+          emailNotifications: z.boolean().optional(),
+          betaFeatures: z.boolean().optional(),
+          compactMode: z.boolean().optional(),
+        })
+      )
+      .mutation(async ({ input, ctx }) => {
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
+        return await db.updateUserSettings(ctx.user.openId, input);
       }),
   }),
 });

@@ -1,160 +1,15 @@
 # 🏛️ Skaidrus Seimas
 
-**Transparent Lithuanian Parliament Monitoring Platform**
+**Lithuanian MP Tracker** — A real-time transparency platform for monitoring parliamentary accountability
 
-[![CI/CD](https://github.com/your-org/skaidrus-seimas-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/skaidrus-seimas-demo/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Security: Hardened](https://img.shields.io/badge/Security-Hardened-green.svg)](./DEPLOY.md)
+[![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-success.svg)](./DEPLOY.md)
 
 > **skaidrus** (Lithuanian): _transparent, clear, honest_
 
-A real-time transparency platform that aggregates, analyzes, and visualizes data from the Lithuanian Parliament (Seimas). Built with modern TypeScript, featuring AI-powered bill summarization, MP accountability scoring, and interactive voting pattern analysis.
-
----
-
-## 📋 Table of Contents
-
-- [Architecture](#-architecture)
-- [Features](#-features)
-- [Quick Start](#-quick-start)
-- [Environment Variables](#-environment-variables)
-- [Development](#-development)
-- [API Reference](#-api-reference)
-- [Data Sources](#-data-sources)
-- [Security](#-security)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
-## 🏗️ Architecture
-
-```mermaid
-flowchart TB
-    subgraph External["🌐 External Data Sources"]
-        SEIMAS["🏛️ Seimas Open Data API\n(XML/JSON)"]
-        OPENSANCTIONS["📋 OpenSanctions\n(Cross-reference)"]
-    end
-
-    subgraph Ingestion["⚙️ Data Ingestion Layer"]
-        SYNC_MPS["sync:mps\n(MPs & Assistants)"]
-        SYNC_VOTES["sync:votes\n(Voting Records)"]
-        SYNC_BILLS["sync:bills\n(Legislation)"]
-        SYNC_COMMITTEES["sync:committees\n(Committees)"]
-        CALC_SCORES["calc:scores\n(Accountability)"]
-    end
-
-    subgraph Validation["🛡️ Validation Layer"]
-        ZOD["Zod Schemas\n(Fail-Fast)"]
-    end
-
-    subgraph Storage["💾 Data Storage"]
-        POSTGRES[("PostgreSQL 16\n(Drizzle ORM)")]
-        REDIS[("Redis 7\n(Cache + Rate Limit)")]
-    end
-
-    subgraph Backend["🖥️ Backend API"]
-        TRPC["tRPC Server\n(Type-Safe API)"]
-        PINO["Pino Logger\n(Structured Logs)"]
-        SENTRY["Sentry\n(Error Tracking)"]
-    end
-
-    subgraph AI["🤖 AI Services"]
-        GEMINI["Google Gemini\n(Bill Summaries)"]
-        QUIZ["Quiz Generator\n(Educational)"]
-    end
-
-    subgraph Frontend["🎨 Frontend"]
-        VITE["Vite + React 19"]
-        DASHBOARD["Dashboard\n(Real-time Stats)"]
-        COMPARE["MP Comparison\n(Voting Alignment)"]
-        PROFILE["MP Profiles\n(Accountability Scores)"]
-    end
-
-    subgraph Clients["👥 End Users"]
-        BROWSER["Web Browser"]
-        MOBILE["Mobile (PWA)"]
-    end
-
-    %% Data Flow
-    SEIMAS --> SYNC_MPS
-    SEIMAS --> SYNC_VOTES
-    SEIMAS --> SYNC_BILLS
-    SEIMAS --> SYNC_COMMITTEES
-    OPENSANCTIONS --> SYNC_MPS
-
-    SYNC_MPS --> ZOD
-    SYNC_VOTES --> ZOD
-    SYNC_BILLS --> ZOD
-    SYNC_COMMITTEES --> ZOD
-
-    ZOD --> POSTGRES
-    CALC_SCORES --> POSTGRES
-
-    POSTGRES --> TRPC
-    REDIS --> TRPC
-    TRPC --> PINO
-    TRPC --> SENTRY
-
-    TRPC --> GEMINI
-    GEMINI --> QUIZ
-
-    TRPC --> VITE
-    VITE --> DASHBOARD
-    VITE --> COMPARE
-    VITE --> PROFILE
-
-    DASHBOARD --> BROWSER
-    COMPARE --> BROWSER
-    PROFILE --> MOBILE
-
-    %% Styling
-    classDef external fill:#e1f5fe,stroke:#01579b
-    classDef ingestion fill:#fff3e0,stroke:#e65100
-    classDef storage fill:#e8f5e9,stroke:#2e7d32
-    classDef backend fill:#f3e5f5,stroke:#7b1fa2
-    classDef ai fill:#fce4ec,stroke:#c2185b
-    classDef frontend fill:#e3f2fd,stroke:#1565c0
-
-    class SEIMAS,OPENSANCTIONS external
-    class SYNC_MPS,SYNC_VOTES,SYNC_BILLS,SYNC_COMMITTEES,CALC_SCORES ingestion
-    class POSTGRES,REDIS storage
-    class TRPC,PINO,SENTRY backend
-    class GEMINI,QUIZ ai
-    class VITE,DASHBOARD,COMPARE,PROFILE frontend
-```
-
----
-
-## ✨ Features
-
-### 📊 Data & Analytics
-
-- **141 MPs** tracked with real-time voting records
-- **538 MP Assistants** with contact information
-- **Accountability Scores** calculated from attendance, loyalty, and legislative activity
-- **Voting Pattern Analysis** with party alignment metrics
-
-### 🤖 AI-Powered
-
-- **Bill Summarization** using Google Gemini
-- **Educational Quizzes** auto-generated from legislation
-- **Voting Agreement Calculator** for MP comparisons
-
-### 🛡️ Production-Grade
-
-- **Redis Caching** with stale-while-revalidate
-- **Rate Limiting** (tiered for read/write operations)
-- **Structured Logging** (Pino with PII redaction)
-- **Error Tracking** (Sentry integration)
-- **Zod Validation** (fail-fast on API changes)
-
-### 🔒 Security
-
-- **Type-Safe API** with tRPC
-- **Environment Isolation** (no secrets in code)
-- **Automated Backups** (7-day rotation)
-- **Docker Containerization** (non-root user)
+**Status:** ✅ Production Ready | **Security:** 🔒 Hardened | **Performance:** ⚡ Optimized
 
 ---
 
@@ -162,101 +17,120 @@ flowchart TB
 
 ### Prerequisites
 
-- Docker & Docker Compose
-- Node.js 22+ (for local development)
-- PostgreSQL 16+
-- Redis 7+
+- **Node.js** 22+
+- **PostgreSQL** 16+
+- **Redis** 7+ (optional, for caching)
+- **pnpm** (recommended) or npm
 
-### One-Command Production Setup
+### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/skaidrus-seimas-demo.git
-cd skaidrus-seimas-demo
+# Install dependencies
+npm install
 
-# Copy environment template
-cp .env.example .env
-# Edit .env with your values (see Environment Variables section)
+# Setup database
+npm run db:push
 
-# Start all services
-docker-compose -f docker-compose.prod.yml up -d
-
-# Run database migrations
-docker-compose exec app npm run db:push
-
-# Sync initial data from Seimas API
-docker-compose exec app npm run sync:mps
-docker-compose exec app npm run sync:votes
-docker-compose exec app npm run sync:bills
-docker-compose exec app npm run calc:scores
-
-# View logs
-docker-compose -f docker-compose.prod.yml logs -f app
+# Start development server
+npm run dev
 ```
 
 The application will be available at `http://localhost:3000`.
 
-### Local Development
+---
 
-```bash
-# Install dependencies
-pnpm install
+## ⚡ Tech Stack
 
-# Start PostgreSQL and Redis (if not using Docker)
-# Or use: docker-compose up postgres redis -d
-
-# Run development server
-npm run dev
-
-# Run tests
-npm run test
-
-# Type check
-npm run check
-```
+| Layer        | Technology                                            |
+| ------------ | ----------------------------------------------------- |
+| **Frontend** | React 19 (Vite), Tailwind CSS (Glassmorphism), Wouter |
+| **Backend**  | tRPC, Express, Drizzle ORM                            |
+| **Database** | PostgreSQL 16                                         |
+| **Cache**    | Redis 7                                               |
+| **AI**       | Google Gemini (Bill Summaries)                        |
+| **Styling**  | Glassmorphism Dark Theme, Framer Motion               |
 
 ---
 
-## 🔐 Environment Variables
+## ✨ Features
 
-Create a `.env` file in the project root with the following variables:
+### 🔍 **Global Search with Autocomplete**
 
-| Variable            | Required | Description                                      |
-| ------------------- | -------- | ------------------------------------------------ |
-| `DATABASE_URL`      | ✅       | PostgreSQL connection string                     |
-| `REDIS_URL`         | ✅       | Redis connection string                          |
-| `PORT`              | ❌       | Server port (default: 3000)                      |
-| `NODE_ENV`          | ❌       | Environment: `development`, `production`, `test` |
-| `LOG_LEVEL`         | ❌       | Logging level: `debug`, `info`, `warn`, `error`  |
-| `GEMINI_API_KEY`    | ❌       | Google Gemini API key (for AI features)          |
-| `SENTRY_DSN`        | ❌       | Sentry error tracking DSN                        |
-| `POSTGRES_USER`     | ✅       | Database username (Docker)                       |
-| `POSTGRES_PASSWORD` | ✅       | Database password (Docker)                       |
-| `POSTGRES_DB`       | ✅       | Database name (Docker)                           |
+- Real-time search across MPs and legislation with instant results
+- Typeahead suggestions (top 5 MPs + top 5 Bills)
+- Fast text search using database indexes
+- Keyboard navigation support
 
-### Example `.env.example`
+### 📊 **'Pulsas' Analytics Dashboard**
 
-```env
-# Database
-DATABASE_URL=postgres://seimas:password@localhost:5432/seimas
-POSTGRES_USER=seimas
-POSTGRES_PASSWORD=your-secure-password
-POSTGRES_DB=seimas
+- Interactive Recharts visualizations
+- Voting trends over time (stacked bar charts)
+- Session heatmaps showing parliamentary activity
+- Real-time data with Redis caching (1-hour TTL)
+- Responsive design for mobile devices
 
-# Redis
-REDIS_URL=redis://localhost:6379
+### ⚖️ **MP Comparison Tool**
 
-# Server
-PORT=3000
-NODE_ENV=development
-LOG_LEVEL=debug
+- Side-by-side comparison of voting records
+- Agreement score calculation
+- Key disagreements highlighting
+- Shareable comparison URLs (`/compare?ids=mp1,mp2`)
+- One-click "Compare" button from MP profiles
 
-# AI (Optional)
-GEMINI_API_KEY=your-gemini-api-key
+### 👤 **User Watchlist & Personalization**
 
-# Error Tracking (Optional)
-SENTRY_DSN=https://your-sentry-dsn
-```
+- Follow specific MPs to track their activity
+- Personalized dashboard with "Mano sekami" (My Watchlist) widget
+- One-click follow/unfollow with optimistic UI updates
+- Real-time cache invalidation for instant feedback
+- Settings page with database persistence
+
+### 🤖 **AI-Powered Bill Summaries**
+
+- Automatic bill summarization using Google Gemini
+- Idempotent processing (only new bills)
+- Retry logic with exponential backoff
+- Cost-optimized (no duplicate API calls)
+
+### 📈 **Real-time Activity Feed**
+
+- Live stream of parliamentary activities
+- Cursor-based pagination for infinite scroll
+- Synthetic feed fallback when activities table is empty
+- Glassmorphism UI with smooth animations
+
+### 🎯 **Accountability Scores**
+
+Calculated from:
+
+- Voting attendance
+- Party loyalty
+- Legislative activity (bills proposed/passed)
+- Real-time updates with database triggers
+
+### 🔒 **Production Security**
+
+- Helmet security headers (CSP, HSTS, XSS protection)
+- CORS configuration (whitelist-based)
+- Rate limiting (global + strict for sensitive endpoints)
+- Request ID tracing for error correlation
+- Graceful shutdown handling
+
+### 📊 **Observability**
+
+- Structured logging with Pino
+- Sentry integration (backend + frontend)
+- Health check endpoints (`/health`, `/health/ready`)
+- Request correlation IDs
+- Error boundaries with user-friendly UI
+
+### ⚡ **Performance Optimizations**
+
+- Database indexes (composite + GIN for text search)
+- Redis caching with stale-while-revalidate
+- Cursor-based pagination
+- Connection pooling
+- Code splitting ready (warnings addressed in debt doc)
 
 ---
 
@@ -264,20 +138,20 @@ SENTRY_DSN=https://your-sentry-dsn
 
 ### Available Scripts
 
-| Command                   | Description                     |
-| ------------------------- | ------------------------------- |
-| `npm run dev`             | Start development server        |
-| `npm run build`           | Build for production            |
-| `npm run start`           | Start production server         |
-| `npm run check`           | TypeScript type checking        |
-| `npm run test`            | Run test suite                  |
-| `npm run format`          | Format code with Prettier       |
-| `npm run db:push`         | Push schema changes to database |
-| `npm run sync:mps`        | Sync MPs from Seimas API        |
-| `npm run sync:votes`      | Sync voting records             |
-| `npm run sync:bills`      | Sync legislation                |
-| `npm run sync:committees` | Sync committee membership       |
-| `npm run calc:scores`     | Calculate accountability scores |
+| Command               | Description                     |
+| --------------------- | ------------------------------- |
+| `npm run dev`         | Start development server        |
+| `npm run build`       | Build for production            |
+| `npm run start`       | Start production server          |
+| `npm run check`       | Type check without building     |
+| `npm run test`        | Run unit/integration tests      |
+| `npm run e2e`         | Run E2E tests (Playwright)     |
+| `npm run db:push`     | Push schema changes to database |
+| `npm run sync:mps`    | Sync MPs from Seimas API        |
+| `npm run sync:votes`  | Sync voting records             |
+| `npm run sync:bills`  | Sync legislation                |
+| `npm run calc:scores` | Calculate accountability scores |
+| `npm run generate:summaries` | Generate AI bill summaries |
 
 ### Project Structure
 
@@ -286,147 +160,241 @@ skaidrus-seimas-demo/
 ├── client/                 # React frontend
 │   ├── src/
 │   │   ├── components/     # Reusable UI components
-│   │   ├── pages/          # Route pages
-│   │   └── lib/            # Utilities & tRPC client
+│   │   ├── pages/          # Route pages (Dashboard, MPProfile, etc.)
+│   │   └── lib/            # tRPC client setup
 ├── server/                 # Node.js backend
-│   ├── _core/              # Express server setup
-│   ├── services/           # Cache, rate limiter, Sentry
-│   ├── schemas/            # Zod validation schemas
-│   └── utils/              # Logger, errors, validation
-├── drizzle/                # Database schema & migrations
-├── scripts/                # Data sync & maintenance scripts
-├── shared/                 # Shared types & constants
-└── docs/                   # Documentation
+│   ├── routers/            # tRPC route handlers
+│   ├── routers.ts          # Main router configuration
+│   └── db.ts               # Database queries
+├── drizzle/
+│   └── schema.ts           # Database schema
+└── scripts/                # Data sync scripts
 ```
 
 ---
 
-## 📡 API Reference
+## 🔐 Environment Variables
 
-The API is built with [tRPC](https://trpc.io/) for end-to-end type safety.
+See [DEPLOY.md](./DEPLOY.md) for complete environment variable documentation.
 
-### Endpoints
+**Required:**
+- `DATABASE_URL` - PostgreSQL connection string
+- `CLIENT_URL` - Allowed CORS origins (comma-separated)
+- `NODE_ENV` - `production` or `development`
 
-| Procedure         | Description                     |
-| ----------------- | ------------------------------- |
-| `mps.list`        | List all MPs (with filters)     |
-| `mps.byId`        | Get MP by ID with stats         |
-| `mps.compare`     | Compare two MPs' voting records |
-| `bills.list`      | List bills (paginated)          |
-| `bills.byId`      | Get bill details with summary   |
-| `committees.list` | List all committees             |
-| `quiz.questions`  | Get quiz questions for a bill   |
-| `dashboard.pulse` | Get real-time activity data     |
+**Recommended:**
+- `REDIS_URL` - Redis connection string (for caching and rate limiting)
+- `SENTRY_DSN` / `VITE_SENTRY_DSN` - Error tracking
+- `GEMINI_API_KEY` - AI bill summaries
 
-### Rate Limits
-
-| Endpoint Type     | Limit   | Window |
-| ----------------- | ------- | ------ |
-| Read (MPs, Bills) | 100 req | 60 sec |
-| Search            | 30 req  | 60 sec |
-| Expensive Queries | 20 req  | 60 sec |
-| Auth (Login)      | 5 req   | 60 sec |
+**Quick Start:**
+```bash
+cp .env.example .env
+# Edit .env with your values
+```
 
 ---
 
-## 📚 Data Sources
+## 📡 API Endpoints (tRPC)
 
-| Source                                                           | Type            | Update Frequency |
-| ---------------------------------------------------------------- | --------------- | ---------------- |
-| [Seimas Open Data](https://www.lrs.lt/sip/portal.show?p_r=35391) | Official        | Real-time        |
-| [OpenSanctions](https://www.opensanctions.org/)                  | Cross-reference | Weekly           |
+### MPs
 
-### Data Freshness
+- `mps.list` — List all MPs with filters (supports pagination)
+- `mps.byId` — Get MP details with stats, assistants, trips
+- `mps.stats` — Get MP accountability statistics
 
-Run the monitoring script to check data freshness:
+### Bills
+
+- `bills.list` — List legislation (supports cursor pagination)
+- `bills.byId` — Get bill details with AI summary
+
+### Activities
+
+- `activities.list` — Get recent parliamentary activity (offset-based)
+- `activities.getFeed` — Get activity feed with cursor pagination
+
+### Dashboard
+
+- `dashboard.getRecentActivity` — Get dashboard feed (infinite query)
+
+### User (Personalization)
+
+- `user.getWatchlist` — Get followed MPs with full profiles
+- `user.isFollowingMp` — Check if following an MP
+- `user.toggleFollowMp` — Follow/unfollow an MP (optimistic updates)
+- `user.getSettings` — Get user settings
+- `user.updateSettings` — Update user settings (email notifications, beta features, compact mode)
+
+### Pulse Analytics
+
+- `pulse.getParliamentPulse` — Get voting trends and session statistics (cached)
+
+### Search
+
+- `search.global` — Global search across MPs, Bills, Committees
+- `search.getSuggestions` — Autocomplete suggestions (top 5 each)
+
+### Stats
+
+- `stats.getLastUpdated` — Get last sync timestamps for data freshness
+
+### Health Checks
+
+- `GET /health` — Light health check (liveness probe)
+- `GET /health/ready` — Deep health check (readiness probe - checks DB + Redis)
+
+---
+
+## 🐛 Troubleshooting
+
+### Database Sync Issues
+
+If you encounter **500 Internal Server Errors** after schema changes:
+
+**Step 1: Verify Database Connection**
+```bash
+# Check DATABASE_URL is set
+echo $DATABASE_URL
+```
+
+**Step 2: Push Schema Changes**
+```bash
+npm run db:push
+```
+
+**Step 3: Restart Development Server** ⚠️ **CRITICAL**
+```bash
+# Stop server (Ctrl+C), then:
+npm run dev
+```
+
+**Step 4: Check Server Logs**
+Look for these in your terminal:
+- ✅ `Database connection established`
+- ✅ `Server listening on port XXXX`
+- ❌ `DrizzleQueryError` or `relation does not exist` → See Common Errors below
+
+**Step 5: Verify Endpoints**
+Test these tRPC endpoints:
+- `user.getWatchlist?input={"userId":"1"}`
+- `user.isFollowingMp?input={"userId":"1","mpId":1}`
+
+> 💡 **Note**: The `db:push` command may show migration errors if tables already exist. This is normal if your schema is already in sync. The key is **restarting the server** to clear ORM caches.
+
+### Common Errors
+
+| Error                           | Solution                                |
+| ------------------------------- | --------------------------------------- |
+| `relation "..." does not exist` | Run `npm run db:push` then restart server |
+| `column "..." does not exist`   | Schema mismatch — verify schema.ts matches DB |
+| `Cannot connect to database`    | Check `DATABASE_URL` in `.env`          |
+| `500 Internal Server Error`      | **Restart dev server** (clears ORM cache) |
+| `DrizzleQueryError`              | Check query syntax in `server/services/database.ts`    |
+
+For detailed troubleshooting, see [FIX_500_ERRORS.md](./FIX_500_ERRORS.md).
+
+---
+
+## 📊 Database Schema
+
+Key tables:
+
+- `mps` — Parliament members with stats
+- `bills` — Legislation with AI summaries
+- `votes` — Individual voting records
+- `session_votes` — Session-level vote aggregations
+- `session_mp_votes` — Individual MP votes in sessions
+- `activities` — Activity feed events
+- `user_follows` — User watchlist (`userId`, `mpId`, `billId`, `topic`)
+- `users` — User accounts with settings (JSONB)
+- `mp_stats` — Calculated accountability metrics
+- `bill_summaries` — AI-generated bill summaries
+- `system_status` — Sync job status tracking
+
+**Indexes:**
+- Composite indexes on common filter patterns
+- GIN indexes for full-text search (see `scripts/add-gin-indexes.sql`)
+
+Run migrations:
 
 ```bash
-npm run monitor:freshness
+npm run db:push
 ```
+
+**Note:** After migrations, run `scripts/add-gin-indexes.sql` for optimal text search performance.
 
 ---
 
-## 🔒 Security
+## 🚀 Deployment
 
-### Dependency Audit
+See [DEPLOY.md](./DEPLOY.md) for comprehensive deployment instructions.
 
+**Quick Deploy:**
 ```bash
-# Check for vulnerabilities
-npm audit
+# Build
+npm run build
 
-# Auto-fix (safe fixes only)
-npm audit fix
+# Start production server
+npm run start
 
-# Check for secrets in git history
-git log --all --full-history -- "*.env" ".env*"
+# Or use Docker
+docker build -t skaidrus-seimas .
+docker run -p 3000:3000 --env-file .env skaidrus-seimas
 ```
 
-### Secret Scrubbing (if needed)
-
-If `.env` or secrets were accidentally committed:
-
-```bash
-# Install BFG Repo-Cleaner
-brew install bfg
-
-# Remove .env files from history
-bfg --delete-files .env
-
-# Remove API keys from history (replace YOUR_KEY with pattern)
-bfg --replace-text patterns.txt
-
-# Clean up
-git reflog expire --expire=now --all
-git gc --prune=now --aggressive
-
-# Force push (⚠️ Coordinate with team!)
-git push --force
-```
-
-### Security Checklist
-
-- ✅ No secrets in code (environment variables only)
-- ✅ PII redaction in logs (Pino configuration)
-- ✅ Rate limiting on all endpoints
-- ✅ Input validation (Zod schemas)
-- ✅ Non-root Docker user
-- ✅ Dependency audit in CI
+**Production Features:**
+- ✅ Security headers (Helmet)
+- ✅ Rate limiting
+- ✅ Health checks
+- ✅ Graceful shutdown
+- ✅ Error tracking (Sentry)
+- ✅ Structured logging
 
 ---
 
-## 🤝 Contributing
+## 🎨 Design Philosophy
 
-We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) before submitting a Pull Request.
+**Glassmorphism Dark Theme** with:
 
-### Quick Contribution Steps
+- Frosted glass blur effects
+- Cyan-to-blue gradients
+- Smooth Framer Motion animations
+- Responsive grid layouts
+- Mobile-first design
+- Loading skeletons
+- Empty states
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+---
+
+## 📚 Documentation
+
+- **[DEPLOY.md](./DEPLOY.md)** - Complete deployment guide
+- **[REMAINING_DEBT.md](./REMAINING_DEBT.md)** - Technical debt and future improvements
+- **[PHASE8_DATA_INTEGRITY_SUMMARY.md](./PHASE8_DATA_INTEGRITY_SUMMARY.md)** - Data sync hardening
+- **[PHASE9_PRODUCTION_HARDENING_SUMMARY.md](./PHASE9_PRODUCTION_HARDENING_SUMMARY.md)** - Security & production setup
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
 - [Lithuanian Parliament (Seimas)](https://www.lrs.lt/) for open data APIs
-- [OpenSanctions](https://www.opensanctions.org/) for sanctions data
 - [Drizzle ORM](https://orm.drizzle.team/) for type-safe database access
 - [tRPC](https://trpc.io/) for end-to-end type safety
+- [Recharts](https://recharts.org/) for data visualization
+- [Tailwind CSS](https://tailwindcss.com/) for styling
 
 ---
 
 <div align="center">
 
-**[Report Bug](https://github.com/your-org/skaidrus-seimas-demo/issues) · [Request Feature](https://github.com/your-org/skaidrus-seimas-demo/issues) · [Documentation](https://docs.example.com)**
-
 Made with ❤️ for transparency in democracy
+
+**Status:** ✅ Production Ready | **Security:** 🔒 Hardened | **Performance:** ⚡ Optimized
 
 </div>
