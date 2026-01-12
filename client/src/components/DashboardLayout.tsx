@@ -5,12 +5,10 @@ import {
   Activity,
   Users,
   Map as MapIcon,
-  Settings,
   Menu,
   Search,
   Bell,
   MessageSquare,
-  Building2,
   ArrowLeftRight,
   X
 } from "lucide-react";
@@ -136,14 +134,6 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const navigation = [
-    { name: "Apžvalga", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Pulsas", href: "/pulse", icon: Activity },
-    { name: "Seimo nariai", href: "/", icon: Users },
-    { name: "Palyginimas", href: "/compare", icon: ArrowLeftRight },
-    { name: "Žemėlapis", href: "/map", icon: MapIcon },
-  ];
-
   return (
     <div className="flex h-screen bg-background text-foreground font-sans overflow-hidden">
       {/* Mobile Sidebar Overlay */}
@@ -190,21 +180,12 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
                   }
                 }}
               />
-            </div>
-
               {/* Search Dropdown */}
               <SearchDropdown
-                results={searchResults}
-                isLoading={isLoading}
+                query={searchQuery}
                 isOpen={isDropdownOpen}
                 selectedIndex={selectedIndex}
                 recentSearches={recentSearches}
-                onSelect={(href) => {
-                  navigate(href);
-                  addSearch(searchQuery);
-                  setIsDropdownOpen(false);
-                  setSearchQuery("");
-                }}
                 onSelectRecent={(query) => {
                   setSearchQuery(query);
                   searchInputRef.current?.focus();

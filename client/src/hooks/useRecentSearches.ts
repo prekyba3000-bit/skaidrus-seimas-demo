@@ -22,7 +22,7 @@ export function useRecentSearches() {
         }
       }
     } catch (error) {
-      console.error("Failed to load recent searches:", error);
+      // Silently fail - localStorage might be disabled or quota exceeded
     }
   }, []);
 
@@ -43,7 +43,7 @@ export function useRecentSearches() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     } catch (error) {
-      console.error("Failed to save recent searches:", error);
+      // Silently fail - localStorage might be disabled or quota exceeded
     }
   };
 
@@ -53,7 +53,7 @@ export function useRecentSearches() {
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      console.error("Failed to clear recent searches:", error);
+      // Silently fail - localStorage might be disabled
     }
   };
 

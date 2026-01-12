@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
+import { logger } from "./logger";
 
 dotenv.config();
 
@@ -63,7 +64,7 @@ export async function summarizeBill(
       bulletPoints: jsonResult.bulletPoints || [],
     };
   } catch (error) {
-    console.error("AI Summarization failed:", error);
+    logger.error({ err: error }, "AI Summarization failed");
     return null;
   }
 }
@@ -106,7 +107,7 @@ export async function generateQuizQuestion(
 
     return JSON.parse(text) as QuizQuestion;
   } catch (error) {
-    console.error("AI Quiz Generation failed:", error);
+    logger.error({ err: error }, "AI Quiz Generation failed");
     return null;
   }
 }

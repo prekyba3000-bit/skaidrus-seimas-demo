@@ -29,15 +29,6 @@ body {
   background: #047857;
 }
 
-/* Material Symbols settings */
-.material-symbols-outlined {
-  font-variation-settings:
-    "FILL" 0,
-    "wght" 400,
-    "GRAD" 0,
-    "opsz" 24;
-}
-
 /* Etched Glass */
 .etched-glass {
   background: rgba(6, 78, 59, 0.3);

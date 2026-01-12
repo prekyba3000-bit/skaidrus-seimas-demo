@@ -11,12 +11,27 @@ interface VotingTrendChartProps {
 }
 
 // Custom tooltip with glassmorphism styling
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    payload: {
+      name: string;
+      for: number;
+      against: number;
+      abstain: number;
+    };
+    name: string;
+    value: number;
+    color: string;
+  }>;
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-[#1b2a38] backdrop-blur-md border border-white/10 rounded-lg p-3 shadow-xl">
         <p className="text-white font-semibold mb-2">{payload[0].payload.name}</p>
-        {payload.map((entry: any, index: number) => (
+        {payload.map((entry, index: number) => (
           <p key={index} className="text-sm" style={{ color: entry.color }}>
             {entry.name}: {entry.value}
           </p>

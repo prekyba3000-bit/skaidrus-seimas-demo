@@ -276,10 +276,10 @@ async function startServer() {
         status: dbHealth.status,
         latencyMs: dbHealth.latencyMs,
       };
-    } catch (err: any) {
+    } catch (err: unknown) {
       checks.database = {
         status: "unhealthy",
-        error: err.message,
+        error: err instanceof Error ? err.message : String(err),
       };
     }
 
@@ -292,10 +292,10 @@ async function startServer() {
         status: redisHealthy ? "healthy" : "unhealthy",
         latencyMs,
       };
-    } catch (err: any) {
+    } catch (err: unknown) {
       checks.redis = {
         status: "unhealthy",
-        error: err.message,
+        error: err instanceof Error ? err.message : String(err),
       };
     }
 

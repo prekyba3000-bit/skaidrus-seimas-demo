@@ -30,11 +30,9 @@ const GET_USER_INFO_WITH_JWT_PATH = `/webdev.v1.WebDevAuthPublicService/GetUserI
 
 class OAuthService {
   constructor(private client: ReturnType<typeof axios.create>) {
-    console.log("[OAuth] Initialized with baseURL:", ENV.oAuthServerUrl);
+    logger.info({ baseURL: ENV.oAuthServerUrl }, "OAuth service initialized");
     if (!ENV.oAuthServerUrl) {
-      console.error(
-        "[OAuth] ERROR: OAUTH_SERVER_URL is not configured! Set OAUTH_SERVER_URL environment variable."
-      );
+      logger.error("OAUTH_SERVER_URL is not configured! Set OAUTH_SERVER_URL environment variable.");
     }
   }
 
@@ -201,7 +199,7 @@ class SDKServer {
     cookieValue: string | undefined | null
   ): Promise<{ openId: string; appId: string; name: string } | null> {
     if (!cookieValue) {
-      console.warn("[Auth] Missing session cookie");
+      logger.debug("Missing session cookie");
       return null;
     }
 
@@ -217,7 +215,7 @@ class SDKServer {
         !isNonEmptyString(appId) ||
         !isNonEmptyString(name)
       ) {
-        console.warn("[Auth] Session payload missing required fields");
+        logger.warn("Session payload missing required fields");
         return null;
       }
 
@@ -283,7 +281,7 @@ class SDKServer {
         });
         user = await db.getUserByOpenId(userInfo.openId);
       } catch (error) {
-        console.error("[Auth] Failed to sync user from OAuth:", error);
+        logger.error({ err: error }, "Failed to sync user from OAuth");
         throw ForbiddenError("Failed to sync user info");
       }
     }

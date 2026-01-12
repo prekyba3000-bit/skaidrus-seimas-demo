@@ -1,6 +1,18 @@
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Gavel,
+  Wallet,
+  TrendingUp,
+  Handshake,
+  CheckSquare,
+  Leaf,
+  GraduationCap,
+  Trees,
+  Award,
+  MoreHorizontal,
+} from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 
 export default function Dashboard() {
@@ -18,7 +30,7 @@ export default function Dashboard() {
           <div className="flex justify-between items-start z-10">
             <div>
               <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary">gavel</span>
+                <Gavel className="text-primary w-5 h-5" />
                 Legislative Activity
               </h3>
               <p className="text-emerald-400/70 text-sm mt-1">Current Session Attendance</p>
@@ -65,10 +77,10 @@ export default function Dashboard() {
         <div className="gemstone-card rounded-2xl p-6 flex flex-col justify-between gap-4 hover:bg-emerald-900/40 transition-colors">
           <div className="flex items-start justify-between">
             <div className="p-2 rounded-lg bg-emerald-900/50 border border-emerald-700/30 text-emerald-300">
-              <span className="material-symbols-outlined text-xl">account_balance_wallet</span>
+              <Wallet className="w-5 h-5" />
             </div>
             <span className="flex items-center text-emerald-400 text-xs font-medium bg-emerald-950/50 px-2 py-1 rounded-md border border-emerald-800/50">
-              <span className="material-symbols-outlined text-sm mr-1">trending_up</span> +12%
+              <TrendingUp className="w-4 h-4 mr-1" /> +12%
             </span>
           </div>
           <div>
@@ -84,7 +96,7 @@ export default function Dashboard() {
         <div className="gemstone-card rounded-2xl p-6 flex flex-col justify-between gap-4 hover:bg-emerald-900/40 transition-colors">
           <div className="flex items-start justify-between">
             <div className="p-2 rounded-lg bg-emerald-900/50 border border-emerald-700/30 text-emerald-300">
-              <span className="material-symbols-outlined text-xl">handshake</span>
+              <Handshake className="w-6 h-6" />
             </div>
             <span className="flex items-center text-primary text-xs font-medium bg-primary/10 px-2 py-1 rounded-md border border-primary/20">
               Active
@@ -101,7 +113,7 @@ export default function Dashboard() {
         <div className="gemstone-card rounded-2xl p-6 xl:col-span-2 flex flex-col gap-4">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <span className="material-symbols-outlined text-emerald-300">how_to_vote</span>
+              <CheckSquare className="text-emerald-300 w-5 h-5" />
               Recent Voting
             </h3>
             <button className="text-xs text-primary hover:text-amber-400 font-medium hover:underline">View All</button>
@@ -111,7 +123,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/30 hover:bg-emerald-900/50 transition-colors group cursor-pointer">
               <div className="flex items-center gap-4">
                 <div className="size-10 rounded-full bg-emerald-900 flex items-center justify-center shrink-0 border border-emerald-700/50 text-emerald-400">
-                  <span className="material-symbols-outlined text-xl">energy_savings_leaf</span>
+                  <Leaf className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <p className="text-sm font-medium text-white group-hover:text-primary transition-colors">Atsinaujinančios energetikos įstatymas</p>
@@ -126,7 +138,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/30 hover:bg-emerald-900/50 transition-colors group cursor-pointer">
               <div className="flex items-center gap-4">
                 <div className="size-10 rounded-full bg-emerald-900 flex items-center justify-center shrink-0 border border-emerald-700/50 text-emerald-400">
-                  <span className="material-symbols-outlined text-xl">school</span>
+                  <GraduationCap className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <p className="text-sm font-medium text-white group-hover:text-primary transition-colors">Švietimo įstatymo pakeitimas</p>
@@ -141,7 +153,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/30 hover:bg-emerald-900/50 transition-colors group cursor-pointer">
               <div className="flex items-center gap-4">
                 <div className="size-10 rounded-full bg-emerald-900 flex items-center justify-center shrink-0 border border-emerald-700/50 text-emerald-400">
-                  <span className="material-symbols-outlined text-xl">forest</span>
+                  <Trees className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <p className="text-sm font-medium text-white group-hover:text-primary transition-colors">Miškų įstatymo pataisos</p>
@@ -159,11 +171,11 @@ export default function Dashboard() {
         <div className="gemstone-card rounded-2xl p-6 xl:col-span-2 xl:row-span-2 h-full flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary">award_star</span>
+              <Award className="text-primary w-6 h-6" />
               Top Delegates
             </h3>
             <button className="size-8 flex items-center justify-center rounded-lg hover:bg-emerald-800/50 text-emerald-400 transition-colors">
-              <span className="material-symbols-outlined text-sm">more_horiz</span>
+              <MoreHorizontal className="w-4 h-4" />
             </button>
           </div>
           <div className="flex-1 flex flex-col gap-4 overflow-y-auto pr-2">

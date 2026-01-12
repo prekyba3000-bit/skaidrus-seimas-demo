@@ -1,5 +1,13 @@
 import React from 'react';
 import { Link } from 'wouter';
+import {
+    Shield,
+    Home,
+    Users,
+    FileText,
+    PieChart,
+    BarChart
+} from "lucide-react";
 
 export const Sidebar = () => {
     return (
@@ -9,9 +17,7 @@ export const Sidebar = () => {
                     {/* Branding */}
                     <div className="flex items-center gap-3 px-2">
                         <div className="relative flex items-center justify-center size-10 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-emerald-700 shadow-lg shadow-black/40">
-                            <span className="material-symbols-outlined text-primary text-2xl drop-shadow-[0_0_8px_rgba(245,159,10,0.6)]">
-                                local_police
-                            </span>
+                            <Shield className="text-primary w-6 h-6 drop-shadow-[0_0_8px_rgba(245,159,10,0.6)]" />
                         </div>
                         <div className="flex flex-col">
                             <h1 className="text-white text-lg font-bold tracking-tight">Skaidrus Seimas</h1>
@@ -22,31 +28,31 @@ export const Sidebar = () => {
                     <nav className="flex flex-col gap-2">
                         <Link href="/">
                             <a className="group flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary/10 to-transparent border-l-2 border-primary transition-all duration-300">
-                                <span className="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">home</span>
+                                <Home className="text-primary w-5 h-5 group-hover:scale-110 transition-transform" />
                                 <span className="text-white text-sm font-medium">Home</span>
                             </a>
                         </Link>
                         <Link href="/mps">
                             <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
-                                <span className="material-symbols-outlined group-hover:text-emerald-300 transition-colors">groups</span>
+                                <Users className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                                 <span className="text-sm font-medium">Deputies</span>
                             </a>
                         </Link>
                         <Link href="/bills">
                             <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
-                                <span className="material-symbols-outlined group-hover:text-emerald-300 transition-colors">description</span>
+                                <FileText className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                                 <span className="text-sm font-medium">Voting</span>
                             </a>
                         </Link>
                         <Link href="/budgets">
                             <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
-                                <span className="material-symbols-outlined group-hover:text-emerald-300 transition-colors">pie_chart</span>
+                                <PieChart className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                                 <span className="text-sm font-medium">Budgets</span>
                             </a>
                         </Link>
                         <Link href="/pulse">
                             <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
-                                <span className="material-symbols-outlined group-hover:text-emerald-300 transition-colors">bar_chart</span>
+                                <BarChart className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                                 <span className="text-sm font-medium">Analytics</span>
                             </a>
                         </Link>

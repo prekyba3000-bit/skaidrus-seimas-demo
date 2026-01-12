@@ -10,7 +10,18 @@ interface SessionHeatmapProps {
 }
 
 // Custom tooltip with glassmorphism styling
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    payload: {
+      date: string;
+      sessionCount: number;
+      attendanceRate: number;
+    };
+  }>;
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
