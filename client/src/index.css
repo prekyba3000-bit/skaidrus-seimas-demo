@@ -77,8 +77,22 @@ body {
 
 /* Glass Panel helper (alias for etched glass context sometimes) */
 .glass-panel {
-  background: rgba(6, 78, 59, 0.3);
+  background: rgba(16, 46, 38, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* Molten Ring (for MP Profile voting alignment) */
+.molten-ring {
+  background: conic-gradient(#f59f0a 87%, rgba(245, 159, 10, 0.1) 87%);
+  box-shadow: 0 0 20px rgba(245, 159, 10, 0.3);
+}
+
+/* Zalktis Path Animation */
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
 }

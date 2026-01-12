@@ -9,9 +9,8 @@ export const Sidebar = () => {
                     {/* Branding */}
                     <div className="flex items-center gap-3 px-2">
                         <div className="relative flex items-center justify-center size-10 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-emerald-700 shadow-lg shadow-black/40">
-                            {/* Saules zīme (Sun Sign) Loader - Rotating */}
-                            <span className="material-symbols-outlined text-primary text-2xl drop-shadow-[0_0_8px_rgba(245,159,10,0.6)] animate-spin-slow">
-                                wb_sunny
+                            <span className="material-symbols-outlined text-primary text-2xl drop-shadow-[0_0_8px_rgba(245,159,10,0.6)]">
+                                local_police
                             </span>
                         </div>
                         <div className="flex flex-col">

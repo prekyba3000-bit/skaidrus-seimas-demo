@@ -170,28 +170,27 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
             </button>
 
             <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">{title}</h2>
-            <div className="flex flex-col flex-1 max-w-[400px] relative">
-              <div className="flex w-full items-stretch rounded-lg h-10 bg-[#233648] overflow-hidden focus-within:ring-2 focus-within:ring-primary/50 transition-all">
-                <div className="text-[#92adc9] flex items-center justify-center pl-3">
-                  <Search className="w-4 h-4" />
-                </div>
-                <Input
-                  ref={searchInputRef}
-                  className="bg-transparent border-none text-white placeholder:text-[#92adc9] px-3 py-2 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm h-full w-full"
-                  placeholder="Ieškoti Seimo nario, įstatymo..."
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setSelectedIndex(-1);
-                  }}
-                  onKeyDown={handleKeyDown}
-                  onFocus={() => {
-                    if (debouncedSearch.length >= 2) {
-                      setIsDropdownOpen(true);
-                    }
-                  }}
-                />
+            <div className="flex flex-col flex-1 max-w-[400px] relative group">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="w-4 h-4 text-emerald-400/50 group-focus-within:text-primary transition-colors" />
               </div>
+              <Input
+                ref={searchInputRef}
+                className="block w-full pl-10 pr-3 py-2.5 border-none rounded-xl leading-5 bg-emerald-900/30 text-emerald-100 placeholder:text-emerald-400/50 focus:outline-none focus:bg-emerald-900/50 focus:ring-1 focus:ring-primary/50 text-sm transition-all duration-200"
+                placeholder="Search bills, deputies, or keywords..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setSelectedIndex(-1);
+                }}
+                onKeyDown={handleKeyDown}
+                onFocus={() => {
+                  if (debouncedSearch.length >= 2) {
+                    setIsDropdownOpen(true);
+                  }
+                }}
+              />
+            </div>
 
               {/* Search Dropdown */}
               <SearchDropdown

@@ -62,7 +62,7 @@ export default function Dashboard() {
         </div>
 
         {/* STAT TILE 1: Budget Transparency */}
-        <div className="gemstone-card rounded-2xl p-6 flex flex-col justify-between gap-4 hover:bg-emerald-900/40 transition-colors shadow-xl shadow-amber-500/20">
+        <div className="gemstone-card rounded-2xl p-6 flex flex-col justify-between gap-4 hover:bg-emerald-900/40 transition-colors">
           <div className="flex items-start justify-between">
             <div className="p-2 rounded-lg bg-emerald-900/50 border border-emerald-700/30 text-emerald-300">
               <span className="material-symbols-outlined text-xl">account_balance_wallet</span>
@@ -81,7 +81,7 @@ export default function Dashboard() {
         </div>
 
         {/* STAT TILE 2: Lobbyist Declarations */}
-        <div className="gemstone-card rounded-2xl p-6 flex flex-col justify-between gap-4 hover:bg-emerald-900/40 transition-colors shadow-xl shadow-amber-500/20">
+        <div className="gemstone-card rounded-2xl p-6 flex flex-col justify-between gap-4 hover:bg-emerald-900/40 transition-colors">
           <div className="flex items-start justify-between">
             <div className="p-2 rounded-lg bg-emerald-900/50 border border-emerald-700/30 text-emerald-300">
               <span className="material-symbols-outlined text-xl">handshake</span>
@@ -156,7 +156,7 @@ export default function Dashboard() {
         </div>
 
         {/* TOP DELEGATES (Vertical list, 2 cols on desktop/xl) */}
-        <div className="gemstone-card rounded-2xl p-6 xl:col-span-2 xl:row-span-2 h-full flex flex-col shadow-amber-500/20">
+        <div className="gemstone-card rounded-2xl p-6 xl:col-span-2 xl:row-span-2 h-full flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">award_star</span>

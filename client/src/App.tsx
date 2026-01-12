@@ -8,6 +8,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { Loader2 } from "lucide-react";
 
 // Initial load critical path
 import Home from "./pages/Home";
@@ -27,9 +28,7 @@ const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
     <div className="flex flex-col items-center gap-4">
       <div className="relative flex items-center justify-center size-12 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-emerald-700 shadow-lg shadow-black/40">
-        <span className="material-symbols-outlined text-primary text-3xl drop-shadow-[0_0_8px_rgba(245,159,10,0.6)] animate-spin-slow">
-          wb_sunny
-        </span>
+        <Loader2 className="text-primary text-3xl drop-shadow-[0_0_8px_rgba(245,159,10,0.6)] animate-spin" />
       </div>
       <p className="text-emerald-400/70 text-sm font-medium animate-pulse">Kraunama...</p>
     </div>
