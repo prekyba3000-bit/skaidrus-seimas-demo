@@ -22,6 +22,13 @@
       "when": 1767939472335,
       "tag": "0002_free_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1768178250312,
+      "tag": "0003_cuddly_gideon",
+      "breakpoints": true
     }
   ]
 }

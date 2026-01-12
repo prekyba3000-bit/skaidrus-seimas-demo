@@ -1,74 +1,85 @@
-#!/usr/bin/env node
 /**
- * Nightly Scheduler Script
- * 
- * Dispatches scraping jobs to the queue on a schedule.
- * 
- * Usage:
- *   pnpm exec tsx scripts/scheduler.ts
- * 
- * For production, use a cron job or systemd timer to run this:
- *   # Example cron (runs daily at 2 AM)
- *   0 2 * * * cd /path/to/app && pnpm exec tsx scripts/scheduler.ts
+ * Daily Scheduler for Skaidrus Seimas
+ *
+ * - Votes: Every 6 hours
+ * - Bills: Daily at 2 AM
+ * - Accountability Scores: Weekly (Sunday at 4 AM)
+ *
+ * Usage: Start via PM2 or a background process.
  */
 
+import { calculateMpScores } from "../server/services/scoring";
+import cron from "node-cron";
 import dotenv from "dotenv";
-import { enqueueScrapeBills } from "../server/lib/queue";
-import { closeRedisConnection } from "../server/lib/redis";
+import { enqueueScrapeBills, enqueueScrapeVotes } from "../server/lib/queue";
 import { logger } from "../server/utils/logger";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { systemStatus } from "../drizzle/schema";
 
 dotenv.config();
 
-/**
- * Dispatch all scheduled scraping jobs
- */
-async function dispatchScheduledJobs() {
-  logger.info("Starting scheduled job dispatch...");
+const db = drizzle(postgres(process.env.DATABASE_URL!));
 
+async function logJobStatus(
+  jobName: string,
+  status: "success" | "running" | "failed",
+  error?: string
+) {
   try {
-    // Schedule bills scraping job (runs immediately, but can be configured with delay)
-    const billsJob = await enqueueScrapeBills(
-      {
-        limit: undefined, // No limit - scrape all available
-        force: false,
-      },
-      {
-        delay: 0, // Process immediately
-        priority: 1, // Normal priority
-      }
-    );
-
-    logger.info({ jobId: billsJob.jobId }, "✅ Scheduled bills scrape job");
-
-    // Future: Add more job types here
-    // Example: await enqueueScrapeMps({ ... });
-
-    logger.info("Scheduled job dispatch complete");
-
-    return {
-      success: true,
-      jobs: [billsJob],
+    const now = new Date();
+    const values = {
+      jobName,
+      lastRunStatus: status,
+      lastRunError: error || null,
+      updatedAt: now,
+      ...(status === "success" ? { lastSuccessfulRun: now } : {}),
     };
-  } catch (error) {
-    logger.error({ err: error }, "Failed to dispatch scheduled jobs");
-    throw error;
+
+    await db.insert(systemStatus).values(values).onConflictDoUpdate({
+      target: systemStatus.jobName,
+      set: values,
+    });
+  } catch (err) {
+    logger.error({ err }, `Failed to log status for job: ${jobName}`);
   }
 }
 
-/**
- * Main entry point
- */
-async function main() {
+async function runJob(name: string, task: () => Promise<any>) {
+  logger.info(`Starting scheduled job: ${name}`);
+  await logJobStatus(name, "running");
+
   try {
-    await dispatchScheduledJobs();
-    await closeRedisConnection();
-    process.exit(0);
-  } catch (error) {
-    logger.error({ err: error }, "Fatal error in scheduler");
-    await closeRedisConnection();
-    process.exit(1);
+    await task();
+    logger.info(`✅ Job completed: ${name}`);
+    await logJobStatus(name, "success");
+  } catch (err: any) {
+    logger.error({ err }, `❌ Job failed: ${name}`);
+    await logJobStatus(name, "failed", err.message);
   }
 }
 
-// Run if called directly
-main();
+// --- Schedules ---
+
+// Votes: Every 6 hours (0 */6 * * *)
+cron.schedule("0 */6 * * *", () => {
+  runJob("sync:votes", async () => {
+    await enqueueScrapeVotes();
+  });
+});
+
+// Bills: Daily at 2 AM (0 2 * * *)
+cron.schedule("0 2 * * *", () => {
+  runJob("sync:bills", async () => {
+    await enqueueScrapeBills({ limit: undefined, force: false });
+  });
+});
+
+// Accountability Scores: Weekly on Sunday at 4 AM (0 4 * * 0)
+cron.schedule("0 4 * * 0", () => {
+  runJob("calc:scores", async () => {
+    await calculateMpScores();
+  });
+});
+
+logger.info("📅 Scheduler started. Jobs loaded: Votes, Bills, Scores.");

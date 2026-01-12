@@ -379,9 +379,14 @@ export const appRouter = router({
           })
           .optional()
       )
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
         const { limit = 20, offset = 0, type } = input || {};
-        return await db.getRecentActivities(limit, offset, type);
+        return await db.getRecentActivities(
+          limit,
+          offset,
+          type,
+          ctx.user?.openId // Pass userId if authenticated
+        );
       }),
 
     getFeed: publicProcedure
@@ -397,17 +402,17 @@ export const appRouter = router({
         return await db.getActivityFeed(input);
       }),
 
-    markAsRead: protectedProcedure.mutation(async ({ ctx }) => {
-      // Only authenticated users can mark activities as read
-      if (!ctx.user) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "Authentication required",
-        });
-      }
-      // TODO: Update markActivitiesAsRead to accept userId for user-specific read tracking
-      return await db.markActivitiesAsRead();
-    }),
+    markAsRead: protectedProcedure
+      .input(z.array(z.number()).optional()) // Optional array of activity IDs
+      .mutation(async ({ ctx, input }) => {
+        if (!ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Authentication required",
+          });
+        }
+        return await db.markActivitiesAsRead(ctx.user.openId, input);
+      }),
   }),
 
   // Global Search router

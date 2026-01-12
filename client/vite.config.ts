@@ -45,31 +45,19 @@ export default defineConfig({
       output: {
         // Manual chunk splitting for optimal caching
         manualChunks: {
-          // Vendor chunks - rarely change
-          "vendor-react": ["react", "react-dom"],
-          "vendor-router": ["wouter"],
-          "vendor-query": ["@tanstack/react-query"],
-          "vendor-trpc": ["@trpc/client", "@trpc/react-query"],
-          "vendor-ui": [
+          "vendor-core": ["react", "react-dom", "wouter"],
+          "vendor-query": [
+            "@tanstack/react-query",
+            "@trpc/client",
+            "@trpc/react-query",
+          ],
+          charts: ["recharts"],
+          maps: ["leaflet", "react-leaflet"],
+          "ui-libs": [
+            "framer-motion",
             "@radix-ui/react-avatar",
             "@radix-ui/react-select",
             "@radix-ui/react-tooltip",
-            "@radix-ui/react-progress",
-          ],
-
-          // Feature chunks - change together
-          "feature-dashboard": [
-            path.resolve(__dirname, "./src/pages/Dashboard.tsx"),
-            path.resolve(__dirname, "./src/pages/Home.tsx"),
-          ],
-          "feature-mps": [
-            path.resolve(__dirname, "./src/pages/MPs.tsx"),
-            path.resolve(__dirname, "./src/pages/MPProfile.tsx"),
-            path.resolve(__dirname, "./src/pages/MpCompare.tsx"),
-          ],
-          "feature-bills": [
-            path.resolve(__dirname, "./src/pages/Bills.tsx"),
-            path.resolve(__dirname, "./src/pages/BillDetail.tsx"),
           ],
         },
 

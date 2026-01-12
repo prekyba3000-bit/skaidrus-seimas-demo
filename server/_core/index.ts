@@ -11,7 +11,11 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { requestLogger, logger } from "../utils/logger";
-import { initializeSentry, sentryRequestHandler, sentryErrorHandler } from "../services/sentry";
+import {
+  initializeSentry,
+  sentryRequestHandler,
+  sentryErrorHandler,
+} from "../services/sentry";
 import { closeDatabase } from "../services/database";
 import { cache } from "../services/cache";
 import { closeRedisConnection } from "../lib/redis";
@@ -35,9 +39,21 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
+import {
+  startScraperWorker,
+  shutdownWorker as stopScraperWorker,
+} from "../workers/scraper";
+import {
+  startVoteScraperWorker,
+  shutdownWorker as stopVoteScraperWorker,
+} from "../workers/vote-scraper";
+import { Worker } from "bullmq";
+
 // Global variables for graceful shutdown
 let httpServer: Server | null = null;
 let isShuttingDown = false;
+let scraperWorker: Worker | null = null;
+let voteScraperWorker: Worker | null = null;
 
 /**
  * Graceful shutdown handler
@@ -49,7 +65,10 @@ async function gracefulShutdown(signal: string) {
   }
 
   isShuttingDown = true;
-  logger.info({ signal }, "Received shutdown signal, starting graceful shutdown");
+  logger.info(
+    { signal },
+    "Received shutdown signal, starting graceful shutdown"
+  );
 
   // 1. Stop accepting new connections
   if (httpServer) {
@@ -64,7 +83,20 @@ async function gracefulShutdown(signal: string) {
     }, 10000);
   }
 
-  // 2. Close database connection pool
+  // 2. Stop Workers
+  try {
+    if (scraperWorker) {
+      await stopScraperWorker(scraperWorker);
+    }
+    if (voteScraperWorker) {
+      await stopVoteScraperWorker(voteScraperWorker);
+    }
+    logger.info("Workers stopped");
+  } catch (err) {
+    logger.error({ err }, "Error stopping workers");
+  }
+
+  // 3. Close database connection pool
   try {
     await closeDatabase();
     logger.info("Database connection pool closed");
@@ -72,7 +104,7 @@ async function gracefulShutdown(signal: string) {
     logger.error({ err }, "Error closing database connection");
   }
 
-  // 3. Disconnect Redis (cache service)
+  // 4. Disconnect Redis (cache service)
   try {
     await cache.disconnect();
     logger.info("Redis cache disconnected");
@@ -80,7 +112,7 @@ async function gracefulShutdown(signal: string) {
     logger.error({ err }, "Error disconnecting Redis cache");
   }
 
-  // 4. Disconnect Redis (BullMQ)
+  // 5. Disconnect Redis (BullMQ)
   try {
     await closeRedisConnection();
     logger.info("Redis BullMQ connection closed");
@@ -129,10 +161,10 @@ async function startServer() {
 
   // CORS Configuration
   const allowedOrigins = process.env.CLIENT_URL
-    ? process.env.CLIENT_URL.split(",").map((url) => url.trim())
+    ? process.env.CLIENT_URL.split(",").map(url => url.trim())
     : process.env.NODE_ENV === "production"
-    ? []
-    : ["http://localhost:5173", "http://localhost:3000"]; // Dev fallback
+      ? []
+      : ["http://localhost:5173", "http://localhost:3000"]; // Dev fallback
 
   app.use(
     cors({
@@ -166,7 +198,7 @@ async function startServer() {
     },
     standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
     legacyHeaders: false, // Disable `X-RateLimit-*` headers
-    skip: (req) => {
+    skip: req => {
       // Skip rate limiting for health checks
       return req.path === "/health" || req.path === "/health/ready";
     },
@@ -191,10 +223,9 @@ async function startServer() {
   app.use("/api/trpc", (req, res, next) => {
     // Check if this is a sensitive endpoint
     const url = req.url || "";
-    const isSensitiveEndpoint = 
-      url.includes("auth.login") || 
-      url.includes("user.updateSettings");
-    
+    const isSensitiveEndpoint =
+      url.includes("auth.login") || url.includes("user.updateSettings");
+
     if (isSensitiveEndpoint) {
       return strictRateLimiter(req, res, next);
     }
@@ -207,14 +238,14 @@ async function startServer() {
   // Request ID middleware - must be early in the chain
   app.use((req, res, next) => {
     // Generate or use existing request ID from header
-    const requestId = req.headers["x-request-id"] as string || randomUUID();
-    
+    const requestId = (req.headers["x-request-id"] as string) || randomUUID();
+
     // Attach to request for use in context
     (req as any).requestId = requestId;
-    
+
     // Set response header so frontend can correlate errors
     res.setHeader("x-request-id", requestId);
-    
+
     next();
   });
 
@@ -232,7 +263,10 @@ async function startServer() {
 
   // Deep health check (readiness probe)
   app.get("/health/ready", async (_req, res) => {
-    const checks: Record<string, { status: string; latencyMs?: number; error?: string }> = {};
+    const checks: Record<
+      string,
+      { status: string; latencyMs?: number; error?: string }
+    > = {};
 
     // Check database
     try {
@@ -267,7 +301,7 @@ async function startServer() {
 
     // Determine overall status
     const allHealthy = Object.values(checks).every(
-      (check) => check.status === "healthy"
+      check => check.status === "healthy"
     );
 
     const statusCode = allHealthy ? 200 : 503;
@@ -290,7 +324,8 @@ async function startServer() {
       onError: ({ path, error, type, ctx, input }) => {
         // Use context logger if available, otherwise create one
         const log = ctx?.log || require("../utils/logger").logger;
-        const requestId = ctx?.requestId || (ctx?.req as any)?.requestId || "unknown";
+        const requestId =
+          ctx?.requestId || (ctx?.req as any)?.requestId || "unknown";
         const userId = ctx?.user?.openId || "anonymous";
 
         // Log error with full context using structured logger
@@ -355,19 +390,37 @@ async function startServer() {
   const port = await findAvailablePort(preferredPort);
 
   if (port !== preferredPort) {
-    logger.warn({ preferredPort, actualPort: port }, "Port busy, using alternative");
+    logger.warn(
+      { preferredPort, actualPort: port },
+      "Port busy, using alternative"
+    );
   }
 
   // Initialize Redis cache connection
   try {
     await cache.connect();
   } catch (err) {
-    logger.warn({ err }, "Redis cache initialization failed - continuing without cache");
+    logger.warn(
+      { err },
+      "Redis cache initialization failed - continuing without cache"
+    );
+  }
+
+  // Start Workers
+  try {
+    scraperWorker = startScraperWorker();
+    voteScraperWorker = startVoteScraperWorker();
+    logger.info("Background workers started");
+  } catch (err) {
+    logger.error({ err }, "Failed to start background workers");
   }
 
   httpServer = server.listen(port, () => {
     logger.info({ port }, "Skaidrus Seimas API server started");
-    logger.info({ health: "/health", ready: "/health/ready" }, "Health check endpoints available");
+    logger.info(
+      { health: "/health", ready: "/health/ready" },
+      "Health check endpoints available"
+    );
   });
 
   // Graceful shutdown handlers
@@ -375,7 +428,7 @@ async function startServer() {
   process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
   // Handle uncaught errors
-  process.on("uncaughtException", (err) => {
+  process.on("uncaughtException", err => {
     logger.error({ err }, "Uncaught exception");
     gracefulShutdown("uncaughtException");
   });
@@ -386,7 +439,7 @@ async function startServer() {
   });
 }
 
-startServer().catch((err) => {
+startServer().catch(err => {
   logger.error({ err }, "Fatal error starting server");
   process.exit(1);
 });

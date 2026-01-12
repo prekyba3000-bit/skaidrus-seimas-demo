@@ -1,17 +1,16 @@
 import { motion } from "framer-motion";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Users, FileText, Building2, Clock, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { GlobalSearchResults } from "@/types/search";
+import { trpc } from "@/lib/trpc";
 import { EmptyState } from "@/components/ui/empty-state";
+import { useEffect } from "react";
 
 interface SearchDropdownProps {
-    results: GlobalSearchResults | undefined;
-    isLoading: boolean;
+    query: string;
     isOpen: boolean;
     selectedIndex: number;
     recentSearches?: string[];
-    onSelect: (href: string) => void;
     onSelectRecent: (query: string) => void;
     onClearRecent?: () => void;
     onClose: () => void;
@@ -19,21 +18,25 @@ interface SearchDropdownProps {
 }
 
 export function SearchDropdown({
-    results,
-    isLoading,
+    query,
     isOpen,
     selectedIndex,
     recentSearches = [],
-    onSelect,
     onSelectRecent,
     onClearRecent,
     onClose,
     className,
 }: SearchDropdownProps) {
-    if (!isOpen) return null;
+    const [, setLocation] = useLocation();
 
-    // Flatten results for keyboard navigation
-    const flatResults: Array<{ type: string; id: number; title: string; subtitle?: string; href: string }> = [];
+    // Fetch live search results
+    const { data: results, isLoading } = trpc.search.global.useQuery(
+        { query: query, limit: 5 },
+        { enabled: isOpen && query.length > 0 }
+    );
+
+    // Flatten results for navigation
+    const flatResults: Array<{ type: string; id: number; title: string; subtitle?: string; href: string, photoUrl?: string | null }> = [];
 
     if (results) {
         results.mps.forEach((mp) => {
@@ -43,6 +46,7 @@ export function SearchDropdown({
                 title: mp.name,
                 subtitle: mp.party,
                 href: `/mp/${mp.id}`,
+                photoUrl: mp.photoUrl
             });
         });
         results.bills.forEach((bill) => {
@@ -50,7 +54,7 @@ export function SearchDropdown({
                 type: "bill",
                 id: bill.id,
                 title: bill.title,
-                subtitle: bill.registrationNumber || bill.status,
+                subtitle: bill.status,
                 href: `/bills/${bill.id}`,
             });
         });
@@ -65,8 +69,24 @@ export function SearchDropdown({
         });
     }
 
+    // Handle keyboard navigation selection
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!isOpen) return;
+            if (e.key === "Enter" && flatResults[selectedIndex]) {
+                setLocation(flatResults[selectedIndex].href);
+                onClose();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen, selectedIndex, flatResults, setLocation, onClose]);
+
+    if (!isOpen) return null;
+
     const hasResults = flatResults.length > 0;
-    const showRecentSearches = !isLoading && !hasResults && recentSearches.length > 0;
+    const showRecentSearches = !isLoading && !hasResults && query.length === 0 && recentSearches.length > 0;
 
     return (
         <motion.div
@@ -112,9 +132,7 @@ export function SearchDropdown({
                                     <Link
                                         key={`mp-${mp.id}`}
                                         href={`/mp/${mp.id}`}
-                                        onClick={() => {
-                                            onSelect(`/mp/${mp.id}`);
-                                        }}
+                                        onClick={() => onClose()}
                                         className={cn(
                                             "w-full flex items-center gap-3 px-3 py-2 rounded transition-colors text-left",
                                             isSelected
@@ -161,9 +179,7 @@ export function SearchDropdown({
                                     <Link
                                         key={`bill-${bill.id}`}
                                         href={`/bills/${bill.id}`}
-                                        onClick={() => {
-                                            onSelect(`/bills/${bill.id}`);
-                                        }}
+                                        onClick={() => onClose()}
                                         className={cn(
                                             "w-full flex items-center gap-3 px-3 py-2 rounded transition-colors text-left",
                                             isSelected
@@ -177,7 +193,7 @@ export function SearchDropdown({
                                         <div className="flex-1 min-w-0">
                                             <p className="text-sm font-medium truncate">{bill.title}</p>
                                             <p className="text-xs text-gray-400 truncate">
-                                                {bill.registrationNumber || bill.status}
+                                                {bill.status}
                                             </p>
                                         </div>
                                     </Link>
@@ -202,9 +218,7 @@ export function SearchDropdown({
                                     <Link
                                         key={`committee-${committee.id}`}
                                         href={`/committees/${committee.id}`}
-                                        onClick={() => {
-                                            onSelect(`/committees/${committee.id}`);
-                                        }}
+                                        onClick={() => onClose()}
                                         className={cn(
                                             "w-full flex items-center gap-3 px-3 py-2 rounded transition-colors text-left",
                                             isSelected
@@ -248,14 +262,14 @@ export function SearchDropdown({
                             </button>
                         )}
                     </div>
-                    {recentSearches.map((query, index) => (
+                    {recentSearches.map((q, index) => (
                         <button
                             key={index}
-                            onClick={() => onSelectRecent(query)}
+                            onClick={() => onSelectRecent(q)}
                             className="w-full flex items-center gap-3 px-3 py-2 rounded transition-colors text-left text-gray-300 hover:bg-[#233648]"
                         >
                             <Clock className="w-4 h-4 text-gray-500" />
-                            <span className="text-sm">{query}</span>
+                            <span className="text-sm">{q}</span>
                         </button>
                     ))}
                 </div>
@@ -267,7 +281,7 @@ export function SearchDropdown({
                     <EmptyState
                         icon={Search}
                         title="Rezultatų nerasta"
-                        description="Pabandykite kitą paieškos užklausą arba peržiūrėkite paskutines paieškas."
+                        description="Pabandykite kitą paieškos užklausą."
                     />
                 </div>
             )}

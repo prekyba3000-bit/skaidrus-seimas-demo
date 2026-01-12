@@ -1,10 +1,5 @@
-# ============================================
-# Production Dockerfile
-# Multi-stage build for minimal image size
-# ============================================
+FROM node:20-alpine AS builder
 
-# Stage 1: Dependencies
-FROM node:22-alpine AS deps
 WORKDIR /app
 
 # Install pnpm
@@ -13,53 +8,38 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 
-# Install production dependencies only
-RUN pnpm install --frozen-lockfile --prod=false
+# Install dependencies (frozen-lockfile for consistency)
+RUN pnpm install --frozen-lockfile
 
-# Stage 2: Builder
-FROM node:22-alpine AS builder
-WORKDIR /app
-
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-COPY --from=deps /app/node_modules ./node_modules
+# Copy source code
 COPY . .
 
-# Build the application
+# Build client and server
+# This script runs vite build and esbuild
 RUN pnpm run build
 
-# Stage 3: Production Runner
-FROM node:22-alpine AS runner
+# Remove development dependencies to slim down the image
+RUN pnpm prune --prod
+
+# --- Runner Stage ---
+FROM node:20-alpine AS runner
+
 WORKDIR /app
 
-# Security: Run as non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 seimas
-
-# Install production-only dependencies
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod
-
-# Copy built application
+# Copy necessary files from builder
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/client/dist ./client/dist
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/drizzle ./drizzle
 
-# Set ownership
-RUN chown -R seimas:nodejs /app
-
-USER seimas
-
-# Environment
+# Set environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
 
+# Expose server port
 EXPOSE 3000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
-
-# Start the application
+# Default command: start server
 CMD ["node", "dist/index.js"]

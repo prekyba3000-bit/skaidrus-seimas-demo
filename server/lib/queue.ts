@@ -4,7 +4,7 @@ import { logger } from "../utils/logger";
 
 /**
  * Job Queue Configuration for BullMQ
- * 
+ *
  * Creates and manages job queues for scraping tasks.
  */
 
@@ -13,8 +13,14 @@ export interface ScrapeBillsJobData {
   force?: boolean;
 }
 
+export interface ScrapeVotesJobData {
+  limit?: number;
+  sessionId?: string; // Optional: scrape specific session
+}
+
 // Singleton queue instances
 let scrapeBillsQueue: Queue<ScrapeBillsJobData> | null = null;
+let scrapeVotesQueue: Queue<ScrapeVotesJobData> | null = null;
 
 /**
  * Get or create the scrape:bills queue
@@ -27,7 +33,7 @@ export function getScrapeBillsQueue(): Queue<ScrapeBillsJobData> {
   const redis = getRedisConnection();
 
   scrapeBillsQueue = new Queue<ScrapeBillsJobData>("scrape:bills", {
-    connection: redis,
+    connection: redis as any,
     defaultJobOptions: {
       attempts: 3, // Retry 3 times
       backoff: {
@@ -50,6 +56,39 @@ export function getScrapeBillsQueue(): Queue<ScrapeBillsJobData> {
 }
 
 /**
+ * Get or create the scrape:votes queue
+ */
+export function getScrapeVotesQueue(): Queue<ScrapeVotesJobData> {
+  if (scrapeVotesQueue) {
+    return scrapeVotesQueue;
+  }
+
+  const redis = getRedisConnection();
+
+  scrapeVotesQueue = new Queue<ScrapeVotesJobData>("scrape:votes", {
+    connection: redis as any,
+    defaultJobOptions: {
+      attempts: 3, // Retry 3 times
+      backoff: {
+        type: "exponential", // Exponential backoff
+        delay: 5000, // Start with 5 second delay
+      },
+      removeOnComplete: {
+        count: 100, // Keep last 100 completed jobs
+        age: 24 * 3600, // Keep for 24 hours
+      },
+      removeOnFail: {
+        count: 500, // Keep last 500 failed jobs for debugging
+      },
+    },
+  });
+
+  logger.info("Job queue 'scrape:votes' initialized");
+
+  return scrapeVotesQueue;
+}
+
+/**
  * Add a scrape:bills job to the queue
  */
 export async function enqueueScrapeBills(
@@ -67,15 +106,42 @@ export async function enqueueScrapeBills(
 
   logger.info({ jobId: job.id, data, options }, "Enqueued scrape:bills job");
 
-  return { jobId: job.id };
+  return { jobId: job.id as string };
+}
+
+/**
+ * Add a scrape:votes job to the queue
+ */
+export async function enqueueScrapeVotes(
+  data: ScrapeVotesJobData = {},
+  options?: {
+    delay?: number; // Delay in milliseconds before processing
+    priority?: number; // Higher priority = processed first
+  }
+): Promise<{ jobId: string }> {
+  const queue = getScrapeVotesQueue();
+
+  const job = await queue.add("scrape:votes", data, {
+    ...options,
+  });
+
+  logger.info({ jobId: job.id, data, options }, "Enqueued scrape:votes job");
+
+  return { jobId: job.id as string };
 }
 
 /**
  * Get job status
  */
 export async function getJobStatus(jobId: string) {
-  const queue = getScrapeBillsQueue();
-  const job = await queue.getJob(jobId);
+  // Check both queues
+  let queue: Queue<any> | null = getScrapeBillsQueue();
+  let job = await queue.getJob(jobId);
+
+  if (!job) {
+    queue = getScrapeVotesQueue();
+    job = await queue.getJob(jobId);
+  }
 
   if (!job) {
     return null;
@@ -108,6 +174,10 @@ export async function closeQueues(): Promise<void> {
   if (scrapeBillsQueue) {
     await scrapeBillsQueue.close();
     scrapeBillsQueue = null;
-    logger.info("Job queues closed");
   }
+  if (scrapeVotesQueue) {
+    await scrapeVotesQueue.close();
+    scrapeVotesQueue = null;
+  }
+  logger.info("Job queues closed");
 }

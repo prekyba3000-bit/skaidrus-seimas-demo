@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
     "build": "vite build --config client/vite.config.ts && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "npm run check:indexes && NODE_ENV=production node dist/index.js",
+    "check:indexes": "tsx scripts/check-indexes.ts",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
     "test": "vitest run",

@@ -39,6 +39,7 @@ import {
   systemStatus,
   sessionVotes,
   activities,
+  userActivityReads,
 } from "../../drizzle/schema";
 
 /**
@@ -576,7 +577,8 @@ function serializeObjectDates(obj: any): any {
 export async function getRecentActivities(
   limit: number = 20,
   offset: number = 0,
-  type?: string
+  type?: string,
+  userId?: string // Optional user ID for read tracking
 ) {
   const db = await getDb();
 
@@ -585,13 +587,28 @@ export async function getRecentActivities(
       activity: activities,
       mp: mps,
       bill: bills,
+      // If userId is provided, check if read
+      readAt: userId ? userActivityReads.readAt : sql<null>`null`,
     })
     .from(activities)
     .leftJoin(mps, eq(activities.mpId, mps.id))
-    .leftJoin(bills, eq(activities.billId, bills.id))
+    .leftJoin(bills, eq(activities.billId, bills.id));
+
+  // If userId is provided, join with read status
+  if (userId) {
+    query = query.leftJoin(
+      userActivityReads,
+      and(
+        eq(activities.id, userActivityReads.activityId),
+        eq(userActivityReads.userId, userId)
+      )
+    ) as any;
+  }
+
+  query = query
     .orderBy(desc(activities.createdAt))
     .limit(limit)
-    .offset(offset);
+    .offset(offset) as any;
 
   if (type) {
     query = query.where(eq(activities.type, type)) as any;
@@ -600,11 +617,71 @@ export async function getRecentActivities(
   const rawResults = await query;
 
   // CRITICAL FIX: Deep serialize ALL dates including joined tables (bills have submittedAt/createdAt!)
-  return rawResults.map(row => ({
-    activity: row.activity ? serializeObjectDates(row.activity) : null,
-    mp: row.mp ? serializeObjectDates(row.mp) : null,
-    bill: row.bill ? serializeObjectDates(row.bill) : null,
-  }));
+  // AND: map isNew based on read status if userId is present
+  return rawResults.map(row => {
+    const activity = row.activity ? serializeObjectDates(row.activity) : null;
+
+    // If we have a user context, override isNew based on whether a read record exists
+    if (activity && userId) {
+      // It is NEW if there is NO read record (readAt is null/undefined)
+      // row.readAt comes from the join
+      activity.isNew = !row.readAt;
+    }
+
+    return {
+      activity,
+      mp: row.mp ? serializeObjectDates(row.mp) : null,
+      bill: row.bill ? serializeObjectDates(row.bill) : null,
+    };
+  });
+}
+
+export async function markActivitiesAsRead(
+  userId: string,
+  activityIds?: number[]
+) {
+  const db = await getDb();
+
+  if (activityIds && activityIds.length > 0) {
+    // Mark specific activities as read
+    const values = activityIds.map(id => ({
+      userId,
+      activityId: id,
+      readAt: new Date(),
+    }));
+
+    await db.insert(userActivityReads).values(values).onConflictDoNothing(); // Ignore if already marked
+  } else {
+    // Mark ALL currently unread activities as read
+    // 1. Get all activity IDs that aren't read by this user
+    // This is a heavy operation, so we limit typically or just handle 'up to now'
+    // For now, let's just mark recent 100 as a heuristic or implement proper "mark all" logic
+    // A better approach for "Mark All" is usually to store a "lastReadTimestamp" on the user profile
+    // But for this patch, we'll select unread IDs and insert them.
+
+    const unread = await db
+      .select({ id: activities.id })
+      .from(activities)
+      .leftJoin(
+        userActivityReads,
+        and(
+          eq(activities.id, userActivityReads.activityId),
+          eq(userActivityReads.userId, userId)
+        )
+      )
+      .where(sql`${userActivityReads.readAt} IS NULL`)
+      .limit(500); // Safety limit
+
+    if (unread.length > 0) {
+      const values = unread.map(row => ({
+        userId,
+        activityId: row.id,
+        readAt: new Date(),
+      }));
+
+      await db.insert(userActivityReads).values(values).onConflictDoNothing();
+    }
+  }
 }
 
 /**
@@ -1659,13 +1736,4 @@ export async function createActivity(activity: typeof activities.$inferInsert) {
 
   const result = await db.insert(activities).values(activity).returning();
   return result[0];
-}
-
-export async function markActivitiesAsRead() {
-  const db = await getDb();
-
-  await db
-    .update(activities)
-    .set({ isNew: false })
-    .where(eq(activities.isNew, true));
 }
