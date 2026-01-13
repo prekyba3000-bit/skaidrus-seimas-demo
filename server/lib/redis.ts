@@ -3,7 +3,7 @@ import { logger } from "../utils/logger";
 
 /**
  * Redis Connection for BullMQ
- * 
+ *
  * BullMQ requires an ioredis instance, separate from the cache service.
  * This provides a dedicated connection for job queue operations.
  */
@@ -19,8 +19,11 @@ export function getRedisConnection(): Redis {
   }
 
   const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
-  
-  logger.info({ url: redisUrl.replace(/:[^:@]+@/, ":****@") }, "Initializing Redis connection for BullMQ");
+
+  logger.info(
+    { url: redisUrl.replace(/:[^:@]+@/, ":****@") },
+    "Initializing Redis connection for BullMQ"
+  );
 
   redisConnection = new Redis(redisUrl, {
     maxRetriesPerRequest: 3,
@@ -32,7 +35,10 @@ export function getRedisConnection(): Redis {
     reconnectOnError(err) {
       const targetError = "READONLY";
       if (err.message.includes(targetError)) {
-        logger.error({ err: err.message }, "Redis read-only error, reconnecting");
+        logger.error(
+          { err: err.message },
+          "Redis read-only error, reconnecting"
+        );
         return true;
       }
       return false;
@@ -43,7 +49,7 @@ export function getRedisConnection(): Redis {
     logger.info("Redis connected (BullMQ)");
   });
 
-  redisConnection.on("error", (err) => {
+  redisConnection.on("error", err => {
     logger.error({ err }, "Redis connection error (BullMQ)");
   });
 

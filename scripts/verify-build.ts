@@ -1,13 +1,13 @@
 /**
  * Verify Production Build
- * 
+ *
  * This script verifies that:
  * - Build artifacts exist and are valid
  * - File sizes are reasonable
- * 
+ *
  * Note: This does NOT start the server (that requires a database connection).
  * For full verification, run: npm run start (in a separate terminal)
- * 
+ *
  * Usage: tsx scripts/verify-build.ts
  */
 
@@ -30,19 +30,22 @@ function verifyBuild() {
     if (!existsSync(distPath)) {
       throw new Error("dist/index.js does not exist");
     }
-    
+
     const stats = statSync(distPath);
     const content = readFileSync(distPath, "utf-8");
-    
+
     if (content.length === 0) {
       throw new Error("dist/index.js is empty");
     }
-    
+
     // Check for common build errors
-    if (content.includes("require is not defined") && !content.includes("import")) {
+    if (
+      content.includes("require is not defined") &&
+      !content.includes("import")
+    ) {
       console.warn("⚠️  Build may have CommonJS/ESM issues");
     }
-    
+
     console.log("✅ Build artifact exists: dist/index.js");
     console.log(`   Size: ${(stats.size / 1024).toFixed(2)} KB`);
   } catch (err: any) {
@@ -56,7 +59,7 @@ function verifyBuild() {
     const indexHtml = join(projectRoot, "dist", "index.html");
     const assetsDir = join(projectRoot, "dist", "assets");
     const jsDir = join(projectRoot, "dist", "js");
-    
+
     if (existsSync(indexHtml)) {
       const html = readFileSync(indexHtml, "utf-8");
       if (html.includes("<html")) {

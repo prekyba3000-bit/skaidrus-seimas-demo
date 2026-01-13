@@ -9,12 +9,13 @@ import { toast } from "sonner";
 
 export default function Settings() {
   // Fetch user settings from backend
-  const { data: settings, isLoading: isLoadingSettings } = trpc.user.getSettings.useQuery();
+  const { data: settings, isLoading: isLoadingSettings } =
+    trpc.user.getSettings.useQuery();
   const updateSettings = trpc.user.updateSettings.useMutation({
     onSuccess: () => {
       toast.success("Nustatymai išsaugoti");
     },
-    onError: (error) => {
+    onError: error => {
       toast.error(`Klaida: ${error.message}`);
     },
   });
@@ -30,7 +31,7 @@ export default function Settings() {
       setCompactMode(settings.compactMode ?? false);
       setEmailNotifications(settings.emailNotifications ?? false);
       setBetaFeatures(settings.betaFeatures ?? false);
-      
+
       // Apply compact mode class
       if (settings.compactMode) {
         document.body.classList.add("compact-mode");
@@ -125,7 +126,8 @@ export default function Settings() {
                   Beta funkcijos
                 </Label>
                 <p className="text-[#92adc9] text-sm">
-                  Įjungti eksperimentines funkcijas ir ankstyvą prieigą prie naujų funkcijų
+                  Įjungti eksperimentines funkcijas ir ankstyvą prieigą prie
+                  naujų funkcijų
                 </p>
               </div>
               <Switch

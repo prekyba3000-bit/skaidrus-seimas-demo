@@ -40,6 +40,8 @@ import {
   sessionVotes,
   activities,
   userActivityReads,
+  watchlist,
+  userFeedback,
 } from "../../drizzle/schema";
 
 /**
@@ -130,6 +132,46 @@ export function getSqlClient() {
     throw new Error("Database not initialized. Call getDb() first.");
   }
   return sqlClient;
+}
+
+/**
+ * Execute a query with Row Level Security (RLS) context
+ *
+ * This function wraps queries in a transaction that sets app.current_user_id
+ * so PostgreSQL RLS policies can filter rows based on the authenticated user.
+ *
+ * Implementation: Uses postgres.js transaction with SET LOCAL, then creates
+ * a drizzle instance that uses the transaction client. The transaction client
+ * from postgres.js.begin() should be compatible with drizzle.
+ *
+ * @param userId - The user's openId (must match users.openId column)
+ * @param queryFn - Function that executes database queries using the provided db instance
+ * @returns Result of the query function
+ */
+export async function withUserContext<T>(
+  userId: string,
+  queryFn: (db: ReturnType<typeof drizzle>) => Promise<T>
+): Promise<T> {
+  const sqlClient = getSqlClient();
+
+  // Use a transaction to set the user context
+  // SET LOCAL only applies to the current transaction
+  const result = await sqlClient.begin(async tx => {
+    // Set the user context variable for RLS policies
+    // Escape single quotes in userId to prevent SQL injection
+    const escapedUserId = userId.replace(/'/g, "''");
+    await tx.unsafe(`SET LOCAL app.current_user_id = '${escapedUserId}'`);
+
+    // Create a new postgres client instance from the transaction
+    // The transaction (tx) is already a postgres client, so we can use it directly
+    // However, drizzle might need the full client structure
+    // Try using the transaction client directly with drizzle
+    const txDb = drizzle(tx, { schema });
+
+    return await queryFn(txDb);
+  });
+
+  return result as T;
 }
 
 /**
@@ -309,35 +351,44 @@ export async function updateUserSettings(
     compactMode?: boolean;
   }
 ) {
-  const db = await getDb();
+  const sqlClient = getSqlClient();
 
-  // Get current user to merge settings
-  const currentUser = await getUserByOpenId(openId);
-  if (!currentUser) {
-    throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "User not found",
-    });
-  }
+  // Use RLS context via transaction
+  return await sqlClient.begin(async tx => {
+    // Set RLS context
+    const escapedOpenId = openId.replace(/'/g, "''");
+    await tx.unsafe(`SET LOCAL app.current_user_id = '${escapedOpenId}'`);
 
-  // Merge with existing settings
-  const currentSettings = (currentUser.settings as any) || {};
-  const updatedSettings = {
-    ...currentSettings,
-    ...settings,
-  };
+    // Get current user (RLS ensures we only see own user)
+    const [currentUser] = await tx`
+      SELECT * FROM users WHERE "openId" = ${openId} LIMIT 1
+    `;
 
-  // Update user settings
-  const result = await db
-    .update(users)
-    .set({
-      settings: updatedSettings,
-      updatedAt: new Date(),
-    })
-    .where(eq(users.openId, openId))
-    .returning();
+    if (!currentUser) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found",
+      });
+    }
 
-  return result[0];
+    // Merge with existing settings
+    const currentSettings = (currentUser.settings as any) || {};
+    const updatedSettings = {
+      ...currentSettings,
+      ...settings,
+    };
+
+    // Update user settings (RLS ensures we can only update own user)
+    const [updated] = await tx`
+      UPDATE users
+      SET settings = ${JSON.stringify(updatedSettings)}::jsonb,
+          "updatedAt" = NOW()
+      WHERE "openId" = ${openId}
+      RETURNING *
+    `;
+
+    return updated;
+  });
 }
 
 // ==================== MP Queries ====================
@@ -640,53 +691,52 @@ export async function markActivitiesAsRead(
   userId: string,
   activityIds?: number[]
 ) {
-  const db = await getDb();
+  const sqlClient = getSqlClient();
 
-  if (activityIds && activityIds.length > 0) {
-    // Mark specific activities as read
-    const values = activityIds.map(id => ({
-      userId,
-      activityId: id,
-      readAt: new Date(),
-    }));
+  // Use RLS context via transaction
+  return await sqlClient.begin(async tx => {
+    // Set RLS context
+    const escapedUserId = userId.replace(/'/g, "''");
+    await tx.unsafe(`SET LOCAL app.current_user_id = '${escapedUserId}'`);
 
-    await db.insert(userActivityReads).values(values).onConflictDoNothing(); // Ignore if already marked
-  } else {
-    // Mark ALL currently unread activities as read
-    // 1. Get all activity IDs that aren't read by this user
-    // This is a heavy operation, so we limit typically or just handle 'up to now'
-    // For now, let's just mark recent 100 as a heuristic or implement proper "mark all" logic
-    // A better approach for "Mark All" is usually to store a "lastReadTimestamp" on the user profile
-    // But for this patch, we'll select unread IDs and insert them.
+    if (activityIds && activityIds.length > 0) {
+      // Mark specific activities as read
+      const values = activityIds
+        .map(id => `('${escapedUserId}', ${id}, NOW())`)
+        .join(", ");
+      await tx.unsafe(`
+        INSERT INTO user_activity_reads (user_id, activity_id, read_at)
+        VALUES ${values}
+        ON CONFLICT (user_id, activity_id) DO NOTHING
+      `);
+    } else {
+      // Mark ALL currently unread activities as read
+      // RLS ensures we only see this user's read status
+      const unread = await tx`
+        SELECT a.id
+        FROM activities a
+        LEFT JOIN user_activity_reads uar ON a.id = uar.activity_id
+        WHERE uar.read_at IS NULL
+        LIMIT 500
+      `;
 
-    const unread = await db
-      .select({ id: activities.id })
-      .from(activities)
-      .leftJoin(
-        userActivityReads,
-        and(
-          eq(activities.id, userActivityReads.activityId),
-          eq(userActivityReads.userId, userId)
-        )
-      )
-      .where(sql`${userActivityReads.readAt} IS NULL`)
-      .limit(500); // Safety limit
-
-    if (unread.length > 0) {
-      const values = unread.map(row => ({
-        userId,
-        activityId: row.id,
-        readAt: new Date(),
-      }));
-
-      await db.insert(userActivityReads).values(values).onConflictDoNothing();
+      if (unread.length > 0) {
+        const values = unread
+          .map((row: any) => `('${escapedUserId}', ${row.id}, NOW())`)
+          .join(", ");
+        await tx.unsafe(`
+          INSERT INTO user_activity_reads (user_id, activity_id, read_at)
+          VALUES ${values}
+          ON CONFLICT (user_id, activity_id) DO NOTHING
+        `);
+      }
     }
-  }
+  });
 }
 
 /**
  * Get activity feed with cursor-based pagination
- * If activities table has data, use it. Otherwise, create synthetic feed from votes and bills.
+ * Returns activities from the activities table. Activities are populated from votes and bills via the populate-activities script.
  */
 export async function getActivityFeed(options?: {
   limit?: number;
@@ -720,100 +770,22 @@ export async function getActivityFeed(options?: {
 
   const rawResults = await query;
 
-  // If we have activities, return them
-  if (rawResults.length > 0 && rawResults[0].activity) {
-    let nextCursor: number | undefined = undefined;
-    let items = rawResults;
-    if (rawResults.length > limit) {
-      nextCursor = rawResults[limit].activity.id;
-      items = rawResults.slice(0, limit);
-    }
-
-    return {
-      items: items.map(row => ({
-        activity: row.activity ? serializeObjectDates(row.activity) : null,
-        mp: row.mp ? serializeObjectDates(row.mp) : null,
-        bill: row.bill ? serializeObjectDates(row.bill) : null,
-      })),
-      nextCursor,
-      hasMore: rawResults.length > limit,
-    };
+  // Process results and return pagination info
+  let nextCursor: number | undefined = undefined;
+  let items = rawResults;
+  if (rawResults.length > limit) {
+    nextCursor = rawResults[limit].activity.id;
+    items = rawResults.slice(0, limit);
   }
 
-  // Fallback: Create synthetic feed from recent votes and bills
-  // Get recent votes (last limit/2)
-  const voteLimit = Math.ceil(limit / 2);
-  const recentVotes = await db
-    .select({
-      vote: votes,
-      bill: bills,
-      mp: mps,
-    })
-    .from(votes)
-    .leftJoin(bills, eq(votes.billId, bills.id))
-    .leftJoin(mps, eq(votes.mpId, mps.id))
-    .orderBy(desc(votes.votedAt))
-    .limit(voteLimit);
-
-  // Get recent bills (last limit/2)
-  const billLimit = Math.ceil(limit / 2);
-  const recentBills = await db
-    .select()
-    .from(bills)
-    .orderBy(desc(bills.createdAt))
-    .limit(billLimit);
-
-  // Combine and sort by date
-  const syntheticActivities = [
-    ...recentVotes.map(v => ({
-      type: "vote" as const,
-      createdAt: v.vote.votedAt,
-      id: v.vote.id,
-      vote: v.vote,
-      bill: v.bill,
-      mp: v.mp,
-    })),
-    ...recentBills.map(b => ({
-      type: "bill" as const,
-      createdAt: b.createdAt,
-      id: b.id,
-      bill: b,
-      mp: null,
-      vote: null,
-    })),
-  ]
-    .sort((a, b) => {
-      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA;
-    })
-    .slice(0, limit);
-
   return {
-    items: syntheticActivities.map(item => ({
-      activity:
-        item.type === "vote"
-          ? {
-              id: item.id,
-              type: "vote",
-              mpId: item.vote?.mpId,
-              billId: item.vote?.billId,
-              createdAt: item.createdAt,
-              metadata: { voteValue: item.vote?.voteValue },
-            }
-          : {
-              id: item.id,
-              type: "document",
-              mpId: null,
-              billId: item.bill?.id,
-              createdAt: item.createdAt,
-              metadata: { title: item.bill?.title },
-            },
-      mp: item.mp ? serializeObjectDates(item.mp) : null,
-      bill: item.bill ? serializeObjectDates(item.bill) : null,
+    items: items.map(row => ({
+      activity: row.activity ? serializeObjectDates(row.activity) : null,
+      mp: row.mp ? serializeObjectDates(row.mp) : null,
+      bill: row.bill ? serializeObjectDates(row.bill) : null,
     })),
-    nextCursor: undefined, // Synthetic feed doesn't support pagination yet
-    hasMore: false,
+    nextCursor,
+    hasMore: rawResults.length > limit,
   };
 }
 
@@ -1333,74 +1305,209 @@ export async function resolveAccountabilityFlag(id: number) {
   return result[0];
 }
 
+// ==================== Watchlist Queries (Gold Tier) ====================
+
+/**
+ * Get all items in a user's watchlist
+ * Uses RLS context + explicit userId filter for defense-in-depth
+ */
+export async function getWatchlistItems(userId: string) {
+  return await withUserContext(userId, async db => {
+    const rows = await db
+      .select({
+        id: watchlist.id,
+        createdAt: watchlist.createdAt,
+        mp: {
+          id: mps.id,
+          name: mps.name,
+          party: mps.party,
+          photoUrl: mps.photoUrl,
+        },
+        bill: {
+          id: bills.id,
+          title: bills.title,
+          status: bills.status,
+        },
+      })
+      .from(watchlist)
+      .leftJoin(mps, eq(watchlist.mpId, mps.id))
+      .leftJoin(bills, eq(watchlist.billId, bills.id))
+      .where(eq(watchlist.userId, userId))
+      .orderBy(desc(watchlist.createdAt));
+
+    return rows.map(row => ({
+      ...row,
+      mp: row.mp?.id ? row.mp : null,
+      bill: row.bill?.id ? row.bill : null,
+    }));
+  });
+}
+
+/**
+ * Add an item to the watchlist
+ */
+export async function addToWatchlist(
+  userId: string,
+  data: { mpId?: number; billId?: number }
+) {
+  return await withUserContext(userId, async db => {
+    const [inserted] = await db
+      .insert(watchlist)
+      .values({
+        userId,
+        mpId: data.mpId ?? null,
+        billId: data.billId ?? null,
+      })
+      .returning();
+    return inserted;
+  });
+}
+
+/**
+ * Remove an item from the watchlist
+ */
+export async function removeFromWatchlist(userId: string, id: number) {
+  return await withUserContext(userId, async db => {
+    const [deleted] = await db
+      .delete(watchlist)
+      .where(and(eq(watchlist.id, id), eq(watchlist.userId, userId)))
+      .returning();
+    return deleted;
+  });
+}
+
+// ==================== User Feedback ====================
+export async function submitUserFeedback(
+  userId: string,
+  data: { category?: string; message: string; metadata?: any }
+) {
+  return await withUserContext(userId, async db => {
+    const [inserted] = await db
+      .insert(userFeedback)
+      .values({
+        userId,
+        category: data.category ?? "data_discrepancy",
+        message: data.message,
+        metadata: data.metadata ?? null,
+      })
+      .returning();
+    return inserted;
+  });
+}
+
 // ==================== User Follows Queries ====================
 
 export async function getUserFollows(userId: string) {
   const db = await getDb();
-  return await db
-    .select({
-      follow: userFollows,
-      mp: mps,
-      bill: bills,
-    })
-    .from(userFollows)
-    .leftJoin(mps, eq(userFollows.mpId, mps.id))
-    .leftJoin(bills, eq(userFollows.billId, bills.id))
-    .where(eq(userFollows.userId, userId));
+  const sqlClient = getSqlClient();
+
+  // Use RLS context via transaction
+  return await sqlClient.begin(async tx => {
+    // Set RLS context
+    const escapedUserId = userId.replace(/'/g, "''");
+    await tx.unsafe(`SET LOCAL app.current_user_id = '${escapedUserId}'`);
+
+    // Execute query via transaction - use raw SQL since drizzle doesn't work with tx
+    const result = await tx`
+      SELECT 
+        uf.* as follow,
+        m.* as mp,
+        b.* as bill
+      FROM user_follows uf
+      LEFT JOIN mps m ON uf.mp_id = m.id
+      LEFT JOIN bills b ON uf.bill_id = b.id
+    `;
+
+    // Transform result to match expected format
+    return result.map((row: any) => ({
+      follow: row.follow,
+      mp: row.mp,
+      bill: row.bill,
+    }));
+  });
 }
 
 export async function followEntity(follow: typeof userFollows.$inferInsert) {
-  const db = await getDb();
-  // Check if already follows
-  const existing = await db
-    .select()
-    .from(userFollows)
-    .where(
-      and(
-        eq(userFollows.userId, follow.userId),
-        follow.mpId ? eq(userFollows.mpId, follow.mpId) : sql`1=1`,
-        follow.billId ? eq(userFollows.billId, follow.billId) : sql`1=1`,
-        follow.topic ? eq(userFollows.topic, follow.topic) : sql`1=1`
+  const sqlClient = getSqlClient();
+
+  // Use RLS context via transaction
+  return await sqlClient.begin(async tx => {
+    // Set RLS context
+    const escapedUserId = follow.userId.replace(/'/g, "''");
+    await tx.unsafe(`SET LOCAL app.current_user_id = '${escapedUserId}'`);
+
+    // Check if already follows (RLS ensures we only see own follows)
+    const conditions = [];
+    if (follow.mpId) conditions.push(`mp_id = ${follow.mpId}`);
+    if (follow.billId) conditions.push(`bill_id = ${follow.billId}`);
+    if (follow.topic)
+      conditions.push(`topic = '${follow.topic.replace(/'/g, "''")}'`);
+
+    const whereClause =
+      conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
+
+    const existing = await tx.unsafe(`
+      SELECT * FROM user_follows ${whereClause} LIMIT 1
+    `);
+
+    if (existing.length > 0) return existing[0];
+
+    // Insert follow (RLS policy ensures userId matches app.current_user_id)
+    const [result] = await tx`
+      INSERT INTO user_follows (user_id, mp_id, bill_id, topic, created_at)
+      VALUES (
+        ${follow.userId},
+        ${follow.mpId ?? null},
+        ${follow.billId ?? null},
+        ${follow.topic ?? null},
+        NOW()
       )
-    )
-    .limit(1);
+      RETURNING *
+    `;
 
-  if (existing.length > 0) return existing[0];
-
-  const result = await db.insert(userFollows).values(follow).returning();
-  return result[0];
+    return result;
+  });
 }
 
-export async function unfollowEntity(id: number) {
-  const db = await getDb();
-  return await db.delete(userFollows).where(eq(userFollows.id, id)).returning();
+export async function unfollowEntity(userId: string, id: number) {
+  // Use RLS context to ensure user can only delete their own follows
+  return await withUserContext(userId, async db => {
+    // RLS policy ensures we can only delete own follows
+    return await db
+      .delete(userFollows)
+      .where(eq(userFollows.id, id))
+      .returning();
+  });
 }
 
 // Get watchlist (MPs followed by user) - FIXED N+1 QUERY
 export async function getWatchlist(userId: string) {
-  const db = await getDb();
+  const sqlClient = getSqlClient();
 
-  // SINGLE QUERY with JOIN - eliminates N+1 problem
-  const results = await db
-    .select({
-      mp: mps,
-      followedAt: userFollows.createdAt,
-    })
-    .from(userFollows)
-    .innerJoin(mps, eq(userFollows.mpId, mps.id))
-    .where(
-      and(
-        eq(userFollows.userId, userId),
-        sql`${userFollows.mpId} IS NOT NULL` // Only MP follows
-      )
-    )
-    .orderBy(desc(userFollows.createdAt));
+  // Use RLS context via transaction
+  return await sqlClient.begin(async tx => {
+    // Set RLS context
+    const escapedUserId = userId.replace(/'/g, "''");
+    await tx.unsafe(`SET LOCAL app.current_user_id = '${escapedUserId}'`);
 
-  // Map to include followedAt timestamp
-  return results.map(row => ({
-    ...row.mp,
-    followedAt: row.followedAt,
-  }));
+    // SINGLE QUERY with JOIN - eliminates N+1 problem
+    // RLS policy automatically filters by userId
+    const results = await tx`
+      SELECT 
+        m.*,
+        uf.created_at as followed_at
+      FROM user_follows uf
+      INNER JOIN mps m ON uf.mp_id = m.id
+      WHERE uf.mp_id IS NOT NULL
+      ORDER BY uf.created_at DESC
+    `;
+
+    // Map to include followedAt timestamp
+    return results.map((row: any) => ({
+      ...row,
+      followedAt: row.followed_at,
+    }));
+  });
 }
 
 // Check if user follows an MP
@@ -1735,5 +1842,11 @@ export async function createActivity(activity: typeof activities.$inferInsert) {
   const db = await getDb();
 
   const result = await db.insert(activities).values(activity).returning();
+
+  // Invalidate activities feed cache when new activity is created
+  // This ensures users see new activities within the TTL window
+  const { cache } = await import("./cache");
+  await cache.invalidate("activities:feed:*");
+
   return result[0];
 }

@@ -329,20 +329,27 @@ export const sessionMpVotes = pgTable("session_mp_votes", {
 });
 
 // Activities (for Activity Feed)
-export const activities = pgTable("activities", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  type: varchar("type", { length: 50 }).notNull(), // 'vote', 'comment', 'document', 'session', 'achievement'
-  mpId: integer("mp_id")
-    .notNull()
-    .references(() => mps.id),
-  billId: integer("bill_id").references(() => bills.id),
-  sessionVoteId: integer("session_vote_id").references(() => sessionVotes.id),
-  metadata: json("metadata").notNull(), // Type-specific data
-  isHighlighted: boolean("is_highlighted").default(false),
-  isNew: boolean("is_new").default(true),
-  category: varchar("category", { length: 100 }).notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
+export const activities = pgTable(
+  "activities",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    type: varchar("type", { length: 50 }).notNull(), // 'vote', 'comment', 'document', 'session', 'achievement'
+    mpId: integer("mp_id")
+      .notNull()
+      .references(() => mps.id),
+    billId: integer("bill_id").references(() => bills.id),
+    sessionVoteId: integer("session_vote_id").references(() => sessionVotes.id),
+    metadata: json("metadata").notNull(), // Type-specific data
+    isHighlighted: boolean("is_highlighted").default(false),
+    isNew: boolean("is_new").default(true),
+    category: varchar("category", { length: 100 }).notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  table => ({
+    // Index for createdAt (used in feed queries for sorting)
+    createdAtIdx: index("activities_created_at_idx").on(table.createdAt),
+  })
+);
 
 // User Activity Reads (for tracking read status per user)
 export const userActivityReads = pgTable(
@@ -356,6 +363,44 @@ export const userActivityReads = pgTable(
   },
   t => ({
     pk: primaryKey({ columns: [t.userId, t.activityId] }),
+    // Composite index for 'mark as read' lookups (optimizes queries filtering by userId and activityId)
+    userIdActivityIdIdx: index(
+      "user_activity_reads_user_id_activity_id_idx"
+    ).on(t.userId, t.activityId),
+  })
+);
+
+// Watchlist (New Gold Tier Implementation)
+export const watchlist = pgTable(
+  "watchlist",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    userId: varchar("user_id", { length: 64 }).notNull(),
+    mpId: integer("mp_id").references(() => mps.id),
+    billId: integer("bill_id").references(() => bills.id),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  table => ({
+    userIdIdx: index("watchlist_user_id_idx").on(table.userId),
+  })
+);
+
+// User Feedback (data discrepancy reports)
+export const userFeedback = pgTable(
+  "user_feedback",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    userId: varchar("user_id", { length: 64 }).notNull(),
+    category: varchar("category", { length: 50 })
+      .default("data_discrepancy")
+      .notNull(),
+    message: text("message").notNull(),
+    metadata: jsonb("metadata"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  table => ({
+    userIdIdx: index("user_feedback_user_id_idx").on(table.userId),
+    categoryIdx: index("user_feedback_category_idx").on(table.category),
   })
 );
 

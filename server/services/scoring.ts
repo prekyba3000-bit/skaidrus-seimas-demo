@@ -1,5 +1,5 @@
 import { sql, eq, and, desc } from "drizzle-orm";
-import { db } from "./database"; // Use singleton connection
+import { getDb } from "./database"; // Use singleton connection
 import {
   mps,
   mpStats,
@@ -14,6 +14,7 @@ import { logger } from "../utils/logger";
  * Calculate and update MP Accountability Scores
  */
 export async function calculateMpScores() {
+  const db = await getDb();
   logger.info("Starting accountability score calculation");
 
   try {

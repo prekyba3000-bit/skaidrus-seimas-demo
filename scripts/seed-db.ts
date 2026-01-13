@@ -49,7 +49,9 @@ async function main() {
     await db.insert(bills).values(mockBills);
 
     console.log("✅ Database seeded with 3 fake bills!");
-    console.log("   - TEST-001: Dėl pridėtinės vertės mokesčio įstatymo pakeitimo");
+    console.log(
+      "   - TEST-001: Dėl pridėtinės vertės mokesčio įstatymo pakeitimo"
+    );
     console.log("   - TEST-002: Dėl atsinaujinančių išteklių energetikos");
     console.log("   - TEST-003: Dėl vietos savivaldos įstatymo");
   } catch (e) {

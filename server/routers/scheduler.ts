@@ -5,7 +5,7 @@ import { logger } from "../utils/logger";
 
 /**
  * Scheduler Router
- * 
+ *
  * Provides endpoints to manually trigger and monitor scraping jobs.
  */
 

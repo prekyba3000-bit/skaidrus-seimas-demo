@@ -134,24 +134,30 @@ Calculated from:
 
 ---
 
+## 🇪🇺 Digital Sovereignty & Values
+
+Skaidrus Seimas is a reusable transparency framework for democratic institutions, designed as Internet Commons. It prioritizes European democratic transparency, open standards (PostgreSQL, Redis, OpenAPI/tRPC), and reusable components that any parliament or civic org can adopt without vendor lock-in. Full Compliance Goals: WCAG 2.1 AA accessibility and ISO/IEC 27001 security best practices, with privacy-by-design and RLS-based data isolation.
+
+---
+
 ## 🛠️ Development
 
 ### Available Scripts
 
-| Command               | Description                     |
-| --------------------- | ------------------------------- |
-| `npm run dev`         | Start development server        |
-| `npm run build`       | Build for production            |
-| `npm run start`       | Start production server          |
-| `npm run check`       | Type check without building     |
-| `npm run test`        | Run unit/integration tests      |
-| `npm run e2e`         | Run E2E tests (Playwright)     |
-| `npm run db:push`     | Push schema changes to database |
-| `npm run sync:mps`    | Sync MPs from Seimas API        |
-| `npm run sync:votes`  | Sync voting records             |
-| `npm run sync:bills`  | Sync legislation                |
-| `npm run calc:scores` | Calculate accountability scores |
-| `npm run generate:summaries` | Generate AI bill summaries |
+| Command                      | Description                     |
+| ---------------------------- | ------------------------------- |
+| `npm run dev`                | Start development server        |
+| `npm run build`              | Build for production            |
+| `npm run start`              | Start production server         |
+| `npm run check`              | Type check without building     |
+| `npm run test`               | Run unit/integration tests      |
+| `npm run e2e`                | Run E2E tests (Playwright)      |
+| `npm run db:push`            | Push schema changes to database |
+| `npm run sync:mps`           | Sync MPs from Seimas API        |
+| `npm run sync:votes`         | Sync voting records             |
+| `npm run sync:bills`         | Sync legislation                |
+| `npm run calc:scores`        | Calculate accountability scores |
+| `npm run generate:summaries` | Generate AI bill summaries      |
 
 ### Project Structure
 
@@ -178,16 +184,19 @@ skaidrus-seimas-demo/
 See [DEPLOY.md](./DEPLOY.md) for complete environment variable documentation.
 
 **Required:**
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `CLIENT_URL` - Allowed CORS origins (comma-separated)
 - `NODE_ENV` - `production` or `development`
 
 **Recommended:**
+
 - `REDIS_URL` - Redis connection string (for caching and rate limiting)
 - `SENTRY_DSN` / `VITE_SENTRY_DSN` - Error tracking
 - `GEMINI_API_KEY` - AI bill summaries
 
 **Quick Start:**
+
 ```bash
 cp .env.example .env
 # Edit .env with your values
@@ -252,17 +261,20 @@ cp .env.example .env
 If you encounter **500 Internal Server Errors** after schema changes:
 
 **Step 1: Verify Database Connection**
+
 ```bash
 # Check DATABASE_URL is set
 echo $DATABASE_URL
 ```
 
 **Step 2: Push Schema Changes**
+
 ```bash
 npm run db:push
 ```
 
 **Step 3: Restart Development Server** ⚠️ **CRITICAL**
+
 ```bash
 # Stop server (Ctrl+C), then:
 npm run dev
@@ -270,12 +282,14 @@ npm run dev
 
 **Step 4: Check Server Logs**
 Look for these in your terminal:
+
 - ✅ `Database connection established`
 - ✅ `Server listening on port XXXX`
 - ❌ `DrizzleQueryError` or `relation does not exist` → See Common Errors below
 
 **Step 5: Verify Endpoints**
 Test these tRPC endpoints:
+
 - `user.getWatchlist?input={"userId":"1"}`
 - `user.isFollowingMp?input={"userId":"1","mpId":1}`
 
@@ -283,13 +297,13 @@ Test these tRPC endpoints:
 
 ### Common Errors
 
-| Error                           | Solution                                |
-| ------------------------------- | --------------------------------------- |
-| `relation "..." does not exist` | Run `npm run db:push` then restart server |
-| `column "..." does not exist`   | Schema mismatch — verify schema.ts matches DB |
-| `Cannot connect to database`    | Check `DATABASE_URL` in `.env`          |
-| `500 Internal Server Error`      | **Restart dev server** (clears ORM cache) |
-| `DrizzleQueryError`              | Check query syntax in `server/services/database.ts`    |
+| Error                           | Solution                                            |
+| ------------------------------- | --------------------------------------------------- |
+| `relation "..." does not exist` | Run `npm run db:push` then restart server           |
+| `column "..." does not exist`   | Schema mismatch — verify schema.ts matches DB       |
+| `Cannot connect to database`    | Check `DATABASE_URL` in `.env`                      |
+| `500 Internal Server Error`     | **Restart dev server** (clears ORM cache)           |
+| `DrizzleQueryError`             | Check query syntax in `server/services/database.ts` |
 
 For detailed troubleshooting, see [FIX_500_ERRORS.md](./FIX_500_ERRORS.md).
 
@@ -312,6 +326,7 @@ Key tables:
 - `system_status` — Sync job status tracking
 
 **Indexes:**
+
 - Composite indexes on common filter patterns
 - GIN indexes for full-text search (see `scripts/add-gin-indexes.sql`)
 
@@ -330,6 +345,7 @@ npm run db:push
 See [DEPLOY.md](./DEPLOY.md) for comprehensive deployment instructions.
 
 **Quick Deploy:**
+
 ```bash
 # Build
 npm run build
@@ -343,6 +359,7 @@ docker run -p 3000:3000 --env-file .env skaidrus-seimas
 ```
 
 **Production Features:**
+
 - ✅ Security headers (Helmet)
 - ✅ Rate limiting
 - ✅ Health checks

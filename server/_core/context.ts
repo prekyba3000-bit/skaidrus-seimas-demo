@@ -16,7 +16,7 @@ export async function createContext(
 ): Promise<TrpcContext> {
   // Get request ID from request (set by middleware)
   const requestId = (opts.req as any).requestId || "unknown";
-  
+
   let user: User | null = null;
 
   try {

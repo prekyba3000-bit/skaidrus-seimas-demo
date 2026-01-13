@@ -3,11 +3,13 @@
 ## ✅ Completed Tasks
 
 ### Task 1: Create Debounce Hook ✓
+
 - **File**: `client/src/hooks/useDebounce.ts`
 - **Purpose**: Delays updating a value until user stops typing (500ms default)
 - **Implementation**: Standard React hook using `useState` and `useEffect` with `setTimeout`
 
 ### Task 2: Update Backend Query ✓
+
 - **File**: `server/routers/dashboard.ts`
 - **Changes**:
   - Added `search: z.string().optional()` to input schema
@@ -17,6 +19,7 @@
   - Case-insensitive search using PostgreSQL's `ilike` operator
 
 ### Task 3: Update Dashboard Component ✓
+
 - **File**: `client/src/pages/Dashboard.tsx`
 - **Changes**:
   - Imported `useDebounce` hook
@@ -65,7 +68,7 @@ if (conditions.length > 0) {
 
 ```typescript
 // Get search from store
-const searchQuery = useUIStore((state) => state.searchQuery);
+const searchQuery = useUIStore(state => state.searchQuery);
 
 // Debounce it (500ms delay)
 const debouncedSearch = useDebounce(searchQuery, 500);
@@ -73,9 +76,10 @@ const debouncedSearch = useDebounce(searchQuery, 500);
 // Pass to query
 trpc.dashboard.getRecentActivity.useInfiniteQuery({
   limit: 10,
-  search: debouncedSearch && debouncedSearch.trim().length > 0 
-    ? debouncedSearch.trim() 
-    : undefined,
+  search:
+    debouncedSearch && debouncedSearch.trim().length > 0
+      ? debouncedSearch.trim()
+      : undefined,
 });
 ```
 
@@ -93,27 +97,31 @@ trpc.dashboard.getRecentActivity.useInfiniteQuery({
 ✅ **User Experience**: Smooth typing without lag  
 ✅ **Server-Side Filtering**: Efficient database-level filtering  
 ✅ **Case-Insensitive**: `ilike` makes search user-friendly  
-✅ **Pagination Compatible**: Search works with cursor-based pagination  
+✅ **Pagination Compatible**: Search works with cursor-based pagination
 
 ## Testing
 
 ### Test Case 1: Basic Search
+
 1. Type "Dėl" in search bar
 2. Wait 0.5 seconds
 3. ✅ List updates with only bills containing "Dėl"
 4. ✅ Results are case-insensitive
 
 ### Test Case 2: Empty Search
+
 1. Type something, then clear it
 2. Wait 0.5 seconds
 3. ✅ List shows all bills (no filter)
 
 ### Test Case 3: Debouncing
+
 1. Type "Dėl" quickly
 2. ✅ No API call until 500ms after last keystroke
 3. ✅ Only one API call is made
 
 ### Test Case 4: Pagination with Search
+
 1. Search for "Dėl"
 2. Click "Load More"
 3. ✅ Next page of filtered results loads
@@ -128,16 +136,17 @@ trpc.dashboard.getRecentActivity.useInfiniteQuery({
 
 ```sql
 -- Generated SQL (simplified)
-SELECT * FROM bills 
-WHERE id < $cursor 
+SELECT * FROM bills
+WHERE id < $cursor
   AND title ILIKE '%Dėl%'
-ORDER BY id DESC 
+ORDER BY id DESC
 LIMIT 11;
 ```
 
 ## Next Steps
 
 Potential enhancements:
+
 - Add search highlighting in results
 - Add search history
 - Add filters for category/status

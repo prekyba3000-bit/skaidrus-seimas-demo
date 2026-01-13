@@ -1,7 +1,12 @@
 import axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 import { getDb } from "../server/services/database";
-import { sessionVotes, sessionMpVotes, mps, systemStatus } from "../drizzle/schema";
+import {
+  sessionVotes,
+  sessionMpVotes,
+  mps,
+  systemStatus,
+} from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import dotenv from "dotenv";
 import {
@@ -65,7 +70,14 @@ async function scrapeVotesFromAPI() {
   const db = await getDb();
   if (!db) {
     logger.error("Database connection failed!");
-    await updateSystemStatus(db, "votes_sync", "failed", 0, 0, "Database connection failed");
+    await updateSystemStatus(
+      db,
+      "votes_sync",
+      "failed",
+      0,
+      0,
+      "Database connection failed"
+    );
     return;
   }
 
@@ -260,7 +272,7 @@ async function scrapeVotesFromAPI() {
               }
 
               // Use transaction to ensure data consistency
-              await db.transaction(async (tx) => {
+              await db.transaction(async tx => {
                 const inserted = await tx
                   .insert(sessionVotes)
                   .values(validatedVote)
@@ -280,7 +292,10 @@ async function scrapeVotesFromAPI() {
                 if (inserted && inserted[0]) {
                   totalInserted++;
                   const sessionVoteId = inserted[0].id;
-                  logger.debug({ voteId, sessionVoteId }, "Saved vote to database");
+                  logger.debug(
+                    { voteId, sessionVoteId },
+                    "Saved vote to database"
+                  );
 
                   // Process Individual Votes
                   let individualVotes =
@@ -346,8 +361,19 @@ async function scrapeVotesFromAPI() {
     }
   }
 
-  const status = totalFailed > 0 && totalInserted > 0 ? "partial" : totalInserted > 0 ? "success" : "failed";
-  await updateSystemStatus(db, "votes_sync", status, totalInserted, totalFailed);
+  const status =
+    totalFailed > 0 && totalInserted > 0
+      ? "partial"
+      : totalInserted > 0
+        ? "success"
+        : "failed";
+  await updateSystemStatus(
+    db,
+    "votes_sync",
+    status,
+    totalInserted,
+    totalFailed
+  );
 
   logger.info(
     { totalVotes, totalInserted, totalFailed },
@@ -355,7 +381,7 @@ async function scrapeVotesFromAPI() {
   );
 }
 
-scrapeVotesFromAPI().catch((err) => {
+scrapeVotesFromAPI().catch(err => {
   logger.error({ err }, "Fatal error in vote scrape");
   process.exit(1);
 });

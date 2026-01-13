@@ -4,6 +4,7 @@ import { Search, X, Users } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface MPSelectorProps {
   value: number | null;
@@ -27,10 +28,15 @@ export function MPSelector({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { data: searchResults, isLoading } = trpc.search.global.useQuery(
-    { query: searchQuery, limit: 10 },
-    { enabled: searchQuery.length >= 2 && isOpen }
-  );
+  // Debounce search query (300ms delay for optimized suggestions)
+  const debouncedQuery = useDebounce(searchQuery, 300);
+
+  // Fetch optimized search suggestions (uses getSuggestions endpoint - only MPs needed)
+  const { data: searchResults, isLoading } =
+    trpc.search.getSuggestions.useQuery(
+      { query: debouncedQuery },
+      { enabled: debouncedQuery.length >= 1 && isOpen } // Suggestions work with 1+ character
+    );
 
   const { data: selectedMp } = trpc.mps.byId.useQuery(
     { id: value! },
@@ -38,12 +44,16 @@ export function MPSelector({
   );
 
   // Filter out excluded MP from results
-  const filteredMps = searchResults?.mps.filter(mp => mp.id !== excludeId) || [];
+  const filteredMps =
+    searchResults?.mps.filter(mp => mp.id !== excludeId) || [];
 
   // Close on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
         setSearchQuery("");
       }
@@ -81,11 +91,15 @@ export function MPSelector({
               <AvatarFallback>{selectedMp.name[0]}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-medium truncate">{selectedMp.name}</p>
-              <p className="text-[#92adc9] text-xs truncate">{selectedMp.party}</p>
+              <p className="text-white text-sm font-medium truncate">
+                {selectedMp.name}
+              </p>
+              <p className="text-[#92adc9] text-xs truncate">
+                {selectedMp.party}
+              </p>
             </div>
             <button
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
                 onChange(null);
               }}
@@ -118,7 +132,7 @@ export function MPSelector({
                 ref={inputRef}
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Ieškoti..."
                 className="w-full px-3 py-2 bg-[#233648] border border-surface-border rounded-lg text-white placeholder:text-[#92adc9] focus:outline-none focus:border-primary"
               />
@@ -128,15 +142,23 @@ export function MPSelector({
               Seimo nariai
             </div>
             {isLoading && (
-              <div className="p-4 text-center text-[#92adc9] text-sm">Kraunama...</div>
+              <div className="p-4 text-center text-[#92adc9] text-sm">
+                Kraunama...
+              </div>
             )}
-            {!isLoading && filteredMps.length === 0 && searchQuery.length >= 2 && (
-              <div className="p-4 text-center text-[#92adc9] text-sm">Rezultatų nerasta</div>
+            {!isLoading &&
+              filteredMps.length === 0 &&
+              debouncedQuery.length >= 1 && (
+                <div className="p-4 text-center text-[#92adc9] text-sm">
+                  Rezultatų nerasta
+                </div>
+              )}
+            {!isLoading && debouncedQuery.length < 1 && (
+              <div className="p-4 text-center text-[#92adc9] text-sm">
+                Įveskite simbolius paieškai
+              </div>
             )}
-            {!isLoading && searchQuery.length < 2 && (
-              <div className="p-4 text-center text-[#92adc9] text-sm">Įveskite bent 2 simbolius paieškai</div>
-            )}
-            {filteredMps.map((mp) => (
+            {filteredMps.map(mp => (
               <button
                 key={mp.id}
                 onClick={() => {
@@ -154,11 +176,15 @@ export function MPSelector({
                   />
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center">
-                    <span className="text-xs font-semibold">{mp.name.charAt(0)}</span>
+                    <span className="text-xs font-semibold">
+                      {mp.name.charAt(0)}
+                    </span>
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white truncate">{mp.name}</p>
+                  <p className="text-sm font-medium text-white truncate">
+                    {mp.name}
+                  </p>
                   <p className="text-xs text-gray-400 truncate">{mp.party}</p>
                 </div>
               </button>

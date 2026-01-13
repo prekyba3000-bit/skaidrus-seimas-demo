@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from "vitest/config";
 import path from "path";
 import react from "@vitejs/plugin-react";
@@ -27,7 +28,11 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "html", "lcov"],
       all: true,
-      include: ["server/**/*.ts", "scripts/**/*.ts", "client/src/**/*.{ts,tsx}"],
+      include: [
+        "server/**/*.ts",
+        "scripts/**/*.ts",
+        "client/src/**/*.{ts,tsx}",
+      ],
       exclude: [
         "server/__tests__/**",
         "scripts/__tests__/**",

@@ -1,0 +1,6 @@
+Contact: mailto:security@skaidrus-seimas.lt
+Encryption: https://skaidrus-seimas.lt/pgp-key.txt
+Policy: https://github.com/skaidrus-seimas/demo/blob/main/SECURITY.md
+Preferred-Languages: lt, en
+Canonical: https://skaidrus-seimas.lt/.well-known/security.txt
+Expires: 2027-01-01T00:00:00.000Z

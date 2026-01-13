@@ -1,4 +1,7 @@
-export const PARTY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+export const PARTY_COLORS: Record<
+  string,
+  { bg: string; text: string; border: string }
+> = {
   "Tėvynės sąjunga - Lietuvos krikščionys demokratai": {
     bg: "bg-blue-500/20",
     text: "text-blue-400",

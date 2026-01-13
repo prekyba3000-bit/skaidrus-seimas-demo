@@ -19,7 +19,9 @@ export function LastUpdatedBadge({ className }: LastUpdatedBadgeProps) {
 
   if (isLoading) {
     return (
-      <div className={`flex items-center gap-2 text-xs text-[#92adc9] ${className}`}>
+      <div
+        className={`flex items-center gap-2 text-xs text-[#92adc9] ${className}`}
+      >
         <Clock className="w-3 h-3" />
         <Skeleton className="h-3 w-24" />
       </div>

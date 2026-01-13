@@ -3,6 +3,7 @@
 ## ✅ Completed Tasks
 
 ### Task 1: Refactored `server/routers/dashboard.ts` ✓
+
 - **Input Schema**: Updated to accept `limit` (1-100, default 10) and `cursor` (number | null)
 - **Query Logic**:
   - Uses Drizzle's `.where(lt(bills.id, cursor))` when cursor exists
@@ -11,6 +12,7 @@
   - Returns standard infinite query format: `{ items, nextCursor }`
 
 ### Task 2: Refactored `client/src/pages/Dashboard.tsx` ✓
+
 - **Data Fetching**: Switched from `trpc.useQuery` to `trpc.useInfiniteQuery`
 - **UI Changes**:
   - Renders all pages flattened into a single array
@@ -45,14 +47,14 @@ z.object({
 
 ```typescript
 // Infinite query setup
-const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = 
+const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
   trpc.dashboard.getRecentActivity.useInfiniteQuery(
     { limit: 10 },
-    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+    { getNextPageParam: lastPage => lastPage.nextCursor }
   );
 
 // Flatten pages
-const activities = data?.pages.flatMap((page) => page.items) ?? [];
+const activities = data?.pages.flatMap(page => page.items) ?? [];
 ```
 
 ## How It Works
@@ -67,7 +69,7 @@ const activities = data?.pages.flatMap((page) => page.items) ?? [];
 ✅ **Performance**: Only loads 10 items initially, preventing browser crashes  
 ✅ **Scalability**: Works efficiently even with thousands of records  
 ✅ **User Experience**: Fast initial load, progressive loading on demand  
-✅ **Memory Efficient**: Doesn't load all data into memory at once  
+✅ **Memory Efficient**: Doesn't load all data into memory at once
 
 ## Testing Checklist
 
@@ -81,6 +83,7 @@ const activities = data?.pages.flatMap((page) => page.items) ?? [];
 ## Next Steps
 
 This pagination pattern can be applied to other endpoints:
+
 - `bills.list` - Paginate bills list
 - `mps.list` - Paginate MPs list
 - Any other large dataset endpoints

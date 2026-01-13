@@ -1,6 +1,7 @@
 # Phase 8: Data Integrity & AI Enrichment - Implementation Summary
 
 ## Overview
+
 This document summarizes the data integrity and AI enrichment work completed in Phase 8. The sync scripts have been hardened with error handling and transactions, the AI summary pipeline is now robust and idempotent, and users can see when data was last updated.
 
 ## Changes Made
@@ -8,28 +9,33 @@ This document summarizes the data integrity and AI enrichment work completed in 
 ### 1. Harden Data Sync Scripts
 
 **Files Modified:**
+
 - `scripts/scrape-votes-api.ts`
 - `scripts/sync-bills.ts`
 
 **Implementation:**
 
 #### Error Handling:
+
 - Wrapped all external API calls in try/catch blocks
 - Individual record failures are logged but don't crash the entire sync
 - Used structured logging (`logger`) instead of `console.log`
 - Added error counters (`totalFailed`) to track failures
 
 #### Transaction Safety:
+
 - **Votes Sync:** Uses `db.transaction()` for vote and MP vote inserts to ensure data consistency
 - **Bills Sync:** Wrapped entire batch processing in a transaction
 - If one record fails, the transaction ensures partial data isn't committed
 
 #### Zod Validation:
+
 - **Bills Sync:** Added `billSchema` to validate bill data before insertion
 - **Votes Sync:** Already had validation via `validateSessionVote()` - enhanced error handling
 - Invalid data is logged and skipped, preventing database corruption
 
 #### System Status Tracking:
+
 - Both scripts now update `system_status` table with:
   - `lastSuccessfulRun` timestamp
   - `lastRunStatus` ('success', 'failed', 'partial')
@@ -37,6 +43,7 @@ This document summarizes the data integrity and AI enrichment work completed in 
   - `lastRunError` message (if failed)
 
 **Code Example (Votes Sync):**
+
 ```typescript
 // Use transaction to ensure data consistency
 await db.transaction(async (tx) => {
@@ -53,13 +60,17 @@ await db.transaction(async (tx) => {
 ```
 
 **Code Example (Bills Sync):**
+
 ```typescript
 // Validate with Zod before insertion
 try {
   billSchema.parse(billData);
 } catch (validationError) {
   if (validationError instanceof z.ZodError) {
-    logger.warn({ billId: seimasId, errors: validationError.issues }, "Bill validation failed - skipping");
+    logger.warn(
+      { billId: seimasId, errors: validationError.issues },
+      "Bill validation failed - skipping"
+    );
     skippedCount++;
     continue;
   }
@@ -67,7 +78,7 @@ try {
 }
 
 // Use transaction for batch processing
-await db.transaction(async (tx) => {
+await db.transaction(async tx => {
   for (const row of rows) {
     // Process each row, continue on error
   }
@@ -81,22 +92,26 @@ await db.transaction(async (tx) => {
 **Implementation:**
 
 #### Idempotency:
+
 - **Strict NULL Check:** Only processes bills where `billSummaries.id IS NULL`
 - Uses `LEFT JOIN` with `WHERE isNull(billSummaries.id)` to ensure no re-processing
 - Prevents duplicate API calls and saves costs
 
 #### Retry Logic:
+
 - Created `retryWithBackoff()` function with exponential backoff
 - Default: 3 retries with 2s, 4s, 6s delays
 - If LLM API fails after retries, logs error and continues to next bill
 - Individual bill failures don't crash the entire job
 
 #### Error Handling:
+
 - Wrapped each bill processing in try/catch
 - Failed bills are logged but don't stop the script
 - System status tracks `recordsProcessed` and `recordsFailed`
 
 **Code:**
+
 ```typescript
 // Retry wrapper for AI API calls
 async function retryWithBackoff<T>(
@@ -136,31 +151,39 @@ if (analysis) {
 ### 3. "Last Updated" System
 
 **Files Created:**
+
 - `client/src/components/LastUpdatedBadge.tsx`
 
 **Files Modified:**
+
 - `drizzle/schema.ts` (added `systemStatus` table)
 - `server/services/database.ts` (added `getLastUpdated()` function)
 - `server/routers.ts` (added `stats.getLastUpdated` procedure)
 - `client/src/pages/Dashboard.tsx` (added badge)
 
 **Schema:**
+
 ```typescript
-export const systemStatus = pgTable("system_status", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  jobName: varchar("job_name", { length: 100 }).notNull().unique(),
-  lastSuccessfulRun: timestamp("last_successful_run"),
-  lastRunStatus: varchar("last_run_status", { length: 20 }), // 'success', 'failed', 'partial'
-  lastRunError: text("last_run_error"),
-  recordsProcessed: integer("records_processed").default(0),
-  recordsFailed: integer("records_failed").default(0),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-}, (table) => ({
-  jobNameIdx: index("system_status_job_name_idx").on(table.jobName),
-}));
+export const systemStatus = pgTable(
+  "system_status",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    jobName: varchar("job_name", { length: 100 }).notNull().unique(),
+    lastSuccessfulRun: timestamp("last_successful_run"),
+    lastRunStatus: varchar("last_run_status", { length: 20 }), // 'success', 'failed', 'partial'
+    lastRunError: text("last_run_error"),
+    recordsProcessed: integer("records_processed").default(0),
+    recordsFailed: integer("records_failed").default(0),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  table => ({
+    jobNameIdx: index("system_status_job_name_idx").on(table.jobName),
+  })
+);
 ```
 
 **Backend Function:**
+
 ```typescript
 export async function getLastUpdated() {
   const db = await getDb();
@@ -197,6 +220,7 @@ export async function getLastUpdated() {
 ```
 
 **tRPC Procedure:**
+
 ```typescript
 stats: router({
   getLastUpdated: publicProcedure
@@ -207,6 +231,7 @@ stats: router({
 ```
 
 **Frontend Component:**
+
 ```typescript
 export function LastUpdatedBadge({ className }: LastUpdatedBadgeProps) {
   const { data, isLoading } = trpc.stats.getLastUpdated.useQuery(undefined, {
@@ -242,6 +267,7 @@ export function LastUpdatedBadge({ className }: LastUpdatedBadgeProps) {
 ## Files Modified
 
 ### Backend:
+
 1. ✅ `drizzle/schema.ts` - Added `systemStatus` table
 2. ✅ `server/services/database.ts` - Added `getLastUpdated()` function, imported `systemStatus`
 3. ✅ `server/routers.ts` - Added `stats.getLastUpdated` procedure
@@ -250,27 +276,33 @@ export function LastUpdatedBadge({ className }: LastUpdatedBadgeProps) {
 6. ✅ `scripts/generate-bill-summaries.ts` - Added retry logic, idempotency, system status tracking
 
 ### Frontend:
+
 1. ✅ `client/src/pages/Dashboard.tsx` - Added `LastUpdatedBadge` component
 
 ## Key Improvements
 
 ### 1. Error Resilience
+
 - **Before:** One bad XML tag or API failure would crash the entire sync
 - **After:** Individual failures are logged, counted, and the sync continues
 
 ### 2. Data Consistency
+
 - **Before:** Partial data could be inserted if script crashed mid-batch
 - **After:** Transactions ensure all-or-nothing inserts
 
 ### 3. AI Cost Savings
+
 - **Before:** Script might re-process bills that already had summaries
 - **After:** Strict NULL check ensures only new bills are processed
 
 ### 4. User Trust
+
 - **Before:** Users had no idea how fresh the data was
 - **After:** Clear "Last updated: X ago" badge on Dashboard
 
 ### 5. Observability
+
 - **Before:** No tracking of sync job status
 - **After:** `system_status` table tracks success/failure, record counts, errors
 
@@ -306,6 +338,7 @@ SELECT * FROM system_status;
 **Input:** None
 
 **Output:**
+
 ```typescript
 {
   votes: Date | null;
@@ -317,6 +350,7 @@ SELECT * FROM system_status;
 ```
 
 **Example:**
+
 ```typescript
 const { data } = trpc.stats.getLastUpdated.useQuery();
 // Returns: { votes: Date, bills: Date, mps: Date, summaries: Date, overall: Date }

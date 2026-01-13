@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
  * Worker Process Script
- * 
+ *
  * Runs the BullMQ worker to process scraping jobs.
- * 
+ *
  * Usage:
  *   pnpm exec tsx scripts/worker.ts
- * 
+ *
  * Or with tsx:
  *   tsx scripts/worker.ts
  */
@@ -42,7 +42,7 @@ process.on("SIGTERM", handleShutdown);
 process.on("SIGINT", handleShutdown);
 
 // Handle uncaught errors
-process.on("uncaughtException", (error) => {
+process.on("uncaughtException", error => {
   logger.error({ err: error }, "Uncaught exception in worker");
   handleShutdown();
 });
@@ -74,7 +74,7 @@ async function main() {
 }
 
 // Start the worker
-main().catch((error) => {
+main().catch(error => {
   logger.error({ err: error }, "Fatal error in worker");
   process.exit(1);
 });

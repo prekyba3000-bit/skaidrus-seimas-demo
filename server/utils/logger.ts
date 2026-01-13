@@ -97,7 +97,10 @@ export function createRequestLogger(requestId: string, userId?: string) {
 export function requestLogger() {
   return (req: any, res: any, next: any) => {
     // Use requestId from middleware (set in index.ts) or generate one
-    const requestId = (req as any).requestId || req.headers["x-request-id"] || crypto.randomUUID();
+    const requestId =
+      (req as any).requestId ||
+      req.headers["x-request-id"] ||
+      crypto.randomUUID();
     const startTime = Date.now();
 
     // Ensure requestId is set on request object

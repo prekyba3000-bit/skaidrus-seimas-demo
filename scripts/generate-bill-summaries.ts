@@ -25,10 +25,16 @@ async function retryWithBackoff<T>(
       return await fn();
     } catch (error: any) {
       if (attempt === retries) {
-        logger.error({ err: error, attempt }, "AI API call failed after retries");
+        logger.error(
+          { err: error, attempt },
+          "AI API call failed after retries"
+        );
         return null;
       }
-      logger.warn({ err: error, attempt, retries }, "AI API call failed, retrying");
+      logger.warn(
+        { err: error, attempt, retries },
+        "AI API call failed, retrying"
+      );
       await new Promise(resolve => setTimeout(resolve, delay * attempt));
     }
   }
@@ -98,7 +104,10 @@ async function generateSummaries() {
       .where(isNull(billSummaries.id))
       .limit(20); // Process in batches
 
-    logger.info({ count: pendingBills.length }, "Found bills pending summarization");
+    logger.info(
+      { count: pendingBills.length },
+      "Found bills pending summarization"
+    );
 
     if (pendingBills.length === 0) {
       logger.info("No pending bills found");
@@ -121,11 +130,7 @@ async function generateSummaries() {
 
         // Retry AI API call with exponential backoff
         const analysis = await retryWithBackoff(() =>
-          summarizeBill(
-            bill.title,
-            bill.description || "",
-            content
-          )
+          summarizeBill(bill.title, bill.description || "", content)
         );
 
         if (analysis) {
@@ -138,7 +143,10 @@ async function generateSummaries() {
           logger.info({ billId: bill.id }, "Summary generated and saved");
           successCount++;
         } else {
-          logger.warn({ billId: bill.id }, "Failed to generate summary (AI disabled or API error)");
+          logger.warn(
+            { billId: bill.id },
+            "Failed to generate summary (AI disabled or API error)"
+          );
           failedCount++;
           // Continue processing other bills - don't crash the whole job
         }
@@ -152,22 +160,44 @@ async function generateSummaries() {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
-    const status = failedCount > 0 && successCount > 0 ? "partial" : successCount > 0 ? "success" : "failed";
-    await updateSystemStatus(db, "bill_summaries", status, successCount, failedCount);
+    const status =
+      failedCount > 0 && successCount > 0
+        ? "partial"
+        : successCount > 0
+          ? "success"
+          : "failed";
+    await updateSystemStatus(
+      db,
+      "bill_summaries",
+      status,
+      successCount,
+      failedCount
+    );
 
     logger.info(
-      { success: successCount, failed: failedCount, total: pendingBills.length },
+      {
+        success: successCount,
+        failed: failedCount,
+        total: pendingBills.length,
+      },
       "Bill summarization completed"
     );
   } catch (error: any) {
     logger.error({ err: error }, "Fatal error generating summaries");
-    await updateSystemStatus(db, "bill_summaries", "failed", 0, 0, error.message);
+    await updateSystemStatus(
+      db,
+      "bill_summaries",
+      "failed",
+      0,
+      0,
+      error.message
+    );
   } finally {
     await client.end();
   }
 }
 
-generateSummaries().catch((err) => {
+generateSummaries().catch(err => {
   logger.error({ err }, "Fatal error in bill summarization");
   process.exit(1);
 });

@@ -1,6 +1,6 @@
 /**
  * Frontend Monitoring & Error Tracking
- * 
+ *
  * Initializes Sentry for React error tracking
  * Only initializes if SENTRY_DSN is configured
  */
@@ -16,7 +16,9 @@ export function initializeSentry(): void {
   if (!dsn) {
     // Silently skip if DSN not configured (local dev)
     if (import.meta.env.DEV) {
-      console.debug("[Sentry] VITE_SENTRY_DSN not configured - error tracking disabled");
+      console.debug(
+        "[Sentry] VITE_SENTRY_DSN not configured - error tracking disabled"
+      );
     }
     return;
   }

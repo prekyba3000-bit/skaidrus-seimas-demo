@@ -40,14 +40,15 @@ async function importAssistants() {
 
   // Pre-fetch all MPs to avoid repeated queries over the tunnel
   const allMps = await db.select().from(mps);
-  
+
   // Create a helper to normalize names for matching
   const normalizeName = (name: string) => {
-    return name.toLowerCase()
-      .replace(/\s+/g, ' ')
-      .split(' ')
+    return name
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .split(" ")
       .sort()
-      .join(' ')
+      .join(" ")
       .trim();
   };
 
@@ -68,7 +69,9 @@ async function importAssistants() {
         const normalizedInputName = normalizeName(a.mpName);
         const mpId = mpMap.get(normalizedInputName);
         if (!mpId) {
-          console.warn(`MP not found for assistant ${a.name}: ${a.mpName} (normalized: ${normalizedInputName})`);
+          console.warn(
+            `MP not found for assistant ${a.name}: ${a.mpName} (normalized: ${normalizedInputName})`
+          );
           return null;
         }
         return {
@@ -79,7 +82,17 @@ async function importAssistants() {
           email: a.email,
         };
       })
-      .filter((v): v is { mpId: number; name: string; role: string; phone: string; email: string; } => v !== null);
+      .filter(
+        (
+          v
+        ): v is {
+          mpId: number;
+          name: string;
+          role: string;
+          phone: string;
+          email: string;
+        } => v !== null
+      );
 
     if (valuesToInsert.length > 0) {
       try {

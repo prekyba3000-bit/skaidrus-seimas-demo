@@ -5,15 +5,18 @@ dotenv.config();
 
 async function testGetAllBills() {
   console.log("=== TESTING getAllBills FUNCTION ===");
-  console.log("DATABASE_URL:", process.env.DATABASE_URL?.replace(/:[^:@]+@/, ":****@"));
-  
+  console.log(
+    "DATABASE_URL:",
+    process.env.DATABASE_URL?.replace(/:[^:@]+@/, ":****@")
+  );
+
   try {
     const result = await db.getAllBills({});
-    
+
     console.log(`\nResult type: ${typeof result}`);
     console.log(`Is Array: ${Array.isArray(result)}`);
     console.log(`Count: ${Array.isArray(result) ? result.length : "N/A"}`);
-    
+
     if (Array.isArray(result) && result.length > 0) {
       console.log("\nFirst 3 bills from getAllBills:");
       result.slice(0, 3).forEach((bill: any, i: number) => {
@@ -30,7 +33,6 @@ async function testGetAllBills() {
       console.log("\n⚠️  getAllBills returned empty or non-array!");
       console.log("Result:", result);
     }
-    
   } catch (error) {
     console.error("Error in getAllBills:", error);
   }

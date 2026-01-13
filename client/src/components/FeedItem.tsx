@@ -73,7 +73,11 @@ function formatRelativeTime(timestamp: string): string {
   return past.toLocaleDateString("lt-LT");
 }
 
-export function FeedItem({ activity, isNew = false, className }: FeedItemProps) {
+export function FeedItem({
+  activity,
+  isNew = false,
+  className,
+}: FeedItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const mp = activity.mp;
@@ -109,7 +113,8 @@ export function FeedItem({ activity, isNew = false, className }: FeedItemProps) 
               {voteIcon}
               <div className="flex-1">
                 <p className="text-sm text-gray-300">
-                  Balsavo <span className="font-semibold">{voteText}</span> įstatymo projektą
+                  Balsavo <span className="font-semibold">{voteText}</span>{" "}
+                  įstatymo projektą
                 </p>
                 {bill && (
                   <p className="mt-1 text-sm text-gray-400 line-clamp-2">
@@ -127,13 +132,17 @@ export function FeedItem({ activity, isNew = false, className }: FeedItemProps) 
             <div className="flex items-start gap-2">
               <MessageSquare className="h-4 w-4 text-purple-400 flex-shrink-0 mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm text-gray-300">Komentuoja įstatymo projektą</p>
+                <p className="text-sm text-gray-300">
+                  Komentuoja įstatymo projektą
+                </p>
                 {bill && (
                   <p className="mt-1 text-sm text-gray-400">{bill.title}</p>
                 )}
                 <div className="mt-2">
                   <p className="text-sm text-gray-300">
-                    {isExpanded ? metadata.commentFull : metadata.commentPreview}
+                    {isExpanded
+                      ? metadata.commentFull
+                      : metadata.commentPreview}
                   </p>
                   {metadata.commentLength > 60 && (
                     <button
@@ -187,7 +196,9 @@ export function FeedItem({ activity, isNew = false, className }: FeedItemProps) 
                     <span className="font-semibold">(kalbėjo)</span>
                   )}
                 </p>
-                <p className="mt-1 text-sm text-gray-400">{metadata.sessionTitle}</p>
+                <p className="mt-1 text-sm text-gray-400">
+                  {metadata.sessionTitle}
+                </p>
                 <p className="mt-1 text-xs text-gray-500">
                   Trukmė: {metadata.duration} min.
                 </p>
@@ -216,7 +227,9 @@ export function FeedItem({ activity, isNew = false, className }: FeedItemProps) 
                 <p className="text-sm font-semibold text-gray-200">
                   {metadata.title}
                 </p>
-                <p className="mt-1 text-sm text-gray-400">{metadata.description}</p>
+                <p className="mt-1 text-sm text-gray-400">
+                  {metadata.description}
+                </p>
                 <p className="mt-1 text-xs text-gray-500 uppercase tracking-wide">
                   {metadata.rarity}
                 </p>
@@ -304,7 +317,10 @@ export function FeedItem({ activity, isNew = false, className }: FeedItemProps) 
 
           {/* Status Badge and Time */}
           <div className="flex flex-col items-end gap-1 flex-shrink-0">
-            <StatusBadge status={getStatusFromType(activityData.type)} size="sm" />
+            <StatusBadge
+              status={getStatusFromType(activityData.type)}
+              size="sm"
+            />
             <time className="text-xs text-gray-500">
               {formatRelativeTime(activityData.createdAt)}
             </time>

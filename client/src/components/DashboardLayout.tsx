@@ -10,7 +10,7 @@ import {
   Bell,
   MessageSquare,
   ArrowLeftRight,
-  X
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,9 +28,13 @@ interface DashboardLayoutProps {
   title: string;
 }
 
-export default function DashboardLayout({ children, title }: DashboardLayoutProps) {
+export default function DashboardLayout({
+  children,
+  title,
+}: DashboardLayoutProps) {
   const [location, navigate] = useLocation();
-  const { isSidebarOpen, toggleSidebar, searchQuery, setSearchQuery } = useUIStore();
+  const { isSidebarOpen, toggleSidebar, searchQuery, setSearchQuery } =
+    useUIStore();
 
   // Search state
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -38,23 +42,24 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { recentSearches, addSearch, clearSearches } = useRecentSearches();
 
-  // Debounce search query
+  // Debounce search query (300ms delay for optimized suggestions)
   const debouncedSearch = useDebounce(searchQuery, 300);
 
-  // Global search query
-  const { data: searchResults, isLoading } = trpc.search.global.useQuery(
-    { query: debouncedSearch, limit: 5 },
-    {
-      enabled: debouncedSearch.length >= 2,
-      onSuccess: () => {
-        setIsDropdownOpen(debouncedSearch.length >= 2);
-      },
-    }
-  );
+  // Optimized search suggestions query (uses getSuggestions endpoint)
+  const { data: searchResults, isLoading } =
+    trpc.search.getSuggestions.useQuery(
+      { query: debouncedSearch },
+      {
+        enabled: debouncedSearch.length >= 1, // Suggestions work with 1+ character
+        onSuccess: () => {
+          setIsDropdownOpen(debouncedSearch.length >= 1);
+        },
+      }
+    );
 
-  // Calculate total results for keyboard navigation
+  // Calculate total results for keyboard navigation (no committees in suggestions)
   const totalResults = searchResults
-    ? searchResults.mps.length + searchResults.bills.length + searchResults.committees.length
+    ? searchResults.mps.length + searchResults.bills.length
     : 0;
 
   // Handle keyboard navigation
@@ -64,11 +69,11 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((prev) => Math.min(prev + 1, totalResults - 1));
+        setSelectedIndex(prev => Math.min(prev + 1, totalResults - 1));
         break;
       case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex((prev) => Math.max(prev - 1, -1));
+        setSelectedIndex(prev => Math.max(prev - 1, -1));
         break;
       case "Enter":
         e.preventDefault();
@@ -109,23 +114,17 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
       setSearchQuery("");
       return;
     }
-    currentIndex += searchResults.bills.length;
-
-    // Check Committees
-    if (index < currentIndex + searchResults.committees.length) {
-      const committee = searchResults.committees[index - currentIndex];
-      navigate(`/committees/${committee.id}`);
-      addSearch(searchQuery);
-      setIsDropdownOpen(false);
-      setSearchQuery("");
-      return;
-    }
+    // Note: getSuggestions doesn't return committees (optimized for speed)
+    // If committees are needed, use search.global instead
   };
 
   // Handle dropdown close on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (searchInputRef.current && !searchInputRef.current.contains(e.target as Node)) {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(e.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -148,19 +147,25 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-h-screen overflow-hidden relative lg:ml-72 bg-noble-gradient">
-        <header className="flex items-center justify-between border-b border-surface-border bg-surface-dark px-6 py-3 flex-shrink-0 z-10">
-          <div className="flex items-center gap-8 w-full max-w-2xl">
+        <header className="flex items-center justify-between border-b border-surface-border bg-surface-dark px-3 sm:px-4 md:px-6 py-3 flex-shrink-0 z-10">
+          <div className="flex items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-2xl">
             <button
               className="md:hidden text-white"
               aria-label="Atidaryti meniu"
               title="Meniu"
               onClick={toggleSidebar}
             >
-              {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isSidebarOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
 
-            <h2 className="text-white text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">{title}</h2>
-            <div className="flex flex-col flex-1 max-w-[400px] relative group">
+            <h2 className="text-white text-base sm:text-lg font-bold leading-tight tracking-[-0.015em] hidden sm:block">
+              {title}
+            </h2>
+            <div className="flex flex-col flex-1 max-w-full sm:max-w-[400px] relative group">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="w-4 h-4 text-emerald-400/50 group-focus-within:text-primary transition-colors" />
               </div>
@@ -169,7 +174,7 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
                 className="block w-full pl-10 pr-3 py-2.5 border-none rounded-xl leading-5 bg-emerald-900/30 text-emerald-100 placeholder:text-emerald-400/50 focus:outline-none focus:bg-emerald-900/50 focus:ring-1 focus:ring-primary/50 text-sm transition-all duration-200"
                 placeholder="Search bills, deputies, or keywords..."
                 value={searchQuery}
-                onChange={(e) => {
+                onChange={e => {
                   setSearchQuery(e.target.value);
                   setSelectedIndex(-1);
                 }}
@@ -186,7 +191,7 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
                 isOpen={isDropdownOpen}
                 selectedIndex={selectedIndex}
                 recentSearches={recentSearches}
-                onSelectRecent={(query) => {
+                onSelectRecent={query => {
                   setSearchQuery(query);
                   searchInputRef.current?.focus();
                 }}
@@ -197,14 +202,25 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
           </div>
           <div className="flex items-center gap-4">
             <div className="flex gap-2">
-              <Button variant="ghost" size="icon" className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white" aria-label="Pranešimai" title="Pranešimai">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white"
+                aria-label="Pranešimai"
+                title="Pranešimai"
+              >
                 <Bell className="w-5 h-5" />
               </Button>
 
-              <Button variant="ghost" size="icon" className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white" aria-label="Žinutės" title="Žinutės">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 bg-[#233648] hover:bg-[#324d67] text-white"
+                aria-label="Žinutės"
+                title="Žinutės"
+              >
                 <MessageSquare className="w-5 h-5" />
               </Button>
-
             </div>
             <Avatar className="h-10 w-10 border-2 border-[#233648] cursor-pointer">
               <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=politician" />
@@ -214,7 +230,7 @@ export default function DashboardLayout({ children, title }: DashboardLayoutProp
         </header>
 
         {/* Dynamic Content */}
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-background custom-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 md:p-6 lg:p-8 bg-background custom-scrollbar">
           <div className="mx-auto max-w-[1200px] w-full flex flex-col gap-4 md:gap-6">
             {children}
           </div>

@@ -12,10 +12,11 @@ This document explains how to set up and run the new job queue-based scraping sy
 ## Prerequisites
 
 1. **Redis Server**: Make sure Redis is running
+
    ```bash
    # Using Docker
    docker run -d -p 6379:6379 redis:7-alpine
-   
+
    # Or install locally
    # Ubuntu/Debian: sudo apt-get install redis-server
    # macOS: brew install redis
@@ -30,6 +31,7 @@ This document explains how to set up and run the new job queue-based scraping sy
 ## Installation
 
 Dependencies are already installed:
+
 ```bash
 pnpm add bullmq ioredis
 ```
@@ -49,6 +51,7 @@ pnpm run worker
 ```
 
 The worker will:
+
 - Connect to Redis
 - Listen for jobs in the `scrape:bills` queue
 - Process jobs one at a time (concurrency: 1)
@@ -91,13 +94,16 @@ trpc.scheduler.getJobStatus.query({ jobId: "job-id-here" });
 import { enqueueScrapeBills } from "./server/lib/queue";
 
 // Enqueue a job
-const { jobId } = await enqueueScrapeBills({
-  limit: 50,
-  force: true,
-}, {
-  delay: 5000, // Process after 5 seconds
-  priority: 10, // Higher priority
-});
+const { jobId } = await enqueueScrapeBills(
+  {
+    limit: 50,
+    force: true,
+  },
+  {
+    delay: 5000, // Process after 5 seconds
+    priority: 10, // Higher priority
+  }
+);
 ```
 
 ## Setting Up Nightly Jobs
@@ -114,6 +120,7 @@ Add to crontab (`crontab -e`):
 ### Using systemd Timer (Linux)
 
 Create `/etc/systemd/system/seimas-scheduler.service`:
+
 ```ini
 [Unit]
 Description=Seimas Data Scheduler
@@ -128,6 +135,7 @@ ExecStart=/usr/bin/pnpm run scheduler
 ```
 
 Create `/etc/systemd/system/seimas-scheduler.timer`:
+
 ```ini
 [Unit]
 Description=Daily Seimas Data Scheduler
@@ -143,6 +151,7 @@ WantedBy=timers.target
 ```
 
 Enable and start:
+
 ```bash
 sudo systemctl enable seimas-scheduler.timer
 sudo systemctl start seimas-scheduler.timer
@@ -167,8 +176,8 @@ cron.schedule("0 2 * * *", async () => {
 ### Check Job Status via API
 
 ```typescript
-const status = await trpc.scheduler.getJobStatus.query({ 
-  jobId: "your-job-id" 
+const status = await trpc.scheduler.getJobStatus.query({
+  jobId: "your-job-id",
 });
 
 // Returns:
@@ -190,16 +199,18 @@ pnpm add @bull-board/express @bull-board/api
 ## Job Configuration
 
 Jobs are configured with:
+
 - **Retries**: 3 attempts
 - **Backoff**: Exponential (5s, 10s, 20s)
 - **Concurrency**: 1 job at a time (to avoid overwhelming target site)
-- **Job Retention**: 
+- **Job Retention**:
   - Completed: Last 100 jobs, 24 hours
   - Failed: Last 500 jobs
 
 ## Error Handling
 
 The worker automatically:
+
 - Retries failed jobs up to 3 times
 - Logs all errors with context
 - Preserves failed jobs for debugging
@@ -208,6 +219,7 @@ The worker automatically:
 ## Production Deployment
 
 1. **Run Worker as a Service**: Use PM2, systemd, or similar
+
    ```bash
    pm2 start pnpm --name "seimas-worker" -- run worker
    ```
@@ -218,10 +230,11 @@ The worker automatically:
    - Queue backlog
 
 3. **Scaling**: Run multiple worker instances if needed:
+
    ```bash
    # Worker 1
    pm2 start pnpm --name "seimas-worker-1" -- run worker
-   
+
    # Worker 2
    pm2 start pnpm --name "seimas-worker-2" -- run worker
    ```
@@ -229,16 +242,19 @@ The worker automatically:
 ## Troubleshooting
 
 ### Worker not processing jobs
+
 - Check Redis is running: `redis-cli ping`
 - Check worker logs for errors
 - Verify `REDIS_URL` is correct
 
 ### Jobs failing immediately
+
 - Check database connection (`DATABASE_URL`)
 - Verify Playwright can access the target site
 - Check worker logs for detailed errors
 
 ### High memory usage
+
 - Reduce `concurrency` in worker config
 - Lower `removeOnComplete.count` to keep fewer jobs
 - Add job limits in scheduler

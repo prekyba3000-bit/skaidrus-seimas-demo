@@ -7,18 +7,24 @@ test.describe("Dashboard Search", () => {
 
     // 2. Wait for the page to load and check that the list loads (> 0 items)
     // Wait for at least one activity item to appear
-    await expect(page.locator('.activity-item').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator(".activity-item").first()).toBeVisible({
+      timeout: 10000,
+    });
 
     // Count initial items
-    const activityItems = page.locator('.activity-item');
+    const activityItems = page.locator(".activity-item");
     const initialItemCount = await activityItems.count();
     expect(initialItemCount).toBeGreaterThan(0);
 
     // 3. Type "Dėl" into the search bar
     // Find the search input in the dashboard (not header)
-    const searchInput = page.locator('input[placeholder*="Ieškoti pagal pavadinimą"], input[placeholder*="ieškoti pagal"]').first();
+    const searchInput = page
+      .locator(
+        'input[placeholder*="Ieškoti pagal pavadinimą"], input[placeholder*="ieškoti pagal"]'
+      )
+      .first();
     await expect(searchInput).toBeVisible();
-    
+
     await searchInput.fill("Dėl");
 
     // 4. Wait 1 second for debounce and API call
@@ -29,17 +35,17 @@ test.describe("Dashboard Search", () => {
     await page.waitForTimeout(500); // Additional wait for API response
 
     // Check that we still have results (filtered items)
-    await expect(page.locator('.activity-item').first()).toBeVisible();
-    
-    const filteredItems = page.locator('.activity-item');
+    await expect(page.locator(".activity-item").first()).toBeVisible();
+
+    const filteredItems = page.locator(".activity-item");
     const filteredCount = await filteredItems.count();
-    
+
     // Should have some items (might be fewer than initial)
     expect(filteredCount).toBeGreaterThan(0);
 
     // Verify that at least one item contains "Dėl" in the title
     // The bill title should be visible in the activity item
-    const hasFilteredContent = await page.locator('text=/Dėl/i').count();
+    const hasFilteredContent = await page.locator("text=/Dėl/i").count();
     expect(hasFilteredContent).toBeGreaterThan(0);
   });
 
@@ -47,12 +53,16 @@ test.describe("Dashboard Search", () => {
     await page.goto("/dashboard");
 
     // Wait for initial load
-    const activityItems = page.locator('.activity-item');
+    const activityItems = page.locator(".activity-item");
     await expect(activityItems.first()).toBeVisible({ timeout: 10000 });
     const initialCount = await activityItems.count();
 
     // Search for something
-    const searchInput = page.locator('input[placeholder*="Ieškoti pagal pavadinimą"], input[placeholder*="ieškoti pagal"]').first();
+    const searchInput = page
+      .locator(
+        'input[placeholder*="Ieškoti pagal pavadinimą"], input[placeholder*="ieškoti pagal"]'
+      )
+      .first();
     await searchInput.fill("Dėl");
     await page.waitForTimeout(1500); // Wait for debounce + API
 

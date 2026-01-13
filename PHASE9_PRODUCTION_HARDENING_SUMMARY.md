@@ -1,6 +1,7 @@
 # Phase 9: Production Hardening - Implementation Summary
 
 ## Overview
+
 This document summarizes the production hardening work completed in Phase 9. The Express server now has standard production defenses including security headers, rate limiting, health checks, and graceful shutdown.
 
 ## Changes Made
@@ -8,10 +9,12 @@ This document summarizes the production hardening work completed in Phase 9. The
 ### 1. Security Headers (Helmet + CORS)
 
 **Packages Installed:**
+
 - `helmet@8.1.0` - Security headers middleware
 - `cors@2.8.5` - CORS configuration
 
 **Implementation:**
+
 - **Helmet Configuration:**
   - Content Security Policy (CSP) with strict directives
   - HTTP Strict Transport Security (HSTS) enabled (1 year, includeSubDomains, preload)
@@ -27,6 +30,7 @@ This document summarizes the production hardening work completed in Phase 9. The
   - Exposes `x-request-id` header for error correlation
 
 **Code:**
+
 ```typescript
 // Helmet
 app.use(
@@ -55,10 +59,10 @@ app.use(
 
 // CORS
 const allowedOrigins = process.env.CLIENT_URL
-  ? process.env.CLIENT_URL.split(",").map((url) => url.trim())
+  ? process.env.CLIENT_URL.split(",").map(url => url.trim())
   : process.env.NODE_ENV === "production"
-  ? []
-  : ["http://localhost:5173", "http://localhost:3000"];
+    ? []
+    : ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(
   cors({
@@ -80,9 +84,11 @@ app.use(
 ### 2. Rate Limiting
 
 **Package Installed:**
+
 - `express-rate-limit@8.2.1` - Express rate limiting middleware
 
 **Implementation:**
+
 - **Global Rate Limiter:**
   - Default: 100 requests per minute per IP
   - Configurable via `RATE_LIMIT_MAX` and `RATE_LIMIT_WINDOW_MS` env vars
@@ -97,6 +103,7 @@ app.use(
   - Configurable via `STRICT_RATE_LIMIT_MAX` and `STRICT_RATE_LIMIT_WINDOW_MS` env vars
 
 **Code:**
+
 ```typescript
 // Global Rate Limiting
 const globalRateLimiter = rateLimit({
@@ -108,7 +115,7 @@ const globalRateLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => {
+  skip: req => {
     // Skip health checks
     return req.path === "/health" || req.path === "/health/ready";
   },
@@ -135,6 +142,7 @@ app.use("/api/trpc/user.updateSettings", strictRateLimiter);
 ### 3. Health Check Endpoints
 
 **Implementation:**
+
 - **Light Health Check (`GET /health`):**
   - Returns 200 OK with timestamp
   - No dependencies checked
@@ -148,6 +156,7 @@ app.use("/api/trpc/user.updateSettings", strictRateLimiter);
   - Used for readiness probes (K8s, Docker Compose)
 
 **Code:**
+
 ```typescript
 // Light health check
 app.get("/health", (_req, res) => {
@@ -156,7 +165,10 @@ app.get("/health", (_req, res) => {
 
 // Deep health check (readiness probe)
 app.get("/health/ready", async (_req, res) => {
-  const checks: Record<string, { status: string; latencyMs?: number; error?: string }> = {};
+  const checks: Record<
+    string,
+    { status: string; latencyMs?: number; error?: string }
+  > = {};
 
   // Check database
   try {
@@ -190,7 +202,7 @@ app.get("/health/ready", async (_req, res) => {
   }
 
   const allHealthy = Object.values(checks).every(
-    (check) => check.status === "healthy"
+    check => check.status === "healthy"
   );
 
   const statusCode = allHealthy ? 200 : 503;
@@ -205,6 +217,7 @@ app.get("/health/ready", async (_req, res) => {
 ### 4. Graceful Shutdown
 
 **Implementation:**
+
 - Listens for `SIGTERM` and `SIGINT` signals
 - Shutdown sequence:
   1. Stop accepting new HTTP connections
@@ -218,6 +231,7 @@ app.get("/health/ready", async (_req, res) => {
 - **Uncaught Exception Handling:** Triggers graceful shutdown on uncaught exceptions
 
 **Code:**
+
 ```typescript
 let httpServer: Server | null = null;
 let isShuttingDown = false;
@@ -229,7 +243,10 @@ async function gracefulShutdown(signal: string) {
   }
 
   isShuttingDown = true;
-  logger.info({ signal }, "Received shutdown signal, starting graceful shutdown");
+  logger.info(
+    { signal },
+    "Received shutdown signal, starting graceful shutdown"
+  );
 
   // 1. Stop accepting new connections
   if (httpServer) {
@@ -276,7 +293,7 @@ async function gracefulShutdown(signal: string) {
 // Signal handlers
 process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
 process.on("SIGINT", () => gracefulShutdown("SIGINT"));
-process.on("uncaughtException", (err) => {
+process.on("uncaughtException", err => {
   logger.error({ err }, "Uncaught exception");
   gracefulShutdown("uncaughtException");
 });
@@ -285,6 +302,7 @@ process.on("uncaughtException", (err) => {
 ## Files Modified
 
 ### Backend:
+
 1. ✅ `server/_core/index.ts` - Added Helmet, CORS, rate limiting, health checks, graceful shutdown
 
 ## Environment Variables
@@ -305,9 +323,11 @@ STRICT_RATE_LIMIT_WINDOW_MS=60000  # Strict limit: window in milliseconds (1 min
 ## Health Check Endpoints
 
 ### Light Health Check
+
 **Endpoint:** `GET /health`
 **Purpose:** Liveness probe
 **Response:**
+
 ```json
 {
   "status": "ok",
@@ -316,9 +336,11 @@ STRICT_RATE_LIMIT_WINDOW_MS=60000  # Strict limit: window in milliseconds (1 min
 ```
 
 ### Deep Health Check
+
 **Endpoint:** `GET /health/ready`
 **Purpose:** Readiness probe
 **Response (Healthy):**
+
 ```json
 {
   "status": "ready",
@@ -337,6 +359,7 @@ STRICT_RATE_LIMIT_WINDOW_MS=60000  # Strict limit: window in milliseconds (1 min
 ```
 
 **Response (Unhealthy):**
+
 ```json
 {
   "status": "not ready",
@@ -353,6 +376,7 @@ STRICT_RATE_LIMIT_WINDOW_MS=60000  # Strict limit: window in milliseconds (1 min
   "timestamp": "2026-01-11T21:00:00.000Z"
 }
 ```
+
 **Status Code:** 503 if any check fails
 
 ## Security Headers Applied
@@ -369,12 +393,14 @@ The following security headers are now set by Helmet:
 ## Rate Limiting Behavior
 
 ### Global Limit (All Routes)
+
 - **Default:** 100 requests per minute per IP
 - **Excluded:** `/health`, `/health/ready`
 - **Headers:** `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset`
 - **Response:** 429 Too Many Requests with JSON error message
 
 ### Strict Limit (Sensitive Endpoints)
+
 - **Default:** 5 requests per minute per IP
 - **Applied to:**
   - `/api/trpc/auth.login`
@@ -406,18 +432,21 @@ When the server receives `SIGTERM` or `SIGINT`:
 ## Testing Recommendations
 
 1. **Security Headers:**
+
    ```bash
    curl -I http://localhost:3000/health
    # Verify: X-Content-Type-Options, X-Frame-Options, Strict-Transport-Security
    ```
 
 2. **CORS:**
+
    ```bash
    curl -H "Origin: http://localhost:5173" -v http://localhost:3000/health
    # Should include: Access-Control-Allow-Origin
    ```
 
 3. **Rate Limiting:**
+
    ```bash
    # Make 101 requests quickly
    for i in {1..101}; do curl http://localhost:3000/api/trpc/mps.list; done
@@ -425,10 +454,11 @@ When the server receives `SIGTERM` or `SIGINT`:
    ```
 
 4. **Health Checks:**
+
    ```bash
    # Light check
    curl http://localhost:3000/health
-   
+
    # Deep check
    curl http://localhost:3000/health/ready
    ```
@@ -443,6 +473,7 @@ When the server receives `SIGTERM` or `SIGINT`:
 ## Docker/Kubernetes Integration
 
 ### Docker Compose Health Checks
+
 ```yaml
 services:
   api:
@@ -455,6 +486,7 @@ services:
 ```
 
 ### Kubernetes Probes
+
 ```yaml
 livenessProbe:
   httpGet:

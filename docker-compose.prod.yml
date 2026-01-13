@@ -65,7 +65,11 @@ services:
       # Initialization scripts
       - ./scripts/init-db:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-seimas} -d ${POSTGRES_DB:-seimas}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-seimas} -d ${POSTGRES_DB:-seimas}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -76,10 +80,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: "2"
           memory: 2G
         reservations:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
 
   # ===================
@@ -107,10 +111,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 512M
         reservations:
-          cpus: '0.1'
+          cpus: "0.1"
           memory: 64M
 
   # ===================

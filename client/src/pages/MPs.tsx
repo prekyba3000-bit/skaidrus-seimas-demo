@@ -10,16 +10,11 @@ import {
   ChevronDown,
   Grid3x3,
   List,
-  Leaf
+  Leaf,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -169,8 +164,12 @@ export default function MPs() {
 
         <div className="rounded-xl p-6 bg-surface-dark border border-surface-border flex items-center justify-between">
           <div>
-            <p className="text-sm text-[#92adc9] uppercase tracking-wider">Frakcijos</p>
-            <p className="text-3xl font-bold text-white">{stats.partiesCount}</p>
+            <p className="text-sm text-[#92adc9] uppercase tracking-wider">
+              Frakcijos
+            </p>
+            <p className="text-3xl font-bold text-white">
+              {stats.partiesCount}
+            </p>
           </div>
           <Filter className="h-10 w-10 text-primary opacity-50" />
         </div>
@@ -233,10 +232,7 @@ export default function MPs() {
               ))}
             </SelectContent>
           </Select>
-          <Select
-            value={selectedDistrict}
-            onValueChange={setSelectedDistrict}
-          >
+          <Select value={selectedDistrict} onValueChange={setSelectedDistrict}>
             <SelectTrigger className="w-full md:w-[200px] border-surface-border bg-surface-dark text-white">
               <MapPin className="h-4 w-4 mr-2" />
               <SelectValue placeholder="Apygarda" />
@@ -280,7 +276,10 @@ export default function MPs() {
           className={`grid gap-6 ${viewMode === "grid" ? "md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}
         >
           {[...Array(12)].map((_, i) => (
-            <div key={i} className="h-64 animate-pulse bg-surface-dark rounded-xl border border-surface-border">
+            <div
+              key={i}
+              className="h-64 animate-pulse bg-surface-dark rounded-xl border border-surface-border"
+            >
               <div className="h-full w-full" />
             </div>
           ))}
@@ -289,7 +288,9 @@ export default function MPs() {
         <div className="rounded-xl border border-surface-border bg-surface-dark">
           <div className="flex flex-col items-center justify-center py-12">
             <Users className="h-12 w-12 text-[#92adc9] mb-4" />
-            <p className="text-lg font-medium text-white mb-2">Seimo narių nerasta</p>
+            <p className="text-lg font-medium text-white mb-2">
+              Seimo narių nerasta
+            </p>
             <p className="text-sm text-[#92adc9]">
               Pabandykite pakeisti filtrus arba paieškos kriterijus
             </p>
@@ -309,15 +310,22 @@ export default function MPs() {
                 <div className="group h-full transform transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/20">
                   <div className="rounded-xl border border-surface-border bg-surface-dark h-full">
                     <div className="h-full flex flex-col p-4">
-                      <div className={`flex ${viewMode === "grid" ? "flex-col items-center text-center" : "flex-row items-start"} gap-4 mb-4`}>
+                      <div
+                        className={`flex ${viewMode === "grid" ? "flex-col items-center text-center" : "flex-row items-start"} gap-4 mb-4`}
+                      >
                         <div className="relative">
                           <div className="absolute inset-0 rounded-full bg-primary blur-md opacity-20 group-hover:opacity-40 transition-opacity" />
                           <Avatar
                             className={
-                              viewMode === "grid" ? "w-24 h-24 border-2 border-primary/50" : "w-16 h-16 border border-primary/50"
+                              viewMode === "grid"
+                                ? "w-24 h-24 border-2 border-primary/50"
+                                : "w-16 h-16 border border-primary/50"
                             }
                           >
-                            <AvatarImage src={mp.photoUrl ?? undefined} className="object-cover" />
+                            <AvatarImage
+                              src={mp.photoUrl ?? undefined}
+                              className="object-cover"
+                            />
                             <AvatarFallback className="text-lg bg-surface-dark text-primary">
                               {mp.name
                                 .split(" ")
@@ -331,7 +339,10 @@ export default function MPs() {
                           <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors mb-1">
                             {mp.name}
                           </h3>
-                          <Badge variant="outline" className="mb-2 text-xs border-surface-border text-[#92adc9]">
+                          <Badge
+                            variant="outline"
+                            className="mb-2 text-xs border-surface-border text-[#92adc9]"
+                          >
                             {mp.party}
                           </Badge>
                           {mp.district && (

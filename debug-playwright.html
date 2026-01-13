@@ -1,92 +1,617 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><link type="text/css" rel="stylesheet" href="/javax.faces.resource/theme.css.html?ln=primefaces-aristo"><link rel="stylesheet" type="text/css" href="/javax.faces.resource/primefaces.css.html?ln=primefaces&amp;v=5.2.3"><script type="text/javascript" src="/javax.faces.resource/jquery/jquery.js.html?ln=primefaces&amp;v=5.2.3"></script><script type="text/javascript" src="/javax.faces.resource/jquery/jquery-plugins.js.html?ln=primefaces&amp;v=5.2.3"></script><script type="text/javascript" src="/javax.faces.resource/primefaces.js.html?ln=primefaces&amp;v=5.2.3"></script><link rel="stylesheet" type="text/css" href="/javax.faces.resource/css/sipisStyle.css.html?r=13b068094421fa07d0abd79bf3e69f5d0eca9c04"><script type="text/javascript">if(window.PrimeFaces){}</script>
-        <meta charset="UTF-8">
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="/javax.faces.resource/theme.css.html?ln=primefaces-aristo"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/javax.faces.resource/primefaces.css.html?ln=primefaces&amp;v=5.2.3"
+    />
+    <script
+      type="text/javascript"
+      src="/javax.faces.resource/jquery/jquery.js.html?ln=primefaces&amp;v=5.2.3"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/javax.faces.resource/jquery/jquery-plugins.js.html?ln=primefaces&amp;v=5.2.3"
+    ></script>
+    <script
+      type="text/javascript"
+      src="/javax.faces.resource/primefaces.js.html?ln=primefaces&amp;v=5.2.3"
+    ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/javax.faces.resource/css/sipisStyle.css.html?r=13b068094421fa07d0abd79bf3e69f5d0eca9c04"
+    />
+    <script type="text/javascript">
+      if (window.PrimeFaces) {
+      }
+    </script>
+    <meta charset="UTF-8" />
 
-        <link rel="stylesheet" href="/SIPIS/portal/style/main.css">
-        <link rel="stylesheet" href="/SIPIS/portal/style/shared.css"><script type="text/javascript" src="/javax.faces.resource/js/calendar.js.html?r=13b068094421fa07d0abd79bf3e69f5d0eca9c04"></script>
-        <title>Klaida</title>
-        <link rel="shortcut icon" type="image/x-icon" href="/resources/img/favicon.ico"></head><body style=""><form id="j_id_a" name="j_id_a" method="post" action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04" enctype="application/x-www-form-urlencoded"><input type="hidden" name="j_id_a_SUBMIT" value="1"><input type="hidden" name="javax.faces.ViewState" id="j_id__v_0:javax.faces.ViewState:1" value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s" autocomplete="off"><input type="hidden" id="j_id__v_0:javax.faces.ClientWindow:1" name="javax.faces.ClientWindow" value="-5h6hxaqgl"><div id="j_id_a:idleDialog" class="ui-confirm-dialog ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container" role="dialog" aria-labelledby="j_id_a:idleDialog_title" aria-hidden="true" style="width: auto; height: auto;"><div class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top"><span class="ui-dialog-title">Sesijos laikas baigėsi</span></div><div class="ui-dialog-content ui-widget-content" style="height: auto;"><span class="ui-icon ui-icon-alert ui-confirm-dialog-severity"></span><span class="ui-confirm-dialog-message">Baigėsi Jūsų darbo sesijos laikas (120 min.)</span></div><div class="ui-dialog-buttonpane ui-dialog-footer ui-widget-content ui-helper-clearfix">
-                <div style="text-align: center"><button id="j_id_a:j_id_d" name="j_id_a:j_id_d" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left" onclick="window.open('/portal/index/lt','_self')" role="button" aria-disabled="false"><span class="ui-button-icon-left ui-icon ui-c ui-icon-home"></span><span class="ui-button-text ui-c">Grįžti į pradžią</span></button>
-                </div></div></div>
-            <script>
-                $(document).ready(function () {
-                    'use strict';
-
-                    var timeoutSession;
-                    setSipisTimeout();
-
-                    $(document).on("ajaxComplete pfAjaxComplete", function() {
-                        clearTimeout(timeoutSession);
-                        setSipisTimeout();
-                    });
-
-                    function setSipisTimeout() {
-                        timeoutSession = setTimeout(function () {
-                            PF('idleDialog').show();
-                        }, 7200000);
-                    }
-                });
-            </script></form><div id="page"><div id="container">
-                <header><form id="headerForm" name="headerForm" method="post" action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04" enctype="application/x-www-form-urlencoded"><input type="hidden" name="headerForm_SUBMIT" value="1"><input type="hidden" name="javax.faces.ViewState" id="j_id__v_0:javax.faces.ViewState:1" value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s" autocomplete="off"><input type="hidden" id="j_id__v_0:javax.faces.ClientWindow:1" name="javax.faces.ClientWindow" value="-5h6hxaqgl">
-
-<div id="head" class="inner-page-head sipis-external header" style="background-image: url('/SIPIS/portal/images/external/head-bg_right.png');">
-    <a id="home-page-head-area" href="http://www.lrs.lt/sip/portal.show?p_k=1" class="left-side" style="background-image: url('/SIPIS/portal/images/external/head-bg_left.png');"></a>
-
-        <div id="top-fn-meniu-container" class="meniu-gradient">
-        <div>
-            <ul class="FMeniu">
-
-    <li><img id="headerForm:j_id_l_3" src="/resources/img/flags/lt.png?pfdrid_c=true" alt="" style="vertical-align: middle; margin-right: 5px;"><div id="headerForm:languageSelectMenu" class="ui-selectonemenu ui-widget ui-state-default ui-corner-all languageSelectMenuClass"><div class="ui-helper-hidden-accessible"><input id="headerForm:languageSelectMenu_focus" name="headerForm:languageSelectMenu_focus" type="text" autocomplete="off"></div><div class="ui-helper-hidden-accessible"><select id="headerForm:languageSelectMenu_input" name="headerForm:languageSelectMenu_input" tabindex="-1" onchange="$(PrimeFaces.escapeClientId('headerForm:changeLanguageSubmitBtn')).click(); return false;;"><option value="lt" selected="selected">LT</option></select></div><label id="headerForm:languageSelectMenu_label" class="ui-selectonemenu-label ui-inputfield ui-corner-all">LT</label><div class="ui-selectonemenu-trigger ui-state-default ui-corner-right"><span class="ui-icon ui-icon-triangle-1-s ui-c"></span></div></div><input id="headerForm:changeLanguageSubmitBtn" name="headerForm:changeLanguageSubmitBtn" type="submit" style="display: none">
-    </li>
-
-    <li><a href="/portal/login/lt" class="ui-link ui-widget link">Prisijungti</a>
-    </li>
-    <li><a href="/portal/registration/registration/lt" class="ui-link ui-widget link">Registruotis</a>
-    </li>
-    <li><a href="/help/lt/index.htm#error" class="ui-link ui-widget link" target="_blank">
-            <span style="border-radius:50%; border:solid white 1px;padding:1px 6px" title="Pagalba">?</span></a>
-    </li>
-            </ul>
+    <link rel="stylesheet" href="/SIPIS/portal/style/main.css" />
+    <link rel="stylesheet" href="/SIPIS/portal/style/shared.css" />
+    <script
+      type="text/javascript"
+      src="/javax.faces.resource/js/calendar.js.html?r=13b068094421fa07d0abd79bf3e69f5d0eca9c04"
+    ></script>
+    <title>Klaida</title>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/resources/img/favicon.ico"
+    />
+  </head>
+  <body style="">
+    <form
+      id="j_id_a"
+      name="j_id_a"
+      method="post"
+      action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04"
+      enctype="application/x-www-form-urlencoded"
+    >
+      <input type="hidden" name="j_id_a_SUBMIT" value="1" /><input
+        type="hidden"
+        name="javax.faces.ViewState"
+        id="j_id__v_0:javax.faces.ViewState:1"
+        value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s"
+        autocomplete="off"
+      /><input
+        type="hidden"
+        id="j_id__v_0:javax.faces.ClientWindow:1"
+        name="javax.faces.ClientWindow"
+        value="-5h6hxaqgl"
+      />
+      <div
+        id="j_id_a:idleDialog"
+        class="ui-confirm-dialog ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow ui-hidden-container"
+        role="dialog"
+        aria-labelledby="j_id_a:idleDialog_title"
+        aria-hidden="true"
+        style="width: auto; height: auto"
+      >
+        <div
+          class="ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top"
+        >
+          <span class="ui-dialog-title">Sesijos laikas baigėsi</span>
         </div>
-    </div>
-</div></form>
-                </header>
+        <div class="ui-dialog-content ui-widget-content" style="height: auto">
+          <span class="ui-icon ui-icon-alert ui-confirm-dialog-severity"></span
+          ><span class="ui-confirm-dialog-message"
+            >Baigėsi Jūsų darbo sesijos laikas (120 min.)</span
+          >
+        </div>
+        <div
+          class="ui-dialog-buttonpane ui-dialog-footer ui-widget-content ui-helper-clearfix"
+        >
+          <div style="text-align: center">
+            <button
+              id="j_id_a:j_id_d"
+              name="j_id_a:j_id_d"
+              type="button"
+              class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
+              onclick="window.open('/portal/index/lt','_self')"
+              role="button"
+              aria-disabled="false"
+            >
+              <span class="ui-button-icon-left ui-icon ui-c ui-icon-home"></span
+              ><span class="ui-button-text ui-c">Grįžti į pradžią</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <script>
+        $(document).ready(function () {
+          "use strict";
 
-                <table>
-                    <tbody><tr valign="top">
-                        <td><form id="navForm" name="navForm" method="post" action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04" enctype="application/x-www-form-urlencoded"><input type="hidden" name="navForm_SUBMIT" value="1"><input type="hidden" name="javax.faces.ViewState" id="j_id__v_0:javax.faces.ViewState:1" value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s" autocomplete="off"><input type="hidden" id="j_id__v_0:javax.faces.ClientWindow:1" name="javax.faces.ClientWindow" value="-5h6hxaqgl"><div id="navForm:j_id_s" class="ui-menu ui-widget ui-widget-content ui-corner-all ui-helper-clearfix" role="menu"><div tabindex="0" class="ui-helper-hidden-accessible"></div><ul class="ui-menu-list ui-helper-reset"><li class="ui-widget-header ui-corner-all"><h3>Seimo e. paslaugos</h3></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/letter/letter/lt"><span class="ui-menuitem-text">E. laiškas</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/initiatives/initiative/lt"><span class="ui-menuitem-text">E. teisėkūros iniciatyva</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/petition/petitionForm/lt"><span class="ui-menuitem-text">E. kreipimasis (peticija)</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="#" onclick="PrimeFaces.addSubmitParam('navForm',{'navForm:j_id_x':'navForm:j_id_x'}).submit('navForm');return false;"><span class="ui-menuitem-text">El. dokumentas Seimui</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="http://www.lrs.lt/sip/portal.arch"><span class="ui-menuitem-text">Archyvinių dokumentų užsakymas</span></a></li><li class="ui-widget-header ui-corner-all"><h3>Paieška</h3></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/simpleSearch/lt"><span class="ui-menuitem-text">Paprasta paieška</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/documentSearch/lt"><span class="ui-menuitem-text">Dokumentų paieška</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/legalActSearch/lt"><span class="ui-menuitem-text">Detali teisės aktų paieška</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/legalActProjectSearch/lt"><span class="ui-menuitem-text">Detali teisės aktų projektų paieška</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/searchWizard/lt"><span class="ui-menuitem-text">Vedlys</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/userSearches/lt?viewed="><span class="ui-menuitem-text">Mano vykdytos paieškos</span></a></li><li class="ui-menuitem ui-widget ui-corner-all" role="menuitem"><a tabindex="-1" class="ui-menuitem-link ui-corner-all" href="/portal/userDocuments/lt?viewed="><span class="ui-menuitem-text">Peržiūrėti dokumentai</span></a></li></ul></div></form>
-                        </td>
-                        <td style="width: 100%; text-align: center">
-                            
-                            <div style="display: inline-block; text-align: left">
-                                <h1>Klaida</h1><form id="j_id_1k" name="j_id_1k" method="post" action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04" enctype="application/x-www-form-urlencoded"><input type="hidden" name="j_id_1k_SUBMIT" value="1"><input type="hidden" name="javax.faces.ViewState" id="j_id__v_0:javax.faces.ViewState:1" value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s" autocomplete="off"><input type="hidden" id="j_id__v_0:javax.faces.ClientWindow:1" name="javax.faces.ClientWindow" value="-5h6hxaqgl"><div id="j_id_1k:j_id_1l" class="ui-panel ui-widget ui-widget-content ui-corner-all contentPanel" data-widget="widget_j_id_1k_j_id_1l"><div id="j_id_1k:j_id_1l_content" class="ui-panel-content ui-widget-content"><div class="errorDiv">Resursas nerastas (404).</div></div></div></form>
+          var timeoutSession;
+          setSipisTimeout();
+
+          $(document).on("ajaxComplete pfAjaxComplete", function () {
+            clearTimeout(timeoutSession);
+            setSipisTimeout();
+          });
+
+          function setSipisTimeout() {
+            timeoutSession = setTimeout(function () {
+              PF("idleDialog").show();
+            }, 7200000);
+          }
+        });
+      </script>
+    </form>
+    <div id="page">
+      <div id="container">
+        <header>
+          <form
+            id="headerForm"
+            name="headerForm"
+            method="post"
+            action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04"
+            enctype="application/x-www-form-urlencoded"
+          >
+            <input type="hidden" name="headerForm_SUBMIT" value="1" /><input
+              type="hidden"
+              name="javax.faces.ViewState"
+              id="j_id__v_0:javax.faces.ViewState:1"
+              value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s"
+              autocomplete="off"
+            /><input
+              type="hidden"
+              id="j_id__v_0:javax.faces.ClientWindow:1"
+              name="javax.faces.ClientWindow"
+              value="-5h6hxaqgl"
+            />
+
+            <div
+              id="head"
+              class="inner-page-head sipis-external header"
+              style="
+                background-image: url(&quot;/SIPIS/portal/images/external/head-bg_right.png&quot;);
+              "
+            >
+              <a
+                id="home-page-head-area"
+                href="http://www.lrs.lt/sip/portal.show?p_k=1"
+                class="left-side"
+                style="
+                  background-image: url(&quot;/SIPIS/portal/images/external/head-bg_left.png&quot;);
+                "
+              ></a>
+
+              <div id="top-fn-meniu-container" class="meniu-gradient">
+                <div>
+                  <ul class="FMeniu">
+                    <li>
+                      <img
+                        id="headerForm:j_id_l_3"
+                        src="/resources/img/flags/lt.png?pfdrid_c=true"
+                        alt=""
+                        style="vertical-align: middle; margin-right: 5px"
+                      />
+                      <div
+                        id="headerForm:languageSelectMenu"
+                        class="ui-selectonemenu ui-widget ui-state-default ui-corner-all languageSelectMenuClass"
+                      >
+                        <div class="ui-helper-hidden-accessible">
+                          <input
+                            id="headerForm:languageSelectMenu_focus"
+                            name="headerForm:languageSelectMenu_focus"
+                            type="text"
+                            autocomplete="off"
+                          />
+                        </div>
+                        <div class="ui-helper-hidden-accessible">
+                          <select
+                            id="headerForm:languageSelectMenu_input"
+                            name="headerForm:languageSelectMenu_input"
+                            tabindex="-1"
+                            onchange="$(PrimeFaces.escapeClientId('headerForm:changeLanguageSubmitBtn')).click(); return false;;"
+                          >
+                            <option value="lt" selected="selected">LT</option>
+                          </select>
+                        </div>
+                        <label
+                          id="headerForm:languageSelectMenu_label"
+                          class="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                          >LT</label
+                        >
+                        <div
+                          class="ui-selectonemenu-trigger ui-state-default ui-corner-right"
+                        >
+                          <span
+                            class="ui-icon ui-icon-triangle-1-s ui-c"
+                          ></span>
+                        </div>
+                      </div>
+                      <input
+                        id="headerForm:changeLanguageSubmitBtn"
+                        name="headerForm:changeLanguageSubmitBtn"
+                        type="submit"
+                        style="display: none"
+                      />
+                    </li>
+
+                    <li>
+                      <a href="/portal/login/lt" class="ui-link ui-widget link"
+                        >Prisijungti</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="/portal/registration/registration/lt"
+                        class="ui-link ui-widget link"
+                        >Registruotis</a
+                      >
+                    </li>
+                    <li>
+                      <a
+                        href="/help/lt/index.htm#error"
+                        class="ui-link ui-widget link"
+                        target="_blank"
+                      >
+                        <span
+                          style="
+                            border-radius: 50%;
+                            border: solid white 1px;
+                            padding: 1px 6px;
+                          "
+                          title="Pagalba"
+                          >?</span
+                        ></a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </form>
+        </header>
+
+        <table>
+          <tbody>
+            <tr valign="top">
+              <td>
+                <form
+                  id="navForm"
+                  name="navForm"
+                  method="post"
+                  action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04"
+                  enctype="application/x-www-form-urlencoded"
+                >
+                  <input type="hidden" name="navForm_SUBMIT" value="1" /><input
+                    type="hidden"
+                    name="javax.faces.ViewState"
+                    id="j_id__v_0:javax.faces.ViewState:1"
+                    value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s"
+                    autocomplete="off"
+                  /><input
+                    type="hidden"
+                    id="j_id__v_0:javax.faces.ClientWindow:1"
+                    name="javax.faces.ClientWindow"
+                    value="-5h6hxaqgl"
+                  />
+                  <div
+                    id="navForm:j_id_s"
+                    class="ui-menu ui-widget ui-widget-content ui-corner-all ui-helper-clearfix"
+                    role="menu"
+                  >
+                    <div tabindex="0" class="ui-helper-hidden-accessible"></div>
+                    <ul class="ui-menu-list ui-helper-reset">
+                      <li class="ui-widget-header ui-corner-all">
+                        <h3>Seimo e. paslaugos</h3>
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/letter/letter/lt"
+                          ><span class="ui-menuitem-text">E. laiškas</span></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/initiatives/initiative/lt"
+                          ><span class="ui-menuitem-text"
+                            >E. teisėkūros iniciatyva</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/petition/petitionForm/lt"
+                          ><span class="ui-menuitem-text"
+                            >E. kreipimasis (peticija)</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="#"
+                          onclick="PrimeFaces.addSubmitParam('navForm',{'navForm:j_id_x':'navForm:j_id_x'}).submit('navForm');return false;"
+                          ><span class="ui-menuitem-text"
+                            >El. dokumentas Seimui</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="http://www.lrs.lt/sip/portal.arch"
+                          ><span class="ui-menuitem-text"
+                            >Archyvinių dokumentų užsakymas</span
+                          ></a
+                        >
+                      </li>
+                      <li class="ui-widget-header ui-corner-all">
+                        <h3>Paieška</h3>
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/simpleSearch/lt"
+                          ><span class="ui-menuitem-text"
+                            >Paprasta paieška</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/documentSearch/lt"
+                          ><span class="ui-menuitem-text"
+                            >Dokumentų paieška</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/legalActSearch/lt"
+                          ><span class="ui-menuitem-text"
+                            >Detali teisės aktų paieška</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/legalActProjectSearch/lt"
+                          ><span class="ui-menuitem-text"
+                            >Detali teisės aktų projektų paieška</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/searchWizard/lt"
+                          ><span class="ui-menuitem-text">Vedlys</span></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/userSearches/lt?viewed="
+                          ><span class="ui-menuitem-text"
+                            >Mano vykdytos paieškos</span
+                          ></a
+                        >
+                      </li>
+                      <li
+                        class="ui-menuitem ui-widget ui-corner-all"
+                        role="menuitem"
+                      >
+                        <a
+                          tabindex="-1"
+                          class="ui-menuitem-link ui-corner-all"
+                          href="/portal/userDocuments/lt?viewed="
+                          ><span class="ui-menuitem-text"
+                            >Peržiūrėti dokumentai</span
+                          ></a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </form>
+              </td>
+              <td style="width: 100%; text-align: center">
+                <div style="display: inline-block; text-align: left">
+                  <h1>Klaida</h1>
+                  <form
+                    id="j_id_1k"
+                    name="j_id_1k"
+                    method="post"
+                    action="/error_404/lt?jfwid=-5h6hxaqgl&amp;buildNumber=13b068094421fa07d0abd79bf3e69f5d0eca9c04"
+                    enctype="application/x-www-form-urlencoded"
+                  >
+                    <input
+                      type="hidden"
+                      name="j_id_1k_SUBMIT"
+                      value="1"
+                    /><input
+                      type="hidden"
+                      name="javax.faces.ViewState"
+                      id="j_id__v_0:javax.faces.ViewState:1"
+                      value="rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cAAAAAJ1cQB+AAAAAAACcHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABdAAab2FtLkZBQ0VMRVRfU1RBVEVfSU5TVEFOQ0VzcgAramF2YXguZmFjZXMuY29tcG9uZW50Ll9BdHRhY2hlZFN0YXRlV3JhcHBlckSr5kB900/EAgACTAAGX2NsYXNzdAARTGphdmEvbGFuZy9DbGFzcztMABNfd3JhcHBlZFN0YXRlT2JqZWN0dAASTGphdmEvbGFuZy9PYmplY3Q7eHB2cgA1b3JnLmFwYWNoZS5teWZhY2VzLnZpZXcuZmFjZWxldHMudGFnLmpzZi5GYWNlbGV0U3RhdGWTbGF69FofrwIAAkwAC2JpbmRpbmdzTWFwdAAPTGphdmEvdXRpbC9NYXA7TAAIc3RhdGVNYXBxAH4AC3hwdXEAfgAAAAAAAXNxAH4AAz9AAAAAAAAMdwgAAAAQAAAAAXQAE2tfNzQ5MTUyNjdfNzIxMzhiMmZ0ACVmaWxlOi8vL0M6L1NJUElTL3BvcnRhbC9oZWFkZXItbHQuaHRteHh0ABAvZXJyb3JfNDA0LnhodG1s"
+                      autocomplete="off"
+                    /><input
+                      type="hidden"
+                      id="j_id__v_0:javax.faces.ClientWindow:1"
+                      name="javax.faces.ClientWindow"
+                      value="-5h6hxaqgl"
+                    />
+                    <div
+                      id="j_id_1k:j_id_1l"
+                      class="ui-panel ui-widget ui-widget-content ui-corner-all contentPanel"
+                      data-widget="widget_j_id_1k_j_id_1l"
+                    >
+                      <div
+                        id="j_id_1k:j_id_1l_content"
+                        class="ui-panel-content ui-widget-content"
+                      >
+                        <div class="errorDiv">Resursas nerastas (404).</div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <footer id="footer">
+          <div class="footer">
+            <table class="ftbl">
+              <tbody>
+                <tr>
+                  <td class="left-side">
+                    <table class="tbl box-tbl">
+                      <tbody>
+                        <tr>
+                          <td style="width: 55%" class="col first">
+                            <ul class="links-list">
+                              <li>
+                                <a class="link" href="https://www.lrs.lt"
+                                  >Lietuvos Respublikos Seimas</a
+                                >
+                              </li>
+                              <li>
+                                <a
+                                  class="link"
+                                  href="https://www.lrs.lt/sip/portal.show?p_r=35365&amp;p_k=1"
+                                  >Teisėkūra</a
+                                >
+                              </li>
+                              <li>
+                                <a
+                                  class="link"
+                                  href="https://www.lrs.lt/sip/portal.show?p_r=39492&amp;p_k=1"
+                                  >Kaip pateikti pasiūlymą teisės akto
+                                  projektui?</a
+                                >
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="col last"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td class="right-side">
+                    <table class="tbl box-tbl">
+                      <tbody>
+                        <tr>
+                          <td style="width: 30%" class="col first">
+                            <ul class="links-list"></ul>
+                            <div style="margin: 20px 0 0 0">
+                              <img src="/SIPIS/portal/images/ES_parama.png" />
                             </div>
-                        </td>
-                    </tr>
-                </tbody></table>
+                          </td>
+                          <td class="col" style="width: 30%"></td>
+                          <td class="col last" style="width: 40%">
+                            <div class="contacts">
+                              <div class="title">Kontaktai</div>
+                              <p>
+                                Lietuvos Respublikos Seimo kanceliarija,
+                                biudžetinė įstaiga<br />
+                                Gedimino pr. 53, 01109 Vilnius <br />
+                                Tel. (0 5) 209 6060,<br />
+                                el. p.
+                                <a href="mailto:priim@lrs.lt">priim@lrs.lt</a
+                                ><br />
+                                Duomenys kaupiami ir saugomi Juridinių asmenų
+                                registre, kodas 188605295
+                              </p>
 
-                <footer id="footer"><div class="footer"><table class="ftbl"><tbody><tr><td class="left-side">
-<table class="tbl box-tbl"><tbody><tr><td style="width:55%;" class="col first"><ul class="links-list">
-<li><a class="link" href="https://www.lrs.lt">Lietuvos Respublikos Seimas</a></li>
-<li><a class="link" href="https://www.lrs.lt/sip/portal.show?p_r=35365&amp;p_k=1">Teisėkūra</a></li>
-<li><a class="link" href="https://www.lrs.lt/sip/portal.show?p_r=39492&amp;p_k=1">Kaip pateikti pasiūlymą teisės akto projektui?</a></li>
-</ul></td><td class="col last"></td></tr></tbody></table></td><td class="right-side">
-<table class="tbl box-tbl"><tbody><tr><td style="width:30%;" class="col first"><ul class="links-list"></ul>
-<div style="margin: 20px 0 0 0;"><img src="/SIPIS/portal/images/ES_parama.png"></div></td>
-<td class="col" style="width:30%;"></td><td class="col last" style="width:40%;"><div class="contacts">
-<div class="title">Kontaktai</div>
-<p>Lietuvos Respublikos Seimo kanceliarija, biudžetinė įstaiga<br>
-Gedimino pr. 53, 01109 Vilnius <br>
-Tel. (0 5)  209 6060,<br>
-el. p. <a href="mailto:priim@lrs.lt">priim@lrs.lt</a><br>
-Duomenys kaupiami ir saugomi Juridinių asmenų registre, kodas 188605295
-</p>
-
-<ul>
-	<li><a href="https://www.lrs.lt/">www.lrs.lt</a></li><br>
-	<li>© <a class="link" href="https://www.lrs.lt/sip/portal.show?p_r=35381&amp;p_k=1">Lietuvos Respublikos Seimo kanceliarija</a></li>
-</ul>
-</div></td></tr></tbody></table></td></tr></tbody></table></div>
-
-
-                </footer></div></div>
-<div id="textarea_simulator" style="position: absolute; top: 0px; left: 0px; visibility: hidden;"></div><div class="ui-dialog-docking-zone"></div><div id="headerForm:languageSelectMenu_panel" class="ui-selectonemenu-panel ui-widget ui-widget-content ui-corner-all ui-helper-hidden ui-shadow invisibleGrid"><div class="ui-selectonemenu-items-wrapper" style="height:auto"><table class="ui-selectonemenu-items ui-selectonemenu-table ui-widget-content ui-widget ui-corner-all ui-helper-reset"><tbody><tr class="ui-selectonemenu-item ui-selectonemenu-row ui-widget-content ui-state-highlight" data-label="LT"><td><img id="headerForm:j_id_l_7" src="/resources/img/flags/lt.png?pfdrid_c=true" alt=""></td><td>LT</td></tr></tbody></table></div></div></body></html>
+                              <ul>
+                                <li>
+                                  <a href="https://www.lrs.lt/">www.lrs.lt</a>
+                                </li>
+                                <br />
+                                <li>
+                                  ©
+                                  <a
+                                    class="link"
+                                    href="https://www.lrs.lt/sip/portal.show?p_r=35381&amp;p_k=1"
+                                    >Lietuvos Respublikos Seimo kanceliarija</a
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <div
+      id="textarea_simulator"
+      style="position: absolute; top: 0px; left: 0px; visibility: hidden"
+    ></div>
+    <div class="ui-dialog-docking-zone"></div>
+    <div
+      id="headerForm:languageSelectMenu_panel"
+      class="ui-selectonemenu-panel ui-widget ui-widget-content ui-corner-all ui-helper-hidden ui-shadow invisibleGrid"
+    >
+      <div class="ui-selectonemenu-items-wrapper" style="height: auto">
+        <table
+          class="ui-selectonemenu-items ui-selectonemenu-table ui-widget-content ui-widget ui-corner-all ui-helper-reset"
+        >
+          <tbody>
+            <tr
+              class="ui-selectonemenu-item ui-selectonemenu-row ui-widget-content ui-state-highlight"
+              data-label="LT"
+            >
+              <td>
+                <img
+                  id="headerForm:j_id_l_7"
+                  src="/resources/img/flags/lt.png?pfdrid_c=true"
+                  alt=""
+                />
+              </td>
+              <td>LT</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

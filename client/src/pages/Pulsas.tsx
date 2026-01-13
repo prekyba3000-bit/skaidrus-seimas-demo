@@ -1,10 +1,21 @@
-import { trpc } from '@/lib/trpc';
-import DashboardLayout from '@/components/DashboardLayout';
-import { VotingTrendChart } from '@/components/charts/VotingTrendChart';
-import { SessionHeatmap } from '@/components/charts/SessionHeatmap';
-import { Card } from '@/components/ui/card';
-import { Activity, TrendingUp, Users } from 'lucide-react';
-import { Skeleton, SkeletonCard } from '@/components/ui/skeleton';
+import { lazy, Suspense } from "react";
+import { trpc } from "@/lib/trpc";
+import DashboardLayout from "@/components/DashboardLayout";
+import { Card } from "@/components/ui/card";
+import { Activity, TrendingUp, Users } from "lucide-react";
+import { Skeleton, SkeletonCard } from "@/components/ui/skeleton";
+
+// Lazy-load heavy chart components to reduce initial bundle size
+const VotingTrendChart = lazy(() =>
+  import("@/components/charts/VotingTrendChart").then(m => ({
+    default: m.VotingTrendChart,
+  }))
+);
+const SessionHeatmap = lazy(() =>
+  import("@/components/charts/SessionHeatmap").then(m => ({
+    default: m.SessionHeatmap,
+  }))
+);
 
 export default function Pulsas() {
   const { data, isLoading, error } = trpc.pulse.getParliamentPulse.useQuery();
@@ -14,7 +25,7 @@ export default function Pulsas() {
       <DashboardLayout title="Pulsas">
         {/* Summary Header Skeletons */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {[1, 2, 3].map((i) => (
+          {[1, 2, 3].map(i => (
             <SkeletonCard key={i} />
           ))}
         </div>
@@ -45,8 +56,12 @@ export default function Pulsas() {
         <Card className="bg-surface-dark border-surface-border p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#92adc9] text-sm uppercase tracking-widest mb-1">Iš viso balsavimų</p>
-              <p className="text-white text-3xl font-black">{data?.summary.totalVotes.toLocaleString() || 0}</p>
+              <p className="text-[#92adc9] text-sm uppercase tracking-widest mb-1">
+                Iš viso balsavimų
+              </p>
+              <p className="text-white text-3xl font-black">
+                {data?.summary.totalVotes.toLocaleString() || 0}
+              </p>
             </div>
             <Activity className="w-8 h-8 text-primary" />
           </div>
@@ -54,8 +69,12 @@ export default function Pulsas() {
         <Card className="bg-surface-dark border-surface-border p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#92adc9] text-sm uppercase tracking-widest mb-1">Vidutinis lankomumas</p>
-              <p className="text-white text-3xl font-black">{data?.summary.avgAttendance.toFixed(1) || 0}%</p>
+              <p className="text-[#92adc9] text-sm uppercase tracking-widest mb-1">
+                Vidutinis lankomumas
+              </p>
+              <p className="text-white text-3xl font-black">
+                {data?.summary.avgAttendance.toFixed(1) || 0}%
+              </p>
             </div>
             <TrendingUp className="w-8 h-8 text-accent-green" />
           </div>
@@ -63,7 +82,9 @@ export default function Pulsas() {
         <Card className="bg-surface-dark border-surface-border p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[#92adc9] text-sm uppercase tracking-widest mb-1">Aktyvus laikotarpis</p>
+              <p className="text-[#92adc9] text-sm uppercase tracking-widest mb-1">
+                Aktyvus laikotarpis
+              </p>
               <p className="text-white text-3xl font-black">6 mėn.</p>
             </div>
             <Users className="w-8 h-8 text-amber-400" />
@@ -73,8 +94,16 @@ export default function Pulsas() {
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        <VotingTrendChart data={data?.monthlyVotes || []} />
-        <SessionHeatmap data={data?.sessionStats || []} />
+        <Suspense
+          fallback={<Skeleton className="h-[400px] w-full rounded-lg" />}
+        >
+          <VotingTrendChart data={data?.monthlyVotes || []} />
+        </Suspense>
+        <Suspense
+          fallback={<Skeleton className="h-[400px] w-full rounded-lg" />}
+        >
+          <SessionHeatmap data={data?.sessionStats || []} />
+        </Suspense>
       </div>
     </DashboardLayout>
   );

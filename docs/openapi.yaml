@@ -3,23 +3,23 @@ info:
   title: Skaidrus Seimas API
   description: |
     **Transparent Lithuanian Parliament Monitoring Platform**
-    
+
     This API provides access to Lithuanian Parliament (Seimas) data including:
     - Members of Parliament (MPs) with statistics and voting records
     - Legislative bills with AI-generated summaries
     - Voting patterns and accountability metrics
     - Committee membership and activities
-    
+
     ## Authentication
     Most endpoints are public. User-specific endpoints require authentication via session cookies.
-    
+
     ## Rate Limiting
     | Endpoint Type | Limit | Window |
     |---------------|-------|--------|
     | Read (MPs, Bills) | 100 req | 60 sec |
     | Search | 30 req | 60 sec |
     | Auth | 5 req | 60 sec |
-    
+
     ## Data Sources
     - [Seimas Open Data API](https://www.lrs.lt/sip/portal.show?p_r=35391)
     - [OpenSanctions](https://www.opensanctions.org/)
@@ -61,13 +61,13 @@ paths:
       description: Returns the health status of the API and its dependencies
       operationId: healthCheck
       responses:
-        '200':
+        "200":
           description: Service is healthy
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HealthResponse'
-        '503':
+                $ref: "#/components/schemas/HealthResponse"
+        "503":
           description: Service is unhealthy
 
   /api/trpc/mps.list:
@@ -88,7 +88,7 @@ paths:
             {"party": "Tėvynės sąjunga", "isActive": true}
             ```
       responses:
-        '200':
+        "200":
           description: List of MPs
           content:
             application/json:
@@ -101,7 +101,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/MP'
+                          $ref: "#/components/schemas/MP"
 
   /api/trpc/mps.byId:
     get:
@@ -117,7 +117,7 @@ paths:
             type: string
           description: 'JSON-encoded MP ID: `{"id": 1}`'
       responses:
-        '200':
+        "200":
           description: MP details with statistics
           content:
             application/json:
@@ -128,8 +128,8 @@ paths:
                     type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/MPWithStats'
-        '404':
+                        $ref: "#/components/schemas/MPWithStats"
+        "404":
           description: MP not found
 
   /api/trpc/mps.compare:
@@ -148,7 +148,7 @@ paths:
             type: string
           description: 'JSON-encoded MP IDs: `{"mpId1": 1, "mpId2": 2}`'
       responses:
-        '200':
+        "200":
           description: Comparison results
           content:
             application/json:
@@ -159,7 +159,7 @@ paths:
                     type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/MPComparison'
+                        $ref: "#/components/schemas/MPComparison"
 
   /api/trpc/mps.search:
     get:
@@ -175,7 +175,7 @@ paths:
             type: string
           description: 'JSON-encoded search term: `{"searchTerm": "Jonas"}`'
       responses:
-        '200':
+        "200":
           description: Search results
           content:
             application/json:
@@ -188,7 +188,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/MP'
+                          $ref: "#/components/schemas/MP"
 
   /api/trpc/bills.list:
     get:
@@ -208,7 +208,7 @@ paths:
             {"status": "Svarstymas", "category": "Ekonomika"}
             ```
       responses:
-        '200':
+        "200":
           description: List of bills
           content:
             application/json:
@@ -221,7 +221,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Bill'
+                          $ref: "#/components/schemas/Bill"
 
   /api/trpc/bills.byId:
     get:
@@ -237,7 +237,7 @@ paths:
             type: string
           description: 'JSON-encoded bill ID: `{"id": 1}`'
       responses:
-        '200':
+        "200":
           description: Bill details
           content:
             application/json:
@@ -248,7 +248,7 @@ paths:
                     type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/BillWithSummary'
+                        $ref: "#/components/schemas/BillWithSummary"
 
   /api/trpc/votes.byMp:
     get:
@@ -264,7 +264,7 @@ paths:
             type: string
           description: 'JSON-encoded: `{"mpId": 1, "limit": 50}`'
       responses:
-        '200':
+        "200":
           description: Voting records
           content:
             application/json:
@@ -277,7 +277,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Vote'
+                          $ref: "#/components/schemas/Vote"
 
   /api/trpc/committees.list:
     get:
@@ -286,7 +286,7 @@ paths:
       description: Returns all parliamentary committees
       operationId: committeesList
       responses:
-        '200':
+        "200":
           description: List of committees
           content:
             application/json:
@@ -299,7 +299,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Committee'
+                          $ref: "#/components/schemas/Committee"
 
   /api/trpc/dashboard.pulse:
     get:
@@ -308,7 +308,7 @@ paths:
       description: Returns real-time activity statistics for the dashboard
       operationId: dashboardPulse
       responses:
-        '200':
+        "200":
           description: Activity pulse data
           content:
             application/json:
@@ -319,7 +319,7 @@ paths:
                     type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/ActivityPulse'
+                        $ref: "#/components/schemas/ActivityPulse"
 
   /api/trpc/dashboard.globalStats:
     get:
@@ -328,7 +328,7 @@ paths:
       description: Returns aggregated statistics across all MPs
       operationId: dashboardGlobalStats
       responses:
-        '200':
+        "200":
           description: Global statistics
           content:
             application/json:
@@ -339,7 +339,7 @@ paths:
                     type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/GlobalStats'
+                        $ref: "#/components/schemas/GlobalStats"
 
   /api/trpc/quiz.questions:
     get:
@@ -355,7 +355,7 @@ paths:
             type: string
           description: 'JSON-encoded: `{"billId": 1}`'
       responses:
-        '200':
+        "200":
           description: Quiz questions
           content:
             application/json:
@@ -368,7 +368,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/QuizQuestion'
+                          $ref: "#/components/schemas/QuizQuestion"
 
 components:
   schemas:
@@ -465,27 +465,27 @@ components:
 
     MPWithStats:
       allOf:
-        - $ref: '#/components/schemas/MP'
+        - $ref: "#/components/schemas/MP"
         - type: object
           properties:
             stats:
-              $ref: '#/components/schemas/MPStats'
+              $ref: "#/components/schemas/MPStats"
             assistants:
               type: array
               items:
-                $ref: '#/components/schemas/Assistant'
+                $ref: "#/components/schemas/Assistant"
             trips:
               type: array
               items:
-                $ref: '#/components/schemas/Trip'
+                $ref: "#/components/schemas/Trip"
 
     MPComparison:
       type: object
       properties:
         mp1:
-          $ref: '#/components/schemas/MPWithStats'
+          $ref: "#/components/schemas/MPWithStats"
         mp2:
-          $ref: '#/components/schemas/MPWithStats'
+          $ref: "#/components/schemas/MPWithStats"
         agreementScore:
           type: number
           description: Percentage of identical votes (0-100)
@@ -593,15 +593,15 @@ components:
 
     BillWithSummary:
       allOf:
-        - $ref: '#/components/schemas/Bill'
+        - $ref: "#/components/schemas/Bill"
         - type: object
           properties:
             summary:
-              $ref: '#/components/schemas/BillSummary'
+              $ref: "#/components/schemas/BillSummary"
             sponsors:
               type: array
               items:
-                $ref: '#/components/schemas/MP'
+                $ref: "#/components/schemas/MP"
 
     Vote:
       type: object

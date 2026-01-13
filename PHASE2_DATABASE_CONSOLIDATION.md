@@ -1,6 +1,7 @@
 # Phase 2: Database Layer Consolidation - Implementation Summary
 
 ## Overview
+
 This document summarizes the database consolidation work completed in Phase 2. All database queries have been migrated from the simple `server/db.ts` implementation to the pooled `server/services/database.ts` implementation, eliminating duplicate code and fixing critical N+1 query performance issues.
 
 ## Changes Made
@@ -8,11 +9,13 @@ This document summarizes the database consolidation work completed in Phase 2. A
 ### 1. Database Connection Consolidation
 
 **Deleted:** `server/db.ts` (1,107 lines)
+
 - Simple implementation with no connection pooling
 - Silent failures with `console.warn`
 - Returned `null` on database errors
 
 **Consolidated to:** `server/services/database.ts`
+
 - Proper connection pooling (max 20 connections)
 - Prepared statements enabled
 - Graceful error handling with proper logging
@@ -21,6 +24,7 @@ This document summarizes the database consolidation work completed in Phase 2. A
 ### 2. Import Updates
 
 **Files Updated:**
+
 - ✅ `server/routers.ts` - Changed `import * as db from "./db"` → `import * as db from "./services/database"`
 - ✅ `server/routers/dashboard.ts` - Updated imports and error handling
 - ✅ `server/_core/oauth.ts` - Updated import
@@ -31,7 +35,9 @@ This document summarizes the database consolidation work completed in Phase 2. A
 ### 3. N+1 Query Fixes
 
 #### getWatchlist() - FIXED
+
 **Before (N+1 Problem):**
+
 ```typescript
 // Query 1: Get follows
 const follows = await db.select(...).from(userFollows).where(...);
@@ -47,6 +53,7 @@ return follows.map(follow => { ... });
 ```
 
 **After (Single JOIN Query):**
+
 ```typescript
 // SINGLE QUERY with JOIN - eliminates N+1 problem
 const results = await db
@@ -57,10 +64,7 @@ const results = await db
   .from(userFollows)
   .innerJoin(mps, eq(userFollows.mpId, mps.id))
   .where(
-    and(
-      eq(userFollows.userId, userId),
-      sql`${userFollows.mpId} IS NOT NULL`
-    )
+    and(eq(userFollows.userId, userId), sql`${userFollows.mpId} IS NOT NULL`)
   )
   .orderBy(desc(userFollows.createdAt));
 
@@ -71,19 +75,23 @@ return results.map(row => ({
 ```
 
 **Performance Impact:**
+
 - Before: 2-3 queries (1 for follows, 1 for MPs, plus mapping)
 - After: 1 query with JOIN
 - **Reduction:** ~66% fewer database round trips
 
 #### MP Profile Page - FIXED
+
 **Before (Sequential Queries):**
+
 ```typescript
 const mp = await db.getMpById(input.id);
-const assistants = await db.getAssistantsByMpId(input.id);  // Waits for mp
-const trips = await db.getTripsByMpId(input.id);            // Waits for assistants
+const assistants = await db.getAssistantsByMpId(input.id); // Waits for mp
+const trips = await db.getTripsByMpId(input.id); // Waits for assistants
 ```
 
 **After (Parallel Queries):**
+
 ```typescript
 // OPTIMIZED: Fetch MP, assistants, and trips in parallel
 const [mp, assistants, trips] = await Promise.all([
@@ -94,26 +102,32 @@ const [mp, assistants, trips] = await Promise.all([
 ```
 
 **Performance Impact:**
+
 - Before: Sequential execution (~300ms total if each takes 100ms)
 - After: Parallel execution (~100ms total)
 - **Reduction:** ~66% faster response time
 
 #### getMpComparison() - OPTIMIZED
+
 **Before:**
+
 - Sequential calls to `getMpById()` and `getMpStats()`
 
 **After:**
+
 - Parallel execution using `Promise.all()` for MP data and stats
 - Parallel execution for vote queries
 
 ### 4. Error Handling Standardization
 
 **Before:**
+
 - Functions returned `null` or `undefined` on database errors
 - Silent failures with `console.warn`
 - Inconsistent error handling patterns
 
 **After:**
+
 - `getDb()` throws error if `DATABASE_URL` is missing (no silent failures)
 - Functions that can't find data return `undefined` (appropriate for "not found")
 - Routers handle `undefined` returns and throw `TRPCError` with proper codes
@@ -121,6 +135,7 @@ const [mp, assistants, trips] = await Promise.all([
 - Critical errors in routers throw `TRPCError` instead of returning empty data
 
 **Example Improvements:**
+
 - `dashboard.getRecentActivity` now throws `TRPCError` instead of returning empty array on failure
 - `upsertUser` throws `TRPCError` with `BAD_REQUEST` code for validation errors
 - `getMpComparison` throws `TRPCError` with `NOT_FOUND` code if MPs don't exist
@@ -130,10 +145,12 @@ const [mp, assistants, trips] = await Promise.all([
 All 45+ query functions migrated from `server/db.ts` to `server/services/database.ts`:
 
 **User Queries:**
+
 - `upsertUser()`
 - `getUserByOpenId()`
 
 **MP Queries:**
+
 - `getAllMps()`
 - `getMpById()`
 - `getAssistantsByMpId()`
@@ -143,12 +160,14 @@ All 45+ query functions migrated from `server/db.ts` to `server/services/databas
 - `globalSearch()`
 
 **Statistics:**
+
 - `getMpStats()`
 - `getGlobalStats()`
 - `upsertMpStats()`
 - `getActivityPulse()`
 
 **Bills & Votes:**
+
 - `getAllBills()`
 - `getBillById()`
 - `getVotesByMpId()`
@@ -158,25 +177,30 @@ All 45+ query functions migrated from `server/db.ts` to `server/services/databas
 - `createBillSummary()`
 
 **Analytics:**
+
 - `getParliamentPulse()`
 
 **Quiz:**
+
 - `getAllQuizQuestions()`
 - `getQuizAnswersByMpId()`
 - `saveUserQuizResult()`
 - `getUserQuizResults()`
 
 **Committees:**
+
 - `getAllCommittees()`
 - `getCommitteeById()`
 - `getCommitteeMembers()`
 
 **Accountability:**
+
 - `getFlagsByMpId()`
 - `createAccountabilityFlag()`
 - `resolveAccountabilityFlag()`
 
 **User Follows:**
+
 - `getUserFollows()`
 - `followEntity()`
 - `unfollowEntity()`
@@ -185,15 +209,18 @@ All 45+ query functions migrated from `server/db.ts` to `server/services/databas
 - `toggleFollowMp()`
 
 **Activities:**
+
 - `getRecentActivities()`
 - `getActivityById()`
 - `createActivity()`
 - `markActivitiesAsRead()`
 
 **Comparison:**
+
 - `getMpComparison()` ⚡ **OPTIMIZED**
 
 **Data Management:**
+
 - `getAllTrips()`
 - `getDataFreshness()`
 
@@ -201,11 +228,11 @@ All 45+ query functions migrated from `server/db.ts` to `server/services/databas
 
 ### Query Optimization Summary
 
-| Function | Before | After | Improvement |
-|----------|--------|-------|-------------|
-| `getWatchlist()` | 2-3 queries | 1 JOIN query | ~66% fewer round trips |
-| `mps.byId` | 3 sequential queries | 3 parallel queries | ~66% faster |
-| `getMpComparison()` | Sequential MP/stats calls | Parallel execution | ~50% faster |
+| Function            | Before                    | After              | Improvement            |
+| ------------------- | ------------------------- | ------------------ | ---------------------- |
+| `getWatchlist()`    | 2-3 queries               | 1 JOIN query       | ~66% fewer round trips |
+| `mps.byId`          | 3 sequential queries      | 3 parallel queries | ~66% faster            |
+| `getMpComparison()` | Sequential MP/stats calls | Parallel execution | ~50% faster            |
 
 ### Connection Pool Benefits
 
@@ -236,6 +263,7 @@ All 45+ query functions migrated from `server/db.ts` to `server/services/databas
 ## Files Modified
 
 ### Backend
+
 - ✅ `server/services/database.ts` - Added all query functions, fixed N+1 queries
 - ✅ `server/routers.ts` - Updated import, optimized MP profile query
 - ✅ `server/routers/dashboard.ts` - Updated import, improved error handling
@@ -245,6 +273,7 @@ All 45+ query functions migrated from `server/db.ts` to `server/services/databas
 - ✅ `server/__tests__/db.unit.test.ts` - Updated import
 
 ### Deleted
+
 - ❌ `server/db.ts` - **DELETED** (1,107 lines removed)
 
 ## Verification

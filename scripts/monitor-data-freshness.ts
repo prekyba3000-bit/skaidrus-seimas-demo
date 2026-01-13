@@ -13,6 +13,26 @@ if (!process.env.DATABASE_URL) {
 const client = postgres(process.env.DATABASE_URL);
 const db = drizzle(client, { schema });
 
+async function sendAlert(status: Record<string, any>) {
+  const webhook = process.env.ALERT_WEBHOOK_URL;
+  if (!webhook) return;
+
+  try {
+    await fetch(webhook, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        text: "🚨 Data freshness alert",
+        status,
+        timestamp: new Date().toISOString(),
+      }),
+    });
+    console.log("[Monitor] Alert sent to webhook");
+  } catch (err) {
+    console.error("[Monitor] Failed to send alert:", err);
+  }
+}
+
 async function checkFreshness() {
   console.log("[Monitor] Checking data freshness...");
 
@@ -58,6 +78,7 @@ async function checkFreshness() {
 
     if (isStale) {
       console.warn("\n[Monitor] ⚠️  Some data is stale!");
+      await sendAlert(status);
       process.exitCode = 1;
     } else {
       console.log("\n[Monitor] ✅ All data is fresh.");

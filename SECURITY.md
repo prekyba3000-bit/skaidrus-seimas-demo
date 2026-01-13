@@ -13,7 +13,7 @@
 
 ### How to Report
 
-1. **Email**: Send details to security@example.com
+1. **Email**: Send details to security@skaidrus-seimas.lt
 2. **Include**:
    - Type of issue (injection, authentication bypass, etc.)
    - Full paths of affected source files
@@ -35,6 +35,16 @@ We consider security research activities conducted consistent with this policy t
 - Authorized in accordance with any applicable anti-hacking laws
 - Not a violation of terms of service
 - Exempt from restrictions in our acceptable use policies
+
+## 🔐 Encryption & Secure Reporting
+
+For sensitive vulnerability reports, please encrypt your message using our PGP key found at [pgp-key.txt](/pgp-key.txt).
+
+PGP Fingerprint (placeholder):
+
+```
+XXXX XXXX XXXX XXXX XXXX  XXXX XXXX XXXX XXXX XXXX
+```
 
 ## Security Measures
 

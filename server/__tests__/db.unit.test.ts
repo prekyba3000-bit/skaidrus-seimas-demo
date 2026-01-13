@@ -141,7 +141,9 @@ describe("Database Functions", () => {
     it("handles database errors gracefully", async () => {
       // getDb now throws if DATABASE_URL is missing, but functions should handle it
       // Since we're mocking getDb, we can test the error path
-      vi.mocked(db.getDb).mockRejectedValue(new Error("Database connection failed"));
+      vi.mocked(db.getDb).mockRejectedValue(
+        new Error("Database connection failed")
+      );
 
       // The function should handle the error (either throw or return empty)
       // Based on current implementation, it will throw

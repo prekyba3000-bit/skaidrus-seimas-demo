@@ -15,7 +15,7 @@ interface State {
 
 /**
  * Global Error Boundary Component
- * 
+ *
  * Catches React render errors and displays a friendly error UI.
  * Automatically reports errors to Sentry if configured.
  */
@@ -77,8 +77,8 @@ class ErrorBoundary extends Component<Props, State> {
             {/* Error Message */}
             <div className="text-sm text-slate-300 mb-4">
               <p className="mb-2">
-                We're sorry, but something unexpected happened. Our team has been
-                notified and is looking into it.
+                We're sorry, but something unexpected happened. Our team has
+                been notified and is looking into it.
               </p>
               {error && (
                 <div className="mt-3 p-3 bg-slate-950/50 rounded border border-slate-800">

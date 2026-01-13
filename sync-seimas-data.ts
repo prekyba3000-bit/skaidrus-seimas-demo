@@ -31,11 +31,15 @@ async function syncMps() {
     const result = parser.parse(response.data);
 
     // The structure usually looks like SeimoInformacija -> SeimoKadencija -> SeimoNarys
-    let seimoNariai = result.SeimoInformacija?.SeimoKadencija?.SeimoNarys || 
-                      result.SeimoNariai?.SeimoNarys;
+    let seimoNariai =
+      result.SeimoInformacija?.SeimoKadencija?.SeimoNarys ||
+      result.SeimoNariai?.SeimoNarys;
 
     if (!seimoNariai) {
-      console.error("Unexpected API response structure:", JSON.stringify(result).substring(0, 500));
+      console.error(
+        "Unexpected API response structure:",
+        JSON.stringify(result).substring(0, 500)
+      );
       return;
     }
 
@@ -52,11 +56,12 @@ async function syncMps() {
       const vardas = sn["@_vardas"] || "";
       const pavarde = sn["@_pavardė"] || sn["@_pavarde"] || "";
       const name = `${vardas} ${pavarde}`.trim();
-      const party = sn["@_iškėlusi_partija"] || sn.iskeltas_partijos || "Išsikėlęs pats";
+      const party =
+        sn["@_iškėlusi_partija"] || sn.iskeltas_partijos || "Išsikėlęs pats";
       const faction = sn.frakcija || "Be frakcijos";
-      const district = sn.apygarda || sn["@_išrinkimo_būdas"] || "Daugiamandatė";
+      const district =
+        sn.apygarda || sn["@_išrinkimo_būdas"] || "Daugiamandatė";
       const districtNumber = sn.apygardos_nr ? parseInt(sn.apygardos_nr) : null;
-
 
       const normalizeName = (str: string) => {
         return str
@@ -74,7 +79,7 @@ async function syncMps() {
 
       const photoUrl = `https://www.lrs.lt/SIPIS/sn_foto/2024/${normalizeName(name)}.jpg`;
       const termsCount = sn["@_kadencijų_skaičius"] || "1";
-      const biography = sn["@_biografijos_nuoroda"] 
+      const biography = sn["@_biografijos_nuoroda"]
         ? `Lietuvos Respublikos Seimo narys. Kadencijų skaičius: ${termsCount}. Biografija: ${sn["@_biografijos_nuoroda"]}`
         : `Lietuvos Respublikos Seimo narys. Kadencijų skaičius: ${termsCount}.`;
 

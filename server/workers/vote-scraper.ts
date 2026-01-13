@@ -17,6 +17,7 @@ import { validateSessionVote } from "../schemas/session-votes.schema";
 import { ZodError } from "zod";
 import dotenv from "dotenv";
 import { ScrapeVotesJobData } from "../lib/queue";
+import * as Sentry from "@sentry/node";
 
 dotenv.config();
 
@@ -396,6 +397,25 @@ export function startVoteScraperWorker(): Worker {
 
   worker.on("failed", (job, err) => {
     logger.error({ jobId: job?.id, err }, "[Worker:Votes] Job failed");
+
+    // Send to Sentry as DLQ alert if job exhausted all retries
+    if (job && job.attemptsMade >= 5) {
+      Sentry.captureException(
+        new Error(`[DLQ] Votes scrape job exhausted retries: ${job.name}`),
+        {
+          extra: {
+            jobId: job.id,
+            data: job.data,
+            attempts: job.attemptsMade,
+            error: err instanceof Error ? err.message : String(err),
+          },
+        }
+      );
+      logger.error(
+        { jobId: job.id, attempts: job.attemptsMade },
+        "[DLQ] Job moved to dead letter - manual intervention required"
+      );
+    }
   });
 
   worker.on("error", err => {

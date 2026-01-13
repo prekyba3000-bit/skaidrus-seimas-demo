@@ -39,6 +39,7 @@ class CacheService {
     BILL_DETAIL: 600, // 10 minutes
     DASHBOARD_PULSE: 60, // 1 minute - real-time feel
     COMMITTEES: 3600, // 1 hour - changes very rarely
+    ACTIVITIES_FEED: 300, // 5 minutes - users don't need sub-second updates
   } as const;
 
   async connect(): Promise<void> {
@@ -240,6 +241,8 @@ class CacheService {
     billById: (id: number) => `bills:${id}`,
     dashboardPulse: () => "dashboard:pulse",
     committees: () => "committees:list",
+    activitiesFeed: (limit: number, cursor?: number) =>
+      `activities:feed:${limit}:${cursor || 0}`,
   };
 }
 

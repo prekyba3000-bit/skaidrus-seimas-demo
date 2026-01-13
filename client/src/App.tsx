@@ -30,7 +30,9 @@ const PageLoader = () => (
       <div className="relative flex items-center justify-center size-12 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-emerald-700 shadow-lg shadow-black/40">
         <Loader2 className="text-primary text-3xl drop-shadow-[0_0_8px_rgba(245,159,10,0.6)] animate-spin" />
       </div>
-      <p className="text-emerald-400/70 text-sm font-medium animate-pulse">Kraunama...</p>
+      <p className="text-emerald-400/70 text-sm font-medium animate-pulse">
+        Kraunama...
+      </p>
     </div>
   </div>
 );
@@ -80,7 +82,7 @@ function App() {
         <ErrorBoundary>
           <ThemeProvider
             defaultTheme="dark"
-          // switchable
+            // switchable
           >
             <TooltipProvider>
               <Toaster />

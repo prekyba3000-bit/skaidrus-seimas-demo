@@ -6,7 +6,14 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { MPSelector } from "@/components/MPSelector";
-import { ArrowLeftRight, Trophy, Vote, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import {
+  ArrowLeftRight,
+  Trophy,
+  Vote,
+  FileText,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { getPartyColors } from "@/lib/constants";
 
 export default function MpCompare() {
@@ -19,7 +26,10 @@ export default function MpCompare() {
     const params = new URLSearchParams(window.location.search);
     const idsParam = params.get("ids");
     if (idsParam) {
-      const ids = idsParam.split(",").map(id => parseInt(id.trim())).filter(id => !isNaN(id));
+      const ids = idsParam
+        .split(",")
+        .map(id => parseInt(id.trim()))
+        .filter(id => !isNaN(id));
       if (ids.length >= 1) setMp1Id(ids[0]);
       if (ids.length >= 2) setMp2Id(ids[1]);
     }
@@ -87,10 +97,13 @@ export default function MpCompare() {
               <CardContent className="p-6 flex items-center gap-4">
                 <AlertCircle className="w-6 h-6 text-amber-400" />
                 <div>
-                  <h3 className="text-white font-bold mb-1">Nėra bendrų balsavimų</h3>
+                  <h3 className="text-white font-bold mb-1">
+                    Nėra bendrų balsavimų
+                  </h3>
                   <p className="text-[#92adc9] text-sm">
-                    Šie nariai nėra balsavę dėl tų pačių įstatymų projektų. 
-                    Tai gali reikšti, kad jie nebuvo parlamente tuo pačiu metu arba balsavo dėl skirtingų klausimų.
+                    Šie nariai nėra balsavę dėl tų pačių įstatymų projektų. Tai
+                    gali reikšti, kad jie nebuvo parlamente tuo pačiu metu arba
+                    balsavo dėl skirtingų klausimų.
                   </p>
                 </div>
               </CardContent>
@@ -100,17 +113,27 @@ export default function MpCompare() {
           {/* Profile Cards with VS Badge */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* MP 1 Profile */}
-            <Link href={`/mp/${comparison.mp1.id}`} className="flex-1 w-full relative group">
+            <Link
+              href={`/mp/${comparison.mp1.id}`}
+              className="flex-1 w-full relative group"
+            >
               <div className="absolute inset-0 bg-primary/10 rounded-xl blur-lg group-hover:bg-primary/20 transition-all"></div>
               <Card className="relative bg-surface-dark border-surface-border hover:border-primary/50 transition-colors">
                 <CardContent className="p-6 flex flex-col items-center text-center">
                   <Avatar className="w-24 h-24 border-2 border-primary mb-4">
-                    <AvatarImage src={comparison.mp1.photoUrl || undefined} className="object-cover"/>
+                    <AvatarImage
+                      src={comparison.mp1.photoUrl || undefined}
+                      className="object-cover"
+                    />
                     <AvatarFallback>{comparison.mp1.name[0]}</AvatarFallback>
                   </Avatar>
-                  <h3 className="text-xl font-bold text-white">{comparison.mp1.name}</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    {comparison.mp1.name}
+                  </h3>
                   {comparison.mp1.party && (
-                    <span className={`text-xs px-2 py-1 rounded mt-2 ${partyColors1?.bg} ${partyColors1?.text} ${partyColors1?.border} border`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded mt-2 ${partyColors1?.bg} ${partyColors1?.text} ${partyColors1?.border} border`}
+                    >
                       {comparison.mp1.party}
                     </span>
                   )}
@@ -124,17 +147,27 @@ export default function MpCompare() {
             </div>
 
             {/* MP 2 Profile */}
-            <Link href={`/mp/${comparison.mp2.id}`} className="flex-1 w-full relative group">
+            <Link
+              href={`/mp/${comparison.mp2.id}`}
+              className="flex-1 w-full relative group"
+            >
               <div className="absolute inset-0 bg-blue-500/10 rounded-xl blur-lg group-hover:bg-blue-500/20 transition-all"></div>
               <Card className="relative bg-surface-dark border-surface-border hover:border-blue-500/50 transition-colors">
                 <CardContent className="p-6 flex flex-col items-center text-center">
                   <Avatar className="w-24 h-24 border-2 border-blue-500 mb-4">
-                    <AvatarImage src={comparison.mp2.photoUrl || undefined} className="object-cover"/>
+                    <AvatarImage
+                      src={comparison.mp2.photoUrl || undefined}
+                      className="object-cover"
+                    />
                     <AvatarFallback>{comparison.mp2.name[0]}</AvatarFallback>
                   </Avatar>
-                  <h3 className="text-xl font-bold text-white">{comparison.mp2.name}</h3>
+                  <h3 className="text-xl font-bold text-white">
+                    {comparison.mp2.name}
+                  </h3>
                   {comparison.mp2.party && (
-                    <span className={`text-xs px-2 py-1 rounded mt-2 ${partyColors2?.bg} ${partyColors2?.text} ${partyColors2?.border} border`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded mt-2 ${partyColors2?.bg} ${partyColors2?.text} ${partyColors2?.border} border`}
+                    >
                       {comparison.mp2.party}
                     </span>
                   )}
@@ -148,14 +181,24 @@ export default function MpCompare() {
             <Card className="bg-surface-dark border-surface-border overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-blue-500"></div>
               <CardContent className="p-8 text-center">
-                <h2 className="text-sm uppercase tracking-widest text-[#92adc9] mb-2">Balsavimo Sutikimas</h2>
+                <h2 className="text-sm uppercase tracking-widest text-[#92adc9] mb-2">
+                  Balsavimo Sutikimas
+                </h2>
                 <div className="relative inline-flex items-center justify-center">
                   <span className="text-6xl font-black text-white tracking-tighter">
                     {comparison.agreementScore.toFixed(0)}%
                   </span>
                 </div>
                 <p className="text-sm text-[#92adc9] mt-2">
-                  Jie balsavo vienodai <span className="text-white font-bold">{comparison.commonVotes - comparison.disagreements.length}</span> iš <span className="text-white font-bold">{comparison.commonVotes}</span> bendrų balsavimų.
+                  Jie balsavo vienodai{" "}
+                  <span className="text-white font-bold">
+                    {comparison.commonVotes - comparison.disagreements.length}
+                  </span>{" "}
+                  iš{" "}
+                  <span className="text-white font-bold">
+                    {comparison.commonVotes}
+                  </span>{" "}
+                  bendrų balsavimų.
                 </p>
               </CardContent>
             </Card>
@@ -170,7 +213,7 @@ export default function MpCompare() {
                   Pagrindiniai Nesutarimai
                 </h3>
                 <div className="space-y-3">
-                  {comparison.disagreements.map((disagreement) => (
+                  {comparison.disagreements.map(disagreement => (
                     <Link
                       key={disagreement.billId}
                       href={`/bills/${disagreement.billId}`}
@@ -178,20 +221,30 @@ export default function MpCompare() {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
-                          <h4 className="text-white font-medium mb-2 truncate">{disagreement.billTitle}</h4>
+                          <h4 className="text-white font-medium mb-2 truncate">
+                            {disagreement.billTitle}
+                          </h4>
                           <div className="flex items-center gap-4 text-sm">
                             <span className="text-[#92adc9]">
-                              {comparison.mp1.name}: <span className="text-white font-bold">{formatVote(disagreement.mp1Vote)}</span>
+                              {comparison.mp1.name}:{" "}
+                              <span className="text-white font-bold">
+                                {formatVote(disagreement.mp1Vote)}
+                              </span>
                             </span>
                             <span className="text-[#92adc9]">vs</span>
                             <span className="text-[#92adc9]">
-                              {comparison.mp2.name}: <span className="text-white font-bold">{formatVote(disagreement.mp2Vote)}</span>
+                              {comparison.mp2.name}:{" "}
+                              <span className="text-white font-bold">
+                                {formatVote(disagreement.mp2Vote)}
+                              </span>
                             </span>
                           </div>
                         </div>
                         {disagreement.votedAt && (
                           <span className="text-xs text-[#92adc9] whitespace-nowrap">
-                            {new Date(disagreement.votedAt).toLocaleDateString("lt-LT")}
+                            {new Date(disagreement.votedAt).toLocaleDateString(
+                              "lt-LT"
+                            )}
                           </span>
                         )}
                       </div>
@@ -204,31 +257,31 @@ export default function MpCompare() {
 
           {/* Stat Comparison Table */}
           <div className="grid gap-4">
-            <ComparisonRow 
-              label="Atskaitomybės balas" 
+            <ComparisonRow
+              label="Atskaitomybės balas"
               icon={<Trophy className="w-4 h-4 text-yellow-500" />}
-              val1={comparison.mp1.stats?.accountabilityScore} 
+              val1={comparison.mp1.stats?.accountabilityScore}
               val2={comparison.mp2.stats?.accountabilityScore}
               suffix=""
             />
-            <ComparisonRow 
-              label="Balsavimo lankomumas" 
+            <ComparisonRow
+              label="Balsavimo lankomumas"
               icon={<Vote className="w-4 h-4 text-green-500" />}
-              val1={comparison.mp1.stats?.votingAttendance} 
+              val1={comparison.mp1.stats?.votingAttendance}
               val2={comparison.mp2.stats?.votingAttendance}
               suffix="%"
             />
-            <ComparisonRow 
-              label="Partijos lojalumas" 
+            <ComparisonRow
+              label="Partijos lojalumas"
               icon={<CheckCircle2 className="w-4 h-4 text-blue-500" />}
-              val1={comparison.mp1.stats?.partyLoyalty} 
+              val1={comparison.mp1.stats?.partyLoyalty}
               val2={comparison.mp2.stats?.partyLoyalty}
               suffix="%"
             />
-            <ComparisonRow 
-              label="Pateikta projektų" 
+            <ComparisonRow
+              label="Pateikta projektų"
               icon={<FileText className="w-4 h-4 text-purple-500" />}
-              val1={comparison.mp1.stats?.billsProposed} 
+              val1={comparison.mp1.stats?.billsProposed}
               val2={comparison.mp2.stats?.billsProposed}
               suffix=""
             />
@@ -240,18 +293,34 @@ export default function MpCompare() {
       {(!mp1Id || !mp2Id) && !isLoading && (
         <div className="text-center py-20 opacity-50">
           <ArrowLeftRight className="w-16 h-16 mx-auto mb-4 text-[#92adc9]" />
-          <h3 className="text-xl font-bold text-white">Pasirinkite narius palyginti</h3>
-          <p className="text-[#92adc9]">Pasirinkite du Seimo narius, kad pamatytumėte, kaip jie sutinka.</p>
+          <h3 className="text-xl font-bold text-white">
+            Pasirinkite narius palyginti
+          </h3>
+          <p className="text-[#92adc9]">
+            Pasirinkite du Seimo narius, kad pamatytumėte, kaip jie sutinka.
+          </p>
         </div>
       )}
     </DashboardLayout>
   );
 }
 
-function ComparisonRow({ label, icon, val1, val2, suffix }: { label: string, icon: any, val1: any, val2: any, suffix: string }) {
+function ComparisonRow({
+  label,
+  icon,
+  val1,
+  val2,
+  suffix,
+}: {
+  label: string;
+  icon: any;
+  val1: any;
+  val2: any;
+  suffix: string;
+}) {
   const v1 = parseFloat(val1 || "0");
   const v2 = parseFloat(val2 || "0");
-  
+
   // Determine winner color
   const win1 = v1 > v2;
   const win2 = v2 > v1;
@@ -260,30 +329,42 @@ function ComparisonRow({ label, icon, val1, val2, suffix }: { label: string, ico
     <Card className="bg-surface-dark border-surface-border overflow-hidden">
       <CardContent className="p-4 grid grid-cols-[1fr_auto_1fr] md:grid-cols-[1fr_150px_1fr] items-center gap-4 relative z-10">
         {/* Left Value */}
-        <div className={`text-right ${win1 ? "text-primary font-bold" : "text-white"}`}>
-          <span className="text-xl">{Number.isInteger(v1) ? v1 : v1.toFixed(1)}{suffix}</span>
+        <div
+          className={`text-right ${win1 ? "text-primary font-bold" : "text-white"}`}
+        >
+          <span className="text-xl">
+            {Number.isInteger(v1) ? v1 : v1.toFixed(1)}
+            {suffix}
+          </span>
         </div>
 
         {/* Center Label */}
         <div className="flex flex-col items-center justify-center text-center px-2">
           <div className="mb-1 opacity-80">{icon}</div>
-          <span className="text-xs text-[#92adc9] uppercase font-medium">{label}</span>
+          <span className="text-xs text-[#92adc9] uppercase font-medium">
+            {label}
+          </span>
         </div>
 
         {/* Right Value */}
-        <div className={`text-left ${win2 ? "text-blue-500 font-bold" : "text-white"}`}>
-          <span className="text-xl">{Number.isInteger(v2) ? v2 : v2.toFixed(1)}{suffix}</span>
+        <div
+          className={`text-left ${win2 ? "text-blue-500 font-bold" : "text-white"}`}
+        >
+          <span className="text-xl">
+            {Number.isInteger(v2) ? v2 : v2.toFixed(1)}
+            {suffix}
+          </span>
         </div>
       </CardContent>
       {/* Visual Bar at bottom */}
       <div className="h-1 w-full bg-[#1A2633] flex">
-        <div 
-          className="h-full bg-primary transition-all duration-500" 
+        <div
+          className="h-full bg-primary transition-all duration-500"
           // eslint-disable-next-line
           style={{ flex: v1 }}
         ></div>
-        <div 
-          className="h-full bg-blue-500 transition-all duration-500" 
+        <div
+          className="h-full bg-blue-500 transition-all duration-500"
           // eslint-disable-next-line
           style={{ flex: v2 }}
         ></div>

@@ -145,10 +145,12 @@ npm run build
 ```
 
 This will:
+
 - Build the React frontend (Vite) → `dist/` directory
 - Bundle the Express server (esbuild) → `dist/index.js`
 
 **Expected Output:**
+
 ```
 ✓ built in 8.42s
   dist/index.js  102.0kb
@@ -161,6 +163,7 @@ tsx scripts/verify-build.ts
 ```
 
 This script:
+
 - Checks that build artifacts exist
 - Attempts to start the built server
 - Verifies database connectivity
@@ -195,11 +198,13 @@ npm run db:push
 ```
 
 This will:
+
 - Generate migration files from `drizzle/schema.ts`
 - Apply migrations to the database
 - Create all tables, indexes, and constraints
 
 **Verify:**
+
 ```bash
 psql -U seimas -d seimas -c "\dt"
 # Should show: mps, bills, votes, session_votes, users, etc.
@@ -257,7 +262,7 @@ docker run -d \
 ### Docker Compose Example
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -339,24 +344,27 @@ pm2 startup
 ```
 
 **PM2 Ecosystem File (`ecosystem.config.js`):**
+
 ```javascript
 module.exports = {
-  apps: [{
-    name: 'skaidrus-seimas',
-    script: 'dist/index.js',
-    instances: 2,
-    exec_mode: 'cluster',
-    env: {
-      NODE_ENV: 'production',
-      PORT: 3000,
+  apps: [
+    {
+      name: "skaidrus-seimas",
+      script: "dist/index.js",
+      instances: 2,
+      exec_mode: "cluster",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3000,
+      },
+      error_file: "./logs/pm2-error.log",
+      out_file: "./logs/pm2-out.log",
+      log_date_format: "YYYY-MM-DD HH:mm:ss Z",
+      merge_logs: true,
+      autorestart: true,
+      max_memory_restart: "1G",
     },
-    error_file: './logs/pm2-error.log',
-    out_file: './logs/pm2-out.log',
-    log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-    merge_logs: true,
-    autorestart: true,
-    max_memory_restart: '1G',
-  }],
+  ],
 };
 ```
 
@@ -394,6 +402,7 @@ curl http://localhost:3000/health
 ```
 
 **Response:**
+
 ```json
 {
   "status": "ok",
@@ -408,6 +417,7 @@ curl http://localhost:3000/health/ready
 ```
 
 **Response (Healthy):**
+
 ```json
 {
   "status": "ready",
@@ -426,6 +436,7 @@ curl http://localhost:3000/health/ready
 ```
 
 **Response (Unhealthy):**
+
 ```json
 {
   "status": "not ready",
@@ -438,6 +449,7 @@ curl http://localhost:3000/health/ready
   "timestamp": "2026-01-11T21:00:00.000Z"
 }
 ```
+
 **Status Code:** 503
 
 ---
@@ -450,7 +462,7 @@ curl http://localhost:3000/health/ready
 server {
     listen 80;
     server_name yourdomain.com;
-    
+
     # Redirect HTTP to HTTPS
     return 301 https://$server_name$request_uri;
 }
@@ -482,7 +494,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
-        
+
         # Timeouts
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;
@@ -532,6 +544,7 @@ server {
 ### Sentry Integration
 
 If `SENTRY_DSN` is configured:
+
 - Backend errors automatically sent to Sentry
 - Frontend errors captured via Error Boundary
 - Request IDs included for correlation
@@ -599,17 +612,20 @@ npm run calc:scores
 ### Server Won't Start
 
 1. **Check Environment Variables:**
+
    ```bash
    echo $DATABASE_URL
    echo $CLIENT_URL
    ```
 
 2. **Check Database Connection:**
+
    ```bash
    psql $DATABASE_URL -c "SELECT 1"
    ```
 
 3. **Check Redis Connection:**
+
    ```bash
    redis-cli -u $REDIS_URL ping
    ```
@@ -643,11 +659,13 @@ npm run calc:scores
 ### Build Failures
 
 1. **TypeScript Errors:**
+
    ```bash
    npm run check  # Type check without building
    ```
 
 2. **Missing Dependencies:**
+
    ```bash
    pnpm install --frozen-lockfile
    ```
@@ -709,18 +727,20 @@ journalctl -u skaidrus-seimas -f
 ### Rolling Update
 
 1. **Build new version:**
+
    ```bash
    npm run build
    ```
 
 2. **Restart server:**
+
    ```bash
    # PM2
    pm2 restart skaidrus-seimas
-   
+
    # Docker
    docker-compose restart api
-   
+
    # Systemd
    systemctl restart skaidrus-seimas
    ```
@@ -733,6 +753,7 @@ journalctl -u skaidrus-seimas -f
 ### Rollback
 
 1. **Revert to previous build:**
+
    ```bash
    git checkout <previous-commit>
    npm run build
@@ -758,6 +779,7 @@ journalctl -u skaidrus-seimas -f
 ## 🆘 Support
 
 For deployment issues:
+
 1. Check logs: `pm2 logs` or `docker logs`
 2. Verify health checks: `curl /health/ready`
 3. Check environment variables: `env | grep -E "DATABASE|REDIS|CLIENT"`

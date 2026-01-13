@@ -1,6 +1,7 @@
 # Phase 5: Performance Optimization - Implementation Summary
 
 ## Overview
+
 This document summarizes the performance optimizations completed in Phase 5. Database indexes, Redis caching, and cursor-based pagination have been implemented to address performance bottlenecks.
 
 ## Changes Made
@@ -12,11 +13,13 @@ This document summarizes the performance optimizations completed in Phase 5. Dat
 **Indexes Added:**
 
 #### MPs Table:
+
 - `mps_is_active_party_idx` - Composite index on `isActive` + `party` (common filter)
 - `mps_party_idx` - Index on `party` (filtering)
 - `mps_name_idx` - Index on `name` (text search)
 
 #### Bills Table:
+
 - `bills_status_created_at_idx` - Composite index on `status` + `createdAt` (pagination + filtering)
 - `bills_status_idx` - Index on `status` (filtering)
 - `bills_category_idx` - Index on `category` (filtering)
@@ -24,6 +27,7 @@ This document summarizes the performance optimizations completed in Phase 5. Dat
 - `bills_title_idx` - Index on `title` (text search)
 
 #### Votes Table:
+
 - `votes_mp_id_voted_at_idx` - Composite index on `mpId` + `votedAt` (MP voting history with pagination)
 - `votes_bill_id_voted_at_idx` - Composite index on `billId` + `votedAt` (bill votes with pagination)
 - `votes_mp_id_idx` - Index on `mpId` (filtering)
@@ -31,20 +35,29 @@ This document summarizes the performance optimizations completed in Phase 5. Dat
 - `votes_voted_at_idx` - Index on `votedAt` (Parliament Pulse date filtering)
 
 **GIN Indexes (via SQL script):**
+
 - `mps_name_gin_idx` - GIN index with trigram for fast ILIKE queries on MP names
 - `bills_title_gin_idx` - GIN index with trigram for fast ILIKE queries on bill titles
 
 **Note:** GIN indexes require the `pg_trgm` extension. See `scripts/add-gin-indexes.sql`.
 
 **Code:**
+
 ```typescript
-export const mps = pgTable("mps", {
-  // ... columns
-}, (table) => ({
-  isActivePartyIdx: index("mps_is_active_party_idx").on(table.isActive, table.party),
-  partyIdx: index("mps_party_idx").on(table.party),
-  nameIdx: index("mps_name_idx").on(table.name),
-}));
+export const mps = pgTable(
+  "mps",
+  {
+    // ... columns
+  },
+  table => ({
+    isActivePartyIdx: index("mps_is_active_party_idx").on(
+      table.isActive,
+      table.party
+    ),
+    partyIdx: index("mps_party_idx").on(table.party),
+    nameIdx: index("mps_name_idx").on(table.name),
+  })
+);
 ```
 
 ### 2. Redis Caching (Parliament Pulse)
@@ -52,6 +65,7 @@ export const mps = pgTable("mps", {
 **File:** `server/services/database.ts`
 
 **Implementation:**
+
 - Wrapped `getParliamentPulse()` with Redis caching
 - Cache key: `"parliament_pulse"`
 - TTL: 3600 seconds (1 hour)
@@ -59,6 +73,7 @@ export const mps = pgTable("mps", {
 - Graceful fallback: If Redis fails, calculates live data
 
 **Code:**
+
 ```typescript
 export async function getParliamentPulse() {
   const db = await getDb();
@@ -80,13 +95,17 @@ export async function getParliamentPulse() {
     return cached;
   } catch (error) {
     // Graceful fallback if Redis is down
-    logger.warn({ err: error }, "Cache error for parliament pulse, calculating live");
+    logger.warn(
+      { err: error },
+      "Cache error for parliament pulse, calculating live"
+    );
     return await calculateParliamentPulseData(db);
   }
 }
 ```
 
 **Benefits:**
+
 - Parliament Pulse data cached for 1 hour
 - Stale-while-revalidate pattern: serves stale data while refreshing in background
 - No performance impact if Redis is unavailable (falls back to live calculation)
@@ -94,6 +113,7 @@ export async function getParliamentPulse() {
 ### 3. Cursor-Based Pagination
 
 **Files Modified:**
+
 - `server/services/database.ts` - Updated `getVotesByMpId()` and `getAllBills()`
 - `server/routers.ts` - Updated `votes.byMp` and `bills.list` procedures
 
@@ -102,12 +122,14 @@ export async function getParliamentPulse() {
 **Function:** `getVotesByMpId()`
 
 **Changes:**
+
 - Added optional `cursor` parameter (vote ID)
 - Added optional `limit` parameter (default: 50, max: 100)
 - Returns `{ items, nextCursor, hasMore }` when pagination params provided
 - Backward compatible: returns items array when no pagination params
 
 **Code:**
+
 ```typescript
 export async function getVotesByMpId(
   mpId: number,
@@ -146,12 +168,14 @@ export async function getVotesByMpId(
 **Function:** `getAllBills()`
 
 **Changes:**
+
 - Added optional `cursor` parameter (bill ID)
 - Added optional `limit` parameter (default: 20, max: 100)
 - Returns `{ items, nextCursor, hasMore }` when pagination params provided
 - Backward compatible: returns items array when no pagination params
 
 **Code:**
+
 ```typescript
 export async function getAllBills(
   filters?: { status?: string; category?: string },
@@ -187,26 +211,28 @@ export async function getAllBills(
 #### Router Updates
 
 **Backward Compatibility:**
+
 - If no `cursor` or `limit` provided, returns items array (existing behavior)
 - If `cursor` or `limit` provided, returns pagination object with `items`, `nextCursor`, `hasMore`
 
 **Example Usage:**
+
 ```typescript
 // Old way (still works)
 const allBills = await trpc.bills.list.query({ status: "active" });
 // Returns: Bill[]
 
 // New way (with pagination)
-const page1 = await trpc.bills.list.query({ 
-  status: "active", 
-  limit: 20 
+const page1 = await trpc.bills.list.query({
+  status: "active",
+  limit: 20,
 });
 // Returns: { items: Bill[], nextCursor: number, hasMore: boolean }
 
-const page2 = await trpc.bills.list.query({ 
-  status: "active", 
+const page2 = await trpc.bills.list.query({
+  status: "active",
   limit: 20,
-  cursor: page1.nextCursor 
+  cursor: page1.nextCursor,
 });
 ```
 
@@ -249,16 +275,19 @@ SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'votes';
 ## Performance Impact
 
 ### Before Phase 5:
+
 - ❌ Text searches (ILIKE) performed full table scans
 - ❌ Parliament Pulse recalculated on every request (~2-5 seconds)
 - ❌ All votes/bills loaded in memory (potential OOM as data grows)
 
 ### After Phase 5:
+
 - ✅ Text searches use indexes (10-100x faster)
 - ✅ Parliament Pulse cached for 1 hour (instant response)
 - ✅ Cursor pagination limits memory usage (20-50 items per page)
 
 ### Expected Improvements:
+
 - **Text Search:** 10-100x faster (index scan vs full table scan)
 - **Parliament Pulse:** 1000x faster (cached vs calculated)
 - **Memory Usage:** 90% reduction (pagination vs loading all)
@@ -276,6 +305,7 @@ SELECT indexname, indexdef FROM pg_indexes WHERE tablename = 'votes';
 ## Testing
 
 ### Test Indexes:
+
 ```sql
 -- Test MP name search (should use index)
 EXPLAIN ANALYZE SELECT * FROM mps WHERE name ILIKE '%Jonas%';
@@ -288,6 +318,7 @@ EXPLAIN ANALYZE SELECT * FROM votes WHERE mp_id = 1 ORDER BY voted_at DESC LIMIT
 ```
 
 ### Test Caching:
+
 ```bash
 # First request (cache miss - slow)
 time curl http://localhost:3002/api/trpc/pulse.getParliamentPulse
@@ -297,6 +328,7 @@ time curl http://localhost:3002/api/trpc/pulse.getParliamentPulse
 ```
 
 ### Test Pagination:
+
 ```bash
 # First page
 curl "http://localhost:3002/api/trpc/bills.list?input=%7B%22limit%22%3A20%7D"

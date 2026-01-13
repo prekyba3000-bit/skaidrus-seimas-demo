@@ -1,6 +1,7 @@
 # Phase 4: Observability & Error Handling - Implementation Summary
 
 ## Overview
+
 This document summarizes the observability improvements completed in Phase 4. All logs now include request correlation IDs, errors are properly tracked, and the frontend has a robust error boundary.
 
 ## Changes Made
@@ -10,15 +11,17 @@ This document summarizes the observability improvements completed in Phase 4. Al
 **File:** `server/_core/index.ts`
 
 **Middleware Added:**
+
 - Request ID middleware generates UUID for each request if not present in headers
 - Sets `x-request-id` response header for frontend correlation
 - Attaches `requestId` to request object for use in context
 
 **Code:**
+
 ```typescript
 // Request ID middleware - must be early in the chain
 app.use((req, res, next) => {
-  const requestId = req.headers["x-request-id"] as string || randomUUID();
+  const requestId = (req.headers["x-request-id"] as string) || randomUUID();
   (req as any).requestId = requestId;
   res.setHeader("x-request-id", requestId);
   next();
@@ -26,6 +29,7 @@ app.use((req, res, next) => {
 ```
 
 **Benefits:**
+
 - Every request has a unique correlation ID
 - Frontend can see request ID in Network tab headers
 - Backend logs can be correlated with frontend errors
@@ -35,11 +39,13 @@ app.use((req, res, next) => {
 **File:** `server/_core/context.ts`
 
 **Changes:**
+
 - Added `requestId` to `TrpcContext` type
 - Added `log` (request-scoped logger) to context
 - Logger automatically includes `requestId` and `userId` (if authenticated)
 
 **Code:**
+
 ```typescript
 export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
@@ -51,6 +57,7 @@ export type TrpcContext = {
 ```
 
 **Benefits:**
+
 - All tRPC procedures have access to request-scoped logger
 - Logger automatically includes correlation context
 - No need to manually pass requestId/userId to each log call
@@ -60,11 +67,13 @@ export type TrpcContext = {
 **File:** `server/utils/logger.ts`
 
 **Enhancements:**
+
 - `createRequestLogger()` now accepts optional `userId` parameter
 - All logs automatically include `requestId` and `userId` (if available)
 - Request logger middleware updated to use requestId from middleware
 
 **Code:**
+
 ```typescript
 export function createRequestLogger(requestId: string, userId?: string) {
   const context: Record<string, string> = { requestId };
@@ -76,6 +85,7 @@ export function createRequestLogger(requestId: string, userId?: string) {
 ```
 
 **Benefits:**
+
 - Consistent log format across all requests
 - Easy filtering by requestId or userId
 - Machine-readable JSON logs in production
@@ -85,39 +95,45 @@ export function createRequestLogger(requestId: string, userId?: string) {
 **File:** `server/_core/index.ts`
 
 **onError Callback:**
+
 - Uses context logger (includes requestId and userId)
 - Logs full error context: path, type, input, stack
 - Sends errors to Sentry with correlation tags
 - Sets user context in Sentry if authenticated
 
 **Code:**
+
 ```typescript
 onError: ({ path, error, type, ctx, input }) => {
   const log = ctx?.log || require("../utils/logger").logger;
   const requestId = ctx?.requestId || "unknown";
   const userId = ctx?.user?.openId || "anonymous";
 
-  log.error({
-    err: error,
-    path,
-    type,
-    requestId,
-    userId,
-    input: input ? JSON.stringify(input) : undefined,
-    code: error.code,
-    message: error.message,
-    stack: error.stack,
-  }, `tRPC error: ${error.message}`);
+  log.error(
+    {
+      err: error,
+      path,
+      type,
+      requestId,
+      userId,
+      input: input ? JSON.stringify(input) : undefined,
+      code: error.code,
+      message: error.message,
+      stack: error.stack,
+    },
+    `tRPC error: ${error.message}`
+  );
 
   // Send to Sentry with correlation tags
   if (process.env.SENTRY_DSN) {
     Sentry.setTag("request_id", requestId);
     captureException(error, { requestId, path, type, userId, input });
   }
-}
+};
 ```
 
 **Benefits:**
+
 - All tRPC errors are logged with full context
 - Errors automatically sent to Sentry for monitoring
 - Request ID correlation for debugging
@@ -127,11 +143,13 @@ onError: ({ path, error, type, ctx, input }) => {
 **File:** `server/services/sentry.ts` (already existed, enhanced)
 
 **Enhancements:**
+
 - `sentryRequestHandler()` sets request ID as Sentry tag
 - Error handler properly configured
 - User context automatically set from tRPC context
 
 **Initialization:**
+
 - Called at server startup in `server/_core/index.ts`
 - Only initializes if `SENTRY_DSN` environment variable is set
 - Gracefully skips if not configured (local dev)
@@ -141,6 +159,7 @@ onError: ({ path, error, type, ctx, input }) => {
 **File:** `client/src/monitoring.ts` (NEW)
 
 **Features:**
+
 - Initializes Sentry for React error tracking
 - Only initializes if `VITE_SENTRY_DSN` is configured
 - Gracefully handles missing `@sentry/react` package (local dev)
@@ -148,10 +167,11 @@ onError: ({ path, error, type, ctx, input }) => {
 - User context management
 
 **Code:**
+
 ```typescript
 export function initializeSentry(): void {
   if (!Sentry) return; // Skip if package not installed
-  
+
   const dsn = import.meta.env.VITE_SENTRY_DSN;
   if (!dsn) return; // Skip if DSN not configured
 
@@ -164,6 +184,7 @@ export function initializeSentry(): void {
 ```
 
 **Initialization:**
+
 - Called in `client/src/main.tsx` before app render
 - Ensures errors are captured from the start
 
@@ -172,6 +193,7 @@ export function initializeSentry(): void {
 **File:** `client/src/components/ErrorBoundary.tsx`
 
 **Enhancements:**
+
 - Reports errors to Sentry automatically
 - Displays friendly error UI (glassmorphism style)
 - Shows error ID for support correlation
@@ -180,6 +202,7 @@ export function initializeSentry(): void {
 - "Reload Page" and "Go Home" actions
 
 **Features:**
+
 - Catches React render errors
 - Logs to console (always)
 - Reports to Sentry (if configured)
@@ -188,6 +211,7 @@ export function initializeSentry(): void {
 - Stack trace in dev mode only
 
 **UI:**
+
 - Professional glassmorphism design
 - Matches app dark theme
 - Clear error message
@@ -197,6 +221,7 @@ export function initializeSentry(): void {
 ## Request Flow with Correlation
 
 ### Backend Flow:
+
 1. Request arrives → Request ID middleware generates/reads UUID
 2. Request ID set in response header (`x-request-id`)
 3. Request ID attached to request object
@@ -206,6 +231,7 @@ export function initializeSentry(): void {
 7. Errors sent to Sentry with requestId tag
 
 ### Frontend Flow:
+
 1. Request sent with optional `x-request-id` header
 2. Response includes `x-request-id` in headers
 3. Error occurs → ErrorBoundary catches it
@@ -213,6 +239,7 @@ export function initializeSentry(): void {
 5. User sees friendly error UI with error ID
 
 ### Correlation:
+
 - Frontend error → Check Sentry for error ID
 - Sentry error → Check logs for requestId tag
 - Logs → Filter by requestId to see full request flow
@@ -221,10 +248,12 @@ export function initializeSentry(): void {
 ## Environment Variables
 
 ### Backend:
+
 - `SENTRY_DSN` - Sentry DSN for backend error tracking (optional)
 - `LOG_LEVEL` - Logging level (default: "debug" in dev, "info" in prod)
 
 ### Frontend:
+
 - `VITE_SENTRY_DSN` - Sentry DSN for frontend error tracking (optional)
 
 **Note:** Both Sentry DSNs are optional. The app works without them (local dev), but errors won't be tracked in Sentry.
@@ -232,20 +261,24 @@ export function initializeSentry(): void {
 ## Files Created
 
 ### Backend:
+
 - No new files (enhanced existing)
 
 ### Frontend:
+
 - ✅ `client/src/monitoring.ts` - Frontend Sentry initialization
 
 ## Files Modified
 
 ### Backend:
+
 - ✅ `server/_core/index.ts` - Request ID middleware, Sentry init, tRPC onError
 - ✅ `server/_core/context.ts` - Added requestId and log to context
 - ✅ `server/utils/logger.ts` - Enhanced createRequestLogger with userId
 - ✅ `server/services/sentry.ts` - Enhanced request handler
 
 ### Frontend:
+
 - ✅ `client/src/main.tsx` - Initialize Sentry
 - ✅ `client/src/components/ErrorBoundary.tsx` - Enhanced with Sentry reporting
 
@@ -254,6 +287,7 @@ export function initializeSentry(): void {
 ### Manual Testing:
 
 1. **Request ID Correlation:**
+
    ```bash
    curl -H "x-request-id: test-123" http://localhost:3002/api/trpc/mps.list
    # Check response headers for x-request-id
@@ -292,6 +326,7 @@ export function initializeSentry(): void {
 ## Next Steps
 
 1. **Install @sentry/react:**
+
    ```bash
    npm install @sentry/react
    ```

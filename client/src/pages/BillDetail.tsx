@@ -13,7 +13,7 @@ import {
   Sparkles,
   Share2,
   Download,
-  ScrollText
+  ScrollText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -23,11 +23,11 @@ import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
 
-
 const statusConfig = {
   proposed: {
     label: "Pateiktas",
-    color: "text-[var(--foreground)] border-[var(--amber-start)]/50 bg-[var(--amber-start)]/10",
+    color:
+      "text-[var(--foreground)] border-[var(--amber-start)]/50 bg-[var(--amber-start)]/10",
   },
   voted: {
     label: "Balsuota",
@@ -36,11 +36,13 @@ const statusConfig = {
   },
   passed: {
     label: "Priimtas",
-    color: "text-[var(--copper-moss)] border-[var(--copper-moss)]/50 bg-[var(--copper-moss)]/10",
+    color:
+      "text-[var(--copper-moss)] border-[var(--copper-moss)]/50 bg-[var(--copper-moss)]/10",
   },
   rejected: {
     label: "Atmestas",
-    color: "text-[var(--destructive)] border-[var(--destructive)]/50 bg-[var(--destructive)]/10",
+    color:
+      "text-[var(--destructive)] border-[var(--destructive)]/50 bg-[var(--destructive)]/10",
   },
 };
 
@@ -60,7 +62,11 @@ const voteConfig = {
     icon: MinusCircle,
     color: "text-[var(--amber-end)]",
   },
-  absent: { label: "Nedalyvavo", icon: UserX, color: "text-[var(--muted-foreground)]" },
+  absent: {
+    label: "Nedalyvavo",
+    icon: UserX,
+    color: "text-[var(--muted-foreground)]",
+  },
 };
 
 export default function BillDetail() {
@@ -69,7 +75,11 @@ export default function BillDetail() {
   const [selectedParty, setSelectedParty] = useState<string>("all");
 
   // Fetch bill details
-  const { data: bill, isLoading: billLoading, isError } = trpc.bills.byId.useQuery({
+  const {
+    data: bill,
+    isLoading: billLoading,
+    isError,
+  } = trpc.bills.byId.useQuery({
     id: billId,
   });
 
@@ -166,7 +176,11 @@ export default function BillDetail() {
       <div className="border-b border-[var(--amber-start)]/20 bg-[var(--background)]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="container py-6">
           <Link href="/bills">
-            <Button variant="ghost" size="sm" className="mb-4 text-[var(--muted-foreground)] hover:text-[var(--amber-end)] hover:bg-[var(--amber-start)]/10">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mb-4 text-[var(--muted-foreground)] hover:text-[var(--amber-end)] hover:bg-[var(--amber-start)]/10"
+            >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Grįžti į sąrašą
             </Button>
@@ -175,12 +189,13 @@ export default function BillDetail() {
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-3">
-                <Badge variant="outline" className="border-[var(--amber-start)]/30 text-[var(--muted-foreground)]">
+                <Badge
+                  variant="outline"
+                  className="border-[var(--amber-start)]/30 text-[var(--muted-foreground)]"
+                >
                   {bill.category}
                 </Badge>
-                <Badge className={`${statusStyle} border`}>
-                  {statusLabel}
-                </Badge>
+                <Badge className={`${statusStyle} border`}>{statusLabel}</Badge>
               </div>
               <h1 className="text-3xl font-extrabold tracking-tight mb-4 uppercase leading-tight text-[var(--foreground)]">
                 {bill.title}
@@ -188,27 +203,44 @@ export default function BillDetail() {
               <div className="flex flex-wrap gap-6 text-sm text-[var(--muted-foreground)] font-mono">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-[var(--amber-start)]" />
-                  Pateikta: <span className="text-[var(--foreground)]">{formatDate(bill.submittedAt)}</span>
+                  Pateikta:{" "}
+                  <span className="text-[var(--foreground)]">
+                    {formatDate(bill.submittedAt)}
+                  </span>
                 </div>
                 {bill.votedAt && (
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[var(--amber-end)]" />
-                    Balsuota: <span className="text-[var(--foreground)]">{formatDate(bill.votedAt)}</span>
+                    Balsuota:{" "}
+                    <span className="text-[var(--foreground)]">
+                      {formatDate(bill.votedAt)}
+                    </span>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
                   <FileText className="h-4 w-4 text-[var(--amber-start)]" />
-                  ID: <span className="text-[var(--foreground)]">{bill.seimasId}</span>
+                  ID:{" "}
+                  <span className="text-[var(--foreground)]">
+                    {bill.seimasId}
+                  </span>
                 </div>
               </div>
             </div>
 
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="border-[var(--amber-start)]/30 hover:bg-[var(--amber-start)] hover:text-white">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-[var(--amber-start)]/30 hover:bg-[var(--amber-start)] hover:text-white"
+              >
                 <Share2 className="h-4 w-4 mr-2" />
                 Dalintis
               </Button>
-              <Button variant="outline" size="sm" className="border-[var(--amber-start)]/30 hover:bg-[var(--amber-start)] hover:text-white">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-[var(--amber-start)]/30 hover:bg-[var(--amber-start)] hover:text-white"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Atsisiųsti
               </Button>
@@ -220,24 +252,26 @@ export default function BillDetail() {
       {/* Content */}
       <div className="container py-8 relative z-10">
         <div className="grid lg:grid-cols-3 gap-8">
-          
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            
             {/* AI Summary */}
             <div className="border border-muted rounded-lg p-4">
               <div className="amber-glass p-6 rounded-lg relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Sparkles className="w-24 h-24 text-[var(--amber-start)]" />
                 </div>
-                
+
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-full bg-[var(--amber-start)] flex items-center justify-center text-[var(--peat-oak)]">
                     <Sparkles className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="font-bold uppercase tracking-widest text-[var(--amber-end)] text-sm">AI Santrauka</h3>
-                    <p className="text-xs text-[var(--muted-foreground)]">Automatiškai sugeneruota</p>
+                    <h3 className="font-bold uppercase tracking-widest text-[var(--amber-end)] text-sm">
+                      AI Santrauka
+                    </h3>
+                    <p className="text-xs text-[var(--muted-foreground)]">
+                      Automatiškai sugeneruota
+                    </p>
                   </div>
                 </div>
 
@@ -245,19 +279,25 @@ export default function BillDetail() {
                   <li className="flex gap-3">
                     <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
                     <span>
-                      Įstatymo projektas skirtas <span className="font-bold text-[var(--copper-moss)]">{bill.category?.toLowerCase()}</span> srities klausimams spręsti.
+                      Įstatymo projektas skirtas{" "}
+                      <span className="font-bold text-[var(--copper-moss)]">
+                        {bill.category?.toLowerCase()}
+                      </span>{" "}
+                      srities klausimams spręsti.
                     </span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
                     <span>
-                      Numatoma įgyvendinti konkrečias priemones ir pakeitimus esamoje teisinėje bazėje.
+                      Numatoma įgyvendinti konkrečias priemones ir pakeitimus
+                      esamoje teisinėje bazėje.
                     </span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
                     <span>
-                      Siekia užtikrinti skaidrumą ir efektyvumą viešajame sektoriuje.
+                      Siekia užtikrinti skaidrumą ir efektyvumą viešajame
+                      sektoriuje.
                     </span>
                   </li>
                 </ul>
@@ -320,11 +360,16 @@ export default function BillDetail() {
                             : "0";
 
                         return (
-                          <div key={key} className="text-center p-4 rounded-lg bg-[var(--background)]/50 border border-[var(--amber-start)]/10">
+                          <div
+                            key={key}
+                            className="text-center p-4 rounded-lg bg-[var(--background)]/50 border border-[var(--amber-start)]/10"
+                          >
                             <Icon
                               className={`h-8 w-8 mx-auto mb-2 ${config.color}`}
                             />
-                            <div className="text-2xl font-bold font-serif">{count}</div>
+                            <div className="text-2xl font-bold font-serif">
+                              {count}
+                            </div>
                             <div className="text-[10px] uppercase tracking-wider text-[var(--muted-foreground)]">
                               {config.label}
                             </div>
@@ -344,29 +389,45 @@ export default function BillDetail() {
                           <span>{voteStats.for}</span>
                         </div>
                         <Progress
-                          value={activeVotes > 0 ? (voteStats.for / activeVotes) * 100 : 0}
+                          value={
+                            activeVotes > 0
+                              ? (voteStats.for / activeVotes) * 100
+                              : 0
+                          }
                           className="h-2 bg-[var(--muted)]"
                           indicatorClassName="bg-[var(--copper-moss)]"
                         />
                       </div>
                       <div>
                         <div className="flex justify-between text-xs uppercase font-bold mb-2">
-                          <span className="text-[var(--destructive)]">Prieš</span>
+                          <span className="text-[var(--destructive)]">
+                            Prieš
+                          </span>
                           <span>{voteStats.against}</span>
                         </div>
                         <Progress
-                          value={activeVotes > 0 ? (voteStats.against / activeVotes) * 100 : 0}
+                          value={
+                            activeVotes > 0
+                              ? (voteStats.against / activeVotes) * 100
+                              : 0
+                          }
                           className="h-2 bg-[var(--muted)]"
                           indicatorClassName="bg-[var(--destructive)]"
                         />
                       </div>
                       <div>
                         <div className="flex justify-between text-xs uppercase font-bold mb-2">
-                          <span className="text-[var(--amber-end)]">Susilaikė</span>
+                          <span className="text-[var(--amber-end)]">
+                            Susilaikė
+                          </span>
                           <span>{voteStats.abstain}</span>
                         </div>
                         <Progress
-                          value={activeVotes > 0 ? (voteStats.abstain / activeVotes) * 100 : 0}
+                          value={
+                            activeVotes > 0
+                              ? (voteStats.abstain / activeVotes) * 100
+                              : 0
+                          }
                           className="h-2 bg-[var(--muted)]"
                           indicatorClassName="bg-[var(--amber-end)]"
                         />
@@ -434,7 +495,9 @@ export default function BillDetail() {
                                   <VoteIcon
                                     className={`h-4 w-4 ${voteConf?.color}`}
                                   />
-                                  <span className={`text-xs font-bold uppercase ${voteConf?.color}`}>
+                                  <span
+                                    className={`text-xs font-bold uppercase ${voteConf?.color}`}
+                                  >
                                     {voteConf?.label}
                                   </span>
                                 </div>
@@ -504,7 +567,7 @@ export default function BillDetail() {
                 <p className="text-xs text-[var(--muted-foreground)] mb-4">
                   Tos pačios kategorijos įstatymai
                 </p>
-                
+
                 <div className="p-4 border border-dashed border-[var(--amber-start)]/30 rounded bg-[var(--background)]/50">
                   <p className="text-sm text-[var(--amber-end)] italic font-serif">
                     Susiję projektai bus rodomi netrukus

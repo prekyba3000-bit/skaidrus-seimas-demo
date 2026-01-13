@@ -7,6 +7,7 @@ import { SignJWT, jwtVerify } from "jose";
 import type { User } from "../../drizzle/schema";
 import * as db from "../services/database";
 import { ENV } from "./env";
+import { logger } from "../utils/logger";
 import type {
   ExchangeTokenRequest,
   ExchangeTokenResponse,
@@ -32,7 +33,9 @@ class OAuthService {
   constructor(private client: ReturnType<typeof axios.create>) {
     logger.info({ baseURL: ENV.oAuthServerUrl }, "OAuth service initialized");
     if (!ENV.oAuthServerUrl) {
-      logger.error("OAUTH_SERVER_URL is not configured! Set OAUTH_SERVER_URL environment variable.");
+      logger.error(
+        "OAUTH_SERVER_URL is not configured! Set OAUTH_SERVER_URL environment variable."
+      );
     }
   }
 

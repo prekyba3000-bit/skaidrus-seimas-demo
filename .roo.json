@@ -1,0 +1,238 @@
+{
+  "$schema": "https://roocode.com/schemas/roo.json",
+  "version": "1.0.0",
+  "projectName": "Skaidrus Seimas",
+  "description": "Lithuanian Parliament Transparency Dashboard - TypeScript/React/Node.js project",
+
+  "globalSettings": {
+    "uiPreferences": {
+      "theme": "dark",
+      "fontSize": 14
+    },
+    "contextSettings": {
+      "includeCurrentTime": true,
+      "includeCurrentCost": false,
+      "maxContextLength": 50000,
+      "includeFileContents": true,
+      "includeGitHistory": true
+    },
+    "codeGeneration": {
+      "preferTypeScript": true,
+      "preferFunctionalComponents": true,
+      "useReactHooks": true,
+      "followProjectPatterns": true
+    }
+  },
+
+  "customModes": {
+    "typescript": {
+      "enabled": true,
+      "description": "TypeScript-specific coding assistance",
+      "contextFiles": ["tsconfig.json", "**/*.ts", "**/*.tsx"],
+      "excludePatterns": [
+        "node_modules/**",
+        "dist/**",
+        "build/**",
+        "*.test.ts",
+        "*.test.tsx"
+      ]
+    },
+    "react": {
+      "enabled": true,
+      "description": "React component development mode",
+      "contextFiles": [
+        "client/src/**/*.tsx",
+        "client/src/**/*.ts",
+        "client/vite.config.ts"
+      ],
+      "preferences": {
+        "componentStyle": "functional",
+        "useHooks": true,
+        "useTypeScript": true,
+        "styling": "tailwind"
+      }
+    },
+    "backend": {
+      "enabled": true,
+      "description": "Node.js/Express/tRPC backend development",
+      "contextFiles": [
+        "server/**/*.ts",
+        "drizzle/**/*.sql",
+        "drizzle.config.ts"
+      ],
+      "preferences": {
+        "useTypeScript": true,
+        "useTRPC": true,
+        "useDrizzleORM": true,
+        "database": "postgresql"
+      }
+    },
+    "database": {
+      "enabled": true,
+      "description": "Database schema and migration assistance",
+      "contextFiles": [
+        "drizzle/**/*.sql",
+        "drizzle/schema.ts",
+        "drizzle.config.ts",
+        "server/services/database.ts"
+      ],
+      "preferences": {
+        "orm": "drizzle",
+        "database": "postgresql",
+        "migrationTool": "drizzle-kit"
+      }
+    },
+    "mobile": {
+      "enabled": true,
+      "description": "Mobile-first responsive design assistance",
+      "contextFiles": [
+        "client/src/pages/**/*.tsx",
+        "client/src/components/**/*.tsx",
+        "tailwind.config.js"
+      ],
+      "preferences": {
+        "mobileFirst": true,
+        "breakpoints": ["sm", "md", "lg", "xl"],
+        "targetViewports": [375, 390, 414, 768, 1024]
+      }
+    }
+  },
+
+  "projectContext": {
+    "techStack": [
+      "TypeScript",
+      "React 19",
+      "Vite",
+      "tRPC",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "Redis",
+      "Tailwind CSS",
+      "Zod",
+      "BullMQ"
+    ],
+    "architecture": {
+      "type": "monorepo",
+      "structure": {
+        "client": "React frontend",
+        "server": "Node.js/Express backend",
+        "shared": "Shared types and constants",
+        "scripts": "Utility scripts",
+        "drizzle": "Database schema and migrations"
+      }
+    },
+    "codingStandards": {
+      "language": "TypeScript",
+      "style": "functional",
+      "formatting": "Prettier",
+      "linting": "ESLint (if configured)",
+      "naming": "camelCase for variables, PascalCase for components"
+    },
+    "keyPatterns": {
+      "components": "Functional components with TypeScript",
+      "routing": "wouter (lightweight router)",
+      "stateManagement": "Zustand + React Query",
+      "api": "tRPC for type-safe APIs",
+      "database": "Drizzle ORM with PostgreSQL",
+      "caching": "Redis with stale-while-revalidate pattern",
+      "styling": "Tailwind CSS utility classes"
+    },
+    "importantFiles": [
+      "package.json",
+      "tsconfig.json",
+      "client/vite.config.ts",
+      "drizzle.config.ts",
+      "server/_core/trpc.ts",
+      "server/services/database.ts",
+      "client/src/lib/trpc.ts"
+    ]
+  },
+
+  "excludePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    ".git/**",
+    "playwright-report/**",
+    "test-results/**",
+    "*.log",
+    "pnpm-lock.yaml",
+    "package-lock.json",
+    "yarn.lock"
+  ],
+
+  "includePatterns": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "**/*.md",
+    "**/*.sql"
+  ],
+
+  "rules": {
+    "codeGeneration": {
+      "alwaysUseTypeScript": true,
+      "preferFunctionalComponents": true,
+      "useReactHooks": true,
+      "followExistingPatterns": true,
+      "addJSDocComments": false,
+      "useZodForValidation": true
+    },
+    "naming": {
+      "components": "PascalCase",
+      "functions": "camelCase",
+      "constants": "UPPER_SNAKE_CASE",
+      "types": "PascalCase",
+      "files": "PascalCase for components, camelCase for utilities"
+    },
+    "imports": {
+      "preferAbsoluteImports": true,
+      "absoluteImportPath": "@/",
+      "organizeImports": true
+    },
+    "styling": {
+      "useTailwind": true,
+      "mobileFirst": true,
+      "responsiveBreakpoints": ["sm", "md", "lg", "xl"]
+    },
+    "database": {
+      "useDrizzleORM": true,
+      "useRawSQLForMigrations": true,
+      "enableRLS": true
+    },
+    "security": {
+      "useRLS": true,
+      "validateInputs": true,
+      "useZodSchemas": true
+    }
+  },
+
+  "assistantPreferences": {
+    "codingStyle": "TypeScript with strict mode",
+    "componentPattern": "Functional components with hooks",
+    "errorHandling": "Explicit error handling with try-catch",
+    "asyncPatterns": "async/await over promises",
+    "testing": "Vitest for unit tests, Playwright for E2E"
+  },
+
+  "contextHints": [
+    "This is a Lithuanian Parliament transparency dashboard",
+    "The project uses tRPC for type-safe APIs",
+    "Database uses Drizzle ORM with PostgreSQL",
+    "Frontend uses React 19 with Vite",
+    "Styling uses Tailwind CSS with mobile-first approach",
+    "Row Level Security (RLS) is implemented for user data",
+    "Caching uses Redis with stale-while-revalidate pattern",
+    "Background jobs use BullMQ with Redis",
+    "The project follows a monorepo structure"
+  ],
+
+  "apiProviderProfiles": {
+    "default": {
+      "provider": "openai",
+      "model": "gpt-4",
+      "temperature": 0.7,
+      "maxTokens": 4000
+    }
+  }
+}

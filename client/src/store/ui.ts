@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface UIState {
   isSidebarOpen: boolean;
@@ -7,9 +7,9 @@ interface UIState {
   setSearchQuery: (query: string) => void;
 }
 
-export const useUIStore = create<UIState>((set) => ({
+export const useUIStore = create<UIState>(set => ({
   isSidebarOpen: true, // Default open on desktop
-  searchQuery: '',
-  toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+  searchQuery: "",
+  toggleSidebar: () => set(state => ({ isSidebarOpen: !state.isSidebarOpen })),
   setSearchQuery: (query: string) => set({ searchQuery: query }),
 }));

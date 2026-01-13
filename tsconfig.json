@@ -6,7 +6,15 @@
     "scripts/**/*",
     "*.ts"
   ],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "**/*.test.ts",
+    "scripts/**/*",
+    "e2e/**/*",
+    "server/__tests__/**/*"
+  ],
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",

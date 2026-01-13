@@ -45,7 +45,7 @@ export function ActivityFeed({
   } = trpc.activities.getFeed.useInfiniteQuery(
     { limit },
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      getNextPageParam: lastPage => lastPage.nextCursor,
       refetchInterval: autoRefresh ? refreshInterval : false,
       refetchIntervalInBackground: false,
     }
@@ -115,9 +115,7 @@ export function ActivityFeed({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-100">
-            Aktyvumo srautas
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-100">Aktyvumo srautas</h2>
           <p className="text-sm text-gray-400 mt-1">
             Real-time Seimo narių veiklos
           </p>
@@ -128,9 +126,7 @@ export function ActivityFeed({
           disabled={isLoading}
           className="inline-flex items-center gap-2 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/10 hover:border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <RefreshCw
-            className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
-          />
+          <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
           Atnaujinti
         </button>
       </div>

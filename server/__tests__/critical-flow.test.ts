@@ -1,20 +1,23 @@
 /**
  * Critical Flow Integration Test
- * 
+ *
  * Tests the complete user journey:
  * 1. Login (mock authenticated session)
  * 2. Browse MP Profile (public endpoint)
  * 3. Add MP to Watchlist (protected endpoint)
  * 4. Verify Watchlist (protected endpoint)
  * 5. Remove from Watchlist (protected endpoint)
- * 
+ *
  * This test ensures authentication and authorization work correctly
  * after the Phase 1 security lockdown.
  */
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { appRouter } from "../routers";
-import { createAuthenticatedContext, createUnauthenticatedContext } from "./helpers/test-context";
+import {
+  createAuthenticatedContext,
+  createUnauthenticatedContext,
+} from "./helpers/test-context";
 import * as db from "../services/database";
 
 // Mock the database service
@@ -88,14 +91,19 @@ describe("Critical Flow: User Journey", () => {
       const ctx = createUnauthenticatedContext();
       const caller = appRouter.createCaller(ctx);
 
-      await expect(caller.mps.byId({ id: 999999 })).rejects.toThrow("not found");
+      await expect(caller.mps.byId({ id: 999999 })).rejects.toThrow(
+        "not found"
+      );
     });
   });
 
   describe("2. Add MP to Watchlist (Protected)", () => {
     it("should allow authenticated users to follow an MP", async () => {
       vi.mocked(db.isFollowingMp).mockResolvedValue(false);
-      vi.mocked(db.toggleFollowMp).mockResolvedValue({ isFollowing: true, followId: 1 });
+      vi.mocked(db.toggleFollowMp).mockResolvedValue({
+        isFollowing: true,
+        followId: 1,
+      });
 
       const ctx = createAuthenticatedContext({ openId: testUserId });
       const caller = appRouter.createCaller(ctx);
@@ -110,7 +118,9 @@ describe("Critical Flow: User Journey", () => {
       const ctx = createUnauthenticatedContext();
       const caller = appRouter.createCaller(ctx);
 
-      await expect(caller.user.toggleFollowMp({ mpId: testMpId })).rejects.toThrow();
+      await expect(
+        caller.user.toggleFollowMp({ mpId: testMpId })
+      ).rejects.toThrow();
     });
   });
 
@@ -180,7 +190,9 @@ describe("Critical Flow: User Journey", () => {
       const ctx = createUnauthenticatedContext();
       const caller = appRouter.createCaller(ctx);
 
-      await expect(caller.user.isFollowingMp({ mpId: testMpId })).rejects.toThrow();
+      await expect(
+        caller.user.isFollowingMp({ mpId: testMpId })
+      ).rejects.toThrow();
     });
   });
 
@@ -199,29 +211,42 @@ describe("Critical Flow: User Journey", () => {
 
       // Step 2: Follow MP (protected - requires auth)
       vi.mocked(db.isFollowingMp).mockResolvedValue(false);
-      vi.mocked(db.toggleFollowMp).mockResolvedValue({ isFollowing: true, followId: 1 });
+      vi.mocked(db.toggleFollowMp).mockResolvedValue({
+        isFollowing: true,
+        followId: 1,
+      });
 
-      const authenticatedCtx = createAuthenticatedContext({ openId: testUserId });
+      const authenticatedCtx = createAuthenticatedContext({
+        openId: testUserId,
+      });
       const protectedCaller = appRouter.createCaller(authenticatedCtx);
 
-      const followResult = await protectedCaller.user.toggleFollowMp({ mpId: testMpId });
+      const followResult = await protectedCaller.user.toggleFollowMp({
+        mpId: testMpId,
+      });
       expect(followResult.isFollowing).toBe(true);
 
       // Step 3: Verify MP is in watchlist
-      vi.mocked(db.getWatchlist).mockResolvedValue([{ ...mockMp, followedAt: new Date() }]);
+      vi.mocked(db.getWatchlist).mockResolvedValue([
+        { ...mockMp, followedAt: new Date() },
+      ]);
       vi.mocked(db.isFollowingMp).mockResolvedValue(true);
 
       const watchlist = await protectedCaller.user.getWatchlist();
       expect(watchlist).toHaveLength(1);
       expect(watchlist[0].id).toBe(testMpId);
 
-      const isFollowing = await protectedCaller.user.isFollowingMp({ mpId: testMpId });
+      const isFollowing = await protectedCaller.user.isFollowingMp({
+        mpId: testMpId,
+      });
       expect(isFollowing).toBe(true);
 
       // Step 4: Unfollow MP
       vi.mocked(db.toggleFollowMp).mockResolvedValue({ isFollowing: false });
 
-      const unfollowResult = await protectedCaller.user.toggleFollowMp({ mpId: testMpId });
+      const unfollowResult = await protectedCaller.user.toggleFollowMp({
+        mpId: testMpId,
+      });
       expect(unfollowResult.isFollowing).toBe(false);
 
       // Step 5: Verify MP is removed from watchlist
@@ -231,7 +256,9 @@ describe("Critical Flow: User Journey", () => {
       const emptyWatchlist = await protectedCaller.user.getWatchlist();
       expect(emptyWatchlist).toEqual([]);
 
-      const notFollowing = await protectedCaller.user.isFollowingMp({ mpId: testMpId });
+      const notFollowing = await protectedCaller.user.isFollowingMp({
+        mpId: testMpId,
+      });
       expect(notFollowing).toBe(false);
     });
   });
@@ -239,7 +266,9 @@ describe("Critical Flow: User Journey", () => {
   describe("6. Authorization Boundaries", () => {
     it("should prevent users from accessing other users' watchlists", async () => {
       // User 1's watchlist
-      vi.mocked(db.getWatchlist).mockResolvedValue([{ ...mockMp, followedAt: new Date() }]);
+      vi.mocked(db.getWatchlist).mockResolvedValue([
+        { ...mockMp, followedAt: new Date() },
+      ]);
 
       const user1Ctx = createAuthenticatedContext({ openId: "user-1" });
       const user1Caller = appRouter.createCaller(user1Ctx);
@@ -249,7 +278,9 @@ describe("Critical Flow: User Journey", () => {
       expect(db.getWatchlist).toHaveBeenCalledWith("user-1");
 
       // User 2's watchlist (should be different)
-      vi.mocked(db.getWatchlist).mockResolvedValue([{ ...mockMp2, followedAt: new Date() }]);
+      vi.mocked(db.getWatchlist).mockResolvedValue([
+        { ...mockMp2, followedAt: new Date() },
+      ]);
 
       const user2Ctx = createAuthenticatedContext({ openId: "user-2" });
       const user2Caller = appRouter.createCaller(user2Ctx);

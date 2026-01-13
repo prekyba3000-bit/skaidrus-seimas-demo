@@ -9,9 +9,11 @@ import { EmptyState } from "@/components/ui/empty-state";
 
 export function WatchlistWidget() {
   // userId now comes from authenticated context - no need to pass it
-  const { data: watchlist, isLoading } = trpc.user.getWatchlist.useQuery(
+  const { data: watchlist, isLoading } = trpc.watchlist.get.useQuery(
     undefined,
-    { staleTime: 30000 }
+    {
+      staleTime: 30000,
+    }
   );
 
   if (isLoading) {
@@ -56,7 +58,7 @@ export function WatchlistWidget() {
             description="Pradėkite sekti Seimo narius, kad matytumėte jų veiklą savo apžvalgoje."
             actionButton={{
               label: "Peržiūrėti narius",
-              onClick: () => window.location.href = "/",
+              onClick: () => (window.location.href = "/"),
             }}
           />
         </CardContent>
@@ -74,25 +76,36 @@ export function WatchlistWidget() {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {watchlist.slice(0, 5).map((mp) => {
-            const partyColors = getPartyColors(mp.party);
+          {watchlist.slice(0, 5).map(item => {
+            const mp = item.mp;
+            const bill = item.bill;
+            const partyColors = mp ? getPartyColors(mp.party) : undefined;
+            const href = mp ? `/mp/${mp.id}` : bill ? `/bill/${bill.id}` : "#";
+            const title = mp ? mp.name : bill ? bill.title : "Nenurodyta";
+            const subtitle = mp
+              ? mp.party
+              : bill?.status
+                ? `Būsena: ${bill.status}`
+                : undefined;
             return (
               <Link
-                key={mp.id}
-                href={`/mp/${mp.id}`}
+                key={item.id}
+                href={href}
                 className="flex items-center gap-3 p-3 rounded-lg bg-[#233648] hover:bg-[#2d455d] transition-colors group"
               >
                 <Avatar className="w-10 h-10 border-2 border-surface-border group-hover:border-primary transition-colors">
-                  <AvatarImage src={mp.photoUrl || undefined} />
-                  <AvatarFallback>{mp.name[0]}</AvatarFallback>
+                  <AvatarImage src={mp?.photoUrl || undefined} />
+                  <AvatarFallback>{title[0]}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <p className="text-white text-sm font-medium truncate group-hover:text-primary transition-colors">
-                    {mp.name}
+                    {title}
                   </p>
-                  {mp.party && (
-                    <p className={`text-xs truncate ${partyColors.text}`}>
-                      {mp.party}
+                  {subtitle && (
+                    <p
+                      className={`text-xs truncate ${partyColors?.text ?? "text-[#92adc9]"}`}
+                    >
+                      {subtitle}
                     </p>
                   )}
                 </div>

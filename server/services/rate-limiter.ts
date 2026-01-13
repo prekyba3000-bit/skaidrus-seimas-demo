@@ -130,9 +130,12 @@ class RateLimitService {
           retryAfter: Math.ceil(err.msBeforeNext / 1000),
         };
       }
-      // Unknown error - allow request but log
-      logger.error({ err, limitType }, "Rate limit check error");
-      return { allowed: true, remaining: 999 };
+      // Unknown error - FAIL CLOSED (deny request for safety)
+      logger.error(
+        { err, limitType },
+        "Rate limit check error - failing closed"
+      );
+      return { allowed: false, remaining: 0, retryAfter: 60 };
     }
   }
 

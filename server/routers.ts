@@ -12,12 +12,17 @@ import { z } from "zod";
 import * as db from "./services/database";
 import { dashboardRouter } from "./routers/dashboard";
 import { schedulerRouter } from "./routers/scheduler";
+import { watchlistRouter } from "./routers/watchlist";
+import { feedbackRouter } from "./routers/feedback";
+import { cache, CacheService } from "./services/cache";
 
 export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
   dashboard: dashboardRouter,
   scheduler: schedulerRouter,
+  watchlist: watchlistRouter,
+  feedback: feedbackRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -133,7 +138,8 @@ export const appRouter = router({
         return await db.getMpComparison(input.mpId1, input.mpId2);
       }),
 
-    trips: publicProcedure.query(async () => {
+    trips: protectedProcedure.query(async () => {
+      // SECURITY: Trips contain travel/expense data - require authentication
       return await db.getAllTrips();
     }),
   }),
@@ -352,7 +358,7 @@ export const appRouter = router({
             message: "Authentication required",
           });
         }
-        // Verify ownership before unfollowing
+        // Verify ownership before unfollowing (RLS will also enforce this)
         const userFollows = await db.getUserFollows(ctx.user.openId);
         const userFollow = userFollows.find(f => f.follow.id === input.id);
         if (!userFollow) {
@@ -361,7 +367,7 @@ export const appRouter = router({
             message: "You can only unfollow your own follows",
           });
         }
-        return await db.unfollowEntity(input.id);
+        return await db.unfollowEntity(ctx.user.openId, input.id);
       }),
   }),
 
@@ -371,8 +377,8 @@ export const appRouter = router({
       .input(
         z
           .object({
-            limit: z.number().default(20),
-            offset: z.number().default(0),
+            limit: z.number().min(1).max(20).default(10), // Cap at 20 to prevent scraping
+            offset: z.number().min(0).optional(), // Optional offset
             type: z
               .enum(["vote", "comment", "document", "session", "achievement"])
               .optional(),
@@ -380,12 +386,21 @@ export const appRouter = router({
           .optional()
       )
       .query(async ({ input, ctx }) => {
-        const { limit = 20, offset = 0, type } = input || {};
+        const { limit = 10, offset = 0, type } = input || {};
+
+        // SECURITY: Offset-based pagination requires authentication to prevent bulk enumeration
+        if (offset > 0 && !ctx.user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Pagination requires authentication",
+          });
+        }
+
         return await db.getRecentActivities(
           limit,
           offset,
           type,
-          ctx.user?.openId // Pass userId if authenticated
+          ctx.user?.openId
         );
       }),
 
@@ -399,7 +414,22 @@ export const appRouter = router({
           .optional()
       )
       .query(async ({ input }) => {
-        return await db.getActivityFeed(input);
+        const { limit = 20, cursor } = input || {};
+
+        // Generate cache key based on input parameters
+        const cacheKey = CacheService.keys.activitiesFeed(limit, cursor);
+
+        // Use cache with 5-minute TTL (users don't need sub-second updates)
+        return await cache.get(
+          cacheKey,
+          async () => {
+            return await db.getActivityFeed(input);
+          },
+          {
+            ttl: CacheService.TTL.ACTIVITIES_FEED,
+            staleTolerance: 60, // Allow 1 minute stale data while revalidating
+          }
+        );
       }),
 
     markAsRead: protectedProcedure

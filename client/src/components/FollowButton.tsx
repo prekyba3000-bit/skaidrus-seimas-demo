@@ -10,70 +10,86 @@ interface FollowButtonProps {
   size?: "sm" | "md" | "lg";
 }
 
-export function FollowButton({ mpId, className, size = "md" }: FollowButtonProps) {
+export function FollowButton({
+  mpId,
+  className,
+  size = "md",
+}: FollowButtonProps) {
   const utils = trpc.useUtils();
   const [isOptimistic, setIsOptimistic] = useState(false);
 
-  // Check current follow status (userId now comes from authenticated context)
-  const { data: isFollowing, isLoading } = trpc.user.isFollowingMp.useQuery(
-    { mpId },
-    { staleTime: 30000 } // Cache for 30 seconds
+  const { data: watchlist, isLoading } = trpc.watchlist.get.useQuery(
+    undefined,
+    {
+      staleTime: 30000,
+    }
   );
 
-  // Toggle follow mutation with optimistic updates
-  const toggleFollow = trpc.user.toggleFollowMp.useMutation({
+  const currentEntry = watchlist?.find(item => item.mp?.id === mpId);
+  const isFollowing = !!currentEntry;
+
+  const addToWatchlist = trpc.watchlist.add.useMutation({
     onMutate: async () => {
-      // Cancel outgoing refetches
-      await utils.user.isFollowingMp.cancel({ mpId });
-      await utils.user.getWatchlist.cancel();
-
-      // Snapshot previous values
-      const previousIsFollowing = utils.user.isFollowingMp.getData({ mpId });
-      const previousWatchlist = utils.user.getWatchlist.getData();
-
-      // Optimistically update
+      await utils.watchlist.get.cancel();
+      const previous = utils.watchlist.get.getData();
       setIsOptimistic(true);
-      utils.user.isFollowingMp.setData({ mpId }, !previousIsFollowing);
-      
-      // Optimistically update watchlist if needed
-      if (!previousIsFollowing) {
-        // Adding to watchlist - we'd need MP data, so just invalidate
-        utils.user.getWatchlist.invalidate();
-      } else {
-        // Removing from watchlist - remove from cache
-        const currentWatchlist = previousWatchlist || [];
-        utils.user.getWatchlist.setData(
-          currentWatchlist.filter((mp: any) => mp.id !== mpId)
-        );
-      }
-
-      return { previousIsFollowing, previousWatchlist };
+      utils.watchlist.get.setData(
+        (previous ?? []).concat({
+          id: Math.random(), // optimistic id
+          createdAt: new Date().toISOString(),
+          mp: currentEntry?.mp ?? {
+            id: mpId,
+            name: "MP",
+            party: "",
+            photoUrl: "",
+          },
+          bill: null,
+        } as any)
+      );
+      return { previous };
     },
-    onError: (err, variables, context) => {
-      // Rollback on error
-      if (context?.previousIsFollowing !== undefined) {
-        utils.user.isFollowingMp.setData(
-          { mpId },
-          context.previousIsFollowing
-        );
-      }
-      if (context?.previousWatchlist) {
-        utils.user.getWatchlist.setData(context.previousWatchlist);
-      }
+    onError: (_err, _variables, context) => {
+      if (context?.previous) utils.watchlist.get.setData(context.previous);
       setIsOptimistic(false);
     },
     onSuccess: () => {
       setIsOptimistic(false);
     },
     onSettled: () => {
-      // Refetch to ensure consistency
-      utils.user.isFollowingMp.invalidate({ mpId });
-      utils.user.getWatchlist.invalidate();
+      utils.watchlist.get.invalidate();
+    },
+  });
+
+  const removeFromWatchlist = trpc.watchlist.remove.useMutation({
+    onMutate: async () => {
+      await utils.watchlist.get.cancel();
+      const previous = utils.watchlist.get.getData();
+      setIsOptimistic(true);
+      if (previous && currentEntry) {
+        utils.watchlist.get.setData(
+          previous.filter(item => item.id !== currentEntry.id)
+        );
+      }
+      return { previous };
+    },
+    onError: (_err, _variables, context) => {
+      if (context?.previous) utils.watchlist.get.setData(context.previous);
+      setIsOptimistic(false);
+    },
+    onSuccess: () => {
+      setIsOptimistic(false);
+    },
+    onSettled: () => {
+      utils.watchlist.get.invalidate();
     },
   });
 
   const handleToggle = () => {
-    toggleFollow.mutate({ mpId });
+    if (currentEntry) {
+      removeFromWatchlist.mutate({ id: currentEntry.id });
+    } else {
+      addToWatchlist.mutate({ mpId });
+    }
   };
 
   const sizeClasses = {

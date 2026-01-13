@@ -9,6 +9,7 @@
 **Status:** ✅ **12/12 tests passing**
 
 **Test Coverage:**
+
 1. ✅ Browse MP Profile (Public) - 2 tests
    - Allows unauthenticated users to view MP profiles
    - Returns 404 for non-existent MP
@@ -36,10 +37,12 @@
 ### Unit Tests Fixed ✅
 
 **Files Fixed:**
+
 - ✅ `server/__tests__/db.test.ts` - Updated mock path
 - ✅ `server/__tests__/db.unit.test.ts` - Fixed getDb() mocking
 
 **Issues Resolved:**
+
 - Fixed broken mock paths (`../db` → `../services/database`)
 - Updated tests to handle new error-throwing behavior
 - Added proper path aliases to vitest.config.ts
@@ -47,10 +50,12 @@
 ### E2E Test Infrastructure ✅
 
 **Files Created:**
+
 - ✅ `e2e/helpers/auth.ts` - Authentication helpers
 - ✅ `e2e/watchlist.spec.ts` - Watchlist E2E tests
 
 **Features:**
+
 - `loginAsTestUser()` - Mocks authentication via tRPC interception
 - `logout()` - Clears authentication state
 - `isAuthenticated()` - Checks auth status
@@ -60,6 +65,7 @@
 ### Unit/Integration Tests
 
 **Pattern:**
+
 ```typescript
 import { createAuthenticatedContext } from "./helpers/test-context";
 import { appRouter } from "../routers";
@@ -71,6 +77,7 @@ const result = await caller.user.getWatchlist();
 ```
 
 **Key Points:**
+
 - Direct context injection (no HTTP layer)
 - Mock database functions, not authentication
 - Fast execution (~257ms for 12 tests)
@@ -78,6 +85,7 @@ const result = await caller.user.getWatchlist();
 ### E2E Tests
 
 **Pattern:**
+
 ```typescript
 import { loginAsTestUser } from "./helpers/auth";
 
@@ -89,6 +97,7 @@ test("should allow user to follow MP", async ({ page }) => {
 ```
 
 **Key Points:**
+
 - Intercepts tRPC calls to mock auth responses
 - Sets cookies for consistency
 - Tests full UI flow
@@ -96,12 +105,14 @@ test("should allow user to follow MP", async ({ page }) => {
 ## Test Results Summary
 
 ### Before Phase 3
+
 - ❌ `db.test.ts` - Mock path broken (`../db` doesn't exist)
 - ❌ `db.unit.test.ts` - getDb() throws errors
 - ❌ No integration tests for protected endpoints
 - ❌ E2E tests don't handle authentication
 
 ### After Phase 3
+
 - ✅ All unit tests fixed and passing
 - ✅ Critical flow integration test: **12/12 passing**
 - ✅ E2E auth helpers created
@@ -111,12 +122,14 @@ test("should allow user to follow MP", async ({ page }) => {
 ## Files Created/Modified
 
 ### Created
+
 - `server/__tests__/helpers/test-context.ts` - Test context helpers
 - `server/__tests__/critical-flow.test.ts` - Critical flow integration test
 - `e2e/helpers/auth.ts` - E2E authentication helpers
 - `e2e/watchlist.spec.ts` - Watchlist E2E tests
 
 ### Modified
+
 - `server/__tests__/db.test.ts` - Fixed mock path
 - `server/__tests__/db.unit.test.ts` - Fixed getDb() mocking
 - `vitest.config.ts` - Added `@shared` and `@server` path aliases
@@ -138,6 +151,7 @@ npm run test
 ### Test Coverage
 
 **Critical Flow Test Coverage:**
+
 - ✅ Public endpoints (no auth required)
 - ✅ Protected endpoints (auth required)
 - ✅ Authorization boundaries (user isolation)
@@ -147,6 +161,7 @@ npm run test
 ## Next Steps
 
 1. **Run Full Test Suite:**
+
    ```bash
    npm run test
    ```

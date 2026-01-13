@@ -60,7 +60,7 @@ describe("useDebounce", () => {
     act(() => {
       vi.advanceTimersByTime(1);
     });
-    
+
     // Value should now be updated
     expect(result.current).toBe("updated");
   });
@@ -103,7 +103,7 @@ describe("useDebounce", () => {
     act(() => {
       vi.advanceTimersByTime(200);
     });
-    
+
     // Value should now be "second"
     expect(result.current).toBe("second");
   });
@@ -130,7 +130,7 @@ describe("useDebounce", () => {
     act(() => {
       vi.advanceTimersByTime(500);
     });
-    
+
     // Value should now be updated
     expect(result.current).toBe("updated");
   });

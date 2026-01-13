@@ -4,6 +4,38 @@
 
 ---
 
+## 🇪🇺 Phase 4: NGI Zero Grant Execution (Planned)
+
+### Milestone 1 (€15k): Accessibility & Inclusivity
+
+- [ ] (Grant Deliverable) Accessibility audit & ARIA labels (WCAG 2.1 AA) — from `REMAINING_DEBT.md` (Low Priority #10)
+- [ ] (Grant Deliverable) Plain-language bill summaries & “Explain like I’m 5” toggle — Phase 3.1 AI-Powered Summaries
+- [ ] (Grant Deliverable) Document component library for consistent a11y patterns — Design System
+- [ ] (Grant Deliverable) PWA manifest & touch-friendly interactions — Technical Improvements (Mobile Experience)
+
+### Milestone 2 (€15k): Security & Integrity
+
+- [ ] (Grant Deliverable) User-specific activity read tracking — `REMAINING_DEBT.md` High Priority #1
+- [ ] (Grant Deliverable) Threat model & security audit prep — new `security/threat-model.md`
+- [ ] (Grant Deliverable) Test coverage expansion (unit/integration/E2E) — Testing & Quality
+- [ ] (Grant Deliverable) Error boundaries & global error handling — Error Handling
+- [ ] (Grant Deliverable) API hardening (pagination, rate limits, OpenAPI) — API Enhancements
+
+### Milestone 3 (€10k): Infrastructure Commons
+
+- [ ] (Grant Deliverable) Code splitting & dynamic imports to reduce >500 kB chunks — `REMAINING_DEBT.md` Medium Priority #2
+- [ ] (Grant Deliverable) GIN indexes applied & documented — `REMAINING_DEBT.md` Medium Priority #5
+- [ ] (Grant Deliverable) Service worker/offline support & caching docs — Technical Improvements (Performance)
+- [ ] (Grant Deliverable) Reproducible Docker/CI docs — Technical Improvements (CI/CD, deployment)
+
+### Milestone 4 (€10k): Public Engagement & Transparency
+
+- [ ] (Grant Deliverable) Voting record visualization & filters — Phase 2.1 Voting Record Visualization
+- [ ] (Grant Deliverable) Bill tracking + notifications (follow bills, push/email) — Phase 2.2 & 3.3
+- [ ] (Grant Deliverable) Coalition insights & public engagement (comments/sentiment/share) — Phase 3.2 & 3.4
+
+---
+
 ## 🔧 Phase 1: Polish & Fix (Short-term)
 
 ### 1.1 Fix Broken MP Photos

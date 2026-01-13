@@ -44,21 +44,75 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Manual chunk splitting for optimal caching
-        manualChunks: {
-          "vendor-core": ["react", "react-dom", "wouter"],
-          "vendor-query": [
-            "@tanstack/react-query",
-            "@trpc/client",
-            "@trpc/react-query",
-          ],
-          charts: ["recharts"],
-          maps: ["leaflet", "react-leaflet"],
-          "ui-libs": [
-            "framer-motion",
-            "@radix-ui/react-avatar",
-            "@radix-ui/react-select",
-            "@radix-ui/react-tooltip",
-          ],
+        manualChunks: id => {
+          // Split node_modules into vendor chunks
+          if (id.includes("node_modules")) {
+            // Framer Motion - animation library (split first due to large size)
+            if (id.includes("framer-motion")) {
+              return "framer-motion";
+            }
+
+            // Recharts - heavy charting library
+            if (id.includes("recharts")) {
+              return "charts";
+            }
+
+            // Leaflet - map library (if used)
+            if (id.includes("leaflet") || id.includes("react-leaflet")) {
+              return "maps";
+            }
+
+            // Core React ecosystem (small, frequently used)
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "vendor-react";
+            }
+
+            // Router
+            if (id.includes("wouter")) {
+              return "vendor-router";
+            }
+
+            // React Query and tRPC
+            if (
+              id.includes("@tanstack/react-query") ||
+              id.includes("@trpc/client") ||
+              id.includes("@trpc/react-query")
+            ) {
+              return "vendor-query";
+            }
+
+            // Radix UI components (split by package to reduce size)
+            if (id.includes("@radix-ui/react-avatar")) {
+              return "ui-avatar";
+            }
+            if (id.includes("@radix-ui/react-select")) {
+              return "ui-select";
+            }
+            if (id.includes("@radix-ui/react-tooltip")) {
+              return "ui-tooltip";
+            }
+            if (id.includes("@radix-ui")) {
+              return "ui-radix";
+            }
+
+            // Lucide icons (can be large)
+            if (id.includes("lucide-react")) {
+              return "icons";
+            }
+
+            // Date utilities
+            if (id.includes("date-fns")) {
+              return "date-utils";
+            }
+
+            // Other vendor libraries
+            return "vendor-other";
+          }
+
+          // Split large local components
+          if (id.includes("/components/charts/")) {
+            return "charts";
+          }
         },
 
         // Asset naming for caching

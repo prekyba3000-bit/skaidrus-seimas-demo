@@ -12,17 +12,24 @@ if (!process.env.DATABASE_URL) {
 
 async function checkBills() {
   console.log("=== CHECKING BILLS IN DATABASE ===");
-  console.log("DATABASE_URL:", process.env.DATABASE_URL?.replace(/:[^:@]+@/, ":****@"));
-  
+  console.log(
+    "DATABASE_URL:",
+    process.env.DATABASE_URL?.replace(/:[^:@]+@/, ":****@")
+  );
+
   const client = postgres(process.env.DATABASE_URL);
   const db = drizzle(client);
 
   try {
     // Direct query to check bills
-    const allBills = await db.select().from(bills).orderBy(desc(bills.createdAt)).limit(10);
-    
+    const allBills = await db
+      .select()
+      .from(bills)
+      .orderBy(desc(bills.createdAt))
+      .limit(10);
+
     console.log(`\nFound ${allBills.length} bills in database`);
-    
+
     if (allBills.length > 0) {
       console.log("\nFirst 3 bills:");
       allBills.slice(0, 3).forEach((bill, i) => {
@@ -52,7 +59,6 @@ async function checkBills() {
     // Also check count
     const countResult = await db.select().from(bills);
     console.log(`\nTotal bills count: ${countResult.length}`);
-    
   } catch (error) {
     console.error("Error checking bills:", error);
   } finally {
