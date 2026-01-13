@@ -26,6 +26,9 @@ pnpm-lock.yaml
 # Environment files
 .env*
 
+# Large data exports (not valid JSON array)
+seimas_mps_opensanctions.json
+
 # IDE files
 .vscode/
 .idea/

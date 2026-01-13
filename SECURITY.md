@@ -43,7 +43,7 @@ For sensitive vulnerability reports, please encrypt your message using our PGP k
 PGP Fingerprint (placeholder):
 
 ```
-XXXX XXXX XXXX XXXX XXXX  XXXX XXXX XXXX XXXX XXXX
+09EA BCE6 E07B B7C7 D8E1 06D6 65D2 FA15 539E F056
 ```
 
 ## Security Measures
