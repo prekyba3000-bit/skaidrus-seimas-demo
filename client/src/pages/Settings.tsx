@@ -3,6 +3,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Bell, Layout } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
@@ -64,6 +65,48 @@ export default function Settings() {
     setBetaFeatures(checked);
     updateSettings.mutate({ betaFeatures: checked });
   };
+
+  if (isLoadingSettings) {
+    return (
+      <DashboardLayout title="Nustatymai">
+        <div className="space-y-6 max-w-4xl">
+          <Card className="bg-surface-dark border-surface-border">
+            <CardHeader>
+              <Skeleton className="h-6 w-40" />
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-2">
+                  <Skeleton className="h-4 w-44" />
+                  <Skeleton className="h-3 w-64" />
+                </div>
+                <Skeleton className="h-6 w-10 rounded-full" />
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-surface-dark border-surface-border">
+            <CardHeader>
+              <Skeleton className="h-6 w-48" />
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {[1, 2].map(i => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex flex-col gap-2">
+                    <Skeleton className="h-4 w-40" />
+                    <Skeleton className="h-3 w-72" />
+                  </div>
+                  <Skeleton className="h-6 w-10 rounded-full" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout title="Nustatymai">
