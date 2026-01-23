@@ -22,6 +22,8 @@ const MpCompare = lazy(() => import("./pages/MpCompare"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Pulsas = lazy(() => import("./pages/Pulsas"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Committees = lazy(() => import("./pages/Committees"));
+const CommitteeDetail = lazy(() => import("./pages/CommitteeDetail"));
 
 // Loading fallback
 const PageLoader = () => (
@@ -48,6 +50,8 @@ function Router() {
         <Route path={"/mps"} component={MPs} />
         <Route path={"/compare"} component={MpCompare} />
         <Route path={"/mp/:id"} component={MPProfile} />
+        <Route path={"/committees"} component={Committees} />
+        <Route path={"/committees/:id"} component={CommitteeDetail} />
         <Route path={"/pulse"} component={Pulsas} />
         <Route path={"/nustatymai"} component={Settings} />
         <Route path={"/settings"} component={Settings} />

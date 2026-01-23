@@ -38,30 +38,30 @@
 
 ## 🔧 Phase 1: Polish & Fix (Short-term)
 
-### 1.1 Fix Broken MP Photos
+### 1.1 Fix Broken MP Photos ✅ COMPLETE
 
 - [x] Investigate why `photoUrl` images fail to load
-- [ ] Consider proxying images through backend or caching locally
-- [ ] Add fallback avatar generation for missing photos
+- [x] Consider proxying images through backend or caching locally
+- [x] Add fallback avatar generation for missing photos
 
-### 1.2 Connect "The Pulse" Chart to Real Data
+### 1.2 Connect "The Pulse" Chart to Real Data ✅ COMPLETE
 
 - [x] Replace mock SVG chart with actual voting/activity data
 - [x] Implement time-series data fetching from API
 - [x] Add interactive tooltips and time range selection
 
-### 1.3 Implement Global Search
+### 1.3 Implement Global Search ✅ COMPLETE
 
-- [ ] Wire up the search bar in `DashboardLayout`
-- [ ] Add typeahead/autocomplete functionality
-- [ ] Search across MPs, bills, and committees
-- [ ] Add keyboard navigation (↑↓ Enter)
+- [x] Wire up the search bar in `DashboardLayout`
+- [x] Add typeahead/autocomplete functionality
+- [x] Search across MPs, bills, and committees
+- [x] Add keyboard navigation (↑↓ Enter)
 
-### 1.4 Resolve Git Branch Divergence
+### 1.4 Resolve Git Branch Divergence ✅ COMPLETE
 
-- [ ] Reconcile local `main` with `origin/main`
-- [ ] Create proper branching strategy (main/develop/feature)
-- [ ] Set up PR workflow
+- [x] Reconcile local `main` with `origin/main`
+- [x] Create proper branching strategy (main/develop/feature)
+- [x] Set up PR workflow
 
 ---
 
@@ -69,31 +69,32 @@
 
 ### 2.1 Voting Record Visualization
 
-- [ ] Show how each MP voted on specific bills
-- [ ] Filter by topic, party, date range
-- [ ] Visual vote breakdown (for/against/abstain)
-- [ ] Highlight "breaking with party" votes
+- [x] Show how each MP voted on specific bills
+- [x] Filter by topic, party, date range
+- [x] Visual vote breakdown (for/against/abstain)
+- [x] Highlight "breaking with party" votes
 
 ### 2.2 Bill Tracking & Status
 
-- [ ] Timeline view: proposal → committee → vote → law
-- [ ] Bill detail pages with full history
-- [ ] "Follow" functionality for bills
-- [ ] Push/email notifications for followed bills
+- [x] Timeline view: proposal → committee → vote → result (BillDetail "Projekto eiga")
+- [x] Bill detail pages with full history
+- [x] "Follow" functionality for bills (watchlist; FollowBillButton on BillDetail)
+- [ ] Push/email notifications for followed bills (future)
 
-### 2.3 Committee Pages
+### 2.3 Committee Pages ✅ CORE COMPLETE
 
-- [ ] Build committee listing page
-- [ ] Committee detail pages with membership
-- [ ] Meeting activity and attendance
-- [ ] Jurisdiction and active bills in committee
+- [x] Build committee listing page (`/committees`)
+- [x] Committee detail pages with membership (`/committees/:id`)
+- [ ] Meeting activity and attendance (future)
+- [ ] Jurisdiction and active bills in committee (future)
 
-### 2.4 MP Comparison Tool
+### 2.4 MP Comparison Tool ✅ CORE COMPLETE
 
-- [ ] Side-by-side comparison of 2-3 MPs
-- [ ] Compare: attendance, voting alignment, bills proposed
-- [ ] Party loyalty score comparison
-- [ ] Visual charts for comparison data
+- [x] Side-by-side comparison of 2 MPs (3rd MP deferred)
+- [x] Compare: attendance, voting alignment, bills proposed
+- [x] Party loyalty score comparison
+- [x] Visual charts for comparison data (Seismograph + stat bars)
+- [x] Discoverability: Sidebar "Palyginimas", MPs list "Palyginti" CTA, MP profile "Palyginti"
 
 ---
 
@@ -149,7 +150,7 @@
 
 ### Performance
 
-- [ ] Add skeleton loading states everywhere
+- [x] Add skeleton loading states everywhere (Settings, Bills; MP/Committee/Pulsas/Activity etc. already had)
 - [ ] Implement data caching strategy
 - [ ] Optimize bundle size
 - [ ] Add service worker for offline support
@@ -195,11 +196,11 @@
 
 | Milestone          | Target  | Status         |
 | ------------------ | ------- | -------------- |
-| Phase 1 Complete   | Q1 2026 | 🟡 In Progress |
-| Phase 2 Complete   | Q2 2026 | ⚪ Not Started |
+| Phase 1 Complete   | Q1 2026 | ✅ Complete    |
+| Phase 2 Complete   | Q2 2026 | 🟡 In Progress (2.1–2.4 core done) |
 | Phase 3 Complete   | Q4 2026 | ⚪ Not Started |
 | v1.0 Public Launch | Q2 2026 | ⚪ Not Started |
 
 ---
 
-_Last updated: January 6, 2026_
+_Last updated: January 23, 2026_

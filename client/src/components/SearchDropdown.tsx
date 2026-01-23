@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link, useLocation } from "wouter";
-import { Users, FileText, Clock, X, Search } from "lucide-react";
+import { Users, FileText, Clock, X, Search, Users2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trpc } from "@/lib/trpc";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -69,7 +69,15 @@ export function SearchDropdown({
         href: `/bills/${bill.id}`,
       });
     });
-    // Note: getSuggestions doesn't return committees (optimized for speed)
+    results.committees?.forEach(committee => {
+      flatResults.push({
+        type: "committee",
+        id: committee.id,
+        title: committee.name,
+        subtitle: committee.description || undefined,
+        href: `/committees/${committee.id}`,
+      });
+    });
   }
 
   // Handle keyboard navigation selection
@@ -213,7 +221,48 @@ export function SearchDropdown({
             </div>
           )}
 
-          {/* Note: Committees not included in getSuggestions (optimized for speed) */}
+          {/* Committees Section */}
+          {results!.committees && results!.committees.length > 0 && (
+            <div className="mb-2">
+              <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-[#92adc9] uppercase tracking-wide">
+                <Users2 className="w-4 h-4" />
+                Komitetai
+              </div>
+              {results!.committees.map(committee => {
+                const globalIndex = flatResults.findIndex(
+                  r => r.type === "committee" && r.id === committee.id
+                );
+                const isSelected = globalIndex === selectedIndex;
+                return (
+                  <Link
+                    key={`committee-${committee.id}`}
+                    href={`/committees/${committee.id}`}
+                    onClick={() => onClose()}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-3 py-2 rounded transition-colors text-left",
+                      isSelected
+                        ? "bg-[#233648] text-white"
+                        : "text-gray-300 hover:bg-[#233648]"
+                    )}
+                  >
+                    <div className="w-8 h-8 rounded bg-emerald-500/20 flex items-center justify-center">
+                      <Users2 className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">
+                        {committee.name}
+                      </p>
+                      {committee.description && (
+                        <p className="text-xs text-gray-400 truncate">
+                          {committee.description}
+                        </p>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 

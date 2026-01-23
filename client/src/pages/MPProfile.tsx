@@ -84,10 +84,28 @@ const getVoteConfig = (voteValue: string) => {
   };
 };
 
+type VoteDateRange = "all" | "3m" | "6m" | "1y";
+
+const VOTE_DATE_RANGES: { value: VoteDateRange; label: string }[] = [
+  { value: "all", label: "Visi" },
+  { value: "3m", label: "3 mėn." },
+  { value: "6m", label: "6 mėn." },
+  { value: "1y", label: "1 metai" },
+];
+
 export default function MPProfile() {
   const [, params] = useRoute("/mp/:id");
   const [, navigate] = useLocation();
   const mpId = params?.id ? parseInt(params.id, 10) : null;
+  const [voteDateRange, setVoteDateRange] = useState<VoteDateRange>("all");
+
+  const { fromDate, toDate } = useMemo(() => {
+    const to = new Date();
+    if (voteDateRange === "all") return { fromDate: undefined, toDate: undefined };
+    const months = voteDateRange === "3m" ? 3 : voteDateRange === "6m" ? 6 : 12;
+    const from = subMonths(to, months);
+    return { fromDate: from.toISOString(), toDate: to.toISOString() };
+  }, [voteDateRange]);
 
   const { data: mpData, isLoading: mpLoading } = trpc.mps.byId.useQuery(
     { id: mpId! },
@@ -100,7 +118,11 @@ export default function MPProfile() {
   );
 
   const { data: votesDataResponse } = trpc.votes.byMp.useQuery(
-    { mpId: mpId!, limit: 20 },
+    {
+      mpId: mpId!,
+      limit: 20,
+      ...(fromDate && toDate ? { fromDate, toDate } : {}),
+    },
     { enabled: !!mpId }
   );
 
@@ -343,11 +365,30 @@ export default function MPProfile() {
         {/* Left Column: Zalktis Timeline (Votes) - 8 columns */}
         <div className="lg:col-span-8 space-y-6">
           <div className="glass-panel rounded-2xl p-6 min-h-[500px] flex flex-col">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <FileText className="w-5 h-5 text-primary" />
                 Balsavimų Istorija
               </h2>
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-primary shrink-0" />
+                <div className="flex rounded-lg border border-primary/30 overflow-hidden">
+                  {VOTE_DATE_RANGES.map(({ value, label }) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => setVoteDateRange(value)}
+                      className={`px-3 py-1.5 text-xs font-medium uppercase tracking-wide transition-colors ${
+                        voteDateRange === value
+                          ? "bg-primary text-black"
+                          : "bg-transparent text-[#92adc9] hover:text-white hover:bg-primary/20"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <div className="relative flex-1 pl-4 md:pl-12 pr-2">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { trpc } from "@/utils/trpc";
+import { trpc } from "@/lib/trpc";
 import { useLocation, useSearch } from "wouter";
 import { SeismographChart, type SeismicEvent } from "./SeismographChart";
 import { DetailSheet } from "./DetailSheet";

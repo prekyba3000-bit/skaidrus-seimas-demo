@@ -4,9 +4,11 @@ import {
   Shield,
   Home,
   Users,
+  Users2,
   FileText,
   PieChart,
   BarChart,
+  ArrowLeftRight,
 } from "lucide-react";
 
 export const Sidebar = () => {
@@ -46,6 +48,18 @@ export const Sidebar = () => {
               <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <FileText className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Voting</span>
+              </a>
+            </Link>
+            <Link href="/committees">
+              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+                <Users2 className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
+                <span className="text-sm font-medium">Komitetai</span>
+              </a>
+            </Link>
+            <Link href="/compare">
+              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+                <ArrowLeftRight className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
+                <span className="text-sm font-medium">Palyginimas</span>
               </a>
             </Link>
             <Link href="/budgets">

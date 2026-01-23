@@ -249,7 +249,7 @@ export default function Dashboard() {
                   <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                     <Avatar className="size-10 sm:size-12 border-2 border-emerald-700 group-hover:border-primary transition-colors shrink-0">
                       <AvatarImage
-                        src={delegate.mp.photoUrl || ""}
+                        src={delegate.mp.photoUrl || undefined}
                         className="object-cover"
                       />
                       <AvatarFallback>

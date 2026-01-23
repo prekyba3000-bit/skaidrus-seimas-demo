@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { format } from "date-fns";
 import { lt } from "date-fns/locale";
+import { filterVisibleEvents } from "./utils/windowing";
 
 export interface SeismicEvent {
     id: number;
@@ -40,11 +41,6 @@ export function SeismographChart({
     onEventClick,
     className,
 }: SeismographChartProps) {
-    import { filterVisibleEvents } from "./utils/windowing";
-
-    // ... imports remain the same
-
-    // Inside SeismographChart...
     // 1. WINDOWING & OPTIMIZATION LOGIC
     const visibleData = useMemo(() => {
         return filterVisibleEvents(events, {

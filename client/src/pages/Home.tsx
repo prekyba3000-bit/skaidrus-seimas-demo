@@ -120,7 +120,7 @@ export default function Home() {
                   <div className="relative h-24 bg-gradient-to-r from-blue-600 to-blue-400">
                     <div className="absolute -bottom-10 left-4 p-1 bg-surface-dark rounded-full">
                       <Avatar className="h-20 w-20 border-4 border-surface-dark">
-                        <AvatarImage src={mp.photoUrl || ""} alt={mp.name} />
+                        <AvatarImage src={mp.photoUrl || undefined} alt={mp.name} />
                         <AvatarFallback>
                           {mp.name.substring(0, 2)}
                         </AvatarFallback>

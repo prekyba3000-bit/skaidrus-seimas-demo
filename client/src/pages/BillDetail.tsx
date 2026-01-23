@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useParams } from "wouter";
 import { motion } from "framer-motion";
 import {
@@ -6,6 +6,7 @@ import {
   Calendar,
   FileText,
   Users,
+  Users2,
   CheckCircle2,
   XCircle,
   MinusCircle,
@@ -14,6 +15,9 @@ import {
   Share2,
   Download,
   ScrollText,
+  AlertTriangle,
+  Vote,
+  Scale,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -22,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
+import { FollowBillButton } from "@/components/FollowBillButton";
 
 const statusConfig = {
   proposed: {
@@ -69,10 +74,199 @@ const voteConfig = {
   },
 };
 
+type ActiveVote = "for" | "against" | "abstain";
+
+const VALUE_MAP: Record<string, ActiveVote | "absent"> = {
+  for: "for",
+  against: "against",
+  abstain: "abstain",
+  absent: "absent",
+  už: "for",
+  prieš: "against",
+  susilaikė: "abstain",
+  nebalsavo: "absent",
+  nedalyvavo: "absent",
+};
+
+function normalizeVote(v: string): ActiveVote | "absent" {
+  const key = v?.toLowerCase().trim();
+  return VALUE_MAP[key] ?? "absent";
+}
+
+function getPartyMajority(
+  data: Array<{ vote: { voteValue: string }; mp: { party: string | null } | null }>
+): Map<string, ActiveVote> {
+  const byParty = new Map<string, { for: number; against: number; abstain: number }>();
+  for (const { vote, mp } of data) {
+    const n = normalizeVote(vote.voteValue);
+    if (n === "absent" || !mp?.party) continue;
+    const p = mp.party;
+    if (!byParty.has(p)) byParty.set(p, { for: 0, against: 0, abstain: 0 });
+    const counts = byParty.get(p)!;
+    if (n === "for") counts.for++;
+    else if (n === "against") counts.against++;
+    else counts.abstain++;
+  }
+  const out = new Map<string, ActiveVote>();
+  byParty.forEach((counts, party) => {
+    const { for: f, against: a, abstain: ab } = counts;
+    if (f + a + ab === 0) return;
+    const max = Math.max(f, a, ab);
+    if (f >= max) out.set(party, "for");
+    else if (a >= max) out.set(party, "against");
+    else out.set(party, "abstain");
+  });
+  return out;
+}
+
+function isBreakingWithParty(
+  mp: { party: string | null },
+  voteValue: string,
+  majority: Map<string, ActiveVote>
+): boolean {
+  const n = normalizeVote(voteValue);
+  if (n === "absent" || !mp.party) return false;
+  const maj = majority.get(mp.party);
+  return maj != null && n !== maj;
+}
+
+type BillTimelineProps = {
+  submittedAt: Date | string | null;
+  votedAt: Date | string | null;
+  createdAt?: Date | string | null;
+  status: string;
+  formatDate: (d: Date | string | null) => string;
+};
+
+function BillTimeline({
+  submittedAt,
+  votedAt,
+  createdAt,
+  status,
+  formatDate,
+}: BillTimelineProps) {
+  const proposed = submittedAt ?? createdAt ?? null;
+  const voted = votedAt ?? null;
+  const hasVote = !!voted;
+  const isPassed = status === "passed";
+  const isRejected = status === "rejected";
+  const showResult = isPassed || isRejected;
+
+  const steps: Array<{
+    key: string;
+    label: string;
+    sublabel?: string;
+    date: string;
+    icon: typeof FileText;
+    color: string;
+    done: boolean;
+    current: boolean;
+  }> = [
+    {
+      key: "proposal",
+      label: "Pateikta",
+      date: formatDate(proposed),
+      icon: FileText,
+      color: "text-[var(--amber-start)]",
+      done: true,
+      current: false,
+    },
+    {
+      key: "committee",
+      label: "Komitete",
+      sublabel: "Svarstymas",
+      date: "—",
+      icon: Users2,
+      color: "text-[var(--amber-end)]",
+      done: hasVote || showResult,
+      current: !hasVote,
+    },
+    {
+      key: "vote",
+      label: "Balsuota",
+      date: formatDate(voted),
+      icon: Vote,
+      color: "text-[var(--amber-end)]",
+      done: hasVote,
+      current: hasVote && !showResult,
+    },
+    ...(showResult
+      ? [
+          {
+            key: "result",
+            label: isPassed ? "Priimtas" : "Atmestas",
+            sublabel: isPassed ? "Įstatymas" : undefined,
+            date: formatDate(voted),
+            icon: (isPassed ? CheckCircle2 : XCircle) as typeof FileText,
+            color: isPassed
+              ? "text-[var(--copper-moss)]"
+              : "text-[var(--destructive)]",
+            done: true,
+            current: true,
+          },
+        ]
+      : []),
+  ];
+
+  return (
+    <div className="relative pl-2">
+      <div className="absolute left-3 top-2 bottom-2 w-0.5 bg-[var(--amber-start)]/20 rounded-full" />
+      <div className="space-y-6">
+        {steps.map((step, idx) => {
+          const Icon = step.icon;
+          return (
+            <div key={step.key} className="relative flex gap-4 pl-8">
+              <div
+                className={`absolute left-0 top-0.5 w-6 h-6 rounded-full flex items-center justify-center border-2 ${
+                  step.current
+                    ? "border-[var(--amber-start)] bg-[var(--amber-start)]/20"
+                    : step.done
+                      ? "border-[var(--copper-moss)]/50 bg-[var(--copper-moss)]/10"
+                      : "border-[var(--muted)] bg-[var(--card)]"
+                }`}
+              >
+                <Icon
+                  className={`h-3.5 w-3.5 ${
+                    step.current
+                      ? "text-[var(--amber-start)]"
+                      : step.done
+                        ? "text-[var(--copper-moss)]"
+                        : "text-[var(--muted-foreground)]"
+                  }`}
+                />
+              </div>
+              <div className="flex-1 min-w-0 pb-2">
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <span
+                    className={`font-bold uppercase tracking-wide ${
+                      step.current ? "text-[var(--foreground)]" : "text-[var(--muted-foreground)]"
+                    }`}
+                  >
+                    {step.label}
+                  </span>
+                  {step.sublabel && (
+                    <span className="text-xs text-[var(--muted-foreground)]">
+                      {step.sublabel}
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-[var(--muted-foreground)] mt-0.5">
+                  {step.date}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function BillDetail() {
   const params = useParams();
   const billId = parseInt(params.id || "0");
   const [selectedParty, setSelectedParty] = useState<string>("all");
+  const [showOnlyBreaking, setShowOnlyBreaking] = useState(false);
 
   // Fetch bill details
   const {
@@ -124,12 +318,12 @@ export default function BillDetail() {
     );
   }
 
-  // Calculate voting statistics
+  // Calculate voting statistics (normalize values: už→for, prieš→against, etc.)
   const voteStats = votingData?.reduce(
     (acc, { vote }) => {
       if (vote) {
-        acc[vote.voteValue as keyof typeof acc] =
-          (acc[vote.voteValue as keyof typeof acc] || 0) + 1;
+        const k = normalizeVote(vote.voteValue) as keyof typeof acc;
+        acc[k] = (acc[k] ?? 0) + 1;
       }
       return acc;
     },
@@ -146,11 +340,20 @@ export default function BillDetail() {
   );
   const parties = ["all", ...Array.from(uniqueParties)];
 
-  // Filter votes by party
-  const filteredVotes =
+  const partyMajority = useMemo(
+    () => getPartyMajority(votingData ?? []),
+    [votingData]
+  );
+
+  let filteredVotes =
     selectedParty === "all"
       ? votingData
       : votingData?.filter(v => v.mp?.party === selectedParty);
+  if (showOnlyBreaking && filteredVotes) {
+    filteredVotes = filteredVotes.filter(({ vote, mp }) =>
+      mp && vote ? isBreakingWithParty(mp, vote.voteValue, partyMajority) : false
+    );
+  }
 
   const formatDate = (date: Date | string | null) => {
     if (!date) return "—";
@@ -227,7 +430,12 @@ export default function BillDetail() {
               </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              <FollowBillButton
+                billId={bill.id}
+                billTitle={bill.title}
+                className="border-[var(--amber-start)]/30 hover:bg-[var(--amber-start)]/10 hover:border-[var(--amber-start)]/50"
+              />
               <Button
                 variant="outline"
                 size="sm"
@@ -254,6 +462,23 @@ export default function BillDetail() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
+            {/* Timeline: proposal → committee → vote → result */}
+            <div className="border border-muted rounded-lg p-4">
+              <div className="p-6 bg-[var(--card)]/80">
+                <h3 className="text-lg font-bold uppercase tracking-widest text-[var(--muted-foreground)] mb-6 flex items-center gap-2">
+                  <Scale className="h-5 w-5 text-[var(--amber-start)]" />
+                  Projekto eiga
+                </h3>
+                <BillTimeline
+                  submittedAt={bill.submittedAt}
+                  votedAt={bill.votedAt}
+                  createdAt={bill.createdAt}
+                  status={bill.status}
+                  formatDate={formatDate}
+                />
+              </div>
+            </div>
+
             {/* AI Summary */}
             <div className="border border-muted rounded-lg p-4">
               <div className="amber-glass p-6 rounded-lg relative overflow-hidden">
@@ -438,40 +663,67 @@ export default function BillDetail() {
 
                     {/* Individual Votes */}
                     <div>
-                      <div className="flex items-center justify-between mb-6">
+                      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <h3 className="font-bold text-sm uppercase tracking-widest text-[var(--muted-foreground)]">
                           Individualūs balsai
                         </h3>
-                        <select
-                          value={selectedParty}
-                          onChange={e => setSelectedParty(e.target.value)}
-                          aria-label="Filtruoti pagal frakciją"
-                          className="text-xs font-bold uppercase border-b border-[var(--amber-start)] bg-transparent py-1 cursor-pointer outline-none focus:border-[var(--amber-end)] hover:text-[var(--amber-end)] transition-colors"
-                        >
-                          <option value="all">Visos frakcijos</option>
-                          {parties.slice(1).map(party => (
-                            <option key={party} value={party}>
-                              {party}
-                            </option>
-                          ))}
-                        </select>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <label className="flex items-center gap-2 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              checked={showOnlyBreaking}
+                              onChange={e =>
+                                setShowOnlyBreaking(e.target.checked)
+                              }
+                              className="rounded border-[var(--amber-start)]/50 bg-transparent text-[var(--amber-start)] focus:ring-[var(--amber-start)]"
+                            />
+                            <span className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)] group-hover:text-[var(--amber-end)] transition-colors flex items-center gap-1.5">
+                              <AlertTriangle className="h-3.5 w-3.5 text-[var(--amber-end)]" />
+                              Tik prieš frakciją
+                            </span>
+                          </label>
+                          <select
+                            value={selectedParty}
+                            onChange={e => setSelectedParty(e.target.value)}
+                            aria-label="Filtruoti pagal frakciją"
+                            className="text-xs font-bold uppercase border-b border-[var(--amber-start)] bg-transparent py-1 cursor-pointer outline-none focus:border-[var(--amber-end)] hover:text-[var(--amber-end)] transition-colors"
+                          >
+                            <option value="all">Visos frakcijos</option>
+                            {parties.slice(1).map(party => (
+                              <option key={party} value={party}>
+                                {party}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                         {filteredVotes?.map(({ vote, mp }) => {
                           if (!vote || !mp) return null;
 
+                          const key = normalizeVote(vote.voteValue);
                           const voteConf =
-                            voteConfig[
-                              vote.voteValue as keyof typeof voteConfig
-                            ];
-                          const VoteIcon = voteConf?.icon || MinusCircle;
+                            voteConfig[key as keyof typeof voteConfig] ??
+                            voteConfig.absent;
+                          const VoteIcon = voteConf.icon;
+                          const breaking = isBreakingWithParty(
+                            mp,
+                            vote.voteValue,
+                            partyMajority
+                          );
 
                           return (
                             <Link key={vote.id} href={`/mp/${mp.id}`}>
-                              <div className="flex items-center justify-between p-3 rounded border border-transparent hover:border-[var(--amber-start)]/30 hover:bg-[var(--background)]/80 transition-all cursor-pointer group">
-                                <div className="flex items-center gap-3">
-                                  <Avatar className="h-8 w-8 ring-2 ring-transparent group-hover:ring-[var(--amber-start)]/50 transition-all">
+                              <div
+                                className={`flex items-center justify-between p-3 rounded border transition-all cursor-pointer group ${
+                                  breaking
+                                    ? "border-[var(--amber-end)]/50 bg-[var(--amber-start)]/5 hover:bg-[var(--amber-start)]/10"
+                                    : "border-transparent hover:border-[var(--amber-start)]/30 hover:bg-[var(--background)]/80"
+                                }`}
+                              >
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <Avatar className="h-8 w-8 ring-2 ring-transparent group-hover:ring-[var(--amber-start)]/50 transition-all shrink-0">
                                     <AvatarImage
                                       src={mp.photoUrl || undefined}
                                     />
@@ -482,23 +734,31 @@ export default function BillDetail() {
                                         .join("")}
                                     </AvatarFallback>
                                   </Avatar>
-                                  <div>
-                                    <div className="text-sm font-bold leading-none group-hover:text-[var(--amber-start)] transition-colors">
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-bold leading-none group-hover:text-[var(--amber-start)] transition-colors truncate">
                                       {mp.name}
                                     </div>
-                                    <div className="text-[10px] text-[var(--muted-foreground)] mt-1">
-                                      {mp.party}
+                                    <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                                      <span className="text-[10px] text-[var(--muted-foreground)]">
+                                        {mp.party}
+                                      </span>
+                                      {breaking && (
+                                        <span className="inline-flex items-center gap-0.5 text-[10px] font-bold uppercase text-[var(--amber-end)]">
+                                          <AlertTriangle className="h-3 w-3" />
+                                          Prieš frakciją
+                                        </span>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 shrink-0">
                                   <VoteIcon
-                                    className={`h-4 w-4 ${voteConf?.color}`}
+                                    className={`h-4 w-4 ${voteConf.color}`}
                                   />
                                   <span
-                                    className={`text-xs font-bold uppercase ${voteConf?.color}`}
+                                    className={`text-xs font-bold uppercase ${voteConf.color}`}
                                   >
-                                    {voteConf?.label}
+                                    {voteConf.label}
                                   </span>
                                 </div>
                               </div>

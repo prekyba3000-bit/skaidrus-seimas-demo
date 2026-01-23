@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
 
@@ -88,9 +89,9 @@ export default function Bills() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
         {isLoading
           ? Array.from({ length: 9 }).map((_, i) => (
-              <div
+              <Skeleton
                 key={i}
-                className="h-48 bg-surface-dark rounded-xl animate-pulse border border-surface-border"
+                className="h-48 rounded-xl border border-surface-border"
               />
             ))
           : filteredBills.map(bill => {

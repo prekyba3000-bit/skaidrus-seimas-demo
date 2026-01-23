@@ -57,9 +57,11 @@ export default function DashboardLayout({
       }
     );
 
-  // Calculate total results for keyboard navigation (no committees in suggestions)
+  // Calculate total results for keyboard navigation (includes committees)
   const totalResults = searchResults
-    ? searchResults.mps.length + searchResults.bills.length
+    ? searchResults.mps.length +
+      searchResults.bills.length +
+      (searchResults.committees?.length || 0)
     : 0;
 
   // Handle keyboard navigation
@@ -114,8 +116,19 @@ export default function DashboardLayout({
       setSearchQuery("");
       return;
     }
-    // Note: getSuggestions doesn't return committees (optimized for speed)
-    // If committees are needed, use search.global instead
+    // Check Committees
+    currentIndex += searchResults.bills.length;
+    if (
+      searchResults.committees &&
+      index < currentIndex + searchResults.committees.length
+    ) {
+      const committee = searchResults.committees[index - currentIndex];
+      navigate(`/committees/${committee.id}`);
+      addSearch(searchQuery);
+      setIsDropdownOpen(false);
+      setSearchQuery("");
+      return;
+    }
   };
 
   // Handle dropdown close on outside click

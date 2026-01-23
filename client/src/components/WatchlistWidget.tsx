@@ -80,7 +80,7 @@ export function WatchlistWidget() {
             const mp = item.mp;
             const bill = item.bill;
             const partyColors = mp ? getPartyColors(mp.party) : undefined;
-            const href = mp ? `/mp/${mp.id}` : bill ? `/bill/${bill.id}` : "#";
+            const href = mp ? `/mp/${mp.id}` : bill ? `/bills/${bill.id}` : "#";
             const title = mp ? mp.name : bill ? bill.title : "Nenurodyta";
             const subtitle = mp
               ? mp.party

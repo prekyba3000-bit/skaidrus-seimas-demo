@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import {
   Sun,
   Filter,
@@ -11,6 +11,7 @@ import {
   Grid3x3,
   List,
   Leaf,
+  ArrowLeftRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +33,7 @@ type ViewMode = "grid" | "list";
 type SortOption = "name" | "party" | "score" | "district";
 
 export default function MPs() {
+  const [, navigate] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedParty, setSelectedParty] = useState<string>("all");
   const [selectedDistrict, setSelectedDistrict] = useState<string>("all");
@@ -197,7 +199,16 @@ export default function MPs() {
               className="pl-10 border-surface-border bg-surface-dark text-white placeholder:text-[#92adc9]"
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/compare")}
+              className="hover:bg-primary hover:text-white border-primary/50"
+            >
+              <ArrowLeftRight className="h-4 w-4 mr-1.5" />
+              Palyginti
+            </Button>
             <Button
               variant={viewMode === "grid" ? "default" : "outline"}
               size="sm"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
@@ -13,9 +13,17 @@ import {
   FileText,
   CheckCircle2,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 import { getPartyColors } from "@/lib/constants";
-import { SeismographContainer } from "@/components/seismograph/SeismographContainer";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy-load SeismographContainer to reduce initial bundle size (Recharts is heavy ~200-300KB)
+const SeismographContainer = lazy(() =>
+  import("@/components/seismograph/SeismographContainer").then(m => ({
+    default: m.SeismographContainer,
+  }))
+);
 
 export default function MpCompare() {
   const [, setLocation] = useLocation();
@@ -64,7 +72,7 @@ export default function MpCompare() {
               value={mp1Id}
               onChange={setMp1Id}
               excludeId={mp2Id}
-              label="Pasirinkite pirmą narys"
+              label="Pasirinkite pirmą naryį"
             />
           </CardContent>
         </Card>
@@ -75,7 +83,7 @@ export default function MpCompare() {
               value={mp2Id}
               onChange={setMp2Id}
               excludeId={mp1Id}
-              label="Pasirinkite antrą narys"
+              label="Pasirinkite antrą naryį"
             />
           </CardContent>
         </Card>
@@ -208,11 +216,23 @@ export default function MpCompare() {
           {/* Political Seismograph - Visual History of Conflicts */}
           <Card className="bg-surface-dark border-surface-border overflow-hidden">
             <CardContent className="p-6">
-              <SeismographContainer
-                mpAId={mp1Id!}
-                mpBId={mp2Id!}
-                className="w-full"
-              />
+              <Suspense
+                fallback={
+                  <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                    <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                    <p className="text-sm text-[#92adc9]">
+                      Kraunama seismografas...
+                    </p>
+                    <Skeleton className="h-64 w-full rounded-xl" />
+                  </div>
+                }
+              >
+                <SeismographContainer
+                  mpAId={mp1Id!}
+                  mpBId={mp2Id!}
+                  className="w-full"
+                />
+              </Suspense>
             </CardContent>
           </Card>
 
