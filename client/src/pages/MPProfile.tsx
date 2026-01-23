@@ -1,5 +1,6 @@
+import { useState, useMemo } from "react";
 import { useRoute, useLocation } from "wouter";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, subMonths } from "date-fns";
 import {
   ArrowLeft,
   Mail,
@@ -18,6 +19,7 @@ import {
   Info,
   Plus,
   ArrowLeftRight,
+  Calendar,
   CheckCircle2,
   Download,
   XCircle,
@@ -248,7 +250,7 @@ export default function MPProfile() {
               {/* Inner shadow for depth */}
               <div className="absolute inset-0 z-10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)] rounded-2xl pointer-events-none" />
               <Avatar className="w-full h-full rounded-2xl">
-                <AvatarImage src={mp.photoUrl || ""} className="object-cover" />
+                <AvatarImage src={mp.photoUrl || undefined} className="object-cover" />
                 <AvatarFallback className="bg-emerald-900/50 text-primary text-2xl font-bold">
                   {mp.name[0]}
                 </AvatarFallback>

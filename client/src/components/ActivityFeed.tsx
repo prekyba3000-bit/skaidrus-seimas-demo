@@ -31,6 +31,7 @@ export function ActivityFeed({
   className,
 }: ActivityFeedProps) {
   const [allActivities, setAllActivities] = useState<any[]>([]);
+  const [hideRead, setHideRead] = useState(false);
 
   // Fetch activities with cursor-based pagination (use getFeed for better performance)
   const {
@@ -43,7 +44,7 @@ export function ActivityFeed({
     hasNextPage,
     isFetchingNextPage,
   } = trpc.activities.getFeed.useInfiniteQuery(
-    { limit },
+    { limit, excludeRead: hideRead },
     {
       getNextPageParam: lastPage => lastPage.nextCursor,
       refetchInterval: autoRefresh ? refreshInterval : false,
@@ -121,14 +122,27 @@ export function ActivityFeed({
           </p>
         </div>
 
-        <button
-          onClick={() => refetch()}
-          disabled={isLoading}
-          className="inline-flex items-center gap-2 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/10 hover:border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
-          Atnaujinti
-        </button>
+        <div className="flex items-center gap-4">
+          {/* Hide Read Toggle */}
+          <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={hideRead}
+              onChange={(e) => setHideRead(e.target.checked)}
+              className="w-4 h-4 rounded border-surface-border bg-surface-dark text-primary focus:ring-2 focus:ring-primary/50 cursor-pointer"
+            />
+            <span>Slėpti perskaitytus</span>
+          </label>
+
+          <button
+            onClick={() => refetch()}
+            disabled={isLoading}
+            className="inline-flex items-center gap-2 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-white/10 hover:border-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+            Atnaujinti
+          </button>
+        </div>
       </div>
 
       {/* Activity Feed */}
@@ -137,6 +151,10 @@ export function ActivityFeed({
         initial="hidden"
         animate="visible"
         className="space-y-4"
+        role="feed"
+        aria-label="Parliamentary activity feed"
+        aria-live="polite"
+        aria-busy={isLoading}
       >
         {allActivities.map((activity, index) => (
           <FeedItem

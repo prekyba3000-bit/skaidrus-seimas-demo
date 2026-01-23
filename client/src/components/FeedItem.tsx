@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StatusBadge, type ActivityStatus } from "./StatusBadge";
 import { cn } from "@/lib/utils";
 import type { Activity } from "@/types/activity";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   ThumbsUp,
   ThumbsDown,
@@ -290,21 +291,16 @@ export function FeedItem({
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             {/* MP Avatar */}
-            <div className="relative flex-shrink-0">
-              {mp.photoUrl ? (
-                <img
-                  src={mp.photoUrl}
-                  alt={mp.name}
-                  className="h-10 w-10 rounded-full object-cover ring-2 ring-white/10"
-                />
-              ) : (
-                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 ring-2 ring-white/10 flex items-center justify-center">
-                  <span className="text-sm font-semibold text-gray-300">
-                    {mp.name.charAt(0)}
-                  </span>
-                </div>
-              )}
-            </div>
+            <Avatar className="h-10 w-10 ring-2 ring-white/10 flex-shrink-0">
+              <AvatarImage
+                src={mp.photoUrl ?? undefined}
+                alt={mp.name}
+                className="object-cover"
+              />
+              <AvatarFallback className="bg-surface-dark text-primary text-sm font-semibold">
+                {mp.name.split(" ").map(n => n[0]).join("")}
+              </AvatarFallback>
+            </Avatar>
 
             {/* MP Info */}
             <div className="flex-1 min-w-0">

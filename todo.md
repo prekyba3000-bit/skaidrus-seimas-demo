@@ -55,25 +55,25 @@
 
 ## 🚧 Current Phase: User Engagement & Real-Time Features
 
-### 1.1 Activity Feed Implementation 🔲
+### 1.1 Activity Feed Implementation ✅
 
-- [ ] Create `ActivityFeed` container component
-- [ ] Implement `FeedItem` with activity type variants
-  - [ ] Vote activity (bill name, vote choice)
-  - [ ] Comment activity (preview with expand)
-  - [ ] Document activity (icon, title, download)
-  - [ ] Session activity (attendance, duration)
-  - [ ] Achievement activity (milestone badges)
-- [ ] Build `StatusBadge` micro component
-- [ ] Apply Tailwind glassmorphism styles
-- [ ] Integrate Framer Motion animations
-  - [ ] Staggered list animation (100ms delay)
-  - [ ] New item highlight animation (cyan glow)
-  - [ ] Scroll-triggered animations
-- [ ] Connect to tRPC `activities` endpoint
-- [ ] Implement real-time polling (5s default)
-- [ ] Add infinite scroll pagination
-- [ ] Accessibility: ARIA live regions, keyboard nav
+- [x] Create `ActivityFeed` container component
+- [x] Implement `FeedItem` with activity type variants
+  - [x] Vote activity (bill name, vote choice)
+  - [x] Comment activity (preview with expand)
+  - [x] Document activity (icon, title, download)
+  - [x] Session activity (attendance, duration)
+  - [x] Achievement activity (milestone badges)
+- [x] Build `StatusBadge` micro component
+- [x] Apply Tailwind glassmorphism styles
+- [x] Integrate Framer Motion animations
+  - [x] Staggered list animation (100ms delay)
+  - [x] New item highlight animation (cyan glow)
+  - [ ] Scroll-triggered animations (nice-to-have for future)
+- [x] Connect to tRPC `activities` endpoint
+- [x] Implement real-time polling (5s default)
+- [x] Add infinite scroll pagination (Load More button)
+- [x] Accessibility: ARIA live regions, keyboard nav
 
 ### 1.2 Global Search 🔲
 

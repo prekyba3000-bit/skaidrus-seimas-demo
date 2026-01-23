@@ -6,25 +6,24 @@ This document tracks known TODOs, FIXMEs, and technical debt that doesn't block 
 
 ## 🔴 High Priority (Post-Launch)
 
-### 1. User-Specific Activity Read Tracking
+### 1. User-Specific Activity Read Tracking ✅ COMPLETE
 
-**File:** `server/routers.ts:376`
-**Issue:** `markActivitiesAsRead` doesn't accept `userId` for user-specific read tracking
-**Impact:** All users see the same "read" status for activities
-**Fix:** Update `markActivitiesAsRead` to accept `userId` and track per-user read status
+**File:** `server/routers.ts:435-445`, `server/services/database.ts:690-710`, `server/services/database.ts:741-790`
+**Status:** ✅ **COMPLETE** - Fixed January 17, 2026
+**Issue:** `markActivitiesAsRead` didn't filter activities by user read status in feed queries
+**Impact:** All users saw the same feed regardless of read status
+**Fix:** 
+- ✅ `markActivitiesAsRead` already accepted `userId` correctly (function signature correct)
+- ✅ Enhanced `getActivityFeed` to accept `userId` and `excludeRead` parameters
+- ✅ Added filtering logic to exclude read items when `excludeRead=true`
+- ✅ Updated `getFeed` router to pass `userId` and `excludeRead` to database function
+- ✅ Added "Hide Read" toggle UI control in `ActivityFeed.tsx`
+- ✅ Updated cache key generation to include `excludeRead` parameter
 
-```typescript
-// Current:
-markAsRead: protectedProcedure.mutation(async ({ ctx }) => {
-  return await db.markActivitiesAsRead(); // No userId
-});
-
-// Should be:
-markAsRead: protectedProcedure.mutation(async ({ ctx }) => {
-  if (!ctx.user) throw new TRPCError({ code: "UNAUTHORIZED" });
-  return await db.markActivitiesAsRead(ctx.user.openId);
-});
-```
+**Implementation Details:**
+- Database function now filters using `NOT EXISTS` subquery on `user_activity_reads` table
+- Cache keys include `excludeRead` flag for proper cache separation
+- Frontend toggle allows users to hide read activities from feed
 
 ---
 

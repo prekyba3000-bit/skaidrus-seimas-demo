@@ -1,6 +1,6 @@
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { eq, desc, and, sql, gte, inArray, lt } from "drizzle-orm";
+import { eq, desc, and, sql, gte, lte, inArray, lt } from "drizzle-orm";
 import type { InferSelectModel } from "drizzle-orm";
 import * as schema from "../../drizzle/schema";
 import { logger } from "../utils/logger";
@@ -502,7 +502,7 @@ export async function getSearchSuggestions(searchTerm: string) {
   const db = await getDb();
 
   if (!searchTerm || searchTerm.trim().length === 0) {
-    return { mps: [], bills: [] };
+    return { mps: [], bills: [], committees: [] };
   }
 
   const term = `%${searchTerm.trim()}%`;
@@ -533,15 +533,29 @@ export async function getSearchSuggestions(searchTerm: string) {
     .where(sql`${bills.title} ILIKE ${term}`)
     .limit(5);
 
+  // Search Committees (name only for speed)
+  // Limit to 5 for autocomplete
+  const committeesPromise = db
+    .select({
+      id: committees.id,
+      name: committees.name,
+      description: committees.description,
+    })
+    .from(committees)
+    .where(sql`${committees.name} ILIKE ${term}`)
+    .limit(5);
+
   // Execute searches in parallel for speed
-  const [mpsResults, billsResults] = await Promise.all([
+  const [mpsResults, billsResults, committeesResults] = await Promise.all([
     mpsPromise,
     billsPromise,
+    committeesPromise,
   ]);
 
   return {
     mps: mpsResults,
     bills: billsResults,
+    committees: committeesResults,
   };
 }
 
@@ -741,10 +755,14 @@ export async function markActivitiesAsRead(
 export async function getActivityFeed(options?: {
   limit?: number;
   cursor?: number;
+  userId?: string; // NEW: for filtering read items
+  excludeRead?: boolean; // NEW: whether to hide read items
 }) {
   const db = await getDb();
   const limit = options?.limit ?? 20;
   const cursor = options?.cursor;
+  const userId = options?.userId;
+  const excludeRead = options?.excludeRead ?? false;
 
   // First, try to get activities from activities table
   const conditions = [];
@@ -752,11 +770,29 @@ export async function getActivityFeed(options?: {
     conditions.push(lt(activities.id, cursor));
   }
 
+  // Add filter for read items if requested
+  if (excludeRead && userId) {
+    conditions.push(
+      sql`NOT EXISTS(
+        SELECT 1 FROM user_activity_reads 
+        WHERE user_id = ${userId} 
+        AND activity_id = ${activities.id}
+      )`
+    );
+  }
+
   let query = db
     .select({
       activity: activities,
       mp: mps,
       bill: bills,
+      isRead: userId
+        ? sql<boolean>`EXISTS(
+            SELECT 1 FROM user_activity_reads 
+            WHERE user_id = ${userId} 
+            AND activity_id = ${activities.id}
+          )`
+        : sql<boolean>`false`,
     })
     .from(activities)
     .leftJoin(mps, eq(activities.mpId, mps.id))
@@ -957,16 +993,31 @@ export async function getBillById(id: number) {
 
 export async function getVotesByMpId(
   mpId: number,
-  options?: { limit?: number; cursor?: number }
+  options?: {
+    limit?: number;
+    cursor?: number;
+    fromDate?: Date | string;
+    toDate?: Date | string;
+  }
 ) {
   const db = await getDb();
   const limit = options?.limit ?? 50;
   const cursor = options?.cursor;
+  const fromDate = options?.fromDate
+    ? new Date(options.fromDate)
+    : undefined;
+  const toDate = options?.toDate ? new Date(options.toDate) : undefined;
 
   // Build where conditions
   const conditions = [eq(votes.mpId, mpId)];
   if (cursor) {
     conditions.push(lt(votes.id, cursor));
+  }
+  if (fromDate) {
+    conditions.push(gte(votes.votedAt, fromDate));
+  }
+  if (toDate) {
+    conditions.push(lte(votes.votedAt, toDate));
   }
 
   const results = await db

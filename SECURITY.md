@@ -40,11 +40,8 @@ We consider security research activities conducted consistent with this policy t
 
 For sensitive vulnerability reports, please encrypt your message using our PGP key found at [pgp-key.txt](/pgp-key.txt).
 
-PGP Fingerprint (placeholder):
-
-```
-09EA BCE6 E07B B7C7 D8E1 06D6 65D2 FA15 539E F056
-```
+**PGP Fingerprint:**
+`09EA BCE6 E07B B7C7 D8E1 06D6 65D2 FA15 539E F056`
 
 ## Security Measures
 
@@ -83,35 +80,3 @@ pnpm audit fix
 
 # Update to patched versions
 pnpm update
-```
-
-## Secret Management
-
-- All secrets stored in environment variables
-- `.env` files are gitignored
-- Production secrets managed via CI/CD secrets
-- No API keys or passwords in code
-
-### If Secrets Were Leaked
-
-If you accidentally committed secrets:
-
-```bash
-# Install BFG Repo-Cleaner
-brew install bfg
-
-# Remove .env files from history
-bfg --delete-files .env
-
-# Remove specific patterns
-bfg --replace-text patterns.txt
-
-# Clean up
-git reflog expire --expire=now --all
-git gc --prune=now --aggressive
-git push --force
-```
-
-## Acknowledgments
-
-We appreciate security researchers who help keep our platform safe. Contributors will be credited in our security hall of fame (with permission).

@@ -241,8 +241,8 @@ class CacheService {
     billById: (id: number) => `bills:${id}`,
     dashboardPulse: () => "dashboard:pulse",
     committees: () => "committees:list",
-    activitiesFeed: (limit: number, cursor?: number) =>
-      `activities:feed:${limit}:${cursor || 0}`,
+    activitiesFeed: (limit: number, cursor?: number, excludeRead?: boolean) =>
+      `activities:feed:${limit}:${cursor || 0}:${excludeRead ? 'filtered' : 'all'}`,
   };
 }
 

@@ -15,6 +15,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { getPartyColors } from "@/lib/constants";
+import { SeismographContainer } from "@/components/seismograph/SeismographContainer";
 
 export default function MpCompare() {
   const [, setLocation] = useLocation();
@@ -204,6 +205,17 @@ export default function MpCompare() {
             </Card>
           )}
 
+          {/* Political Seismograph - Visual History of Conflicts */}
+          <Card className="bg-surface-dark border-surface-border overflow-hidden">
+            <CardContent className="p-6">
+              <SeismographContainer
+                mpAId={mp1Id!}
+                mpBId={mp2Id!}
+                className="w-full"
+              />
+            </CardContent>
+          </Card>
+
           {/* Key Disagreements */}
           {comparison.disagreements.length > 0 && (
             <Card className="bg-surface-dark border-surface-border">
@@ -213,7 +225,7 @@ export default function MpCompare() {
                   Pagrindiniai Nesutarimai
                 </h3>
                 <div className="space-y-3">
-                  {comparison.disagreements.map(disagreement => (
+                  {comparison.disagreements.map((disagreement: { billId: number; billTitle: string; mp1Vote: string; mp2Vote: string; votedAt: Date | string | null }) => (
                     <Link
                       key={disagreement.billId}
                       href={`/bills/${disagreement.billId}`}
@@ -313,13 +325,13 @@ function ComparisonRow({
   suffix,
 }: {
   label: string;
-  icon: any;
-  val1: any;
-  val2: any;
+  icon: React.ReactNode;
+  val1: number | string | null | undefined;
+  val2: number | string | null | undefined;
   suffix: string;
 }) {
-  const v1 = parseFloat(val1 || "0");
-  const v2 = parseFloat(val2 || "0");
+  const v1 = parseFloat(String(val1 || "0"));
+  const v2 = parseFloat(String(val2 || "0"));
 
   // Determine winner color
   const win1 = v1 > v2;
@@ -360,13 +372,11 @@ function ComparisonRow({
       <div className="h-1 w-full bg-[#1A2633] flex">
         <div
           className="h-full bg-primary transition-all duration-500"
-          // eslint-disable-next-line
-          style={{ flex: v1 }}
+          style={{ flex: v1 }} // eslint-disable-line
         ></div>
         <div
           className="h-full bg-blue-500 transition-all duration-500"
-          // eslint-disable-next-line
-          style={{ flex: v2 }}
+          style={{ flex: v2 }} // eslint-disable-line
         ></div>
       </div>
     </Card>

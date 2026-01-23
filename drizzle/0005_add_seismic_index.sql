@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "idx_session_votes_contested" ON "session_votes" USING btree ("vote_date", abs("voted_for" - "voted_against"));

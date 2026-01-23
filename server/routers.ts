@@ -14,6 +14,7 @@ import { dashboardRouter } from "./routers/dashboard";
 import { schedulerRouter } from "./routers/scheduler";
 import { watchlistRouter } from "./routers/watchlist";
 import { feedbackRouter } from "./routers/feedback";
+import { seismographRouter } from "./routers/seismograph";
 import { cache, CacheService } from "./services/cache";
 
 export const appRouter = router({
@@ -23,6 +24,7 @@ export const appRouter = router({
   scheduler: schedulerRouter,
   watchlist: watchlistRouter,
   feedback: feedbackRouter,
+  seismograph: seismographRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -205,12 +207,16 @@ export const appRouter = router({
           mpId: z.number(),
           limit: z.number().min(1).max(100).optional(),
           cursor: z.number().optional(),
+          fromDate: z.string().datetime().optional(),
+          toDate: z.string().datetime().optional(),
         })
       )
       .query(async ({ input }) => {
         const result = await db.getVotesByMpId(input.mpId, {
           limit: input.limit,
           cursor: input.cursor,
+          fromDate: input.fromDate,
+          toDate: input.toDate,
         });
         // Backward compatibility: if no cursor/limit provided, return items array directly
         if (!input?.cursor && !input?.limit) {
@@ -410,20 +416,28 @@ export const appRouter = router({
           .object({
             limit: z.number().min(1).max(50).default(20),
             cursor: z.number().optional(),
+            excludeRead: z.boolean().optional(), // NEW: whether to hide read items
           })
           .optional()
       )
-      .query(async ({ input }) => {
-        const { limit = 20, cursor } = input || {};
+      .query(async ({ input, ctx }) => {
+        const { limit = 20, cursor, excludeRead } = input || {};
 
         // Generate cache key based on input parameters
-        const cacheKey = CacheService.keys.activitiesFeed(limit, cursor);
+        const cacheKey = CacheService.keys.activitiesFeed(
+          limit,
+          cursor,
+          excludeRead
+        );
 
         // Use cache with 5-minute TTL (users don't need sub-second updates)
         return await cache.get(
           cacheKey,
           async () => {
-            return await db.getActivityFeed(input);
+            return await db.getActivityFeed({
+              ...input,
+              userId: ctx.user?.openId, // Pass user context for filtering
+            });
           },
           {
             ttl: CacheService.TTL.ACTIVITIES_FEED,

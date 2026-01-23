@@ -297,22 +297,34 @@ export const mpTrips = pgTable("mp_trips", {
 });
 
 // Session Votes (for parliamentary sitting votes)
-export const sessionVotes = pgTable("session_votes", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  seimasVoteId: varchar("seimas_vote_id", { length: 50 }).notNull().unique(),
-  sittingId: varchar("sitting_id", { length: 50 }).notNull(),
-  sessionId: varchar("session_id", { length: 50 }).notNull(),
-  question: text("question").notNull(),
-  voteDate: timestamp("vote_date").notNull(),
-  voteTime: varchar("vote_time", { length: 20 }),
-  votedFor: integer("voted_for").default(0),
-  votedAgainst: integer("voted_against").default(0),
-  abstained: integer("abstained").default(0),
-  totalVoted: integer("total_voted").default(0),
-  comment: text("comment"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+export const sessionVotes = pgTable(
+  "session_votes",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    seimasVoteId: varchar("seimas_vote_id", { length: 50 }).notNull().unique(),
+    sittingId: varchar("sitting_id", { length: 50 }).notNull(),
+    sessionId: varchar("session_id", { length: 50 }).notNull(),
+    question: text("question").notNull(),
+    voteDate: timestamp("vote_date").notNull(),
+    voteTime: varchar("vote_time", { length: 20 }),
+    votedFor: integer("voted_for").default(0),
+    votedAgainst: integer("voted_against").default(0),
+    abstained: integer("abstained").default(0),
+    totalVoted: integer("total_voted").default(0),
+    comment: text("comment"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+  },
+  table => ({
+    // Composite index for "Seismic Highlights" query:
+    // 1. Filter by date range (voteDate)
+    // 2. Order/Filter by magnitude (abs(for - against))
+    contestedIdx: index("idx_session_votes_contested").on(
+      table.voteDate,
+      sql`abs(${table.votedFor} - ${table.votedAgainst})`
+    ),
+  })
+);
 
 // Individual MP votes for session votes
 export const sessionMpVotes = pgTable("session_mp_votes", {
