@@ -177,10 +177,17 @@ async function startServer() {
         directives: {
           defaultSrc: ["'self'"],
           styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Tailwind
-          scriptSrc: ["'self'"],
+          scriptSrc: ["'self'"], // Allow scripts from same origin
           imgSrc: ["'self'", "data:", "https:"], // Allow images from any HTTPS source
-          connectSrc: ["'self'"],
-          fontSrc: ["'self'", "data:"],
+          connectSrc: ["'self'"], // Allow API connections to same origin
+          fontSrc: [
+            "'self'",
+            "data:",
+            "https://fonts.googleapis.com", // Google Fonts
+            "https://fonts.gstatic.com", // Google Fonts static files
+          ],
+          // Temporarily relaxed for debugging blank screen issue
+          // TODO: Tighten after resolving blank screen
         },
       },
       hsts: {

@@ -71,16 +71,35 @@ function Router() {
 // - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
-  const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    trpc.createClient({
+  console.log("[DEBUG] App.tsx: Component rendering");
+  
+  const [queryClient] = useState(() => {
+    console.log("[DEBUG] App.tsx: Creating QueryClient");
+    return new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: 1,
+          // Don't fail the entire app if a query fails
+          onError: (error) => {
+            console.error("[DEBUG] App.tsx: Query error:", error);
+          },
+        },
+      },
+    });
+  });
+  
+  const [trpcClient] = useState(() => {
+    console.log("[DEBUG] App.tsx: Creating tRPC client");
+    return trpc.createClient({
       links: [
         httpBatchLink({
           url: "/api/trpc",
         }),
       ],
-    })
-  );
+    });
+  });
+
+  console.log("[DEBUG] App.tsx: About to render providers");
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>

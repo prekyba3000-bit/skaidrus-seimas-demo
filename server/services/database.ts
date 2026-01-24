@@ -399,40 +399,89 @@ export async function getAllMps(filters?: {
 }) {
   const db = await getDb();
 
-  const assistantCount = db
-    .select({
-      mpId: mpAssistants.mpId,
-      count: sql<number>`count(*)`.as("count"),
-    })
-    .from(mpAssistants)
-    .groupBy(mpAssistants.mpId)
-    .as("assistant_count");
+  try {
+    // Try to get assistant counts, but don't fail if table doesn't exist or is empty
+    let assistantCount;
+    try {
+      assistantCount = db
+        .select({
+          mpId: mpAssistants.mpId,
+          count: sql<number>`count(*)`.as("count"),
+        })
+        .from(mpAssistants)
+        .groupBy(mpAssistants.mpId)
+        .as("assistant_count");
+    } catch (err) {
+      logger.warn({ err }, "Failed to create assistant_count subquery, continuing without assistant counts");
+      // Fallback: return MPs without assistant counts
+      let query = db.select().from(mps);
+      const conditions = [];
+      if (filters?.party) {
+        conditions.push(eq(mps.party, filters.party));
+      }
+      if (filters?.isActive !== undefined) {
+        conditions.push(eq(mps.isActive, filters.isActive));
+      }
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions)) as any;
+      }
+      const result = await query;
+      return result.map(mp => ({
+        ...mp,
+        assistantCount: 0,
+      }));
+    }
 
-  let query = db
-    .select({
-      mp: mps,
-      assistantCount: sql<number>`COALESCE(${assistantCount.count}, 0)`,
-    })
-    .from(mps)
-    .leftJoin(assistantCount, eq(mps.id, assistantCount.mpId));
+    let query = db
+      .select({
+        mp: mps,
+        assistantCount: sql<number>`COALESCE(${assistantCount.count}, 0)`,
+      })
+      .from(mps)
+      .leftJoin(assistantCount, eq(mps.id, assistantCount.mpId));
 
-  const conditions = [];
-  if (filters?.party) {
-    conditions.push(eq(mps.party, filters.party));
+    const conditions = [];
+    if (filters?.party) {
+      conditions.push(eq(mps.party, filters.party));
+    }
+    if (filters?.isActive !== undefined) {
+      conditions.push(eq(mps.isActive, filters.isActive));
+    }
+
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions)) as any;
+    }
+
+    const result = await query;
+    return result.map(r => ({
+      ...r.mp,
+      assistantCount: Number(r.assistantCount),
+    }));
+  } catch (error) {
+    logger.error({ err: error, filters }, "Failed to get MPs, attempting fallback query");
+    // Fallback: return MPs without assistant counts if join fails
+    try {
+      let query = db.select().from(mps);
+      const conditions = [];
+      if (filters?.party) {
+        conditions.push(eq(mps.party, filters.party));
+      }
+      if (filters?.isActive !== undefined) {
+        conditions.push(eq(mps.isActive, filters.isActive));
+      }
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions)) as any;
+      }
+      const result = await query;
+      return result.map(mp => ({
+        ...mp,
+        assistantCount: 0,
+      }));
+    } catch (fallbackError) {
+      logger.error({ err: fallbackError }, "Fallback query also failed");
+      throw fallbackError;
+    }
   }
-  if (filters?.isActive !== undefined) {
-    conditions.push(eq(mps.isActive, filters.isActive));
-  }
-
-  if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
-  }
-
-  const result = await query;
-  return result.map(r => ({
-    ...r.mp,
-    assistantCount: Number(r.assistantCount),
-  }));
 }
 
 export async function getTopDelegates(limit: number = 3) {

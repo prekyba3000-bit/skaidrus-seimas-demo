@@ -15,10 +15,17 @@ function setTextContent(element: HTMLElement, text: string | undefined | null): 
   element.textContent = text == null ? "" : String(text);
 }
 
+// DEBUG: Log that script is executing
+console.log("[DEBUG] main.tsx: Script is executing");
+console.log("[DEBUG] main.tsx: Document ready state:", document.readyState);
+console.log("[DEBUG] main.tsx: Root element exists:", !!document.getElementById("root"));
+
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { initializeSentry } from "./monitoring";
+
+console.log("[DEBUG] main.tsx: Imports loaded successfully");
 
 // Global error handler for uncaught errors - make them visible
 window.addEventListener("error", (event) => {
@@ -135,9 +142,11 @@ if (!rootElement) {
 rootElement.innerHTML = '<div style="display: flex; align-items: center; justify-center; min-height: 100vh; background: #09090b; color: white;"><div style="text-align: center;"><div style="width: 40px; height: 40px; border: 4px solid #3b82f6; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div><p>Loading...</p></div></div><style>@keyframes spin { to { transform: rotate(360deg); } }</style>';
 
 try {
+  console.log("[DEBUG] main.tsx: About to create React root");
   createRoot(rootElement).render(<App />);
+  console.log("[DEBUG] main.tsx: React root created and App rendered");
 } catch (error) {
-  console.error("Failed to render app:", error);
+  console.error("[DEBUG] main.tsx: Failed to render app:", error);
   // Use textContent and createElement to prevent XSS
   rootElement.innerHTML = ""; // Clear first
   const container = document.createElement("div");
