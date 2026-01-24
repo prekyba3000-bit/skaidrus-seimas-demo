@@ -492,6 +492,15 @@ async function startServer() {
     if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
       return next();
     }
+    // Skip static asset paths (js, css, images, fonts, etc.)
+    // These should be handled by express.static middleware above
+    if (
+      req.path.startsWith("/js/") ||
+      req.path.startsWith("/assets/") ||
+      req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i)
+    ) {
+      return next(); // Let express.static handle it or return 404
+    }
     // Serve the React app's index.html for client-side routing
     res.sendFile(path.join(process.cwd(), "client/dist/index.html"), err => {
       if (err) {
