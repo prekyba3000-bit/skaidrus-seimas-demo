@@ -4,6 +4,7 @@
 
 # Build outputs
 dist/
+client/dist/
 build/
 *.dist
 
@@ -109,3 +110,5 @@ temp/
 # Orphan/abandoned project directories (not part of skaidrus-seimas-demo)
 /Seimas.v3/
 /lrs_sync/
+
+megalinter-reports/
