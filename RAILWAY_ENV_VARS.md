@@ -84,35 +84,82 @@ Railway automatically provides these (you don't need to set them manually):
 8. ✅ (Optional) Set `GEMINI_API_KEY` if using AI features
 9. ✅ (Optional) Set `SENTRY_DSN` for error tracking
 
-## Railway Dashboard Verification
+## Fix "pnpm not found" (Runbook)
 
-If commit `f35a62f` (or later) still results in **"pnpm not found"** or **"The executable pnpm could not be found"**:
+If deployment is **stuck** with **"pnpm not found"** or **"The executable pnpm could not be found"**:
+
+### 1. Verify config
+
+Confirm `railway.json` has:
+
+- `"startCommand": "node dist/index.js"`
+- `"builder": "DOCKERFILE"`
+
+(Already correct in this repo.)
+
+### 2. Dashboard action (critical)
+
+**The Dashboard Custom Start Command overrides both `railway.json` and the Dockerfile `CMD`.** If it is set to `pnpm start` (or anything using pnpm), the runner will fail because pnpm is not in the image.
 
 1. Open **Railway Dashboard** → your project → **skaidrus-seimas-demo** service.
 2. Go to **Settings** → **Deploy**.
 3. Find **Custom Start Command** (or **Start Command**).
-4. **Manually clear** the field — remove any value so it is empty.
-5. Save and trigger a **Redeploy**.
+4. **Manually CLEAR the field** — delete any value so it is completely empty.
+5. **Save**.
 
-An empty Custom Start Command lets `railway.json` take precedence (`"startCommand": "node dist/index.js"`). A Dashboard override always wins over `railway.json`, so clearing it is required if the override was set to `pnpm start`.
+### 3. Trigger redeploy
+
+1. After clearing, trigger a **new deployment** (e.g. **Redeploy**).
+2. Use commit **`4655679`** (or latest main).
+3. Wait until the deployment shows **Live**.
+
+### 4. Health check
+
+Once **Live**:
+
+```bash
+curl -f https://<your-domain>/health
+```
+
+Expected: `{"status":"ok","timestamp":"..."}`  
+
+If this succeeds, the Node process is running.
+
+### 5. Playwright check
+
+```bash
+curl -f https://<your-domain>/test-browser
+```
+
+Expected JSON includes `"title": "Google"` and `"success": true`.  
+
+If so, system dependencies and Chromium binaries are correctly configured in the production runner.
+
+---
+
+## Railway Dashboard Verification (reference)
+
+If you still see **"pnpm not found"** after updating config:
+
+1. **Settings** → **Deploy** → **Custom Start Command**.
+2. **Clear** the field (leave it empty).
+3. Save and **Redeploy**.
+
+An empty Custom Start Command allows `railway.json` (`"startCommand": "node dist/index.js"`) to take effect. A Dashboard override always wins, so clearing it is required when it was set to `pnpm start`.
 
 ## Final Test (After Container Starts)
 
-Once the container is running, confirm the Node process and Chromium:
+Once the container is **Live**:
 
-1. **`/health`** — Node process is up:
-   ```bash
-   curl -f https://<your-railway-domain>/health
-   ```
-   Expected: `{"status":"ok","timestamp":"..."}`
+1. **`/health`** — Node process up:  
+   `curl -f https://<your-domain>/health`  
+   → `{"status":"ok","timestamp":"..."}`
 
-2. **`/test-browser`** — Chromium launches in the runner:
-   ```bash
-   curl -f https://<your-railway-domain>/test-browser
-   ```
-   Expected: `{"success":true,"title":"Google","message":"Playwright browser test successful",...}`
+2. **`/test-browser`** — Chromium launch:  
+   `curl -f https://<your-domain>/test-browser`  
+   → `{"success":true,"title":"Google","message":"Playwright browser test successful",...}`
 
-If both succeed, the runner uses `node` only (no pnpm) and Playwright/Chromium work correctly.
+If both succeed, the runner uses `node` only (no pnpm) and Playwright/Chromium are working.
 
 ## Verification
 
