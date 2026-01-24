@@ -23,13 +23,41 @@ RUN pnpm prune --prod
 
 # --- Runner Stage ---
 FROM node:20-slim AS runner
+# pnpm is intentionally excluded from the runner stage to minimize image size.
+# Using CMD ["node", "dist/index.js"] executes the production build directly.
+# This avoids failures that would occur with CMD ["pnpm", "start"] because:
+# - pnpm start runs "check:indexes" which requires tsx (a dev dependency)
+# - Dev dependencies are removed during "pnpm prune --prod" in the builder stage
+# - The production build (dist/index.js) uses --packages=external, so node_modules is required
+#   but the bundled code itself doesn't need pnpm to execute
 
 WORKDIR /app
+
+# Install Playwright system dependencies in runner stage
+# These are required for Playwright to work in the production container
+# The browser binaries are copied from builder's node_modules/.cache/playwright
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libnss3 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
+    libpango-1.0-0 \
+    libcairo2 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy necessary files from builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/client/dist ./client/dist
 COPY --from=builder /app/package.json ./package.json
+# Copy node_modules (required because esbuild uses --packages=external)
+# This includes Playwright and its browser binaries in node_modules/.cache/playwright
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/drizzle ./drizzle
@@ -41,5 +69,7 @@ ENV PORT=3000
 # Expose server port
 EXPOSE 3000
 
-# Default command: start server
+# Execute production build directly without pnpm
+# dist/index.js uses --packages=external, so it requires node_modules at runtime
+# but doesn't need pnpm to execute - node can run it directly
 CMD ["node", "dist/index.js"]
