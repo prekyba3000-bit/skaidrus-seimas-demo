@@ -8,7 +8,12 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 
+# Set PLAYWRIGHT_BROWSERS_PATH to install browsers in node_modules/.cache/playwright
+# This ensures browsers are included when we copy node_modules to the runner stage
+ENV PLAYWRIGHT_BROWSERS_PATH=/app/node_modules/.cache/playwright
+
 # Install dependencies (frozen-lockfile for consistency)
+# The postinstall script will install Chromium to node_modules/.cache/playwright
 RUN pnpm install --frozen-lockfile
 
 # Copy source code
@@ -66,6 +71,8 @@ COPY --from=builder /app/drizzle ./drizzle
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
+# Set PLAYWRIGHT_BROWSERS_PATH to match the location where browsers were installed
+ENV PLAYWRIGHT_BROWSERS_PATH=/app/node_modules/.cache/playwright
 
 # Expose server port
 EXPOSE 3000
