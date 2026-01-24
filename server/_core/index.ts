@@ -491,6 +491,16 @@ async function startServer() {
     });
   });
 
+  // Diagnostic test page (for debugging blank screen issues)
+  app.get("/test", (_req, res) => {
+    res.sendFile(path.join(process.cwd(), "client/dist/test.html"), err => {
+      if (err) {
+        logger.error({ err }, "Failed to serve test.html");
+        res.status(404).json({ error: "Test page not found" });
+      }
+    });
+  });
+
   // SPA fallback: serve index.html for all non-API routes
   // This must be last so API routes take precedence
   // IMPORTANT: express.static middleware above handles static files first
