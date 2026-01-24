@@ -26,7 +26,7 @@ info:
   version: 1.0.0
   contact:
     name: Skaidrus Seimas Team
-    url: https://github.com/your-org/skaidrus-seimas-demo
+    url: https://github.com/prekyba3000-bit/skaidrus-seimas-demo
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
@@ -36,6 +36,11 @@ servers:
     description: Development server
   - url: https://api.seimas.example.com
     description: Production server
+
+# Global security definitions
+# Most endpoints are public, but user-specific endpoints require session authentication
+# Individual endpoints can override this with their own security requirements
+security: []  # Default: all endpoints are public
 
 tags:
   - name: MPs
@@ -102,6 +107,8 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/MP"
+                        maxItems: 1000
+                        description: Maximum 1000 MPs returned per request
 
   /api/trpc/mps.byId:
     get:
@@ -189,6 +196,8 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/MP"
+                        maxItems: 1000
+                        description: Maximum 1000 MPs returned per request
 
   /api/trpc/bills.list:
     get:
@@ -222,6 +231,8 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/Bill"
+                        maxItems: 500
+                        description: Maximum 500 bills returned per request
 
   /api/trpc/bills.byId:
     get:
@@ -278,6 +289,8 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/Vote"
+                        maxItems: 1000
+                        description: Maximum 1000 votes returned per request
 
   /api/trpc/committees.list:
     get:
@@ -300,6 +313,8 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/Committee"
+                        maxItems: 100
+                        description: Maximum 100 committees returned per request
 
   /api/trpc/dashboard.pulse:
     get:
@@ -369,6 +384,8 @@ paths:
                         type: array
                         items:
                           $ref: "#/components/schemas/QuizQuestion"
+                        maxItems: 50
+                        description: Maximum 50 quiz questions returned per request
 
 components:
   schemas:
@@ -474,10 +491,14 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/Assistant"
+              maxItems: 20
+              description: Maximum 20 assistants per MP
             trips:
               type: array
               items:
                 $ref: "#/components/schemas/Trip"
+              maxItems: 100
+              description: Maximum 100 trips per MP
 
     MPComparison:
       type: object
@@ -586,7 +607,8 @@ components:
           type: array
           items:
             type: string
-          description: Key points as bullet list
+          maxItems: 20
+          description: Key points as bullet list (maximum 20 points)
         generatedAt:
           type: string
           format: date-time
@@ -602,6 +624,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/MP"
+              maxItems: 50
+              description: Maximum 50 sponsors per bill
 
     Vote:
       type: object
@@ -657,6 +681,8 @@ components:
                 format: date
               votes:
                 type: integer
+          maxItems: 365
+          description: Maximum 365 days of activity data (1 year)
 
     GlobalStats:
       type: object

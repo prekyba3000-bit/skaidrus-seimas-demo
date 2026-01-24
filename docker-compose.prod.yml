@@ -145,6 +145,11 @@ services:
 # ===================
 # Volumes
 # ===================
+# Named volumes for data persistence
+# These are Docker-managed volumes (not bind mounts) which are safer and more portable
+# Data persists across container restarts and removals
+# SECURITY NOTE: Named volumes are isolated per Docker installation and are safe for production use
+# To backup postgres: docker run --rm -v skaidrus-seimas_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres-backup.tar.gz /data
 volumes:
   postgres_data:
     driver: local

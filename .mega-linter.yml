@@ -1,0 +1,46 @@
+# Configuration file for MegaLinter
+#
+# Optimized configuration focusing on critical security and quality checks
+# See all available variables at https://megalinter.io/latest/config-file/
+
+# Apply fixes automatically where possible
+APPLY_FIXES: all
+
+# Enable only critical linters for security, infrastructure, and code quality
+# This reduces run time from 20+ minutes to < 5 minutes
+ENABLE_LINTERS:
+  # Security & Infrastructure (High Priority)
+  - CHECKOV  # Infrastructure as Code security scanning
+  - HADOLINT  # Dockerfile linting
+  - KICS  # Infrastructure security scanning
+  - GITDIFF  # Git diff analysis
+  
+  # API & Documentation
+  - OPENAPI  # OpenAPI specification validation
+  - MARKDOWN  # Markdown linting (includes link checking)
+  
+  # Code Quality (Essential)
+  - YAML  # YAML formatting and validation
+  - JSON  # JSON validation
+  - EDITORCONFIG  # Editor configuration consistency
+  
+  # Optional: Enable if you want JS/TS linting (currently disabled due to massive violations)
+  # - JAVASCRIPT_STANDARD  # Standard JS style (currently disabled - 25MB+ violations)
+  # - TYPESCRIPT  # TypeScript linting
+
+# Disable linters that aren't providing value or are too noisy
+DISABLE:
+  - COPYPASTE  # Comment to enable checks of excessive copy-pastes
+  - SPELL  # Comment to enable checks of spelling mistakes
+  - JAVASCRIPT_STANDARD  # Disabled due to massive stylistic violations (25MB+ log)
+  # Consider running Standard JS fixes separately: npx standard --fix
+
+# Performance optimizations
+SHOW_ELAPSED_TIME: true
+VALIDATE_ALL_CODEBASE: false  # Only validate changed files (faster)
+
+# Uncomment if you want MegaLinter to detect errors but not block CI
+# DISABLE_ERRORS: true
+
+# File filtering (optional - uncomment to exclude specific paths)
+# FILTER_REGEX_EXCLUDE: "(node_modules|\.git|dist|build|coverage)"

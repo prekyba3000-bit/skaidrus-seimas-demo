@@ -62,5 +62,9 @@ networks:
     driver: bridge
 
 volumes:
+  # Named volumes for data persistence
+  # These are Docker-managed volumes (not bind mounts) which are safer and more portable
+  # Data persists across container restarts and removals
+  # To backup: docker run --rm -v skaidrus-seimas-demo_postgres-data:/data -v $(pwd):/backup alpine tar czf /backup/postgres-backup.tar.gz /data
   postgres-data:
   redis-data:

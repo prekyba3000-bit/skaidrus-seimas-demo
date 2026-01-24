@@ -334,5 +334,5 @@ const { data: mps } = trpc.mps.list.useQuery({ isActive: true });
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/your-org/skaidrus-seimas-demo/issues)
-- **Documentation**: [GitHub Wiki](https://github.com/your-org/skaidrus-seimas-demo/wiki)
+- **Issues**: [GitHub Issues](https://github.com/prekyba3000-bit/skaidrus-seimas-demo/issues)
+- **Documentation**: [GitHub Wiki](https://github.com/prekyba3000-bit/skaidrus-seimas-demo/wiki)

@@ -41,6 +41,9 @@ WORKDIR /app
 # Install Playwright system dependencies in runner stage
 # These are required for Playwright to work in the production container
 # The browser binaries are copied from builder's node_modules/.cache/playwright
+# SECURITY NOTE: For production, consider pinning package versions using:
+# apt-get install -y --no-install-recommends <package>=<version>
+# Check available versions with: apt-cache madison <package>
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     libnss3 \
@@ -68,11 +71,19 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/drizzle ./drizzle
 
+# Create a non-root user for security
+# Note: chown must happen before USER directive to avoid permission issues
+RUN groupadd -r appuser && useradd -r -g appuser -u 1001 appuser && \
+    chown -R appuser:appuser /app
+
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=3000
 # Set PLAYWRIGHT_BROWSERS_PATH to match the location where browsers were installed
 ENV PLAYWRIGHT_BROWSERS_PATH=/app/node_modules/.cache/playwright
+
+# Switch to non-root user
+USER appuser
 
 # Expose server port
 EXPOSE 3000
