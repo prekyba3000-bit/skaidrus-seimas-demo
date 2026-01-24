@@ -16,6 +16,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   root: path.resolve(__dirname), // Set root to client directory where index.html is located
+  base: "/", // Explicit base URL for production (Railway serves from root)
   plugins: [react(), tailwindcss()],
 
   resolve: {

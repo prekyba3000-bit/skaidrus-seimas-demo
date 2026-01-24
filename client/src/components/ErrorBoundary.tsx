@@ -29,8 +29,10 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log to console for development
+    // Log to console for development AND production (helps debug blank screen)
     console.error("ErrorBoundary caught an error:", error, errorInfo);
+    console.error("Error stack:", error.stack);
+    console.error("Component stack:", errorInfo.componentStack);
 
     // Report to Sentry if configured
     try {

@@ -452,7 +452,22 @@ async function startServer() {
   app.use("/docs", express.static("docs"));
 
   // Serve static files from client/dist (React app build)
-  app.use(express.static("client/dist"));
+  // Set proper headers for static assets
+  app.use(
+    express.static("client/dist", {
+      maxAge: "1y", // Cache static assets for 1 year
+      etag: true,
+      lastModified: true,
+      setHeaders: (res, path) => {
+        // Set proper Content-Type for JS and CSS files
+        if (path.endsWith(".js")) {
+          res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+        } else if (path.endsWith(".css")) {
+          res.setHeader("Content-Type", "text/css; charset=utf-8");
+        }
+      },
+    })
+  );
 
   // API info endpoint (only for /api/info to avoid conflicting with SPA routing)
   app.get("/api/info", (_req, res) => {
