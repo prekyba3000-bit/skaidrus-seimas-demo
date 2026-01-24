@@ -53,6 +53,25 @@ Railway automatically provides these (you don't need to set them manually):
 - `RAILWAY_PROJECT_ID` - Your Railway project ID
 - `RAILWAY_SERVICE_ID` - Your service ID
 
+## Start Command (Critical)
+
+**⚠️ Do NOT use `pnpm start` in Railway.** The Docker runner stage excludes pnpm. Use `node dist/index.js` only.
+
+- **Correct:** `node dist/index.js`
+- **Wrong:** `pnpm start` or `npm start` (fails: "The executable pnpm could not be found")
+
+**Railway Dashboard (Settings → Deploy → Custom Start Command):**
+
+- **Explicitly avoid** setting Custom Start Command to `pnpm start` or `npm start`.
+- Either **leave the field empty** (so `railway.json` / Dockerfile `CMD` is used) or set it to `node dist/index.js`.
+- **If deployment fails with "pnpm could not be found":** Manually **clear** the Start Command field in the Dashboard. That allows `railway.json` settings to take precedence.
+
+**Where the start command is defined:**
+
+1. **railway.json** (recommended): `"startCommand": "node dist/index.js"` under `deploy` — used when Dashboard override is empty
+2. **Railway Dashboard:** Service → **Settings** → **Deploy** → **Custom Start Command** — override; clear it to use `railway.json`
+3. **Dockerfile:** Final `CMD` is `["node", "dist/index.js"]` — used when no override is set
+
 ## Quick Setup Checklist
 
 1. ✅ Add PostgreSQL service in Railway (sets `DATABASE_URL` automatically)
