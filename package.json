@@ -30,6 +30,7 @@
     "worker:watch": "tsx watch scripts/worker.ts",
     "scheduler": "tsx scripts/scheduler.ts",
     "seed:db": "tsx scripts/seed-db.ts",
+    "seed:real": "tsx scripts/seed-real.ts",
     "verify:production": "tsx scripts/verify-auth-playwright.ts",
     "verify:auth": "tsx scripts/verify-auth-production.ts"
   },

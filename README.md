@@ -31,6 +31,10 @@ npm install
 # Setup database
 npm run db:push
 
+# (Optional) Seed data
+# Fake data (3 bills, quick):     npm run seed:db
+# Real data (MPs, bills, LRS):    npm run seed:real
+
 # Start development server
 npm run dev
 ```

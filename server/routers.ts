@@ -16,6 +16,7 @@ import { watchlistRouter } from "./routers/watchlist";
 import { feedbackRouter } from "./routers/feedback";
 import { seismographRouter } from "./routers/seismograph";
 import { cache, CacheService } from "./services/cache";
+import { logger } from "./utils/logger";
 
 export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -53,7 +54,12 @@ export const appRouter = router({
           .optional()
       )
       .query(async ({ input }) => {
-        return await db.getAllMps(input);
+        try {
+          return await db.getAllMps(input);
+        } catch (e) {
+          logger.error({ err: e, input }, "mps.list failed, returning []");
+          return [];
+        }
       }),
 
     topDelegates: publicProcedure

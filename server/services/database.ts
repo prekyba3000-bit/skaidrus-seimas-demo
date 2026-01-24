@@ -395,19 +395,51 @@ export async function updateUserSettings(
 
 /** Detect Postgres "relation does not exist" (42P01) or empty/unmigrated DB. */
 function isRelationOrTableMissingError(err: unknown): boolean {
-  const e = err as { code?: string; message?: string };
-  if (e?.code === "42P01") return true; // undefined_table
-  const msg = String(e?.message ?? "").toLowerCase();
-  return (
-    msg.includes("relation") && msg.includes("does not exist")
-  );
+  const check = (e: unknown) => {
+    const o = e as { code?: string; message?: string; cause?: unknown };
+    if (!o) return false;
+    if (o.code === "42P01") return true;
+    const msg = String(o?.message ?? "").toLowerCase();
+    if (msg.includes("relation") && msg.includes("does not exist")) return true;
+    if (o.cause) return check(o.cause);
+    return false;
+  };
+  return check(err);
+}
+
+/** Detect DB connection/config failures (Railway DB not ready, missing DATABASE_URL, etc.). */
+function isConnectionOrConfigError(err: unknown): boolean {
+  const check = (e: unknown) => {
+    const o = e as { code?: string; message?: string; cause?: unknown };
+    if (!o) return false;
+    const msg = String(o?.message ?? "").toLowerCase();
+    if (o.code === "ECONNREFUSED" || o.code === "ETIMEDOUT" || o.code === "ENOTFOUND") return true;
+    if (msg.includes("database_url") || msg.includes("database_url is required")) return true;
+    if (msg.includes("connection refused") || msg.includes("connect econnrefused")) return true;
+    if (msg.includes("connection") && (msg.includes("timeout") || msg.includes("timed out"))) return true;
+    if (o.cause) return check(o.cause);
+    return false;
+  };
+  return check(err);
 }
 
 export async function getAllMps(filters?: {
   party?: string;
   isActive?: boolean;
 }) {
-  const db = await getDb();
+  let db: Awaited<ReturnType<typeof getDb>>;
+  try {
+    db = await getDb();
+  } catch (connErr) {
+    if (isConnectionOrConfigError(connErr)) {
+      logger.warn(
+        { err: connErr },
+        "DB connection/config failed for mps.list. Return []. Set DATABASE_URL and ensure DB is reachable on Railway."
+      );
+      return [];
+    }
+    throw connErr;
+  }
 
   try {
     // Try to get assistant counts, but don't fail if table doesn't exist or is empty
