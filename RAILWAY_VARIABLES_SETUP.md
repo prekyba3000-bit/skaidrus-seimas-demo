@@ -1,18 +1,44 @@
 # Railway Variables Setup Guide
 
-## Generated Values
+**Production API:** https://skaidrus-seimas-demo-production.up.railway.app
 
-The following values have been generated and added to your local `.env` file:
+## ⚠️ Critical: Manual Generation Required
 
-### VITE_APP_ID
-```
-2fec4d14565de548b168bc3961aff610
+**`VITE_APP_ID` and `JWT_SECRET` must be manually generated and pasted into Railway Dashboard.**
+
+These values **cannot** be auto-configured. You must:
+
+1. Generate them locally using the commands below
+2. Copy the generated values
+3. Manually paste them into Railway Dashboard → Variables tab
+
+## Generate Values
+
+### Step 1: Generate JWT_SECRET
+
+Run in your terminal:
+```bash
+openssl rand -base64 32
 ```
 
-### JWT_SECRET
+Example output:
 ```
-gr5KnJCMRMetlO8Hpkw4TD+yWGCcs0Okxd2QSR2YDfs=
+bj49fsjQYeLCzZeed01TS+J9cjKRSZN/t5AuBAOaaw8=
 ```
+
+### Step 2: Generate VITE_APP_ID
+
+Run in your terminal:
+```bash
+openssl rand -hex 16
+```
+
+Example output:
+```
+cfc98fae01753458c1cda096200320ab
+```
+
+**⚠️ Important:** Generate fresh values for each deployment. Do not reuse values from documentation examples.
 
 ---
 
@@ -26,14 +52,18 @@ gr5KnJCMRMetlO8Hpkw4TD+yWGCcs0Okxd2QSR2YDfs=
 ### 2. Add VITE_APP_ID
 1. Click **"+ New Variable"** (or **"Add Variable"**)
 2. **Name:** `VITE_APP_ID`
-3. **Value:** `2fec4d14565de548b168bc3961aff610`
+3. **Value:** Paste the value you generated with `openssl rand -hex 16`
+   - Example: `cfc98fae01753458c1cda096200320ab`
 4. Click **"Add"** or **"Save"**
 
 ### 3. Add JWT_SECRET
 1. Click **"+ New Variable"** (or **"Add Variable"**)
 2. **Name:** `JWT_SECRET`
-3. **Value:** `gr5KnJCMRMetlO8Hpkw4TD+yWGCcs0Okxd2QSR2YDfs=`
+3. **Value:** Paste the value you generated with `openssl rand -base64 32`
+   - Example: `bj49fsjQYeLCzZeed01TS+J9cjKRSZN/t5AuBAOaaw8=`
 4. Click **"Add"** or **"Save"**
+
+**⚠️ Remember:** Generate fresh values using the commands above. Do not copy example values from this documentation.
 
 ### 4. Verify DATABASE_URL
 - Check if `DATABASE_URL` already exists (should auto-populate if PostgreSQL service is linked)
@@ -75,6 +105,8 @@ curl -f https://skaidrus-seimas-demo-production.up.railway.app/test-browser
 # Expected: {"success":true,"title":"Google","message":"Playwright browser test successful",...}
 ```
 
+**✅ Production API is live:** https://skaidrus-seimas-demo-production.up.railway.app
+
 ---
 
 ## Troubleshooting
@@ -97,6 +129,16 @@ curl -f https://skaidrus-seimas-demo-production.up.railway.app/test-browser
 
 ## Security Note
 
-⚠️ **Never commit `.env` to Git** - These values are already in your local `.env` file but should remain private.
+⚠️ **Never commit `.env` to Git** - These values should remain private.
 
-The generated `JWT_SECRET` is cryptographically secure and unique. Keep it secret!
+⚠️ **Generate fresh values** - Do not reuse values from examples or previous deployments.
+
+The generated `JWT_SECRET` and `VITE_APP_ID` are cryptographically secure and unique. Keep them secret!
+
+## Summary
+
+1. **Generate** `JWT_SECRET` with `openssl rand -base64 32`
+2. **Generate** `VITE_APP_ID` with `openssl rand -hex 16`
+3. **Manually paste** both values into Railway Dashboard → Variables tab
+4. **Verify** `/health` endpoint returns `{"status":"ok"}`
+5. **Production API:** https://skaidrus-seimas-demo-production.up.railway.app

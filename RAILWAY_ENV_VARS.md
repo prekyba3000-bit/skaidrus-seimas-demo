@@ -18,8 +18,14 @@ Copy these to Railway Dashboard → Your Project → Variables.
 - `OAUTH_SERVER_URL` - OAuth server URL (optional - will use Railway public domain if not set)
   - If not set, the app will use `https://${RAILWAY_PUBLIC_DOMAIN}` automatically
   - Format: `https://your-app.up.railway.app`
-- `VITE_APP_ID` - Your OAuth app ID
-- `JWT_SECRET` - Secret key for JWT session tokens (generate a secure random string)
+- `VITE_APP_ID` - **REQUIRED** - Your OAuth app ID
+  - **⚠️ Must be manually generated and pasted into Railway Dashboard Variables tab**
+  - Generate: `openssl rand -hex 16`
+  - Example: `cfc98fae01753458c1cda096200320ab`
+- `JWT_SECRET` - **REQUIRED** - Secret key for JWT session tokens
+  - **⚠️ Must be manually generated and pasted into Railway Dashboard Variables tab**
+  - Generate: `openssl rand -base64 32`
+  - Example: `bj49fsjQYeLCzZeed01TS+J9cjKRSZN/t5AuBAOaaw8=`
 - `OWNER_OPEN_ID` - OpenID of the admin/owner user (optional)
 
 ### Redis (Optional - for caching and queues)
@@ -76,13 +82,17 @@ Railway automatically provides these (you don't need to set them manually):
 
 1. ✅ Add PostgreSQL service in Railway (sets `DATABASE_URL` automatically)
 2. ✅ Add Redis service in Railway (sets `REDIS_URL` automatically) - Optional
-3. ✅ Set `VITE_APP_ID` in Railway Variables
-4. ✅ Set `JWT_SECRET` in Railway Variables (generate: `openssl rand -base64 32`)
-5. ✅ Set `NODE_ENV=production` in Railway Variables
-6. ✅ (Optional) Set `OAUTH_SERVER_URL` if you need a custom OAuth server
-7. ✅ (Optional) Set `OWNER_OPEN_ID` for admin access
-8. ✅ (Optional) Set `GEMINI_API_KEY` if using AI features
-9. ✅ (Optional) Set `SENTRY_DSN` for error tracking
+3. ✅ **Generate `VITE_APP_ID`** (run `openssl rand -hex 16` in terminal)
+4. ✅ **Generate `JWT_SECRET`** (run `openssl rand -base64 32` in terminal)
+5. ✅ **Manually paste `VITE_APP_ID` into Railway Dashboard → Variables tab**
+6. ✅ **Manually paste `JWT_SECRET` into Railway Dashboard → Variables tab**
+7. ✅ Set `NODE_ENV=production` in Railway Variables
+8. ✅ (Optional) Set `OAUTH_SERVER_URL` if you need a custom OAuth server
+9. ✅ (Optional) Set `OWNER_OPEN_ID` for admin access
+10. ✅ (Optional) Set `GEMINI_API_KEY` if using AI features
+11. ✅ (Optional) Set `SENTRY_DSN` for error tracking
+
+**⚠️ Important:** `VITE_APP_ID` and `JWT_SECRET` **cannot** be auto-configured. You **must** generate them locally and manually paste them into the Railway Dashboard Variables tab for the `skaidrus-seimas-demo` service.
 
 ## Fix "pnpm not found" (Runbook)
 
@@ -149,14 +159,16 @@ An empty Custom Start Command allows `railway.json` (`"startCommand": "node dist
 
 ## Final Test (After Container Starts)
 
+**Production API:** https://skaidrus-seimas-demo-production.up.railway.app
+
 Once the container is **Live**:
 
 1. **`/health`** — Node process up:  
-   `curl -f https://<your-domain>/health`  
+   `curl -f https://skaidrus-seimas-demo-production.up.railway.app/health`  
    → `{"status":"ok","timestamp":"..."}`
 
 2. **`/test-browser`** — Chromium launch:  
-   `curl -f https://<your-domain>/test-browser`  
+   `curl -f https://skaidrus-seimas-demo-production.up.railway.app/test-browser`  
    → `{"success":true,"title":"Google","message":"Playwright browser test successful",...}`
 
 If both succeed, the runner uses `node` only (no pnpm) and Playwright/Chromium are working.
