@@ -50,6 +50,7 @@ RUN apt-get update && \
     libasound2 \
     libpango-1.0-0 \
     libcairo2 \
+    libxss1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy necessary files from builder
