@@ -453,6 +453,8 @@ async function startServer() {
 
   // Serve static files from client/dist (React app build)
   // Set proper headers for static assets
+  // IMPORTANT: This must come BEFORE the catch-all route
+  // Express processes middleware in order, so static files are served first
   app.use(
     express.static("client/dist", {
       maxAge: "1y", // Cache static assets for 1 year
@@ -487,20 +489,26 @@ async function startServer() {
 
   // SPA fallback: serve index.html for all non-API routes
   // This must be last so API routes take precedence
+  // IMPORTANT: express.static middleware above handles static files first
+  // If express.static doesn't find a file, it will call next() and this route handles it
   app.get("*", (req, res, next) => {
     // Skip if this is an API route
     if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
       return next();
     }
-    // Skip static asset paths (js, css, images, fonts, etc.)
-    // These should be handled by express.static middleware above
-    if (
+    
+    // Skip static asset paths - these should be handled by express.static middleware above
+    // If express.static didn't serve it, the file doesn't exist - return 404
+    const isStaticAsset =
       req.path.startsWith("/js/") ||
       req.path.startsWith("/assets/") ||
-      req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i)
-    ) {
-      return next(); // Let express.static handle it or return 404
+      /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$/i.test(req.path);
+    
+    if (isStaticAsset) {
+      // Static file not found - return 404
+      return res.status(404).json({ error: "Static file not found", path: req.path });
     }
+    
     // Serve the React app's index.html for client-side routing
     res.sendFile(path.join(process.cwd(), "client/dist/index.html"), err => {
       if (err) {
