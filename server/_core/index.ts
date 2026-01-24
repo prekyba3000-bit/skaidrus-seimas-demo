@@ -315,6 +315,48 @@ async function startServer() {
     });
   });
 
+  // Browser test endpoint - verifies Playwright is working in Docker
+  app.get("/test-browser", async (_req, res) => {
+    const { launchBrowser, createBrowserContext } = await import(
+      "../utils/playwright"
+    );
+    let browser;
+    try {
+      browser = await launchBrowser();
+      const context = await createBrowserContext(browser);
+      const page = await context.newPage();
+
+      await page.goto("https://google.com", {
+        waitUntil: "networkidle",
+        timeout: 30000,
+      });
+
+      const title = await page.title();
+
+      await browser.close();
+
+      res.json({
+        success: true,
+        title,
+        message: "Playwright browser test successful",
+        timestamp: new Date().toISOString(),
+      });
+    } catch (error) {
+      if (browser) {
+        await browser.close().catch(() => {
+          // Ignore cleanup errors
+        });
+      }
+      logger.error({ err: error }, "Browser test failed");
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : String(error),
+        message: "Playwright browser test failed",
+        timestamp: new Date().toISOString(),
+      });
+    }
+  });
+
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
 

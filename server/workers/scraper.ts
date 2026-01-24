@@ -1,11 +1,11 @@
 import { Worker, Job } from "bullmq";
-import { chromium } from "playwright";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { bills } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
 import { getRedisConnection } from "../lib/redis";
 import { logger } from "../utils/logger";
+import { launchBrowser, createBrowserContext } from "../utils/playwright";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -43,11 +43,8 @@ async function scrapeBills(
   const client = postgres(process.env.DATABASE_URL!);
   const db = drizzle(client, { schema });
 
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    userAgent:
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
-  });
+  const browser = await launchBrowser();
+  const context = await createBrowserContext(browser);
   const page = await context.newPage();
 
   try {
