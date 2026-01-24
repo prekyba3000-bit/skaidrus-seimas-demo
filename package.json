@@ -30,7 +30,8 @@
     "worker:watch": "tsx watch scripts/worker.ts",
     "scheduler": "tsx scripts/scheduler.ts",
     "seed:db": "tsx scripts/seed-db.ts",
-    "verify:production": "tsx scripts/verify-auth-playwright.ts"
+    "verify:production": "tsx scripts/verify-auth-playwright.ts",
+    "verify:auth": "tsx scripts/verify-auth-production.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.693.0",
