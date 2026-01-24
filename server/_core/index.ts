@@ -19,6 +19,38 @@ import {
 import { closeDatabase } from "../services/database";
 import { cache } from "../services/cache";
 import { closeRedisConnection } from "../lib/redis";
+import { ENV } from "./env";
+
+// Validate critical environment variables at startup
+function validateEnvironmentVariables() {
+  const missing: string[] = [];
+
+  if (!process.env.DATABASE_URL) {
+    missing.push("DATABASE_URL");
+  }
+
+  if (!ENV.appId) {
+    missing.push("VITE_APP_ID");
+  }
+
+  if (!ENV.cookieSecret) {
+    missing.push("JWT_SECRET");
+  }
+
+  if (missing.length > 0) {
+    logger.error(
+      { missing },
+      "Missing required environment variables. Please set them in Railway Variables."
+    );
+    throw new Error(
+      `Missing required environment variables: ${missing.join(", ")}. ` +
+        "Please configure them in Railway Dashboard → Variables. " +
+        "See RAILWAY_ENV_VARS.md for details."
+    );
+  }
+
+  logger.info("Environment variables validated");
+}
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -125,6 +157,9 @@ async function gracefulShutdown(signal: string) {
 }
 
 async function startServer() {
+  // Validate environment variables first
+  validateEnvironmentVariables();
+
   // Initialize Sentry before anything else
   initializeSentry();
 
