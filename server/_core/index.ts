@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { createServer, Server } from "http";
 import net from "net";
+import path from "path";
 import { randomUUID } from "crypto";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import helmet from "helmet";
@@ -450,8 +451,11 @@ async function startServer() {
   // Serve API documentation
   app.use("/docs", express.static("docs"));
 
-  // API info endpoint
-  app.get("/", (_req, res) => {
+  // Serve static files from client/dist (React app build)
+  app.use(express.static("client/dist"));
+
+  // API info endpoint (only for /api/info to avoid conflicting with SPA routing)
+  app.get("/api/info", (_req, res) => {
     res.json({
       name: "Skaidrus Seimas API",
       version: "1.0.0",
@@ -463,6 +467,22 @@ async function startServer() {
         oauth: "/api/oauth/*",
         docs: "/docs",
       },
+    });
+  });
+
+  // SPA fallback: serve index.html for all non-API routes
+  // This must be last so API routes take precedence
+  app.get("*", (req, res, next) => {
+    // Skip if this is an API route
+    if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
+      return next();
+    }
+    // Serve the React app's index.html for client-side routing
+    res.sendFile(path.join(process.cwd(), "client/dist/index.html"), err => {
+      if (err) {
+        logger.error({ err, path: req.path }, "Failed to serve index.html");
+        res.status(404).json({ error: "Not found" });
+      }
     });
   });
 
