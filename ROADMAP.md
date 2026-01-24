@@ -79,18 +79,19 @@
 - [x] Timeline view: proposal → committee → vote → result (BillDetail "Projekto eiga")
 - [x] Bill detail pages with full history
 - [x] "Follow" functionality for bills (watchlist; FollowBillButton on BillDetail)
-- [ ] Push/email notifications for followed bills (future)
+- [ ] ~~Push/email notifications~~ **CANCELLED** (out-of-scope; no notification infra)
 
 ### 2.3 Committee Pages ✅ CORE COMPLETE
 
 - [x] Build committee listing page (`/committees`)
 - [x] Committee detail pages with membership (`/committees/:id`)
-- [ ] Meeting activity and attendance (future)
-- [ ] Jurisdiction and active bills in committee (future)
+- [ ] ~~Meeting activity and attendance~~ **CANCELLED** (out-of-scope; no meeting data)
+- [ ] ~~Jurisdiction and active bills in committee~~ **CANCELLED** (out-of-scope; no jurisdiction data)
 
 ### 2.4 MP Comparison Tool ✅ CORE COMPLETE
 
-- [x] Side-by-side comparison of 2 MPs (3rd MP deferred)
+- [x] Side-by-side comparison of 2 MPs
+- [ ] ~~3rd MP comparison~~ **CANCELLED** (out-of-scope; API supports 2 only)
 - [x] Compare: attendance, voting alignment, bills proposed
 - [x] Party loyalty score comparison
 - [x] Visual charts for comparison data (Seismograph + stat bars)
@@ -113,23 +114,19 @@
 - [x] Detect parties that vote together (party-level majority agreement)
 - [x] Identify cross-party voting patterns (`coalitions.votingTogether` API)
 - [x] Simple viz: coalition table (Koalicijos page, agreement % + shared bills)
-- [ ] Graph view / historical trends (future)
+- [x] Matrix heatmap + historical trends (6 / 12 / 24 mėn. selector, Lentelė | Matrica toggle)
 
-### 3.3 Accountability Alerts
+### 3.3 Accountability Alerts — **CANCELLED**
 
-- [ ] Email/push notifications for:
-  - Attendance drops below threshold
-  - Missed key votes
-  - Significant voting pattern shifts
-- [ ] User preference settings
-- [ ] Weekly summary emails
+- [ ] ~~Email/push notifications~~ (out-of-scope; no notification infra)
+- [ ] ~~User preference settings~~ / ~~Weekly summary emails~~
 
 ### 3.4 Public Engagement
 
 - [x] "Follow" MPs functionality (FollowButton, watchlist, userFollows)
-- [ ] Comment system on bills
-- [ ] Aggregated public sentiment display
-- [ ] Share to social media
+- [ ] ~~Comment system on bills~~ **CANCELLED** (out-of-scope; no moderation infra)
+- [ ] ~~Aggregated public sentiment display~~ **CANCELLED** (out-of-scope)
+- [ ] ~~Share to social media~~ **CANCELLED** (out-of-scope; use browser share)
 
 ---
 
@@ -158,9 +155,9 @@
 
 ### Mobile Experience
 
-- [ ] Improve sidebar mobile navigation
-- [ ] Add bottom navigation for mobile
-- [ ] Touch-friendly interactions
+- [x] Improve sidebar mobile navigation (slide-in drawer, hamburger, overlay tap-to-close)
+- [x] Add bottom navigation for mobile (Pradžia, Nariai, Balsavimai, Pulsas, Palyginti)
+- [x] Touch-friendly interactions (touch-manipulation, tap targets, close on nav)
 - [ ] PWA manifest for "Add to Home Screen"
 
 ---

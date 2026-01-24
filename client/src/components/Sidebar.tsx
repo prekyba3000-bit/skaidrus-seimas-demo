@@ -11,10 +11,22 @@ import {
   ArrowLeftRight,
   Handshake,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useUIStore } from "@/store/ui";
 
 export const Sidebar = () => {
+  const { isSidebarOpen, closeSidebar } = useUIStore();
+
   return (
-    <aside className="hidden lg:flex w-72 flex-col border-r border-emerald-800/30 bg-emerald-950/30 backdrop-blur-xl h-full shrink-0 z-20 fixed left-0 top-0 bottom-0">
+    <aside
+      className={cn(
+        "flex w-72 flex-col border-r border-emerald-800/30 bg-emerald-950/30 backdrop-blur-xl h-full shrink-0 z-50",
+        "fixed left-0 top-0 bottom-0 transition-transform duration-300 ease-out",
+        "lg:translate-x-0 lg:z-20",
+        !isSidebarOpen && "-translate-x-full",
+        isSidebarOpen && "translate-x-0"
+      )}
+    >
       <div className="flex h-full flex-col justify-between p-6">
         <div className="flex flex-col gap-8">
           {/* Branding */}
@@ -34,49 +46,49 @@ export const Sidebar = () => {
           {/* Navigation Links */}
           <nav className="flex flex-col gap-2">
             <Link href="/">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary/10 to-transparent border-l-2 border-primary transition-all duration-300">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-primary/10 to-transparent border-l-2 border-primary transition-all duration-300">
                 <Home className="text-primary w-5 h-5 group-hover:scale-110 transition-transform" />
                 <span className="text-white text-sm font-medium">Home</span>
               </a>
             </Link>
             <Link href="/mps">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <Users className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Deputies</span>
               </a>
             </Link>
             <Link href="/bills">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <FileText className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Voting</span>
               </a>
             </Link>
             <Link href="/committees">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <Users2 className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Komitetai</span>
               </a>
             </Link>
             <Link href="/compare">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <ArrowLeftRight className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Palyginimas</span>
               </a>
             </Link>
             <Link href="/coalitions">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <Handshake className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Koalicijos</span>
               </a>
             </Link>
             <Link href="/budgets">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <PieChart className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Budgets</span>
               </a>
             </Link>
             <Link href="/pulse">
-              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+              <a onClick={closeSidebar} className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <BarChart className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Analytics</span>
               </a>

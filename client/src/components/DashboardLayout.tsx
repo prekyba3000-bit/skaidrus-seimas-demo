@@ -22,6 +22,7 @@ import { SearchDropdown } from "@/components/SearchDropdown";
 import { trpc } from "@/lib/trpc";
 import { useState, useRef, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
+import { BottomNav } from "./BottomNav";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -148,11 +149,12 @@ export default function DashboardLayout({
 
   return (
     <div className="flex h-screen bg-background text-foreground font-sans overflow-hidden">
-      {/* Mobile Sidebar Overlay */}
+      {/* Mobile overlay: tap to close drawer */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={toggleSidebar}
+          aria-hidden="true"
         />
       )}
 
@@ -163,7 +165,7 @@ export default function DashboardLayout({
         <header className="flex items-center justify-between border-b border-surface-border bg-surface-dark px-3 sm:px-4 md:px-6 py-3 flex-shrink-0 z-10">
           <div className="flex items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-2xl">
             <button
-              className="md:hidden text-white"
+              className="lg:hidden text-white p-2 -ml-2 rounded-lg hover:bg-emerald-900/30 transition-colors touch-manipulation"
               aria-label="Atidaryti meniu"
               title="Meniu"
               onClick={toggleSidebar}
@@ -243,12 +245,13 @@ export default function DashboardLayout({
         </header>
 
         {/* Dynamic Content */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 md:p-6 lg:p-8 bg-background custom-scrollbar">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-4 md:p-6 lg:p-8 pb-20 lg:pb-8 bg-background custom-scrollbar">
           <div className="mx-auto max-w-[1200px] w-full flex flex-col gap-4 md:gap-6">
             {children}
           </div>
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 }
