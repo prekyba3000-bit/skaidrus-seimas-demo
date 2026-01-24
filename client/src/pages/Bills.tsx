@@ -77,6 +77,9 @@ export default function Bills() {
           <div className="flex-1 relative">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[#92adc9]" />
             <Input
+              id="bill-search"
+              name="bill-search"
+              autoComplete="off"
               className="w-full pl-14 pr-5 h-14 bg-surface-dark border-surface-border text-white placeholder:text-[#92adc9] rounded-xl focus-visible:ring-primary transition-all text-base"
               placeholder="Ieškokite projektų pagal pavadinimą ar turinį..."
               value={searchTerm}

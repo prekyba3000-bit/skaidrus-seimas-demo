@@ -186,6 +186,9 @@ export default function DashboardLayout({
               </div>
               <Input
                 ref={searchInputRef}
+                id="global-search"
+                name="global-search"
+                autoComplete="off"
                 className="block w-full pl-10 pr-3 py-2.5 border-none rounded-xl leading-5 bg-emerald-900/30 text-emerald-100 placeholder:text-emerald-400/50 focus:outline-none focus:bg-emerald-900/50 focus:ring-1 focus:ring-primary/50 text-sm transition-all duration-200"
                 placeholder="Search bills, deputies, or keywords..."
                 value={searchQuery}

@@ -171,27 +171,42 @@ async function startServer() {
   app.set("trust proxy", 1);
 
   // Security Headers: Helmet
+  // crossOriginEmbedderPolicy: false allows cross-origin fonts (Google Fonts)
   app.use(
     helmet({
+      crossOriginEmbedderPolicy: false,
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Tailwind
-          scriptSrc: ["'self'"], // Allow scripts from same origin
-          imgSrc: ["'self'", "data:", "https:"], // Allow images from any HTTPS source
-          connectSrc: ["'self'"], // Allow API connections to same origin
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://fonts.googleapis.com",
+          ],
+          // style-src-elem controls <link rel="stylesheet"> elements
+          // Using kebab-case for compatibility (Helmet accepts both formats)
+          "style-src-elem": [
+            "'self'",
+            "'unsafe-inline'",
+            "https://fonts.googleapis.com",
+          ],
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", "data:", "https:"],
+          connectSrc: [
+            "'self'",
+            "https://fonts.googleapis.com",
+            "https://fonts.gstatic.com",
+          ], // Allow preconnect hints and font file requests
           fontSrc: [
             "'self'",
             "data:",
-            "https://fonts.googleapis.com", // Google Fonts
-            "https://fonts.gstatic.com", // Google Fonts static files
+            "https://fonts.googleapis.com",
+            "https://fonts.gstatic.com", // Font files (woff2, etc.)
           ],
-          // Temporarily relaxed for debugging blank screen issue
-          // TODO: Tighten after resolving blank screen
         },
       },
       hsts: {
-        maxAge: 31536000, // 1 year
+        maxAge: 31536000,
         includeSubDomains: true,
         preload: true,
       },
@@ -465,18 +480,33 @@ async function startServer() {
   // Use absolute path to ensure correct resolution in Docker container
   const staticPath = path.join(process.cwd(), "client/dist");
   logger.info({ staticPath }, "Serving static files from");
-  
+
   app.use(
     express.static(staticPath, {
       maxAge: "1y", // Cache static assets for 1 year
       etag: true,
       lastModified: true,
+      index: false, // Disable default index.html serving to handle it strictly
       setHeaders: (res, filePath) => {
         // Set proper Content-Type for JS and CSS files
         if (filePath.endsWith(".js")) {
-          res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+          res.setHeader(
+            "Content-Type",
+            "application/javascript; charset=utf-8"
+          );
         } else if (filePath.endsWith(".css")) {
           res.setHeader("Content-Type", "text/css; charset=utf-8");
+        }
+
+        // CRITICAL: Do not cache index.html so users always get the latest version
+        if (filePath.endsWith("index.html")) {
+          res.setHeader(
+            "Cache-Control",
+            "no-store, no-cache, must-revalidate, proxy-revalidate"
+          );
+          res.setHeader("Pragma", "no-cache");
+          res.setHeader("Expires", "0");
+          res.setHeader("Surrogate-Control", "no-store");
         }
       },
     })
@@ -517,28 +547,44 @@ async function startServer() {
     if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
       return next();
     }
-    
+
     // Check if this is a static asset path
     const isStaticAsset =
       req.path.startsWith("/js/") ||
       req.path.startsWith("/assets/") ||
-      /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$/i.test(req.path);
-    
+      /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$/i.test(
+        req.path
+      );
+
     if (isStaticAsset) {
       // Static file not found by express.static - log and return 404
       logger.warn({ path: req.path, staticPath }, "Static file not found");
-      return res.status(404).json({ 
-        error: "Static file not found", 
+      return res.status(404).json({
+        error: "Static file not found",
         path: req.path,
-        message: "The requested static asset does not exist. This may indicate a build issue."
+        message:
+          "The requested static asset does not exist. This may indicate a build issue.",
       });
     }
-    
+
     // Serve the React app's index.html for client-side routing
     const indexPath = path.join(process.cwd(), "client/dist/index.html");
+
+    // CRITICAL: Ensure index.html is never cached
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.setHeader("Surrogate-Control", "no-store");
+
     res.sendFile(indexPath, err => {
       if (err) {
-        logger.error({ err, path: req.path, indexPath }, "Failed to serve index.html");
+        logger.error(
+          { err, path: req.path, indexPath },
+          "Failed to serve index.html"
+        );
         res.status(404).json({ error: "Not found" });
       }
     });
