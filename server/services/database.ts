@@ -393,6 +393,16 @@ export async function updateUserSettings(
 
 // ==================== MP Queries ====================
 
+/** Detect Postgres "relation does not exist" (42P01) or empty/unmigrated DB. */
+function isRelationOrTableMissingError(err: unknown): boolean {
+  const e = err as { code?: string; message?: string };
+  if (e?.code === "42P01") return true; // undefined_table
+  const msg = String(e?.message ?? "").toLowerCase();
+  return (
+    msg.includes("relation") && msg.includes("does not exist")
+  );
+}
+
 export async function getAllMps(filters?: {
   party?: string;
   isActive?: boolean;
@@ -414,22 +424,33 @@ export async function getAllMps(filters?: {
     } catch (err) {
       logger.warn({ err }, "Failed to create assistant_count subquery, continuing without assistant counts");
       // Fallback: return MPs without assistant counts
-      let query = db.select().from(mps);
-      const conditions = [];
-      if (filters?.party) {
-        conditions.push(eq(mps.party, filters.party));
+      try {
+        let query = db.select().from(mps);
+        const conditions = [];
+        if (filters?.party) {
+          conditions.push(eq(mps.party, filters.party));
+        }
+        if (filters?.isActive !== undefined) {
+          conditions.push(eq(mps.isActive, filters.isActive));
+        }
+        if (conditions.length > 0) {
+          query = query.where(and(...conditions)) as any;
+        }
+        const result = await query;
+        return result.map(mp => ({
+          ...mp,
+          assistantCount: 0,
+        }));
+      } catch (simpleErr) {
+        if (isRelationOrTableMissingError(simpleErr)) {
+          logger.warn(
+            { err: simpleErr },
+            "mps table missing or unmigrated. Return [] for mps.list. Run `pnpm run db:push` and optionally `pnpm run seed:db` on Railway."
+          );
+          return [];
+        }
+        throw simpleErr;
       }
-      if (filters?.isActive !== undefined) {
-        conditions.push(eq(mps.isActive, filters.isActive));
-      }
-      if (conditions.length > 0) {
-        query = query.where(and(...conditions)) as any;
-      }
-      const result = await query;
-      return result.map(mp => ({
-        ...mp,
-        assistantCount: 0,
-      }));
     }
 
     let query = db
@@ -458,6 +479,13 @@ export async function getAllMps(filters?: {
       assistantCount: Number(r.assistantCount),
     }));
   } catch (error) {
+    if (isRelationOrTableMissingError(error)) {
+      logger.warn(
+        { err: error },
+        "mps table missing or unmigrated. Return [] for mps.list. Run `pnpm run db:push` and optionally `pnpm run seed:db` on Railway."
+      );
+      return [];
+    }
     logger.error({ err: error, filters }, "Failed to get MPs, attempting fallback query");
     // Fallback: return MPs without assistant counts if join fails
     try {
@@ -478,6 +506,13 @@ export async function getAllMps(filters?: {
         assistantCount: 0,
       }));
     } catch (fallbackError) {
+      if (isRelationOrTableMissingError(fallbackError)) {
+        logger.warn(
+          { err: fallbackError },
+          "mps table missing or unmigrated. Return [] for mps.list. Run `pnpm run db:push` and optionally `pnpm run seed:db` on Railway."
+        );
+        return [];
+      }
       logger.error({ err: fallbackError }, "Fallback query also failed");
       throw fallbackError;
     }
