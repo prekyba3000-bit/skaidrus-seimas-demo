@@ -455,16 +455,20 @@ async function startServer() {
   // Set proper headers for static assets
   // IMPORTANT: This must come BEFORE the catch-all route
   // Express processes middleware in order, so static files are served first
+  // Use absolute path to ensure correct resolution in Docker container
+  const staticPath = path.join(process.cwd(), "client/dist");
+  logger.info({ staticPath }, "Serving static files from");
+  
   app.use(
-    express.static("client/dist", {
+    express.static(staticPath, {
       maxAge: "1y", // Cache static assets for 1 year
       etag: true,
       lastModified: true,
-      setHeaders: (res, path) => {
+      setHeaders: (res, filePath) => {
         // Set proper Content-Type for JS and CSS files
-        if (path.endsWith(".js")) {
+        if (filePath.endsWith(".js")) {
           res.setHeader("Content-Type", "application/javascript; charset=utf-8");
-        } else if (path.endsWith(".css")) {
+        } else if (filePath.endsWith(".css")) {
           res.setHeader("Content-Type", "text/css; charset=utf-8");
         }
       },
@@ -497,22 +501,27 @@ async function startServer() {
       return next();
     }
     
-    // Skip static asset paths - these should be handled by express.static middleware above
-    // If express.static didn't serve it, the file doesn't exist - return 404
+    // Check if this is a static asset path
     const isStaticAsset =
       req.path.startsWith("/js/") ||
       req.path.startsWith("/assets/") ||
       /\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map)$/i.test(req.path);
     
     if (isStaticAsset) {
-      // Static file not found - return 404
-      return res.status(404).json({ error: "Static file not found", path: req.path });
+      // Static file not found by express.static - log and return 404
+      logger.warn({ path: req.path, staticPath }, "Static file not found");
+      return res.status(404).json({ 
+        error: "Static file not found", 
+        path: req.path,
+        message: "The requested static asset does not exist. This may indicate a build issue."
+      });
     }
     
     // Serve the React app's index.html for client-side routing
-    res.sendFile(path.join(process.cwd(), "client/dist/index.html"), err => {
+    const indexPath = path.join(process.cwd(), "client/dist/index.html");
+    res.sendFile(indexPath, err => {
       if (err) {
-        logger.error({ err, path: req.path }, "Failed to serve index.html");
+        logger.error({ err, path: req.path, indexPath }, "Failed to serve index.html");
         res.status(404).json({ error: "Not found" });
       }
     });
