@@ -236,6 +236,48 @@ npm run calc:scores
 
 ---
 
+## 🚂 Railway: One-Off Production Seed
+
+The production Postgres URL uses `postgres.railway.internal`, which is only reachable from inside Railway. Use the **Custom Start Command** to run the seeder on Railway, then revert.
+
+### 1. Trigger production seed
+
+1. **Railway Dashboard** → your project → **skaidrus-seimas-demo** service.
+2. **Settings** → **Deploy** → **Custom Start Command**.
+3. Set (overrides `npm start`):
+   ```bash
+   pnpm run db:push && pnpm run seed:real
+   ```
+4. **Deploy** (or trigger a redeploy). The service will run migrations, seed MPs/bills/activities, then exit. Logs should show `SEEDING COMPLETE` and MP/bill counts.
+5. **Revert Custom Start Command** to:
+   ```bash
+   node dist/index.js
+   ```
+   Or use the default start (migrations + app):
+   ```bash
+   npm run db:push && npm run check:indexes && NODE_ENV=production node dist/index.js
+   ```
+6. **Redeploy** so the app runs again. Seeded data persists in the DB.
+
+### 2. Verify
+
+```bash
+curl -s "https://skaidrus-seimas-demo-production.up.railway.app/api/trpc/mps.list?batch=1&input=%7B%220%22%3A%7B%22isActive%22%3Atrue%7D%7D" | jq '.[0].result.data | length'
+# Expect: 141 (or similar) instead of empty.
+```
+
+### 3. CSP & fonts
+
+`server/_core/index.ts` already sets:
+
+- **style-src** and **style-src-elem**: `'self'`, `'unsafe-inline'`, `https://fonts.googleapis.com`
+- **font-src**: `'self'`, `data:`, `https://fonts.googleapis.com`, `https://fonts.gstatic.com`
+- **crossOriginEmbedderPolicy**: `false`
+
+Public Sans and Tailwind should load. If fonts are blocked, confirm those directives and that the deployed build includes the latest `index.ts`.
+
+---
+
 ## 🐳 Docker Deployment
 
 ### Build Docker Image
