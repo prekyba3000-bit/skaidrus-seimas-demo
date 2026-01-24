@@ -84,6 +84,36 @@ Railway automatically provides these (you don't need to set them manually):
 8. ✅ (Optional) Set `GEMINI_API_KEY` if using AI features
 9. ✅ (Optional) Set `SENTRY_DSN` for error tracking
 
+## Railway Dashboard Verification
+
+If commit `f35a62f` (or later) still results in **"pnpm not found"** or **"The executable pnpm could not be found"**:
+
+1. Open **Railway Dashboard** → your project → **skaidrus-seimas-demo** service.
+2. Go to **Settings** → **Deploy**.
+3. Find **Custom Start Command** (or **Start Command**).
+4. **Manually clear** the field — remove any value so it is empty.
+5. Save and trigger a **Redeploy**.
+
+An empty Custom Start Command lets `railway.json` take precedence (`"startCommand": "node dist/index.js"`). A Dashboard override always wins over `railway.json`, so clearing it is required if the override was set to `pnpm start`.
+
+## Final Test (After Container Starts)
+
+Once the container is running, confirm the Node process and Chromium:
+
+1. **`/health`** — Node process is up:
+   ```bash
+   curl -f https://<your-railway-domain>/health
+   ```
+   Expected: `{"status":"ok","timestamp":"..."}`
+
+2. **`/test-browser`** — Chromium launches in the runner:
+   ```bash
+   curl -f https://<your-railway-domain>/test-browser
+   ```
+   Expected: `{"success":true,"title":"Google","message":"Playwright browser test successful",...}`
+
+If both succeed, the runner uses `node` only (no pnpm) and Playwright/Chromium work correctly.
+
 ## Verification
 
 After setting variables, verify the deployment:
