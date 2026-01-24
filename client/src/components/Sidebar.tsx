@@ -9,6 +9,7 @@ import {
   PieChart,
   BarChart,
   ArrowLeftRight,
+  Handshake,
 } from "lucide-react";
 
 export const Sidebar = () => {
@@ -60,6 +61,12 @@ export const Sidebar = () => {
               <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
                 <ArrowLeftRight className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
                 <span className="text-sm font-medium">Palyginimas</span>
+              </a>
+            </Link>
+            <Link href="/coalitions">
+              <a className="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-emerald-900/40 text-emerald-100/70 hover:text-white transition-all duration-300 border-l-2 border-transparent hover:border-emerald-600">
+                <Handshake className="w-5 h-5 group-hover:text-emerald-300 transition-colors" />
+                <span className="text-sm font-medium">Koalicijos</span>
               </a>
             </Link>
             <Link href="/budgets">

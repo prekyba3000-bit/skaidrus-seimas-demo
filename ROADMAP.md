@@ -102,17 +102,18 @@
 
 ### 3.1 AI-Powered Summaries
 
-- [ ] Integrate LLM for bill text summarization
-- [ ] Generate plain-language Lithuanian summaries
-- [ ] Populate `aiSummary` field in database
-- [ ] Add "Explain like I'm 5" toggle
+- [x] Integrate LLM for bill text summarization (Gemini via `summarizeBill`, `generate-bill-summaries` script)
+- [x] Generate plain-language Lithuanian summaries (`bill_summaries` table)
+- [x] Populate `bill_summaries` (summary + bulletPoints) via script
+- [x] Add "Explain like I'm 5" toggle ("Kaip 5‑mečiui" on BillDetail: summary-only vs full + bullets)
+- [x] Wire BillDetail to `bills.summary` API; fallback when no summary
 
 ### 3.2 Voting Coalitions Analysis
 
-- [ ] Detect MPs/parties that vote together
-- [ ] Identify cross-party voting patterns
-- [ ] Visualize coalition networks (graph view)
-- [ ] Historical coalition trends
+- [x] Detect parties that vote together (party-level majority agreement)
+- [x] Identify cross-party voting patterns (`coalitions.votingTogether` API)
+- [x] Simple viz: coalition table (Koalicijos page, agreement % + shared bills)
+- [ ] Graph view / historical trends (future)
 
 ### 3.3 Accountability Alerts
 
@@ -125,7 +126,7 @@
 
 ### 3.4 Public Engagement
 
-- [ ] "Follow" MPs functionality
+- [x] "Follow" MPs functionality (FollowButton, watchlist, userFollows)
 - [ ] Comment system on bills
 - [ ] Aggregated public sentiment display
 - [ ] Share to social media

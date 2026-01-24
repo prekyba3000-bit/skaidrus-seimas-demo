@@ -483,6 +483,23 @@ export const appRouter = router({
       }),
   }),
 
+  // Voting coalitions (party-level "who votes with whom")
+  coalitions: router({
+    votingTogether: publicProcedure
+      .input(
+        z
+          .object({
+            limit: z.number().min(1).max(50).optional(),
+            minSharedBills: z.number().min(1).max(100).optional(),
+            monthsBack: z.number().min(1).max(60).optional(),
+          })
+          .optional()
+      )
+      .query(async ({ input }) => {
+        return await db.getVotingCoalitions(input);
+      }),
+  }),
+
   // Pulse Analytics router
   pulse: router({
     getParliamentPulse: publicProcedure

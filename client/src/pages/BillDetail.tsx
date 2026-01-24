@@ -18,12 +18,15 @@ import {
   AlertTriangle,
   Vote,
   Scale,
+  Lightbulb,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { trpc } from "@/lib/trpc";
 import { FollowBillButton } from "@/components/FollowBillButton";
@@ -267,6 +270,7 @@ export default function BillDetail() {
   const billId = parseInt(params.id || "0");
   const [selectedParty, setSelectedParty] = useState<string>("all");
   const [showOnlyBreaking, setShowOnlyBreaking] = useState(false);
+  const [el5Mode, setEl5Mode] = useState(false);
 
   // Fetch bill details
   const {
@@ -280,6 +284,12 @@ export default function BillDetail() {
   // Fetch voting records
   const { data: votingData, isLoading: votesLoading } =
     trpc.votes.byBill.useQuery({ billId });
+
+  // Fetch AI summary (bill_summaries)
+  const { data: billSummary } = trpc.bills.summary.useQuery(
+    { billId },
+    { enabled: !!billId && !!bill }
+  );
 
   if (billLoading) {
     return (
@@ -486,46 +496,76 @@ export default function BillDetail() {
                   <Sparkles className="w-24 h-24 text-[var(--amber-start)]" />
                 </div>
 
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-[var(--amber-start)] flex items-center justify-center text-[var(--peat-oak)]">
-                    <Sparkles className="h-4 w-4" />
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-[var(--amber-start)] flex items-center justify-center text-[var(--peat-oak)]">
+                      {el5Mode ? (
+                        <Lightbulb className="h-4 w-4" />
+                      ) : (
+                        <Sparkles className="h-4 w-4" />
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold uppercase tracking-widest text-[var(--amber-end)] text-sm">
+                        {el5Mode ? "Paprasta kalba" : "AI Santrauka"}
+                      </h3>
+                      <p className="text-xs text-[var(--muted-foreground)]">
+                        {billSummary
+                          ? "Automatiškai sugeneruota"
+                          : "Santrauka dar negeneruota"}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold uppercase tracking-widest text-[var(--amber-end)] text-sm">
-                      AI Santrauka
-                    </h3>
-                    <p className="text-xs text-[var(--muted-foreground)]">
-                      Automatiškai sugeneruota
-                    </p>
-                  </div>
+                  {billSummary && (
+                    <div className="flex items-center gap-2">
+                      <Label
+                        htmlFor="el5-toggle"
+                        className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)] cursor-pointer hover:text-[var(--amber-end)] transition-colors"
+                      >
+                        Kaip 5‑mečiui
+                      </Label>
+                      <Switch
+                        id="el5-toggle"
+                        checked={el5Mode}
+                        onCheckedChange={setEl5Mode}
+                        className="data-[state=checked]:bg-[var(--amber-start)]"
+                      />
+                    </div>
+                  )}
                 </div>
 
-                <ul className="space-y-3 font-serif text-lg leading-relaxed text-[var(--foreground)]">
-                  <li className="flex gap-3">
-                    <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
-                    <span>
-                      Įstatymo projektas skirtas{" "}
-                      <span className="font-bold text-[var(--copper-moss)]">
-                        {bill.category?.toLowerCase()}
-                      </span>{" "}
-                      srities klausimams spręsti.
-                    </span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
-                    <span>
-                      Numatoma įgyvendinti konkrečias priemones ir pakeitimus
-                      esamoje teisinėje bazėje.
-                    </span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
-                    <span>
-                      Siekia užtikrinti skaidrumą ir efektyvumą viešajame
-                      sektoriuje.
-                    </span>
-                  </li>
-                </ul>
+                {billSummary ? (
+                  el5Mode ? (
+                    <p className="font-serif text-lg leading-relaxed text-[var(--foreground)]">
+                      {billSummary.summary}
+                    </p>
+                  ) : (
+                    <>
+                      <p className="font-serif text-[var(--foreground)] mb-4">
+                        {billSummary.summary}
+                      </p>
+                      <ul className="space-y-3 font-serif text-lg leading-relaxed text-[var(--foreground)]">
+                        {(Array.isArray(billSummary.bulletPoints)
+                          ? billSummary.bulletPoints
+                          : []
+                        ).map((point, i) => (
+                          <li key={i} className="flex gap-3">
+                            <span className="text-[var(--amber-start)] mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--amber-start)] flex-shrink-0" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )
+                ) : (
+                  <p className="text-[var(--muted-foreground)] italic">
+                    Santrauka dar nesugeneruota. Paleiskite skriptą{" "}
+                    <code className="text-[var(--amber-start)]/80">
+                      generate-bill-summaries
+                    </code>{" "}
+                    su nustatytu <code className="text-[var(--amber-start)]/80">GEMINI_API_KEY</code>.
+                  </p>
+                )}
               </div>
             </div>
 

@@ -24,6 +24,7 @@ const Pulsas = lazy(() => import("./pages/Pulsas"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Committees = lazy(() => import("./pages/Committees"));
 const CommitteeDetail = lazy(() => import("./pages/CommitteeDetail"));
+const Coalitions = lazy(() => import("./pages/Coalitions"));
 
 // Loading fallback
 const PageLoader = () => (
@@ -53,6 +54,7 @@ function Router() {
         <Route path={"/committees"} component={Committees} />
         <Route path={"/committees/:id"} component={CommitteeDetail} />
         <Route path={"/pulse"} component={Pulsas} />
+        <Route path={"/coalitions"} component={Coalitions} />
         <Route path={"/nustatymai"} component={Settings} />
         <Route path={"/settings"} component={Settings} />
         <Route path={"/404"} component={NotFound} />

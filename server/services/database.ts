@@ -1869,6 +1869,125 @@ export async function getMpComparison(mpId1: number, mpId2: number) {
   };
 }
 
+// ---------- Coalition detection (party-level "who votes with whom") ----------
+const COALITION_VOTE_MAP: Record<string, "for" | "against" | "abstain" | "absent"> = {
+  for: "for",
+  against: "against",
+  abstain: "abstain",
+  absent: "absent",
+  už: "for",
+  prieš: "against",
+  susilaikė: "abstain",
+  nebalsavo: "absent",
+  nedalyvavo: "absent",
+};
+
+function normalizeVoteCoalition(v: string): "for" | "against" | "abstain" | "absent" {
+  const k = (v ?? "").toLowerCase().trim();
+  return COALITION_VOTE_MAP[k] ?? "absent";
+}
+
+export type CoalitionPair = {
+  partyA: string;
+  partyB: string;
+  agreementPct: number;
+  sharedBills: number;
+  sameCount: number;
+};
+
+export async function getVotingCoalitions(options?: {
+  limit?: number;
+  minSharedBills?: number;
+  monthsBack?: number;
+}): Promise<CoalitionPair[]> {
+  const db = await getDb();
+  const limit = options?.limit ?? 20;
+  const minShared = options?.minSharedBills ?? 5;
+  const monthsBack = options?.monthsBack ?? 12;
+
+  const from = new Date();
+  from.setMonth(from.getMonth() - monthsBack);
+
+  const rows = await db
+    .select({
+      billId: votes.billId,
+      party: mps.party,
+      voteValue: votes.voteValue,
+    })
+    .from(votes)
+    .innerJoin(mps, eq(votes.mpId, mps.id))
+    .where(gte(votes.votedAt, from));
+
+  // billId -> party -> { for, against, abstain }
+  const byBill = new Map<
+    number,
+    Map<string, { for: number; against: number; abstain: number }>
+  >();
+
+  for (const r of rows) {
+    const bid = r.billId;
+    const party = r.party ?? "Unknown";
+    const n = normalizeVoteCoalition(r.voteValue);
+    if (n === "absent") continue;
+    if (!byBill.has(bid)) {
+      byBill.set(bid, new Map());
+    }
+    const pm = byBill.get(bid)!;
+    if (!pm.has(party)) pm.set(party, { for: 0, against: 0, abstain: 0 });
+    const c = pm.get(party)!;
+    if (n === "for") c.for++;
+    else if (n === "against") c.against++;
+    else c.abstain++;
+  }
+
+  // Per bill, per party: majority (for/against/abstain)
+  const billPartyMajority = new Map<number, Map<string, "for" | "against" | "abstain">>();
+  for (const [billId, partyCounts] of byBill) {
+    const maj = new Map<string, "for" | "against" | "abstain">();
+    for (const [party, counts] of partyCounts) {
+      const { for: f, against: a, abstain: ab } = counts;
+      const max = Math.max(f, a, ab);
+      if (max === 0) continue;
+      if (f >= max) maj.set(party, "for");
+      else if (a >= max) maj.set(party, "against");
+      else maj.set(party, "abstain");
+    }
+    if (maj.size > 0) billPartyMajority.set(billId, maj);
+  }
+
+  const parties = new Set<string>();
+  for (const m of billPartyMajority.values()) {
+    for (const p of m.keys()) parties.add(p);
+  }
+  const partyList = Array.from(parties).sort();
+
+  const pairs: CoalitionPair[] = [];
+  for (let i = 0; i < partyList.length; i++) {
+    for (let j = i + 1; j < partyList.length; j++) {
+      const pa = partyList[i];
+      const pb = partyList[j];
+      let shared = 0;
+      let same = 0;
+      for (const [, maj] of billPartyMajority) {
+        const ma = maj.get(pa);
+        const mb = maj.get(pb);
+        if (!ma || !mb) continue;
+        shared++;
+        if (ma === mb) same++;
+      }
+      if (shared < minShared) continue;
+      const agreementPct = shared > 0 ? (same / shared) * 100 : 0;
+      pairs.push({ partyA: pa, partyB: pb, agreementPct, sharedBills: shared, sameCount: same });
+    }
+  }
+
+  pairs.sort((a, b) => {
+    if (Math.abs(b.agreementPct - a.agreementPct) > 0.5) return b.agreementPct - a.agreementPct;
+    return b.sharedBills - a.sharedBills;
+  });
+  return pairs.slice(0, limit);
+}
+
 // ==================== Activity Queries ====================
 
 export async function getActivityById(id: number) {
