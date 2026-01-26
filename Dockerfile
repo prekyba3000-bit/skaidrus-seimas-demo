@@ -2,6 +2,9 @@ FROM node:20-slim AS builder
 
 WORKDIR /app
 
+# Update npm to latest version to silence update notices
+RUN npm install -g npm@latest
+
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
