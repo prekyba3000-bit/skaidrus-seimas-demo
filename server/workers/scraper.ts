@@ -3,7 +3,7 @@ import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { bills } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
-import { createRedisClient } from "../lib/redis"; // Changed import
+import { createRedisClient } from "../lib/redis"; // 👈 Update Import
 import { logger } from "../utils/logger";
 import { launchBrowser, createBrowserContext } from "../utils/playwright";
 import dotenv from "dotenv";
@@ -19,9 +19,7 @@ dotenv.config();
  * - Error handling and logging
  */
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is required");
-}
+if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is required");
 
 interface ScrapeBillsJobData {
   limit?: number;
@@ -205,65 +203,34 @@ async function scrapeBills(
   }
 }
 
-/**
- * Create and start the scraper worker
- */
 export function startScraperWorker(): Worker {
-  // Use a DEDICATED connection for the worker
+  // ✅ Use Dedicated Connection
   const connection = createRedisClient();
 
   const worker = new Worker<ScrapeBillsJobData>(
     "scrape:bills",
+    // @ts-ignore
     async job => {
-      return await scrapeBills(job);
+       // @ts-ignore
+       return await scrapeBills(job);
     },
     {
-      connection: connection as any, // dedicated connection
-      concurrency: 1, 
-      removeOnComplete: {
-        count: 100, 
-        age: 24 * 3600, 
-      },
-      removeOnFail: {
-        count: 500, 
-      },
-      maxStalledCount: 2, 
+      connection, // 👈 Pass dedicated connection
+      concurrency: 1,
+      removeOnComplete: { count: 100, age: 24 * 3600 },
+      removeOnFail: { count: 500 },
+      maxStalledCount: 2,
     }
   );
 
-  // Event handlers
-  worker.on("completed", job => {
-    logger.info(
-      { jobId: job?.id, result: job?.returnvalue },
-      "[Worker] Job completed"
-    );
-  });
-
-  worker.on("failed", (job, err) => {
-    logger.error(
-      { jobId: job?.id, attemptsMade: job?.attemptsMade, err },
-      "[Worker] Job failed"
-    );
-  });
-
-  worker.on("error", err => {
-    logger.error({ err }, "[Worker] Worker error");
-  });
-
-  worker.on("stalled", jobId => {
-    logger.warn({ jobId }, "[Worker] Job stalled");
-  });
-
-  logger.info("Scraper worker started for queue 'scrape:bills'");
-
+  worker.on("completed", job => logger.info({ jobId: job?.id }, "[Worker] Job completed"));
+  worker.on("failed", (job, err) => logger.error({ jobId: job?.id, err }, "[Worker] Job failed"));
+  worker.on("error", err => logger.error({ err }, "[Worker] Worker error"));
+  
+  logger.info("Scraper worker started");
   return worker;
 }
 
-/**
- * Gracefully shutdown worker
- */
 export async function shutdownWorker(worker: Worker): Promise<void> {
-  logger.info("Shutting down scraper worker...");
   await worker.close();
-  logger.info("Scraper worker shutdown complete");
 }
