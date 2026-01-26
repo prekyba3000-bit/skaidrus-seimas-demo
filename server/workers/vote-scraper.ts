@@ -370,12 +370,12 @@ export function startVoteScraperWorker(): Worker {
   const redis = getRedisConnection();
 
   const worker = new Worker<ScrapeVotesJobData>(
-    "scrape:votes",
+    "scrape-votes",
     async job => {
       return await scrapeVotes(job);
     },
     {
-      connection: redis as any,
+      connection: redis,
       concurrency: 1, // Process one job at a time
       removeOnComplete: {
         count: 100, // Keep last 100 completed jobs
@@ -422,7 +422,7 @@ export function startVoteScraperWorker(): Worker {
     logger.error({ err }, "[Worker:Votes] Worker error");
   });
 
-  logger.info("Vote Scraper worker started for queue 'scrape:votes'");
+  logger.info("Vote Scraper worker started for queue 'scrape-votes'");
 
   return worker;
 }

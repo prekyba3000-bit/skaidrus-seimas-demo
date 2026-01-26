@@ -2,6 +2,7 @@ import { useState, Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpc } from "@/lib/trpc";
+import superjson from "superjson";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -72,7 +73,7 @@ function Router() {
 
 function App() {
   console.log("[DEBUG] App.tsx: Component rendering");
-  
+
   const [queryClient] = useState(() => {
     console.log("[DEBUG] App.tsx: Creating QueryClient");
     return new QueryClient({
@@ -87,10 +88,11 @@ function App() {
       },
     });
   });
-  
+
   const [trpcClient] = useState(() => {
     console.log("[DEBUG] App.tsx: Creating tRPC client");
     return trpc.createClient({
+      transformer: superjson,
       links: [
         httpBatchLink({
           url: "/api/trpc",
@@ -107,7 +109,7 @@ function App() {
         <ErrorBoundary>
           <ThemeProvider
             defaultTheme="dark"
-            // switchable
+          // switchable
           >
             <TooltipProvider>
               <Toaster />

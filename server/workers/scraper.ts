@@ -212,12 +212,12 @@ export function startScraperWorker(): Worker {
   const redis = getRedisConnection();
 
   const worker = new Worker<ScrapeBillsJobData>(
-    "scrape:bills",
+    "scrape-bills",
     async job => {
       return await scrapeBills(job);
     },
     {
-      connection: redis as any,
+      connection: redis,
       concurrency: 1, // Process one job at a time to avoid overwhelming the target site
       removeOnComplete: {
         count: 100, // Keep last 100 completed jobs
@@ -253,7 +253,7 @@ export function startScraperWorker(): Worker {
     logger.warn({ jobId }, "[Worker] Job stalled");
   });
 
-  logger.info("Scraper worker started for queue 'scrape:bills'");
+  logger.info("Scraper worker started for queue 'scrape-bills'");
 
   return worker;
 }

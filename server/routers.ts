@@ -55,7 +55,12 @@ export const appRouter = router({
       )
       .query(async ({ input }) => {
         try {
-          return await db.getAllMps(input);
+          const result = await db.getAllMps(input);
+          logger.info(
+            { count: result.length, firstId: result[0]?.id },
+            "mps.list returning results"
+          );
+          return result;
         } catch (e) {
           logger.error({ err: e, input }, "mps.list failed, returning []");
           return [];
