@@ -11,7 +11,7 @@ import {
   systemStatus,
 } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
-import { getRedisConnection } from "../lib/redis";
+import { createRedisClient } from "../lib/redis"; // Changed import
 import { logger } from "../utils/logger";
 import { validateSessionVote } from "../schemas/session-votes.schema";
 import { ZodError } from "zod";
@@ -367,23 +367,24 @@ async function scrapeVotes(
  * Create and start the vote scraper worker
  */
 export function startVoteScraperWorker(): Worker {
-  const redis = getRedisConnection();
+  // Use a DEDICATED connection for the worker
+  const connection = createRedisClient();
 
   const worker = new Worker<ScrapeVotesJobData>(
-    "scrape-votes",
+    "scrape:votes",
     async job => {
       return await scrapeVotes(job);
     },
     {
-      connection: redis,
-      concurrency: 1, // Process one job at a time
+      connection: connection as any, // dedicated connection
+      concurrency: 1, 
       removeOnComplete: {
-        count: 100, // Keep last 100 completed jobs
-        age: 24 * 3600, // Keep for 24 hours
+        count: 100, 
+        age: 24 * 3600, 
       },
       removeOnFail: {
-        count: 500, // Keep last 500 failed jobs
-        age: 7 * 24 * 3600, // Keep for a week
+        count: 500, 
+        age: 7 * 24 * 3600, 
       },
     }
   );
@@ -422,7 +423,7 @@ export function startVoteScraperWorker(): Worker {
     logger.error({ err }, "[Worker:Votes] Worker error");
   });
 
-  logger.info("Vote Scraper worker started for queue 'scrape-votes'");
+  logger.info("Vote Scraper worker started for queue 'scrape:votes'");
 
   return worker;
 }

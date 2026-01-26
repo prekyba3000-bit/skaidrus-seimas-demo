@@ -33,7 +33,7 @@ export function getScrapeBillsQueue(): Queue<ScrapeBillsJobData> {
 
   const redis = getRedisConnection();
 
-  scrapeBillsQueue = new Queue<ScrapeBillsJobData>("scrape-bills", {
+  scrapeBillsQueue = new Queue<ScrapeBillsJobData>("scrape:bills", {
     connection: redis as any,
     defaultJobOptions: {
       attempts: 5, // Increased from 3
@@ -50,7 +50,7 @@ export function getScrapeBillsQueue(): Queue<ScrapeBillsJobData> {
     },
   });
 
-  logger.info("Job queue 'scrape-bills' initialized");
+  logger.info("Job queue 'scrape:bills' initialized");
 
   return scrapeBillsQueue;
 }
@@ -65,7 +65,7 @@ export function getScrapeVotesQueue(): Queue<ScrapeVotesJobData> {
 
   const redis = getRedisConnection();
 
-  scrapeVotesQueue = new Queue<ScrapeVotesJobData>("scrape-votes", {
+  scrapeVotesQueue = new Queue<ScrapeVotesJobData>("scrape:votes", {
     connection: redis as any,
     defaultJobOptions: {
       attempts: 5, // Increased from 3
@@ -82,7 +82,7 @@ export function getScrapeVotesQueue(): Queue<ScrapeVotesJobData> {
     },
   });
 
-  logger.info("Job queue 'scrape-votes' initialized");
+  logger.info("Job queue 'scrape:votes' initialized");
 
   return scrapeVotesQueue;
 }
@@ -99,7 +99,7 @@ export async function enqueueScrapeBills(
 ): Promise<{ jobId: string }> {
   const queue = getScrapeBillsQueue();
 
-  const job = await queue.add("scrape-bills", data, {
+  const job = await queue.add("scrape:bills", data, {
     ...options,
   });
 
@@ -120,7 +120,7 @@ export async function enqueueScrapeVotes(
 ): Promise<{ jobId: string }> {
   const queue = getScrapeVotesQueue();
 
-  const job = await queue.add("scrape-votes", data, {
+  const job = await queue.add("scrape:votes", data, {
     ...options,
   });
 

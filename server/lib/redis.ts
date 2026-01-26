@@ -11,7 +11,44 @@ import { logger } from "../utils/logger";
 let redisConnection: Redis | null = null;
 
 /**
- * Get or create Redis connection for BullMQ
+ * Create a new Redis connection instance
+ * specific for BullMQ usage (maxRetriesPerRequest: null)
+ */
+export function createRedisClient(): Redis {
+  const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+
+  const connection = new Redis(redisUrl, {
+    // CRITICAL: BullMQ requires this to be null
+    maxRetriesPerRequest: null,
+    retryStrategy(times) {
+      const delay = Math.min(times * 50, 2000);
+      return delay;
+    },
+    reconnectOnError(err) {
+      const targetError = "READONLY";
+      if (err.message.includes(targetError)) {
+        return true;
+      }
+      return false;
+    },
+  });
+
+  connection.on("error", err => {
+    // Suppress simple connection errors to avoid log spam, 
+    // but log critical ones
+    if (err.message.includes("ECONNREFUSED")) {
+       // connection will retry
+    } else {
+       logger.error({ err }, "Redis connection error (BullMQ)");
+    }
+  });
+
+  return connection;
+}
+
+/**
+ * Get or create the Singleton Redis connection
+ * (Used for Queues/Producers, NOT for Workers)
  */
 export function getRedisConnection(): Redis {
   if (redisConnection) {
@@ -22,43 +59,17 @@ export function getRedisConnection(): Redis {
 
   logger.info(
     { url: redisUrl.replace(/:[^:@]+@/, ":****@") },
-    "Initializing Redis connection for BullMQ"
+    "Initializing shared Redis connection for BullMQ Queues"
   );
 
-  redisConnection = new Redis(redisUrl, {
-    maxRetriesPerRequest: 3,
-    retryStrategy(times) {
-      const delay = Math.min(times * 50, 2000);
-      logger.warn({ times, delay }, "Redis retry attempt");
-      return delay;
-    },
-    reconnectOnError(err) {
-      const targetError = "READONLY";
-      if (err.message.includes(targetError)) {
-        logger.error(
-          { err: err.message },
-          "Redis read-only error, reconnecting"
-        );
-        return true;
-      }
-      return false;
-    },
-  });
+  redisConnection = createRedisClient();
 
   redisConnection.on("connect", () => {
-    logger.info("Redis connected (BullMQ)");
-  });
-
-  redisConnection.on("error", err => {
-    logger.error({ err }, "Redis connection error (BullMQ)");
+    logger.info("Shared Redis connected (BullMQ Queues)");
   });
 
   redisConnection.on("close", () => {
-    logger.warn("Redis connection closed (BullMQ)");
-  });
-
-  redisConnection.on("reconnecting", () => {
-    logger.info("Redis reconnecting (BullMQ)");
+    logger.warn("Shared Redis connection closed (BullMQ Queues)");
   });
 
   return redisConnection;
@@ -71,6 +82,6 @@ export async function closeRedisConnection(): Promise<void> {
   if (redisConnection) {
     await redisConnection.quit();
     redisConnection = null;
-    logger.info("Redis connection closed (BullMQ)");
+    logger.info("Shared Redis connection closed (BullMQ)");
   }
 }

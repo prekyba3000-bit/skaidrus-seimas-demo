@@ -3,7 +3,7 @@ import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { bills } from "../../drizzle/schema";
 import * as schema from "../../drizzle/schema";
-import { getRedisConnection } from "../lib/redis";
+import { createRedisClient } from "../lib/redis"; // Changed import
 import { logger } from "../utils/logger";
 import { launchBrowser, createBrowserContext } from "../utils/playwright";
 import dotenv from "dotenv";
@@ -195,7 +195,7 @@ async function scrapeBills(
     );
     return result;
   } catch (error) {
-    await browser.close();
+    if (browser) await browser.close(); // Safety check
     await client.end();
     logger.error(
       { jobId: job.id, err: error },
@@ -209,24 +209,25 @@ async function scrapeBills(
  * Create and start the scraper worker
  */
 export function startScraperWorker(): Worker {
-  const redis = getRedisConnection();
+  // Use a DEDICATED connection for the worker
+  const connection = createRedisClient();
 
   const worker = new Worker<ScrapeBillsJobData>(
-    "scrape-bills",
+    "scrape:bills",
     async job => {
       return await scrapeBills(job);
     },
     {
-      connection: redis,
-      concurrency: 1, // Process one job at a time to avoid overwhelming the target site
+      connection: connection as any, // dedicated connection
+      concurrency: 1, 
       removeOnComplete: {
-        count: 100, // Keep last 100 completed jobs
-        age: 24 * 3600, // Keep for 24 hours
+        count: 100, 
+        age: 24 * 3600, 
       },
       removeOnFail: {
-        count: 500, // Keep last 500 failed jobs for debugging
+        count: 500, 
       },
-      maxStalledCount: 2, // Retry if job stalls twice
+      maxStalledCount: 2, 
     }
   );
 
@@ -253,7 +254,7 @@ export function startScraperWorker(): Worker {
     logger.warn({ jobId }, "[Worker] Job stalled");
   });
 
-  logger.info("Scraper worker started for queue 'scrape-bills'");
+  logger.info("Scraper worker started for queue 'scrape:bills'");
 
   return worker;
 }
