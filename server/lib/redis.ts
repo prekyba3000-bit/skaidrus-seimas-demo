@@ -1,87 +1,62 @@
 import Redis from "ioredis";
 import { logger } from "../utils/logger";
 
-/**
- * Redis Connection for BullMQ
- *
- * BullMQ requires an ioredis instance, separate from the cache service.
- * This provides a dedicated connection for job queue operations.
- */
-
 let redisConnection: Redis | null = null;
 
-/**
- * Create a new Redis connection instance
- * specific for BullMQ usage (maxRetriesPerRequest: null)
- */
+// Dedicated connection for Workers (Blocking)
 export function createRedisClient(): Redis {
   const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
-
+  
   const connection = new Redis(redisUrl, {
-    // CRITICAL: BullMQ requires this to be null
-    maxRetriesPerRequest: null,
+    maxRetriesPerRequest: null, // REQUIRED for BullMQ
+    enableReadyCheck: false,
+    family: 0,                  // 👈 REQUIRED for Railway (IPv6 support)
     retryStrategy(times) {
-      const delay = Math.min(times * 50, 2000);
-      return delay;
-    },
-    reconnectOnError(err) {
-      const targetError = "READONLY";
-      if (err.message.includes(targetError)) {
-        return true;
-      }
-      return false;
-    },
+      return Math.min(times * 50, 2000);
+    }
   });
 
-  connection.on("error", err => {
-    // Suppress simple connection errors to avoid log spam, 
-    // but log critical ones
-    if (err.message.includes("ECONNREFUSED")) {
-       // connection will retry
-    } else {
-       logger.error({ err }, "Redis connection error (BullMQ)");
+  connection.on("error", (err) => {
+    // Filter out expected connection closures to reduce noise
+    if (err.message !== "Connection is closed.") {
+       logger.warn({ err }, "Redis Worker connection error");
     }
   });
 
   return connection;
 }
 
-/**
- * Get or create the Singleton Redis connection
- * (Used for Queues/Producers, NOT for Workers)
- */
+// Shared connection for Queues/Cache (Non-blocking)
 export function getRedisConnection(): Redis {
   if (redisConnection) {
     return redisConnection;
   }
 
   const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+  logger.info({ url: redisUrl.replace(/:[^:@]+@/, ":****@") }, "Initializing shared Redis connection");
 
-  logger.info(
-    { url: redisUrl.replace(/:[^:@]+@/, ":****@") },
-    "Initializing shared Redis connection for BullMQ Queues"
-  );
-
-  redisConnection = createRedisClient();
-
-  redisConnection.on("connect", () => {
-    logger.info("Shared Redis connected (BullMQ Queues)");
+  redisConnection = new Redis(redisUrl, {
+    maxRetriesPerRequest: null,
+    family: 0,                  // 👈 REQUIRED for Railway (IPv6 support)
+    retryStrategy(times) {
+      return Math.min(times * 50, 2000);
+    },
+    reconnectOnError(err) {
+      return err.message.includes("READONLY");
+    },
   });
 
-  redisConnection.on("close", () => {
-    logger.warn("Shared Redis connection closed (BullMQ Queues)");
-  });
+  redisConnection.on("connect", () => logger.info("Shared Redis connected"));
+  redisConnection.on("error", err => logger.error({ err }, "Shared Redis connection error"));
+  redisConnection.on("close", () => logger.warn("Shared Redis connection closed"));
 
   return redisConnection;
 }
 
-/**
- * Gracefully close Redis connection
- */
 export async function closeRedisConnection(): Promise<void> {
   if (redisConnection) {
     await redisConnection.quit();
     redisConnection = null;
-    logger.info("Shared Redis connection closed (BullMQ)");
+    logger.info("Shared Redis connection closed");
   }
 }
